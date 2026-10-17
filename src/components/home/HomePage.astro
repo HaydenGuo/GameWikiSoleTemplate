@@ -101,44 +101,67 @@ const popular = home.popular ?? { quickLinks: [] };
 const explore = home.explore ?? { modules: [] };
 const closingCta = home.closingCta ?? {};
 
-// Resolve homepage card artwork from the destination content. This keeps a
-// navigation card visually tied to the article it opens and prevents generic
-// placeholder images from masking duplicate or stale covers.
+// Build category-aware cover candidates. Explicit locale artwork stays first;
+// article covers provide relevant alternatives when a card image is repeated.
 const articleCoverByPath = new Map<string, string | import('astro').ImageMetadata>();
-const firstArticleCoverByCategory = new Map<string, string | import('astro').ImageMetadata | undefined>();
+const articleCoversByCategory = new Map<string, Array<string | import('astro').ImageMetadata>>();
+const allArticleCovers: Array<string | import('astro').ImageMetadata> = [];
 for (const entry of articleEntries) {
   const parsed = parseEntryId(entry.id);
   if (!parsed) continue;
   const categoryPath = listPath(parsed.category, locale).replace(/\/+$/, '') || '/';
-  const isFirstCategoryArticle = !firstArticleCoverByCategory.has(categoryPath);
   const coverRef = extractFirstBodyImage(entry.body ?? '');
   const cover = coverRef ? resolveArticleImage(coverRef) : undefined;
-  // getArticleIndex is newest-first, matching the category page. Keep the
-  // first article's cover (including an empty result) instead of borrowing a
-  // later article's image.
-  if (isFirstCategoryArticle) firstArticleCoverByCategory.set(categoryPath, cover);
   if (!cover) continue;
+  allArticleCovers.push(cover);
+  articleCoversByCategory.set(categoryPath, [...(articleCoversByCategory.get(categoryPath) ?? []), cover]);
   const articlePath = detailPath(parsed.category, parsed.slug, locale).replace(/\/+$/, '') || '/';
   articleCoverByPath.set(articlePath, cover);
 }
-function coverForHref(href: string): string | import('astro').ImageMetadata | undefined {
-  const raw = href.replace(/\/+$/, '') || '/';
-  const localized = localizePath(href, locale).replace(/\/+$/, '') || '/';
-  const articleCover = articleCoverByPath.get(localized) ?? articleCoverByPath.get(raw);
-  if (articleCover) return articleCover;
-  if (firstArticleCoverByCategory.has(localized)) return firstArticleCoverByCategory.get(localized);
-  return firstArticleCoverByCategory.get(raw);
+const genericHomeImages = [
+  '/images/home/guide-card.svg',
+  '/images/home/boss-card.svg',
+  '/images/home/items-card.svg',
+  '/images/home/reference-card.svg',
+  '/images/home/decision-new.webp',
+  '/images/home/decision-progress.webp',
+  '/images/home/decision-endgame.webp',
+];
+function imageKey(image: string | import('astro').ImageMetadata): string {
+  const source = typeof image === 'string' ? image : image.src;
+  return source.split(/[?#]/, 1)[0].replace(/\\/g, '/');
 }
-const decisionGuideGroups = decisionGuide.groups.map((group: any) => {
-  const firstRouteCover = group.directions?.[0]?.href ? coverForHref(group.directions[0].href) : undefined;
-  return {
-    ...group,
-    image: typeof firstRouteCover === 'string'
-      ? firstRouteCover
-      : firstRouteCover?.src ?? group.image,
-  };
-});
-
+function assignDistinctImages(
+  cards: Array<{ label: string; candidates: Array<string | import('astro').ImageMetadata> }>,
+  fallbackImages: Array<string | import('astro').ImageMetadata>,
+  section: string,
+  used = new Set<string>(),
+): Array<string | import('astro').ImageMetadata> {
+  return cards.map(({ label, candidates }) => {
+    const image = [...candidates, ...fallbackImages].find((candidate) => {
+      const key = imageKey(candidate);
+      if (!key || used.has(key)) return false;
+      used.add(key);
+      return true;
+    });
+    if (!image) {
+      throw new Error(`Homepage image contract violation: ${section} has no unique cover available for "${label}".`);
+    }
+    return image;
+  });
+}
+function coversForHref(href: string): Array<string | import('astro').ImageMetadata> {
+  const localized = localizePath(href, locale).replace(/\/+$/, '') || '/';
+  const raw = href.replace(/\/+$/, '') || '/';
+  const exact = articleCoverByPath.get(localized) ?? articleCoverByPath.get(raw);
+  const category = NAVIGATION_CONFIG.find((item) => {
+    const categoryPath = listPath(item.key, locale).replace(/\/+$/, '') || '/';
+    return localized === categoryPath || localized.startsWith(`${categoryPath}/`);
+  });
+  const categoryPath = category ? listPath(category.key, locale).replace(/\/+$/, '') || '/' : localized;
+  const categoryCovers = articleCoversByCategory.get(categoryPath) ?? articleCoversByCategory.get(raw) ?? [];
+  return [...(exact ? [exact] : []), ...categoryCovers];
+}
 const quickStartMetadata = new Map<string, { description?: string; image?: string }>();
 for (const card of Array.isArray(start.cards) ? start.cards : []) {
   if (!card || typeof card.key !== 'string' || !card.key.trim()) continue;
@@ -151,7 +174,7 @@ const orderedNavigation = NAVIGATION_CONFIG
   .map((item, index) => ({ item, index }))
   .sort((a, b) => (a.item.order ?? a.index + 1) - (b.item.order ?? b.index + 1) || a.index - b.index)
   .slice(0, 4);
-const startCards = orderedNavigation.map(({ item }, index) => {
+const startCardDefinitions = orderedNavigation.map(({ item }, index) => {
   const metadata = quickStartMetadata.get(item.key);
   const title = (ui.nav as Record<string, string>)[item.key];
   if (!title) {
@@ -164,8 +187,44 @@ const startCards = orderedNavigation.map(({ item }, index) => {
     description: metadata?.description ?? `Explore ${title} and the latest player guides.`,
     icon: item.icon,
     href,
-    image: coverForHref(href) ?? metadata?.image,
+    imageCandidates: [...(metadata?.image ? [metadata.image] : []), ...coversForHref(href)],
   };
+});
+// Keep visible card art unique across the homepage. If the site cannot provide
+// enough distinct content art, the build fails with the card that needs art.
+const homepageImageKeys = new Set<string>();
+const startCardImages = assignDistinctImages(
+  startCardDefinitions.map((card) => ({
+    label: card.title,
+    candidates: card.imageCandidates,
+  })),
+  [...allArticleCovers, ...genericHomeImages],
+  'Quick Start cards',
+  homepageImageKeys,
+);
+const startCards = startCardDefinitions.map((card, index) => {
+  const { imageCandidates: _imageCandidates, ...startCard } = card;
+  return { ...startCard, image: startCardImages[index] };
+});
+const decisionGuideDefinitions = decisionGuide.groups.map((group: any) => {
+  const routeCovers = group.directions.flatMap((direction: any) => coversForHref(direction.href));
+  return {
+    ...group,
+    imageCandidates: [...(typeof group.image === 'string' ? [group.image] : []), ...routeCovers],
+  };
+});
+const decisionGuideImages = assignDistinctImages(
+  decisionGuideDefinitions.map((group: any) => ({
+    label: group.label,
+    candidates: group.imageCandidates,
+  })),
+  [...allArticleCovers, ...genericHomeImages],
+  'What should you do next cards',
+  homepageImageKeys,
+);
+const decisionGuideGroups = decisionGuideDefinitions.map((group: any, index: number) => {
+  const { imageCandidates: _imageCandidates, ...decisionGroup } = group;
+  return { ...decisionGroup, image: decisionGuideImages[index] };
 });
 const configuredClosingCtaImages = Array.isArray(closingCta.images)
   ? closingCta.images.filter((src: unknown): src is string => typeof src === 'string' && src.trim().length > 0)
@@ -189,11 +248,33 @@ const articleFallbackLinks: QuickLink[] = recent.slice(0, 2).flatMap((entry) => 
     ? [{ label: entry.data.title, href: detailPath(parsed.category, parsed.slug, locale) }]
     : [];
 });
+const recentImageCards = recent.flatMap((entry) => {
+  const parsed = parseEntryId(entry.id);
+  if (!parsed) return [];
+  const href = detailPath(parsed.category, parsed.slug, locale);
+  return [{ label: entry.data.title, entryId: entry.id, candidates: coversForHref(href) }];
+});
+const recentCardImages = assignDistinctImages(
+  recentImageCards.map(({ label, candidates }) => ({ label, candidates })),
+  [...allArticleCovers, ...genericHomeImages],
+  'Recent update cards',
+  homepageImageKeys,
+);
+const recentImageByEntryId = new Map(recentImageCards.map((card, index) => [card.entryId, recentCardImages[index]]));
 const configuredPopularLinks: QuickLink[] = Array.isArray(popular.quickLinks) ? popular.quickLinks : [];
 const trendingLinks: QuickLink[] = articleFallbackLinks.length > 0 ? articleFallbackLinks : configuredPopularLinks;
 const popularCardFallbacks = ['/images/home/boss-card.svg', '/images/home/items-card.svg', '/images/home/reference-card.svg'];
-const popularCardImages = trendingLinks.slice(0, 2).map((link: QuickLink, index: number) =>
-  coverForHref(typeof link === 'string' ? '' : link.href) ?? popularCardFallbacks[index],
+const popularCardImages = assignDistinctImages(
+  trendingLinks.slice(0, 2).map((link: QuickLink, index: number) => ({
+    label: trendingLabel(link),
+    candidates: [
+      ...(typeof link === 'string' ? [] : coversForHref(link.href)),
+      popularCardFallbacks[index],
+    ],
+  })),
+  [...allArticleCovers, ...genericHomeImages],
+  'Trending cards',
+  homepageImageKeys,
 );
 function trendingHref(link: QuickLink): string | null {
   return typeof link === 'string' ? null : localizePath(link.href, locale);
@@ -201,6 +282,24 @@ function trendingHref(link: QuickLink): string | null {
 function trendingLabel(link: QuickLink): string {
   return typeof link === 'string' ? link : link.label;
 }
+const configuredExploreModules = Array.isArray(explore.modules) ? explore.modules : [];
+const exploreImageCards = configuredExploreModules.flatMap((module: any) =>
+  typeof module.image === 'string' && module.image.trim()
+    ? [{ label: module.name, candidates: [module.image] }]
+    : [],
+);
+const exploreModuleImages = assignDistinctImages(
+  exploreImageCards,
+  [...allArticleCovers, ...genericHomeImages],
+  'Explore cards',
+  homepageImageKeys,
+);
+let exploreImageIndex = 0;
+const exploreModules = configuredExploreModules.map((module: any) =>
+  typeof module.image === 'string' && module.image.trim()
+    ? { ...module, image: exploreModuleImages[exploreImageIndex++] }
+    : module,
+);
 ---
 
 <LocaleLayout
@@ -333,8 +432,7 @@ function trendingLabel(link: QuickLink): string {
               recent.map((entry) => {
                 const parsed = parseEntryId(entry.id);
                 if (!parsed) return null;
-                const coverRef = extractFirstBodyImage(entry.body ?? '');
-                const cover = coverRef ? resolveArticleImage(coverRef) : undefined;
+                const cover = recentImageByEntryId.get(entry.id);
                 return (
                   <a
                     href={detailPath(parsed.category, parsed.slug, locale)}
@@ -410,7 +508,7 @@ function trendingLabel(link: QuickLink): string {
         <h2 class="text-2xl font-bold">{explore.title}</h2>
         <p class="mt-1 text-sm text-muted-foreground">{explore.description}</p>
         <div class="mt-8">
-          <ExploreModules modules={explore.modules} locale={locale} />
+          <ExploreModules modules={exploreModules} locale={locale} />
         </div>
       </section>
     )
