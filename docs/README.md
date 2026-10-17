@@ -25,6 +25,7 @@
 | [staying-up-to-date.md](staying-up-to-date.md) | fork 之后怎么同步上游更新 | fork 用户(长期) |
 | [migration-from-nextjs.md](migration-from-nextjs.md) | 从 Next.js 模板迁移 | 迁移用户 |
 | [development.md](development.md) | 给模板本身写代码:架构、模式、验证、发版 | 贡献者 / 模板开发者 |
+| [workflow-contract.md](workflow-contract.md) | 证据层级、旧资料清理、范围审计与发布门禁 | 模板维护者 / 贡献者 |
 | [template-style-baseline.md](template-style-baseline.md) | 首页视觉基线: Hero 动画、YouTube、图片型模块及模板化边界 | 模板维护者 / 贡献者 |
 | [template-preservation.md](template-preservation.md) | fork 和增量开发时如何保留模板能力,以及基线校核 | 模板维护者 / 贡献者 |
 | [PRD.md](PRD.md) | 完整产品设计文档(架构、数据模型、路线图) | 深入理解每个设计决策 |
