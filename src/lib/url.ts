@@ -21,6 +21,21 @@ export function localizePath(path: string, locale: Locale): string {
   return `/${locale}${slashed}`;
 }
 
+/** Keep the current page path while switching between locale-prefixed routes. */
+export function localeSwitchPath(
+  pathname: string,
+  currentLocale: Locale,
+  targetLocale: Locale,
+): string {
+  let path = pathname.startsWith('/') ? pathname : `/${pathname}`;
+  if (currentLocale !== defaultLocale) {
+    const prefix = `/${currentLocale}`;
+    if (path === prefix || path === `${prefix}/`) path = '/';
+    else if (path.startsWith(`${prefix}/`)) path = path.slice(prefix.length);
+  }
+  return localizePath(path, targetLocale);
+}
+
 /** Build an absolute URL (with domain) for a path + locale. */
 export function absoluteUrl(path: string, locale: Locale): string {
   return `${siteUrl}${localizePath(path, locale)}`;
