@@ -1,0 +1,163 @@
+---
+interface FlowChoice {
+  label: string;
+  result: string;
+}
+
+interface FlowStep {
+  kind: 'step' | 'decision';
+  title: string;
+  detail?: string;
+  choices?: FlowChoice[];
+}
+
+interface Props {
+  title: string;
+  steps: FlowStep[];
+}
+
+const { title, steps } = Astro.props;
+---
+
+<figure class="guide-flow not-prose my-8 mx-auto w-full max-w-5xl">
+  <figcaption class="mb-3 text-sm font-semibold text-muted-foreground">{title}</figcaption>
+  <ol class="guide-flow__steps" aria-label={title}>
+    {steps.map((step, index) => (
+      <li class:list={["guide-flow__step", `guide-flow__step--${step.kind}`]}>
+        <article class="guide-flow__card">
+          <div class="guide-flow__eyebrow">
+            <span class="guide-flow__number">{String(index + 1).padStart(2, '0')}</span>
+            <span class="guide-flow__marker" aria-hidden="true"></span>
+          </div>
+          <h3 class="guide-flow__title">{step.title}</h3>
+          {step.detail && <p class="guide-flow__detail">{step.detail}</p>}
+          {step.choices && (
+            <ul class="guide-flow__choices">
+              {step.choices.map((choice) => (
+                <li class="guide-flow__choice">
+                  <span class="guide-flow__choice-label">{choice.label}</span>
+                  <span class="guide-flow__choice-result">{choice.result}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </article>
+      </li>
+    ))}
+  </ol>
+</figure>
+
+<style is:global>
+  .guide-flow__steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+    gap: 1.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .guide-flow__step {
+    position: relative;
+    min-width: 0;
+  }
+
+  .guide-flow__step:not(:last-child)::after {
+    position: absolute;
+    top: 1.25rem;
+    right: -1.35rem;
+    color: hsl(var(--brand));
+    content: '→';
+    font-size: 1.1rem;
+    line-height: 1;
+  }
+
+  .guide-flow__card {
+    height: 100%;
+    padding: 0.2rem 0.9rem 0.35rem 1rem;
+    border-left: 2px solid hsl(var(--border));
+  }
+
+  .guide-flow__step--decision .guide-flow__card {
+    border-left-color: hsl(var(--brand));
+  }
+
+  .guide-flow__eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-bottom: 0.55rem;
+    color: hsl(var(--muted-foreground));
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  .guide-flow__number {
+    color: hsl(var(--brand));
+    font-variant-numeric: tabular-nums;
+  }
+
+  .guide-flow__title {
+    margin: 0;
+    color: hsl(var(--foreground));
+    font-size: 1rem;
+    font-weight: 650;
+    line-height: 1.4;
+  }
+
+  .guide-flow__detail {
+    margin: 0.45rem 0 0;
+    color: hsl(var(--muted-foreground));
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+
+  .guide-flow__choices {
+    display: grid;
+    gap: 0.55rem;
+    margin: 0.75rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .guide-flow__choice {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.5rem;
+    align-items: baseline;
+    padding-top: 0.45rem;
+    border-top: 1px solid hsl(var(--border) / 0.65);
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+
+  .guide-flow__choice-label {
+    color: hsl(var(--brand));
+    font-weight: 700;
+  }
+
+  .guide-flow__choice-result {
+    color: hsl(var(--foreground));
+  }
+
+  @media (max-width: 767px) {
+    .guide-flow__steps {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1rem;
+      padding-left: 0.2rem;
+    }
+
+    .guide-flow__step:not(:last-child)::after {
+      top: auto;
+      right: auto;
+      bottom: -0.85rem;
+      left: 0.83rem;
+      content: '↓';
+    }
+
+    .guide-flow__card {
+      padding-left: 1.15rem;
+    }
+  }
+</style>

@@ -34,7 +34,12 @@ import { createSourcePolicy, isAllowedArticleSource } from '../src/lib/source-po
 
 const ROOT = process.cwd();
 const BASE = path.resolve(ROOT, 'src/content/wiki');
-const ARTICLE_SOURCE_POLICY = createSourcePolicy(site.social.official, site.social.reddit);
+const ARTICLE_SOURCE_POLICY = createSourcePolicy(
+  site.social.official,
+  site.social.reddit,
+  site.trustedStorePages,
+  site.trustedMaterialPages,
+);
 
 // Parsed from routing.ts (NOT hardcoded) so forks that change the default
 // locale keep this rule honest.

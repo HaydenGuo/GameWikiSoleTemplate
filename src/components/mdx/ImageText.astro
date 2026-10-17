@@ -1,0 +1,50 @@
+---
+/**
+ * Responsive image-and-copy block for MDX articles.
+ *
+ * On small screens the image appears first and the text follows. On wider
+ * screens `imagePosition="right"` places the image in the second column.
+ */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  imagePosition?: 'left' | 'right';
+  caption?: string;
+}
+
+const { src, alt, imagePosition = 'left', caption } = Astro.props;
+---
+
+<div
+  class="image-text not-prose"
+  data-image-position={imagePosition}
+  style={`display:flex;flex-wrap:wrap;align-items:center;gap:1.5rem;margin-block:2rem;${imagePosition === 'right' ? 'direction:rtl;' : ''}`}
+>
+  <figure class="m-0" style="flex:1 0 min(24rem, 100%);min-width:0;direction:ltr">
+    <Image
+      src={src}
+      alt={alt}
+      width={800}
+      height={450}
+      format="webp"
+      loading="lazy"
+      decoding="async"
+      class="h-auto w-full rounded-lg object-cover"
+    />
+    {caption && <figcaption class="mt-2 text-center text-sm text-muted-foreground">{caption}</figcaption>}
+  </figure>
+  <div class="image-text__copy prose prose-base max-w-none dark:prose-invert" style="flex:1 0 min(24rem, 100%);min-width:0;direction:ltr;text-align:justify;text-justify:inter-word">
+    <slot />
+  </div>
+</div>
+
+<style is:global>
+  .image-text__copy p,
+  .image-text__copy li {
+    text-align: justify !important;
+    text-justify: inter-word;
+  }
+</style>

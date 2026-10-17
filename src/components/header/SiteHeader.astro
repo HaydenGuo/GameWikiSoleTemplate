@@ -1,0 +1,188 @@
+---
+/**
+ * Site header — logo, optional category dropdowns, theme toggle, language switcher.
+ * Native <details> provides the disclosure behavior; a small script handles
+ * sibling menus, outside clicks, and Escape.
+ */
+import { Icon } from 'astro-icon/components';
+import { site } from '~/config/site';
+import { type Locale } from '~/i18n/routing';
+import { getUi } from '~/i18n/ui';
+import { getDynamicNavigation } from '~/lib/navigation';
+import { localizePath } from '~/lib/url';
+import ThemeToggle from './ThemeToggle.astro';
+import SearchButton from './SearchButton.astro';
+
+interface Props {
+  locale: Locale;
+  currentPath: string;
+  /** Forwarded by LocaleLayout for locale-aware pages. */
+  availableLocales?: readonly Locale[];
+}
+const { locale, currentPath } = Astro.props;
+const ui = getUi(locale);
+const nav: Record<string, string> = ui.nav as Record<string, string>;
+// The header and browser/search identity use renditions of the same generated
+// AI brand mark. Keep the source path fixed so a per-site override cannot drift.
+const headerIcon = '/brand-mark-512.png';
+const navigationGroups = await getDynamicNavigation(locale, nav);
+
+---
+
+<header class="sticky top-0 z-40 w-full border-b border-border bg-background/80 backdrop-blur">
+  <div class="mx-auto flex h-14 max-w-7xl items-center gap-4 px-4">
+    {/* Logo */}
+    <a
+      href={localizePath('/', locale)}
+      class="group relative flex items-center gap-2 font-bold text-foreground"
+      aria-label={site.name}
+    >
+      <img
+        src={headerIcon}
+        alt=""
+        aria-hidden="true"
+        data-game-icon
+        class="h-9 w-9 shrink-0 rounded-lg border border-border/80 bg-card object-cover shadow-sm transition duration-200 group-hover:scale-105 2xl:absolute 2xl:-left-12 2xl:top-1/2 2xl:-translate-y-1/2"
+      />
+      <span class="game-art-wordmark hidden sm:inline">{site.shortName}</span>
+    </a>
+
+    {/* Desktop nav */}
+    <nav
+      class="hidden flex-1 items-center gap-1 md:flex"
+      aria-label={nav.primaryNavigation ?? 'Primary navigation'}
+    >
+      {
+        navigationGroups.map((group) => {
+          const path = localizePath(group.path, locale);
+          const activePrefix = path.endsWith('/') ? path : path + '/';
+          const isActive = currentPath === path || currentPath.startsWith(activePrefix);
+          return group.hasDropdown ? (
+            <details class="group relative" data-nav-dropdown>
+              <summary
+                class:list={[
+                  'flex cursor-pointer list-none items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition [&::-webkit-details-marker]:hidden',
+                  isActive
+                    ? 'bg-muted text-nav'
+                    : 'text-foreground/70 hover:bg-muted hover:text-foreground',
+                ]}
+                data-nav-summary
+                aria-haspopup="menu"
+                aria-expanded="false"
+              >
+                <span>{group.label}</span>
+                <Icon name="lucide:chevron-down" class="h-4 w-4 transition-transform duration-200 group-open:rotate-180" />
+              </summary>
+              <div class="absolute left-0 top-full z-50 mt-2 w-80 overflow-hidden rounded-lg border border-nav/30 border-t-2 border-t-nav bg-card shadow-2xl" role="menu">
+                {group.subnavigations.map((subnavigation) => (
+                  <a href={`${path}#${subnavigation.key}`} class="block border-b border-border/70 px-4 py-3 text-sm font-medium text-foreground/80 transition last:border-0 hover:bg-muted hover:text-foreground" role="menuitem">
+                    {subnavigation.label}
+                  </a>
+                ))}
+              </div>
+            </details>
+          ) : (
+            <a
+              href={path}
+              class:list={[
+                'inline-flex items-center rounded-md px-3 py-1.5 text-sm font-medium transition',
+                isActive
+                  ? 'bg-muted text-nav'
+                  : 'text-foreground/70 hover:bg-muted hover:text-foreground',
+              ]}
+            >
+              {group.label}
+            </a>
+          );
+        })
+      }
+    </nav>
+
+    {/* Right actions */}
+    <div class="ml-auto flex items-center gap-1">
+      <SearchButton locale={locale} />
+      <ThemeToggle />
+
+      {/* Mobile menu */}
+      <details class="relative md:hidden">
+        <summary class="inline-flex h-9 w-9 cursor-pointer list-none items-center justify-center rounded-md text-foreground transition hover:bg-muted [&::-webkit-details-marker]:hidden">
+          <Icon name="lucide:menu" class="h-5 w-5" />
+        </summary>
+        <div class="absolute right-0 mt-2 w-72 max-w-[calc(100vw-2rem)] overflow-hidden rounded-lg border border-border bg-card shadow-2xl">
+          {/* Prominent search entry — mobile readers don't know Cmd+K */}
+          <button
+            type="button"
+            data-open-search
+            class="flex w-full items-center gap-2 border-b border-border px-4 py-3 text-sm font-medium text-nav transition hover:bg-muted"
+          >
+            <Icon name="lucide:search" class="h-4 w-4" />
+            <span>{nav.search ?? 'Search'}</span>
+          </button>
+          {
+            navigationGroups.map((group) => (
+          group.hasDropdown ? (
+            <details class="group border-b border-border last:border-0" data-mobile-nav-group>
+              <summary class="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 text-sm font-medium text-foreground transition hover:bg-muted [&::-webkit-details-marker]:hidden">
+                <span class="flex min-w-0 items-center">
+                  <span>{group.label}</span>
+                </span>
+                <Icon name="lucide:chevron-down" class="h-4 w-4 transition-transform group-open:rotate-180" />
+              </summary>
+              <div class="bg-muted/30 pb-2">
+                {group.subnavigations.map((subnavigation) => (
+                  <a href={`${localizePath(group.path, locale)}#${subnavigation.key}`} class="block border-t border-border/70 px-6 py-3 text-sm text-foreground/75 transition hover:bg-muted hover:text-foreground">
+                    {subnavigation.label}
+                  </a>
+                ))}
+              </div>
+            </details>
+          ) : (
+            <a href={localizePath(group.path, locale)} class="flex items-center border-b border-border px-3 py-2 text-sm transition last:border-0 hover:bg-muted">
+              {group.label}
+            </a>
+          )
+        ))
+          }
+        </div>
+      </details>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Mobile menu search entry → open the shared search dialog.
+  document.querySelectorAll('[data-open-search]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      (document.getElementById('search-trigger') as HTMLButtonElement | null)?.click();
+      document.querySelectorAll('details[open]').forEach((d) => ((d as HTMLDetailsElement).open = false));
+    });
+  });
+
+  // Keep desktop dropdowns mutually exclusive and dismissible.
+  document.querySelectorAll<HTMLDetailsElement>('[data-nav-dropdown]').forEach((menu) => {
+    menu.addEventListener('toggle', () => {
+      const summary = menu.querySelector<HTMLElement>('[data-nav-summary]');
+      summary?.setAttribute('aria-expanded', String(menu.open));
+      if (!menu.open) return;
+      document.querySelectorAll<HTMLDetailsElement>('[data-nav-dropdown][open]').forEach((other) => {
+        if (other !== menu) other.open = false;
+      });
+    });
+  });
+
+  document.addEventListener('click', (event) => {
+    const target = event.target;
+    if (!(target instanceof Node)) return;
+    document.querySelectorAll<HTMLDetailsElement>('[data-nav-dropdown][open]').forEach((menu) => {
+      if (!menu.contains(target)) menu.open = false;
+    });
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return;
+    document.querySelectorAll<HTMLDetailsElement>('[data-nav-dropdown][open]').forEach((menu) => {
+      menu.open = false;
+      menu.querySelector<HTMLElement>('[data-nav-summary]')?.focus();
+    });
+  });
+</script>

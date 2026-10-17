@@ -1,0 +1,247 @@
+---
+import LocaleLayout from '~/components/layout/LocaleLayout.astro';
+import dealsStyles from '../../styles/deals-page.css?raw';
+import type { Locale } from '~/i18n/routing';
+import { getUi } from '~/i18n/ui';
+
+interface Props {
+  locale: Locale;
+  gameName: string;
+  steamAppId?: number;
+}
+
+const { locale, gameName, steamAppId } = Astro.props;
+const copy = (getUi(locale) as unknown as Record<string, any>).dealsPage;
+const title = copy.metaTitle || `${gameName} ${copy.titleSuffix}`;
+const description = copy.metaDescription;
+const offerUrl = 'https://gameofferscenter.com/';
+const steamUrl = steamAppId ? `https://store.steampowered.com/app/${steamAppId}/` : 'https://store.steampowered.com/';
+---
+
+<LocaleLayout locale={locale} title={title} description={description}>
+  <style is:global set:html={dealsStyles}></style>
+  <article class="deals-page mx-auto max-w-6xl" data-pagefind-body data-pagefind-meta="category:deals" data-deals-copy={JSON.stringify(copy)} data-steam-app-id={steamAppId ?? ''} data-game-name={gameName}>
+    <nav class="text-sm text-muted-foreground" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-nav">{copy.breadcrumbHome}</a>
+      <span class="mx-1">/</span>
+      <span aria-current="page">{copy.breadcrumbCurrent}</span>
+    </nav>
+
+    <header class="deals-hero mt-5">
+      <div class="deals-hero-copy">
+        <p class="deals-eyebrow"><span class="deals-live-dot" aria-hidden="true"></span>{copy.eyebrow}</p>
+        <h1>{gameName} <span>{copy.titleSuffix}</span></h1>
+        <p class="deals-intro">{copy.posterTagline}</p>
+        <div class="deals-service-badges" aria-label={`${copy.posterFreeBadge}; ${copy.posterLiveBadge}`}>
+          <span class="deals-service-badge deals-service-free">{copy.posterFreeBadge}</span>
+          <span class="deals-service-badge deals-service-live"><span class="deals-live-dot" aria-hidden="true"></span>{copy.posterLiveBadge}</span>
+        </div>
+        <div class="deals-poster-metrics" id="poster-metrics" aria-live="polite" aria-busy={steamAppId ? "true" : "false"}>
+          <div class="deals-poster-metric"><span>{copy.lowestPrice}</span><strong>{steamAppId ? copy.loading : copy.unavailable}</strong><small>{copy.liveOfferLabel}</small></div>
+          <div class="deals-poster-metric"><span>{copy.playersOnline}</span><strong>{steamAppId ? copy.loading : copy.unavailable}</strong><small>LIVE</small></div>
+          <div class="deals-poster-metric"><span>{copy.steamRank}</span><strong>{steamAppId ? copy.loading : copy.unavailable}</strong><small>CHART</small></div>
+          <div class="deals-poster-metric deals-poster-savings"><span>{copy.savingsHeadline}</span><strong>{steamAppId ? copy.loading : copy.unavailable}</strong><small>{copy.freeToUse}</small></div>
+        </div>
+        <div class="deals-poster-actions">
+          <a id="deals-direct-link" href={steamUrl} target="_blank" rel="noopener noreferrer" class="deals-poster-primary">{copy.viewSteam}</a>
+          <button id="deals-refresh" type="button" disabled={!steamAppId} class="deals-poster-refresh">{copy.refreshNow}</button>
+        </div>
+        <p id="deals-updated" class="deals-poster-updated" aria-live="polite">{steamAppId ? copy.checkingPrices : copy.appIdMissing}</p>
+      </div>
+      <div class="deals-hero-shade" aria-hidden="true"></div>
+    </header>
+
+    <section class="deals-popular-section mt-12" aria-labelledby="popular-offers-heading">
+      <div class="deals-popular-heading">
+        <div>
+          <p class="deals-section-kicker">01 / POPULAR DEALS</p>
+          <h2 id="popular-offers-heading">{copy.popularHeading}</h2>
+          <p class="deals-popular-helper">{copy.popularHelper}</p>
+        </div>
+        <p id="popular-snapshot-note" class="deals-popular-snapshot" aria-live="polite">{copy.loadingPopular}</p>
+      </div>
+      <div id="popular-offers" class="deals-popular-grid" aria-live="polite" aria-busy="true">
+        <p class="deals-popular-empty">{copy.loadingCards}</p>
+      </div>
+      <a href={offerUrl} target="_blank" rel="noopener noreferrer" class="deals-goc-link">
+        <span class="deals-goc-mark" aria-hidden="true">GOC</span>
+        <span class="deals-goc-copy"><strong>{copy.allOffers}</strong><small>Game Offers Center · Free deals, coupons & giveaways</small></span>
+        <span class="deals-goc-free">FREE TO USE</span>
+        <span class="deals-goc-arrow" aria-hidden="true">↗</span>
+      </a>
+    </section>
+
+    <footer class="mt-12 border-t border-border pt-5 text-sm leading-6 text-muted-foreground">
+      <p>{copy.footerRetailers}</p>
+      <p class="mt-2">{copy.footerActivity}</p>
+    </footer>
+  </article>
+</LocaleLayout>
+
+<script>
+  const copy = JSON.parse(document.querySelector<HTMLElement>('[data-deals-copy]')?.dataset.dealsCopy || '{}');
+  const page = document.querySelector<HTMLElement>('[data-deals-copy]');
+  const appId = page?.dataset.steamAppId || '';
+  const gameName = page?.dataset.gameName || '';
+  const endpoint = `/api/game-deals?appid=${encodeURIComponent(appId)}&title=${encodeURIComponent(gameName)}`;
+  const hour = 60 * 60 * 1000;
+  const refreshCooldown = 60 * 1000;
+  const refreshKey = `deals-manual-refresh:${appId}`;
+  let lastLoadedAt = 0;
+  let loading = false;
+  let manualRefreshAt = 0;
+  try { manualRefreshAt = Number(localStorage.getItem(refreshKey) || 0); } catch { /* storage may be unavailable */ }
+
+  const html = (value: unknown) => String(value ?? '').replace(/[&<>"']/g, (character) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+  })[character] ?? character);
+  const money = (amount: number | null, currency = 'USD') => amount === null || !Number.isFinite(amount)
+    ? 'Price unavailable'
+    : new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(amount);
+  const dateText = (value: string | null) => value
+    ? new Intl.DateTimeFormat('en-US', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'UTC' }).format(new Date(value)) + ' UTC'
+    : 'time unavailable';
+  const linkIsSafe = (value: string) => {
+    try { return new URL(value).protocol === 'https:'; } catch { return false; }
+  };
+
+  function updateRefreshButton() {
+    const button = document.querySelector<HTMLButtonElement>('#deals-refresh');
+    if (!button) return;
+    const seconds = Math.ceil(Math.max(0, refreshCooldown - (Date.now() - manualRefreshAt)) / 1000);
+    const cooling = seconds > 0;
+    button.disabled = loading || cooling;
+    button.textContent = cooling ? `${copy.refreshWait} ${seconds}s` : copy.refreshNow;
+  }
+
+  async function loadDeals(force = false) {
+    if (loading || (!force && lastLoadedAt && Date.now() - lastLoadedAt < hour)) return;
+    loading = true;
+    const updated = document.querySelector<HTMLElement>('#deals-updated');
+    updateRefreshButton();
+    if (updated) updated.textContent = copy.checkingData;
+
+    try {
+      const requestUrl = force ? `${endpoint}&refresh=1&t=${Date.now()}` : endpoint;
+      const response = await fetch(requestUrl, { headers: { accept: 'application/json' }, cache: 'no-cache' });
+      if (!response.ok) throw new Error(`Request failed (${response.status})`);
+      const data = await response.json();
+      const checkedAtMs = Date.parse(data.checkedAt || '');
+      lastLoadedAt = Number.isFinite(checkedAtMs) ? Math.min(Date.now(), checkedAtMs) : Date.now();
+      render(data);
+      if (updated) updated.textContent = `${copy.checkedAt} ${dateText(data.checkedAt)}. ${copy.hourlyRefresh}`;
+    } catch {
+      if (updated) updated.textContent = copy.refreshError;
+    } finally {
+      loading = false;
+      updateRefreshButton();
+    }
+  }
+
+  function render(data: any) {
+    const steam = data.steam;
+    const summary = document.querySelector<HTMLElement>('#poster-metrics');
+    if (summary) {
+      summary.setAttribute('aria-busy', 'false');
+      const bestOffer = data.offers?.[0];
+      const offerSourceCount = Number(Boolean(data.sources?.cheapShark)) + Number(Boolean(data.sources?.fanatical));
+      const noOfferStatus = offerSourceCount === 0
+        ? copy.offerSourcesUnavailableShort
+        : offerSourceCount < 2
+          ? copy.offerCheckIncomplete
+          : copy.noDealsPoster;
+      const savings = bestOffer && steam?.price != null ? Math.max(0, Number(steam.price) - Number(bestOffer.price)) : null;
+      const savingsPercent = savings != null && steam?.price ? Math.round((savings / Number(steam.price)) * 100) : null;
+      const savingsLabel = !appId ? copy.unavailable : bestOffer && steam?.price == null ? copy.steamComparisonUnavailableShort : savings == null ? '—' : `${money(savings)}${savingsPercent ? ` ${savingsPercent}%` : ''}`;
+      const savingsNote = !appId ? copy.appIdMissing : bestOffer && steam?.price == null
+        ? copy.steamComparisonUnavailableShort
+        : savings == null
+          ? copy.noOfferMatch
+          : copy.savingsContext;
+      summary.innerHTML = `
+        <div class="deals-poster-metric"><span>${html(copy.lowestPrice)}</span><strong>${html(money(bestOffer ? Number(bestOffer.price) : steam?.price ?? null, bestOffer?.currency || steam?.currency || 'USD'))}</strong><small>${bestOffer ? `${html(bestOffer.store)} · ${html(copy.steamBaseline)} ${html(money(steam?.price ?? null, steam?.currency || 'USD'))}` : html(steam?.price == null ? copy.unavailable : noOfferStatus)}</small></div>
+        <div class="deals-poster-metric"><span>${html(copy.playersOnline)}</span><strong>${steam?.currentPlayers == null ? html(copy.unavailable) : html(Number(steam.currentPlayers).toLocaleString('en-US'))}</strong><small>${html(copy.liveSteamCounter)}</small></div>
+        <div class="deals-poster-metric"><span>${html(copy.steamRank)}</span><strong>${steam?.rank == null ? html(copy.unavailable) : `#${html(steam.rank)}`}</strong><small>${html(copy.steamChartsLabel)}</small></div>
+        <div class="deals-poster-metric deals-poster-savings"><span>${html(copy.savingsHeadline)}</span><strong>${html(savingsLabel)}</strong><small>${html(savingsNote)}</small></div>`;
+      const hero = document.querySelector<HTMLElement>('.deals-hero');
+      const headerImage = steam?.headerImage;
+      if (hero && typeof headerImage === 'string') {
+        try {
+          const imageUrl = new URL(headerImage);
+          if (imageUrl.protocol === 'https:' && imageUrl.hostname === 'shared.akamai.steamstatic.com' && /^\/store_item_assets\/steam\/apps\/\d+\/[\w./-]+$/.test(imageUrl.pathname)) {
+            hero.style.setProperty('--deals-poster-image', `url("${imageUrl.href}")`);
+          }
+        } catch { /* keep the poster fallback if the image URL is invalid */ }
+      }
+      const directLink = document.querySelector<HTMLAnchorElement>('#deals-direct-link');
+      if (directLink && bestOffer && linkIsSafe(bestOffer.actionUrl)) {
+        directLink.href = bestOffer.actionUrl;
+        directLink.textContent = `${copy.getBestDeal} · ${bestOffer.store} ↗`;
+      }
+    }
+
+    const popularityNote = document.querySelector<HTMLElement>('#popular-snapshot-note');
+    if (popularityNote) {
+      const rankCheckedAt = data.popularity?.chartCheckedAt;
+      const snapshotAt = data.popularity?.generatedAt;
+      popularityNote.textContent = rankCheckedAt
+        ? `${copy.liveRankCheckedAt} ${dateText(rankCheckedAt)}. ${copy.snapshotPrefix} ${dateText(snapshotAt)}${data.popularity.stale ? ` · ${copy.snapshotStale}` : ''}`
+        : copy.popularitySourceUnavailable;
+    }
+
+    const popular = document.querySelector<HTMLElement>('#popular-offers');
+    const games = data.popularity?.games ?? [];
+    if (popular) {
+      popular.setAttribute('aria-busy', 'false');
+      const cards = games.map((game: any) => {
+        const offers = (game.offers ?? []).filter((offer: any) => linkIsSafe(offer.actionUrl));
+        if (!offers.length) return '';
+        const rows = offers.map((offer: any) => {
+          const price = Number(offer.price);
+          const originalPrice = Number(offer.originalPrice);
+          const calculatedDiscount = Number.isFinite(price) && Number.isFinite(originalPrice) && originalPrice > price
+            ? Math.round((1 - price / originalPrice) * 100)
+            : Number(offer.discountPercent);
+          const discountBadge = Number.isFinite(calculatedDiscount) && calculatedDiscount > 0
+            ? `<span class="deals-offer-discount">${html(calculatedDiscount)}${html(copy.popularDiscountSuffix)}</span>`
+            : '';
+          return `<div class="deals-offer-row">
+            <div class="deals-offer-info"><p class="deals-offer-store">${html(offer.store)}</p>
+              <div class="deals-offer-prices"><strong>${html(money(price, offer.currency))}</strong>${Number.isFinite(originalPrice) && originalPrice > price ? `<del>${html(money(originalPrice, offer.currency))}</del>` : ''}${discountBadge}${offer.code ? `<span class="deals-offer-code">${html(copy.codeLabel)}: ${html(offer.code)}</span>` : ''}</div>
+              <p class="deals-offer-time">${html(copy.checkedOfferPrefix)} ${html(dateText(offer.verifiedAt))}${offer.validUntil ? ` · ${html(copy.offerEnds)} ${html(dateText(offer.validUntil))}` : ''}</p>
+            </div>
+            <a class="deals-offer-link" href="${html(offer.actionUrl)}" target="_blank" rel="noopener noreferrer">${html(copy.openDeal)} <span aria-hidden="true">↗</span></a>
+          </div>`;
+        }).join('');
+        return `<article class="deals-popular-card">
+          <div class="deals-game-head">${game.image && linkIsSafe(game.image) ? `<img src="${html(game.image)}" alt="" loading="lazy">` : ''}<div class="deals-game-copy"><p class="deals-game-rank">${html(copy.rankPrefix)}${html(game.rank)} <span>·</span> ${html(game.currentPlayers == null ? copy.playerCountUnavailable : Number(game.currentPlayers).toLocaleString('en-US') + ' ' + copy.online)}</p><h3>${html(game.title)}</h3><p class="deals-game-offer-count">${offers.length} ${offers.length === 1 ? html(copy.offerSingular) : html(copy.offerPlural)}</p></div></div>
+          <div class="deals-offer-list">${rows}</div>
+        </article>`;
+      }).filter(Boolean);
+      popular.innerHTML = cards.length
+        ? cards.join('')
+        : `<p class="deals-popular-empty">${html(copy.noPopularOffers)}</p>`;
+    }
+  }
+
+  {
+    document.querySelector('#deals-refresh')?.addEventListener('click', () => {
+      try { manualRefreshAt = Math.max(manualRefreshAt, Number(localStorage.getItem(refreshKey) || 0)); } catch { /* use the in-memory timestamp */ }
+      if (Date.now() - manualRefreshAt < refreshCooldown) {
+        updateRefreshButton();
+        return;
+      }
+      manualRefreshAt = Date.now();
+      try { localStorage.setItem(refreshKey, String(manualRefreshAt)); } catch { /* in-memory cooldown still applies */ }
+      updateRefreshButton();
+      void loadDeals(true);
+    });
+    void loadDeals();
+    window.setInterval(() => void loadDeals(), 60 * 1000);
+    window.setInterval(updateRefreshButton, 1000);
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible' && Date.now() - lastLoadedAt >= hour) void loadDeals();
+    });
+  }
+  updateRefreshButton();
+</script>

@@ -1,0 +1,155 @@
+---
+/**
+ * CookieConsent — GDPR/ePrivacy consent banner that actually GATES tracking.
+ *
+ * How it works (with BaseLayout):
+ *   - BaseLayout no longer injects GA / AdSense statically. Instead it defines
+ *     `window.__awLoadTrackers()` which injects them dynamically.
+ *   - This component shows a banner when no choice is stored (only rendered
+ *     at all when tracking env vars are set — see BaseLayout).
+ *   - Accept  → store v2 preferences, call __awLoadTrackers(preferences), remove banner.
+ *   - Decline → store v2 opt-out preferences, trackers never load.
+ *   - Returning visitors with a stored choice never see the banner again.
+ *
+ * Default-off contract preserved: no tracking env vars → this component is
+ * never rendered → zero JS → Lighthouse unchanged.
+ */
+interface Props {
+  /** i18n labels. */
+  labels: {
+    title: string;
+    text: string;
+    accept: string;
+    decline: string;
+    analytics?: string;
+    advertising?: string;
+    save?: string;
+  };
+  /** Link to the (localized) privacy policy — ePrivacy informed-consent best practice. */
+  privacyHref?: string;
+  privacyLabel?: string;
+}
+const { labels, privacyHref, privacyLabel } = Astro.props;
+---
+
+<div
+  id="cookie-consent"
+  hidden
+  class="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-card p-4 shadow-lg"
+  role="dialog"
+  aria-live="polite"
+  aria-label={labels.title}
+>
+  <div class="mx-auto flex max-w-7xl flex-col items-center gap-3 sm:flex-row">
+    <p class="text-sm text-muted-foreground">
+      <span class="font-semibold text-foreground">{labels.title}: </span>{labels.text}
+      {privacyHref && privacyLabel && (
+        <a href={privacyHref} class="underline underline-offset-2 hover:text-foreground">
+          {privacyLabel}
+        </a>
+      )}
+    </p>
+    <div class="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+      <label class="inline-flex items-center gap-1.5">
+        <input type="checkbox" data-consent-analytics checked />
+        {labels.analytics ?? 'Analytics cookies'}
+      </label>
+      <label class="inline-flex items-center gap-1.5">
+        <input type="checkbox" data-consent-advertising />
+        {labels.advertising ?? 'Advertising cookies'}
+      </label>
+    </div>
+    <div class="flex shrink-0 items-center gap-2 sm:ml-auto">
+      <button
+        type="button"
+        data-consent-decline
+        class="rounded-md px-3 py-1.5 text-sm font-medium text-muted-foreground transition hover:text-foreground"
+      >
+        {labels.decline}
+      </button>
+      <button
+        type="button"
+        data-consent-accept
+        class="btn-primary px-3 py-1.5"
+      >
+        {labels.accept}
+      </button>
+      <button
+        type="button"
+        data-consent-save
+        class="rounded-md border border-border px-3 py-1.5 text-sm font-medium text-foreground transition hover:bg-muted"
+      >
+        {labels.save ?? 'Save choices'}
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Type the tracker loader defined in BaseLayout (consent-gated GA/AdSense).
+  declare global {
+    interface Window {
+      __awLoadTrackers?: (preferences: {
+        version: 2;
+        analytics: boolean;
+        advertising: boolean;
+      }) => void;
+    }
+  }
+  (() => {
+    const KEY = 'aw-cookie-consent-v2';
+    const banner = document.getElementById('cookie-consent');
+    if (!banner) return;
+
+    type ConsentPreferences = {
+      version: 2;
+      analytics: boolean;
+      advertising: boolean;
+    };
+    // Consent flags: analytics: boolean; advertising: boolean
+
+    const saved = (() => {
+      try {
+        const raw = localStorage.getItem(KEY);
+        return raw ? (JSON.parse(raw) as ConsentPreferences) : null;
+      } catch {
+        return null;
+      }
+    })();
+
+    if (saved?.version === 2) { window.__awLoadTrackers?.(saved); return; }
+
+    // Respect navigator.globalPrivacyControl by disabling advertising by default.
+    const gpc = Boolean(
+      (navigator as Navigator & { globalPrivacyControl?: boolean }).globalPrivacyControl,
+    );
+    const analytics = banner.querySelector<HTMLInputElement>('[data-consent-analytics]');
+    const advertising = banner.querySelector<HTMLInputElement>('[data-consent-advertising]');
+    if (advertising) advertising.checked = !gpc;
+
+    const save = (preferences: ConsentPreferences) => {
+      try {
+        localStorage.setItem(KEY, JSON.stringify(preferences));
+      } catch {
+        /* storage unavailable — consent for this session only */
+      }
+      banner.remove();
+      window.__awLoadTrackers?.(preferences);
+    };
+
+    banner.hidden = false;
+    banner.querySelector('[data-consent-accept]')?.addEventListener('click', () => {
+      save({ version: 2, analytics: true, advertising: !gpc });
+    });
+    banner.querySelector('[data-consent-decline]')?.addEventListener('click', () => {
+      save({ version: 2, analytics: false, advertising: false });
+    });
+    banner.querySelector('[data-consent-save]')?.addEventListener('click', () => {
+      save({
+        version: 2,
+        analytics: Boolean(analytics?.checked),
+        advertising: Boolean(advertising?.checked) && !gpc,
+      });
+    });
+  })();
+</script>

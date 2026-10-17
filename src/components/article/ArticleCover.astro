@@ -1,0 +1,50 @@
+---
+/**
+ * Optimized cover image for article cards (PRD §14.2 v1.5).
+ *
+ * Uses Astro `<Image>` for an explicit processed cover and a normal `<img>`
+ * for a public article image automatically selected from the body.
+ *
+ * Sizes hint matches the ListPage grid: 1 col mobile → 2 col sm → 3 col lg
+ * inside a max-w-7xl container. Browsers pick the best variant per viewport.
+ */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  src: ImageMetadata | string;
+  title: string;
+  alt?: string;
+  class?: string;
+  sizes?: string;
+}
+const {
+  src,
+  title,
+  alt = '',
+  class: className = 'mb-3 aspect-video w-full rounded-md object-cover',
+  sizes = '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw',
+} = Astro.props;
+---
+
+<div class:list={['relative overflow-hidden rounded-md', className]}>
+  {typeof src === 'string' ? (
+    <img src={src} alt={alt} loading="lazy" decoding="async" class="h-full w-full object-cover" />
+  ) : (
+    <Image
+      src={src}
+      alt={alt}
+      width={400}
+      height={225}
+      widths={[200, 400, 800]}
+      sizes={sizes}
+      format="webp"
+      loading="lazy"
+      decoding="async"
+      class="h-full w-full object-cover"
+    />
+  )}
+  <div class="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/25 px-5 text-center">
+    <p class="game-art-cover-title line-clamp-2 text-base font-bold leading-tight text-white drop-shadow-[0_2px_3px_rgba(0,0,0,0.9)] md:text-lg">{title}</p>
+  </div>
+</div>

@@ -1,0 +1,41 @@
+---
+/**
+ * Article source list, driven by the `sources` frontmatter field.
+ * Body citations use <Citation source={1} /> and link to #source-1 here.
+ */
+interface SourceItem {
+  title: string;
+  url: string;
+  publisher?: string;
+  publishedAt?: string;
+  note?: string;
+}
+
+interface Props {
+  sources: SourceItem[];
+  heading?: string;
+}
+
+const { sources, heading = 'Sources' } = Astro.props;
+---
+
+{sources.length > 0 && (
+  <section class="mt-10 border-t border-border pt-8" aria-label={heading}>
+    <h2 class="text-xl font-bold">{heading}</h2>
+    <ol class="mt-4 space-y-3">
+      {sources.map((source, index) => (
+        <li id={`source-${index + 1}`} class="scroll-mt-20 text-sm text-muted-foreground">
+          <span class="mr-2 font-medium text-foreground">[{index + 1}]</span>
+          <a href={source.url} target="_blank" rel="noreferrer" class="text-nav hover:underline">
+            {source.title}
+          </a>
+          {(source.publisher || source.publishedAt) && (
+            <span> — {[source.publisher, source.publishedAt].filter(Boolean).join(', ')}</span>
+          )}
+          {source.note && <p class="mt-1 pl-6 text-xs">{source.note}</p>}
+        </li>
+      ))}
+    </ol>
+  </section>
+)}
+

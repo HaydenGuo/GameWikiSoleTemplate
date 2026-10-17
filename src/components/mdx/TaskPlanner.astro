@@ -1,0 +1,190 @@
+---
+interface PlannerOption {
+  label: string;
+  value: string;
+  answer: string;
+  steps: string[];
+  note?: string;
+}
+
+interface Labels {
+  eyebrow: string;
+  prompt: string;
+  copy: string;
+  copied: string;
+  copyFailed: string;
+  reset: string;
+  progress: string;
+  notePrefix: string;
+}
+
+interface Props {
+  title: string;
+  prompt?: string;
+  options: PlannerOption[];
+  labels: Labels;
+}
+
+const { title, prompt, options, labels } = Astro.props;
+const resolvedPrompt = prompt ?? labels.prompt;
+const initial = options[0];
+const serialized = JSON.stringify({ options, labels }).replaceAll('<', '\\u003c');
+---
+
+{initial && (
+  <section class="task-planner not-prose" data-task-planner>
+    <div class="flex flex-col gap-4">
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-[0.16em] text-nav">{labels.eyebrow}</p>
+        <h3 class="mt-1 text-lg font-bold">{title}</h3>
+        <p class="mt-2 max-w-3xl text-sm text-muted-foreground">{resolvedPrompt}</p>
+      </div>
+
+      <div class="flex flex-wrap gap-2" role="group" aria-label={resolvedPrompt} data-task-planner-choices>
+        {options.map((option, index) => (
+          <button
+            type="button"
+            class:list={[
+              'rounded-full border px-3 py-2 text-sm font-semibold transition-colors',
+              index === 0 ? 'border-nav bg-nav text-nav-foreground' : 'border-border bg-background text-foreground hover:bg-muted',
+            ]}
+            aria-pressed={index === 0 ? 'true' : 'false'}
+            data-task-planner-choice={option.value}
+          >
+            {option.label}
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <div class="mt-5 rounded-xl border border-border bg-background/70 p-4" data-task-planner-panel>
+      <p class="text-sm font-semibold text-foreground" data-task-planner-answer>{initial.answer}</p>
+      <ol class="mt-4 grid gap-3" data-task-planner-steps>
+        {initial.steps.map((step, index) => (
+          <li class="flex items-start gap-3 rounded-lg border border-border/70 p-3">
+            <input type="checkbox" class="mt-1 h-4 w-4 accent-[hsl(var(--nav))]" data-task-planner-check={index} />
+            <label class="text-sm leading-6 text-foreground">{step}</label>
+          </li>
+        ))}
+      </ol>
+      <p class="mt-3 hidden rounded-md border border-amber-500/40 bg-amber-500/10 p-3 text-sm text-muted-foreground" data-task-planner-note></p>
+      <div class="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-border/70 pt-3 text-sm">
+        <span class="text-muted-foreground" data-task-planner-progress>{labels.progress.replace('{completed}', '0').replace('{total}', String(initial.steps.length))}</span>
+        <div class="flex flex-wrap gap-2">
+          <button type="button" class="rounded border border-border px-3 py-2 font-semibold hover:bg-muted" data-task-planner-copy>{labels.copy}</button>
+          <button type="button" class="rounded border border-border px-3 py-2 text-muted-foreground hover:bg-muted" data-task-planner-reset>{labels.reset}</button>
+        </div>
+      </div>
+    </div>
+
+    <div hidden data-task-planner-data data-pagefind-ignore>{serialized}</div>
+  </section>
+)}
+
+<script is:inline>
+  (() => {
+    document.querySelectorAll('[data-task-planner]').forEach((root) => {
+      if (root.getAttribute('data-task-planner-ready') === 'true') return;
+      const data = root.querySelector('[data-task-planner-data]');
+      const answer = root.querySelector('[data-task-planner-answer]');
+      const steps = root.querySelector('[data-task-planner-steps]');
+      const note = root.querySelector('[data-task-planner-note]');
+      const progress = root.querySelector('[data-task-planner-progress]');
+      const copy = root.querySelector('[data-task-planner-copy]');
+      const reset = root.querySelector('[data-task-planner-reset]');
+      const choices = Array.from(root.querySelectorAll('[data-task-planner-choice]'));
+      if (!data || !answer || !steps || !note || !progress || !copy || !reset) return;
+
+      let payload;
+      try { payload = JSON.parse(data.textContent || '{}'); } catch { payload = null; }
+      if (!payload || !Array.isArray(payload.options) || payload.options.length === 0) return;
+      const options = payload.options;
+      const labels = payload.labels || {};
+      let selected = options[0];
+      const formatProgress = (completed, total) => String(labels.progress || '')
+        .replace('{completed}', String(completed)).replace('{total}', String(total));
+
+      const updateProgress = () => {
+        const checks = Array.from(steps.querySelectorAll('input[type="checkbox"]'));
+        const completed = checks.filter((check) => check.checked).length;
+        progress.textContent = formatProgress(completed, checks.length);
+      };
+
+      const render = (value) => {
+        selected = options.find((option) => option.value === value) || options[0];
+        answer.textContent = selected.answer || '';
+        steps.replaceChildren();
+        selected.steps.forEach((step, index) => {
+          const item = document.createElement('li');
+          item.className = 'flex items-start gap-3 rounded-lg border border-border/70 p-3';
+          const check = document.createElement('input');
+          check.type = 'checkbox';
+          check.className = 'mt-1 h-4 w-4 accent-[hsl(var(--nav))]';
+          check.setAttribute('data-task-planner-check', String(index));
+          const label = document.createElement('label');
+          label.className = 'text-sm leading-6 text-foreground';
+          label.textContent = step;
+          item.append(check, label);
+          steps.append(item);
+          check.addEventListener('change', updateProgress);
+        });
+        note.textContent = selected.note ? `${labels.notePrefix || ''}${selected.note}` : '';
+        note.classList.toggle('hidden', !selected.note);
+        choices.forEach((choice) => {
+          const active = choice.getAttribute('data-task-planner-choice') === selected.value;
+          choice.setAttribute('aria-pressed', active ? 'true' : 'false');
+          choice.classList.toggle('border-nav', active);
+          choice.classList.toggle('bg-nav', active);
+          choice.classList.toggle('text-nav-foreground', active);
+          choice.classList.toggle('border-border', !active);
+          choice.classList.toggle('bg-background', !active);
+          choice.classList.toggle('text-foreground', !active);
+        });
+        updateProgress();
+      };
+
+      const copyText = async (value) => {
+        if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+          try { await navigator.clipboard.writeText(value); return true; } catch { /* fallback below */ }
+        }
+        const textarea = document.createElement('textarea');
+        textarea.value = value;
+        textarea.setAttribute('readonly', '');
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        document.body.append(textarea);
+        textarea.select();
+        let copied = false;
+        const legacyCopy = Reflect.get(document, 'execCommand');
+        try { copied = typeof legacyCopy === 'function' ? legacyCopy.call(document, 'copy') : false; } catch { copied = false; }
+        textarea.remove();
+        return copied;
+      };
+
+      choices.forEach((choice) => choice.addEventListener('click', () => render(choice.getAttribute('data-task-planner-choice') || '')));
+      reset.addEventListener('click', () => render(selected.value));
+      copy.addEventListener('click', async () => {
+        const copied = await copyText(`${selected.answer}\n${selected.steps.map((step, index) => `${index + 1}. ${step}`).join('\n')}${selected.note ? `\n${labels.notePrefix || ''}${selected.note}` : ''}`);
+        copy.textContent = copied ? labels.copied : labels.copyFailed;
+        if (copied) window.setTimeout(() => { copy.textContent = labels.copy; }, 1200);
+      });
+      root.setAttribute('data-task-planner-ready', 'true');
+    });
+  })();
+</script>
+
+<style>
+  .task-planner {
+    margin: 2rem 0;
+    border: 1px solid hsl(var(--border));
+    border-radius: 0.85rem;
+    padding: 1rem;
+    background: hsl(var(--card) / 0.55);
+  }
+
+  .task-planner [data-task-planner-choice][aria-pressed='true'] {
+    border-color: hsl(var(--nav));
+    background: hsl(var(--nav));
+    color: hsl(var(--nav-foreground));
+  }
+</style>

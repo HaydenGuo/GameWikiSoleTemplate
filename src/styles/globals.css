@@ -1,0 +1,339 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/**
+ * Theme color variables — the ONLY place to change colors when re-theming.
+ *
+ * 👉 RE-THEME: Change ONLY these 4 lines (2 in :root, 2 in .dark).
+ * All other CSS variables and all components reference these via var().
+ * Do NOT hardcode hex/rgba/Tailwind color classes elsewhere.
+ */
+@layer base {
+  :root {
+    /* Light mode theme color — warm game-guide gold. */
+    --brand: 38 92% 50%;
+    --brand-light: 38 92% 60%;
+    /* Split H/S for derived shades (e.g. darker button backgrounds). */
+    --brand-h: 38;
+    --brand-s: 92%;
+    /* Text-safe shade of the brand: --brand at 52% lightness is only 3.1:1
+       on white (WCAG AA needs 4.5:1 for text). Derived from the H/S splits,
+       so fork themes that only edit --brand/--brand-light stay consistent. */
+    --brand-text: var(--brand-h) var(--brand-s) 40%;
+  }
+
+  .dark {
+    /* Dark mode theme color — slightly deeper. */
+    --brand: 38 87% 46%;
+    --brand-light: 38 87% 56%;
+    --brand-h: 38;
+    --brand-s: 87%;
+    --brand-text: var(--brand-h) var(--brand-s) 52%;
+  }
+}
+
+/* Other design tokens — these reference --brand, so they auto-follow theme changes. */
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+    --border: 214 32% 91%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+  }
+
+  .dark {
+    --background: 222 47% 7%;
+    --foreground: 210 40% 98%;
+    --muted: 217 33% 14%;
+    --muted-foreground: 215 20% 65%;
+    --border: 217 33% 18%;
+    --card: 222 47% 10%;
+    --card-foreground: 210 40% 98%;
+  }
+
+  /* AMOLED black (html.dark.black) — pure-black surfaces for OLED phones:
+     saves battery and many players prefer it. Only overrides surface tones;
+     brand/foreground inherit from .dark. */
+  .black {
+    --background: 0 0% 0%;
+    --muted: 0 0% 10%;
+    --border: 0 0% 16%;
+    --card: 0 0% 4%;
+  }
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-feature-settings:
+      'rlig' 1,
+      'calt' 1;
+  }
+
+  /* Prevent FOUC: apply dark class before paint. */
+  html {
+    color-scheme: light;
+  }
+  html.dark {
+    color-scheme: dark;
+  }
+}
+
+/* Utility classes referencing the theme token. */
+@layer components {
+  /* Game imagery stays inside the homepage hero and article reading surface.
+     It deliberately does not sit under global navigation or the whole page. */
+  .home-hero-backdrop {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    background: transparent;
+  }
+
+  .home-hero-backdrop::before {
+    content: '';
+    position: absolute;
+    inset: -8%;
+    background-image: url('/images/hero.webp');
+    background-position: center;
+    background-size: cover;
+    filter: blur(2px) saturate(0.95);
+    opacity: 1;
+    transform: perspective(1200px) rotateX(2deg) rotateY(-2deg) scale(1.08);
+    transform-origin: center;
+    animation: home-hero-drift 10s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+
+  .home-hero-backdrop::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgb(7 18 28 / 0.76) 0%, rgb(7 18 28 / 0.48) 43%, rgb(7 18 28 / 0.08) 76%), linear-gradient(0deg, rgb(7 18 28 / 0.22), transparent 56%);
+  }
+
+  @keyframes home-hero-drift {
+    0% { transform: perspective(1200px) rotateX(4deg) rotateY(-5deg) scale(1.1) translate3d(-2.5%, -1.5%, 0); }
+    100% { transform: perspective(1200px) rotateX(-3deg) rotateY(5deg) scale(1.18) translate3d(2.5%, 1.5%, 0); }
+  }
+
+  .article-content-surface {
+    padding: 0;
+  }
+
+  .image-text__copy p,
+  .image-text__copy li {
+    text-align: justify !important;
+    text-justify: inter-word;
+  }
+
+  article > .prose p,
+  article > .prose li,
+  article > .prose blockquote,
+  article > .prose td,
+  article > .prose th {
+    text-align: justify !important;
+    text-justify: inter-word;
+  }
+
+  .article-content-surface::before {
+    /* Keep article reading surfaces clear; imagery belongs in the content. */
+    display: none;
+  }
+
+  .article-content-surface::after {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .article-content-surface {
+      padding: 0;
+    }
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium text-white transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2;
+    /* Button background needs white text contrast ≥ 4.5:1 (WCAG AA).
+       --brand (52% lightness) gives only 3.1:1, so we darken it
+       to ~40% for button backgrounds. This does NOT change --brand
+       itself — it's a derived value for buttons only. */
+    background-color: hsl(var(--brand-h) var(--brand-s) 40%);
+  }
+  .btn-primary:hover {
+    background-color: hsl(var(--brand-h) var(--brand-s) 35%);
+  }
+
+  /* Floating pill variant of btn-primary (landing community QR widget) —
+     same AA-safe darkened brand background, rounded + shadowed. */
+  .btn-fab {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold text-white shadow-lg transition hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2;
+    background-color: hsl(var(--brand-h) var(--brand-s) 40%);
+  }
+  .btn-fab:hover {
+    background-color: hsl(var(--brand-h) var(--brand-s) 35%);
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center rounded-md border border-border bg-background px-4 py-2 text-sm font-medium transition hover:bg-muted;
+  }
+
+  .card {
+    @apply rounded-lg border bg-card text-card-foreground transition hover:border-nav/50 hover:shadow-md;
+  }
+
+  /* Unified section vertical rhythm — use on all homepage sections. */
+  .section {
+    @apply mx-auto max-w-7xl px-5 py-12 md:py-16;
+  }
+
+  /* Mobile table fix: GFM tables inside prose (boss stats, loadouts, drop
+     rates) easily exceed narrow viewports. Making the table itself a
+     scrollable block lets readers swipe horizontally instead of seeing a
+     broken, squeezed layout. Applies to ALL prose tables site-wide. */
+  .prose table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Keep icon + label pairs intact inside horizontally scrollable tables. */
+  .prose table :is(th, td):has([data-item-inline-icon]) {
+    white-space: nowrap;
+  }
+
+  /* Markdown body images (`![alt](/images/...)`) aren't processed by Astro
+     Image. Keep their natural aspect ratio: forcing every image into a 16:9
+     box creates visible blank bands for screenshots, maps, and portrait art.
+     :not([class]) scopes this to plain markdown <img>; component images
+     (video thumbnails etc.) carry utility classes and are excluded. */
+  .prose img:not([class]) {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    background-color: hsl(var(--muted));
+  }
+}
+
+/* Print styles — readers printing long guides get clean content only:
+   no header/footer/ads/TOC/floating buttons, full-width article. */
+@media print {
+  header,
+  footer,
+  .toc-nav,
+  #back-to-top,
+  #reading-progress,
+  #cookie-consent,
+  #sticky-banner,
+  [data-helpful-root],
+  [data-share-root] {
+    display: none !important;
+  }
+  main {
+    max-width: none !important;
+    padding: 0 !important;
+  }
+  .prose table {
+    display: table;
+    overflow: visible;
+  }
+}
+
+/* Theme initialization script — runs before paint to avoid FOUC. */
+/* The actual <script> is injected in BaseLayout.astro. */
+
+/* Homepage closing CTA carousel — kept global for package consumers. */
+.home-closing-cta-track {
+  position: absolute;
+  inset: 0 auto 0 0;
+  pointer-events: none;
+  z-index: 0;
+  display: flex;
+  width: 500%;
+  height: 100%;
+  transform: translate3d(-20%, 0, 0);
+  transition: transform 0.6s ease-in-out;
+  will-change: transform;
+}
+
+.home-closing-cta-slide {
+  position: relative;
+  flex: 0 0 20%;
+  min-width: 20%;
+  height: 100%;
+  background: hsl(var(--foreground));
+}
+
+.home-closing-cta-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1.03);
+}
+
+.home-closing-cta-control {
+  position: absolute;
+  top: 50%;
+  z-index: 20;
+  display: flex;
+  width: 2.75rem;
+  height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid hsl(var(--background) / 0.28);
+  border-radius: 9999px;
+  background: hsl(var(--foreground) / 0.62);
+  color: white;
+  transform: translateY(-50%);
+  transition: background-color 180ms ease, transform 180ms ease;
+}
+
+.home-closing-cta-control:hover {
+  background: hsl(var(--foreground) / 0.84);
+  transform: translateY(-50%) scale(1.05);
+}
+
+.home-closing-cta-control:focus-visible {
+  outline: 2px solid hsl(var(--brand-light));
+  outline-offset: 3px;
+}
+
+.home-closing-cta-control-left { left: 1rem; }
+.home-closing-cta-control-right { right: 1rem; }
+
+.home-closing-cta-arrow {
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 0.45rem solid transparent;
+  border-bottom: 0.45rem solid transparent;
+}
+
+.home-closing-cta-arrow-left {
+  margin-left: -0.15rem;
+  border-right: 0.65rem solid currentColor;
+}
+
+.home-closing-cta-arrow-right {
+  margin-right: -0.15rem;
+  border-left: 0.65rem solid currentColor;
+}
+
+/* Theme toggle state — package consumers may not process component-scoped CSS. */
+[data-theme-icon] { display: none; }
+html:not(.dark) [data-theme-icon='light'],
+html.dark:not(.black) [data-theme-icon='dark'],
+html.black [data-theme-icon='black'] { display: inline-flex; }

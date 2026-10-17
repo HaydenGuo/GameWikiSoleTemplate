@@ -35,3 +35,28 @@ describe('header navigation modes', () => {
     expect(headerSource).not.toContain('group.entries.slice(0, 8)');
   });
 });
+
+import { describe, expect, it } from 'vitest';
+import { resolvePrimaryNavigationMode } from '../src/lib/navigation-mode';
+
+describe('primary navigation mode', () => {
+  it('defaults to primary-only when dropdowns are disabled', () => {
+    expect(resolvePrimaryNavigationMode(undefined, false, true)).toBe('primary');
+  });
+
+  it('enables a configured second level even when the legacy site switch is off', () => {
+    expect(resolvePrimaryNavigationMode('primary-with-secondary', false, true)).toBe('primary-with-secondary');
+  });
+
+  it('keeps a configured primary-only category out of dropdown mode', () => {
+    expect(resolvePrimaryNavigationMode('primary', true, true)).toBe('primary');
+  });
+
+  it('preserves the legacy site-wide dropdown setting for existing sites', () => {
+    expect(resolvePrimaryNavigationMode(undefined, true, true)).toBe('primary-with-secondary');
+  });
+
+  it('does not enable a second level when no subgroup content exists', () => {
+    expect(resolvePrimaryNavigationMode('primary-with-secondary', false, false)).toBe('primary');
+  });
+});

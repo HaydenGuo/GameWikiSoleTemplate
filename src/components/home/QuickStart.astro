@@ -1,0 +1,87 @@
+---
+/**
+ * QuickStart — prominent icon-card grid of the 4 things a new player needs.
+ *
+ * Renders `home.start.cards` as large, clickable tiles (2×2 on desktop,
+ * single column on mobile). Each card carries an icon, title, one-line
+ * description, and a theme-colored arrow — modeled on the "quick actions"
+ * pattern used by successful game-wiki homepages.
+ *
+ * Placed immediately after the Hero so first-time visitors see their
+ * next step without scrolling past marketing copy.
+ */
+import { Icon } from 'astro-icon/components';
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { type Locale } from '~/i18n/routing';
+import { localizePath } from '~/lib/url';
+import { getUi } from '~/i18n/ui';
+
+interface StartCard {
+  number: string;
+  title: string;
+  description: string;
+  icon: string;
+  href: string;
+  image?: string | ImageMetadata;
+}
+
+interface Props {
+  locale: Locale;
+  badge?: string;
+  title?: string;
+  cards?: StartCard[];
+}
+const { locale, badge = 'Start Here', title = 'Quick Start', cards = [] } = Astro.props;
+const sharedStrings = getUi(locale).shared as unknown as Record<string, any>;
+const open = sharedStrings.open ?? 'Open';
+---
+{cards.length > 0 && (
+  <section class="section border-t border-border">
+    <p class="text-sm font-semibold uppercase tracking-wider text-foreground">{badge}</p>
+    <h2 class="mt-1 text-2xl font-bold tracking-tight md:text-3xl">{title}</h2>
+    <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 md:mt-8">
+      {cards.map((card: StartCard) => (
+        <a
+          href={localizePath(card.href, locale)}
+          class="card group overflow-hidden p-0 transition hover:-translate-y-0.5 hover:border-nav/60 hover:shadow-lg"
+        >
+          {card.image && (
+            <div class="relative aspect-[16/9] overflow-hidden bg-muted">
+              {typeof card.image === 'string' ? (
+                <img src={card.image} alt={card.title} class="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]" loading="lazy" />
+              ) : (
+                <Image src={card.image} alt={card.title} class="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]" loading="lazy" />
+              )}
+              <span class="absolute left-3 top-3 flex h-10 w-10 items-center justify-center rounded-xl bg-background/90 text-nav shadow-sm">
+                <Icon name={card.icon} class="h-5 w-5" />
+              </span>
+              <span class="absolute right-3 top-3 rounded-full bg-background/90 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-foreground shadow-sm">
+                {card.number}
+              </span>
+            </div>
+          )}
+          <div class="p-5">
+          {!card.image && <div class="flex items-center justify-between">
+            <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-nav/10 text-nav">
+              <Icon name={card.icon} class="h-6 w-6" />
+            </span>
+            <span class="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+              {card.number}
+            </span>
+          </div>}
+          <h3 class:list={[!card.image && 'mt-4', 'font-semibold leading-snug']}>{card.title}</h3>
+          <p class="mt-1 line-clamp-2 text-sm text-muted-foreground">{card.description}</p>
+          <span class="mt-3 inline-flex items-center gap-1 text-xs font-medium text-foreground hover:text-nav">
+            <span class="border-b border-transparent transition group-hover:border-nav">{open}</span>
+            <Icon
+              name="lucide:arrow-right"
+              class="h-3 w-3 transition group-hover:translate-x-0.5"
+            />
+          </span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+)}

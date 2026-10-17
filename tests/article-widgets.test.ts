@@ -30,10 +30,10 @@ describe('generic article widget contract', () => {
     expect(schema).toContain('decisionFilter: z');
     expect(schema).toContain('taskPlanner: z');
     expect(schema).toContain('articleTool: z');
-    expect(article).toContain("import DecisionFilter from '@hb-game-wiki/template/components/mdx/DecisionFilter.astro';");
-    expect(article).toContain("import TaskPlanner from '@hb-game-wiki/template/components/mdx/TaskPlanner.astro';");
-    expect(article).toContain("import ArticleFieldNote from '@hb-game-wiki/template/components/mdx/ArticleFieldNote.astro';");
-    expect(article).toContain("import ArticleReadinessDashboard from '@hb-game-wiki/template/components/mdx/ArticleReadinessDashboard.astro';");
+    expect(article).toContain("import DecisionFilter from '~/components/mdx/DecisionFilter.astro';");
+    expect(article).toContain("import TaskPlanner from '~/components/mdx/TaskPlanner.astro';");
+    expect(article).toContain("import ArticleFieldNote from '~/components/mdx/ArticleFieldNote.astro';");
+    expect(article).toContain("import ArticleReadinessDashboard from '~/components/mdx/ArticleReadinessDashboard.astro';");
     expect(article).toContain('decisionFilter &&');
     expect(article).toContain('taskPlanner &&');
     expect(article).toContain("articleTool?.type === 'field-note'");

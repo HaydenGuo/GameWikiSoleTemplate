@@ -17,7 +17,7 @@
  * has assigned those pages; the header never invents a menu.
  */
 
-import type { PrimaryNavigationMode } from '@hb-game-wiki/template/lib/navigation-mode';
+import type { PrimaryNavigationMode } from '~/lib/navigation-mode';
 
 // Icons are referenced by string name; astro-icon resolves them from src/icons/.
 // We avoid importing the icon component here so this file stays framework-agnostic

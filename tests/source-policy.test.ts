@@ -90,3 +90,27 @@ describe('article source policy', () => {
     expect(isAllowedArticleSource('https://www.reddit.com/r/ExampleGame/', noReddit).allowed).toBe(false);
   });
 });
+
+import { describe, expect, it } from 'vitest';
+import { createSourcePolicy, isAllowedArticleSource } from '../src/lib/source-policy';
+
+describe('configured article source pages', () => {
+  it('allows only exact approved material pages outside the built-in source hosts', () => {
+    const policy = createSourcePolicy(
+      'https://example-game.com/',
+      undefined,
+      [],
+      ['https://wikily.gg/example-game/items/example-item'],
+    );
+
+    expect(isAllowedArticleSource('https://wikily.gg/example-game/items/example-item', policy).allowed).toBe(true);
+    expect(isAllowedArticleSource('https://wikily.gg/example-game/items/another-item', policy).allowed).toBe(false);
+  });
+
+  it('allows exact configured store pages without opening the whole store domain', () => {
+    const policy = createSourcePolicy('https://example-game.com/', undefined, ['https://store.example.com/game/demo']);
+
+    expect(isAllowedArticleSource('https://store.example.com/game/demo', policy).allowed).toBe(true);
+    expect(isAllowedArticleSource('https://store.example.com/game/other', policy).allowed).toBe(false);
+  });
+});

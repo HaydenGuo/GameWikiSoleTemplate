@@ -1,0 +1,19 @@
+---
+/** Inline, accessible source marker for MDX articles.
+ *
+ * import Citation from '~/components/mdx/Citation.astro';
+ * A patch changed the drop rates.<Citation source={1} />
+ */
+interface Props {
+  /** One-based position in the article frontmatter `sources` list. */
+  source: number;
+}
+
+const { source } = Astro.props;
+const index = Math.max(1, Math.floor(source));
+---
+
+<a href={`#source-${index}`} class="ml-0.5 text-xs text-nav no-underline hover:underline" aria-label={`Source ${index}`}>
+  <sup>[{index}]</sup>
+</a>
+

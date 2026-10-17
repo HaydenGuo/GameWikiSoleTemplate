@@ -69,4 +69,16 @@ describe('unified GameWikiSoleTemplate package contract', () => {
     expect(articleTemplate).toContain("fixedRegions: ['quick-answer', 'sources'] as const");
     expect(articleTemplate).toContain("editableRegion: 'body' as const");
   });
+
+  it('uses local imports in runtime and example content', () => {
+    const sourceDirectories = ['src/components', 'src/i18n', 'src/lib', 'src/pages', 'src/content'];
+    const sourceFiles = sourceDirectories.flatMap((directory) =>
+      fs.readdirSync(path.join(root, directory), { recursive: true, withFileTypes: true })
+        .filter((entry) => entry.isFile() && /\.(astro|ts|tsx|mdx)$/.test(entry.name))
+        .map((entry) => path.join(entry.parentPath, entry.name)),
+    );
+    for (const file of sourceFiles) {
+      expect(fs.readFileSync(file, 'utf8'), path.relative(root, file)).not.toContain('@hb-game-wiki/template/');
+    }
+  });
 });

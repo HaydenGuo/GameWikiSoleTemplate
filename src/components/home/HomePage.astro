@@ -1,0 +1,717 @@
+---
+/**
+ * HomePage — renders the homepage from the locale JSON `home` namespace.
+ *
+ * Data-driven: changing src/locales/en.json updates the homepage without
+ * touching this component.
+ *
+ * Sections (top to bottom):
+ *   1. Hero          — title, description, CTAs (strong visual anchor)
+ *   2. QuickStart    — 4 large icon cards (Codes / Bosses / Guides / Tier)
+ *   3. Recent Updates + Trending links (two columns)
+ *   4. Explore       — 4 content modules with displayTypes
+ *   5. ClosingCta      — bottom call-to-action
+ *
+ * v0.2 refactor: trimmed from 8 sections to 5. Removed GameInfo (info
+ * duplicated Hero stats), FAQ (moved to /faq), standalone TrendingNow
+ * (merged into Recent Updates). Explore modules trimmed 8→4. Page length
+ * compressed from ~7 screens to ~4.
+ */
+import { Icon } from 'astro-icon/components';
+import LocaleLayout from '~/components/layout/LocaleLayout.astro';
+import LazyYouTube from '~/components/video/LazyYouTube.astro';
+import ArticleCover from '~/components/article/ArticleCover.astro';
+import QuickStart from '~/components/home/QuickStart.astro';
+import PlayerDecisionGuide from '~/components/home/PlayerDecisionGuide.astro';
+import ExploreModules from '~/components/home/ExploreModules.astro';
+import { site } from '~/config/site';
+import { NAVIGATION_CONFIG } from '~/config/navigation';
+import { type Locale } from '~/i18n/routing';
+import { getUi } from '~/i18n/ui';
+import { extractFirstBodyImage, getArticleIndex, getRecentEntries, parseEntryId } from '~/lib/content';
+import { localizePath, listPath, detailPath } from '~/lib/url';
+import { resolveArticleImage } from '~/lib/article-images';
+
+interface Props {
+  locale: Locale;
+  jsonLd?: Record<string, unknown>[];
+  /** hreflang alternates (built by the route page). */
+  alternates?: Array<{ hreflang: string; href: string }>;
+}
+const { locale, jsonLd = [], alternates = [] } = Astro.props;
+const ui = getUi(locale);
+const home = ui.home as any;
+const shared = ui.shared as unknown as Record<string, any>;
+
+const recent = await getRecentEntries(locale, 4);
+const articleEntries = await getArticleIndex(locale);
+const articleCountsByCategory = new Map<string, number>();
+for (const entry of articleEntries) {
+  const parsed = parseEntryId(entry.id);
+  if (parsed) articleCountsByCategory.set(parsed.category, (articleCountsByCategory.get(parsed.category) ?? 0) + 1);
+}
+const browseAllCategory = NAVIGATION_CONFIG
+  .filter((item) => item.isContentType)
+  .reduce((mostPopulated, item) =>
+    (articleCountsByCategory.get(item.key) ?? 0) > (articleCountsByCategory.get(mostPopulated.key) ?? 0)
+      ? item
+      : mostPopulated,
+  NAVIGATION_CONFIG.find((item) => item.isContentType) ?? NAVIGATION_CONFIG[0]);
+const articleIndex = Object.fromEntries(
+  articleEntries.flatMap((entry) => {
+    const parsed = parseEntryId(entry.id);
+    if (!parsed) return [];
+    return [[detailPath(parsed.category, parsed.slug, locale), { title: entry.data.title, description: entry.data.description }]];
+  }),
+);
+
+// Per-field fallbacks: a locale JSON whose meta object exists but lacks
+// title/description must not pass undefined into BaseLayout (title.includes
+// crashes the build) — same spirit as the ?? defaults below.
+const meta = {
+  title: home.meta?.title ?? site.name,
+  description: home.meta?.description ?? site.description,
+};
+const hero = home.hero ?? {};
+const secondaryCtaHref = hero.ctaSecondaryHref ?? site.social.official;
+const secondaryCtaIsExternal = /^https?:\/\//i.test(secondaryCtaHref);
+const heroCoverHref = hero.coverHref ?? (site.game.steamAppId
+  ? `https://store.steampowered.com/app/${site.game.steamAppId}/`
+  : site.social.official);
+if (!Array.isArray(hero.descriptionItems) || hero.descriptionItems.length !== 2 || hero.descriptionItems.some((item: any) => typeof item?.label !== 'string' || !item.label.trim() || typeof item?.text !== 'string' || !item.text.trim())) {
+  throw new Error('Homepage contract violation: home.hero.descriptionItems must contain exactly two sections with non-empty labels and text.');
+}
+// Shape-only defaults: getUi() deep-merges over en.json, so titles/labels are
+// guaranteed present — no hardcoded English fallbacks (UI text lives in the
+// locale JSON per the template's own rule).
+const updates = home.updates ?? {};
+const start = home.start ?? { cards: [] };
+const decisionGuide = home.decisionGuide;
+if (!decisionGuide || !Array.isArray(decisionGuide.groups) || decisionGuide.groups.length !== 3) {
+  throw new Error(
+    'Homepage contract violation: home.decisionGuide must define exactly three player groups below Quick Start.',
+  );
+}
+if (decisionGuide.groups.some((group: any) => !Array.isArray(group?.directions) || group.directions.length !== 3)) {
+  throw new Error(
+    'Homepage contract violation: every home.decisionGuide player group must define exactly three directions.',
+  );
+}
+const popular = home.popular ?? { quickLinks: [] };
+const explore = home.explore ?? { modules: [] };
+const closingCta = home.closingCta ?? {};
+
+// Resolve homepage card artwork from the destination content. This keeps a
+// navigation card visually tied to the article it opens and prevents generic
+// placeholder images from masking duplicate or stale covers.
+const articleCoverByPath = new Map<string, string | import('astro').ImageMetadata>();
+const firstArticleCoverByCategory = new Map<string, string | import('astro').ImageMetadata | undefined>();
+for (const entry of articleEntries) {
+  const parsed = parseEntryId(entry.id);
+  if (!parsed) continue;
+  const categoryPath = listPath(parsed.category, locale).replace(/\/+$/, '') || '/';
+  const isFirstCategoryArticle = !firstArticleCoverByCategory.has(categoryPath);
+  const coverRef = extractFirstBodyImage(entry.body ?? '');
+  const cover = coverRef ? resolveArticleImage(coverRef) : undefined;
+  // getArticleIndex is newest-first, matching the category page. Keep the
+  // first article's cover (including an empty result) instead of borrowing a
+  // later article's image.
+  if (isFirstCategoryArticle) firstArticleCoverByCategory.set(categoryPath, cover);
+  if (!cover) continue;
+  const articlePath = detailPath(parsed.category, parsed.slug, locale).replace(/\/+$/, '') || '/';
+  articleCoverByPath.set(articlePath, cover);
+}
+function coverForHref(href: string): string | import('astro').ImageMetadata | undefined {
+  const raw = href.replace(/\/+$/, '') || '/';
+  const localized = localizePath(href, locale).replace(/\/+$/, '') || '/';
+  const articleCover = articleCoverByPath.get(localized) ?? articleCoverByPath.get(raw);
+  if (articleCover) return articleCover;
+  if (firstArticleCoverByCategory.has(localized)) return firstArticleCoverByCategory.get(localized);
+  return firstArticleCoverByCategory.get(raw);
+}
+const decisionGuideGroups = decisionGuide.groups.map((group: any) => {
+  const firstRouteCover = group.directions?.[0]?.href ? coverForHref(group.directions[0].href) : undefined;
+  return {
+    ...group,
+    image: typeof firstRouteCover === 'string'
+      ? firstRouteCover
+      : firstRouteCover?.src ?? group.image,
+  };
+});
+
+const quickStartMetadata = new Map<string, { description?: string; image?: string }>();
+for (const card of Array.isArray(start.cards) ? start.cards : []) {
+  if (!card || typeof card.key !== 'string' || !card.key.trim()) continue;
+  if (quickStartMetadata.has(card.key)) {
+    throw new Error(`Homepage contract violation: home.start.cards contains duplicate metadata for "${card.key}".`);
+  }
+  quickStartMetadata.set(card.key, card);
+}
+const orderedNavigation = NAVIGATION_CONFIG
+  .map((item, index) => ({ item, index }))
+  .sort((a, b) => (a.item.order ?? a.index + 1) - (b.item.order ?? b.index + 1) || a.index - b.index)
+  .slice(0, 4);
+const startCards = orderedNavigation.map(({ item }, index) => {
+  const metadata = quickStartMetadata.get(item.key);
+  const title = (ui.nav as Record<string, string>)[item.key];
+  if (!title) {
+    throw new Error(`Homepage contract violation: nav.${item.key} is missing its localized label.`);
+  }
+  const href = item.path;
+  return {
+    number: String(index + 1),
+    title,
+    description: metadata?.description ?? `Explore ${title} and the latest player guides.`,
+    icon: item.icon,
+    href,
+    image: coverForHref(href) ?? metadata?.image,
+  };
+});
+const configuredClosingCtaImages = Array.isArray(closingCta.images)
+  ? closingCta.images.filter((src: unknown): src is string => typeof src === 'string' && src.trim().length > 0)
+  : [];
+const closingCtaImages = configuredClosingCtaImages.length > 0
+  ? configuredClosingCtaImages
+  : ['/images/home/guide-card.svg', '/images/home/reference-card.svg', '/images/home/boss-card.svg'];
+const closingCtaFrames = [closingCtaImages[closingCtaImages.length - 1], ...closingCtaImages, closingCtaImages[0]];
+const gaId = import.meta.env.PUBLIC_GA_ID as string | undefined;
+const popularRuntimeEnabled = import.meta.env.PUBLIC_POPULAR_ENABLED === 'true';
+
+// QuickLink may be a string or { label, href } — normalize for the sidebar list.
+type QuickLink = string | { label: string; href: string };
+// The JSON quickLinks are only editorial seed data. They must not make category
+// links look like "Most read" articles in a fresh build. Use published article
+// links as the honest local fallback; the optional API replaces these with real
+// seven-day view rankings after hydration.
+const articleFallbackLinks: QuickLink[] = recent.slice(0, 2).flatMap((entry) => {
+  const parsed = parseEntryId(entry.id);
+  return parsed
+    ? [{ label: entry.data.title, href: detailPath(parsed.category, parsed.slug, locale) }]
+    : [];
+});
+const configuredPopularLinks: QuickLink[] = Array.isArray(popular.quickLinks) ? popular.quickLinks : [];
+const trendingLinks: QuickLink[] = articleFallbackLinks.length > 0 ? articleFallbackLinks : configuredPopularLinks;
+const popularCardFallbacks = ['/images/home/boss-card.svg', '/images/home/items-card.svg', '/images/home/reference-card.svg'];
+const popularCardImages = trendingLinks.slice(0, 2).map((link: QuickLink, index: number) =>
+  coverForHref(typeof link === 'string' ? '' : link.href) ?? popularCardFallbacks[index],
+);
+function trendingHref(link: QuickLink): string | null {
+  return typeof link === 'string' ? null : localizePath(link.href, locale);
+}
+function trendingLabel(link: QuickLink): string {
+  return typeof link === 'string' ? link : link.label;
+}
+---
+
+<LocaleLayout
+  locale={locale}
+  wide
+  title={meta.title}
+  description={meta.description}
+  alternates={alternates}
+  jsonLd={jsonLd}
+>
+  {/* ─────────────────────────────── Hero ─────────────────────────────── */}
+  <section class="relative flex min-h-[52vh] items-center overflow-hidden border-b border-border md:min-h-[68vh]">
+    <div class="home-hero-backdrop" aria-hidden="true"></div>
+    {/* Subtle theme-color wash gives the hero a visual anchor while the global
+        game scene remains calm behind the hero copy. */}
+    <div
+      aria-hidden="true"
+      class="pointer-events-none absolute inset-0 bg-gradient-to-br from-nav/8 via-transparent to-transparent"
+    />
+
+    <div class="relative z-10 mx-auto grid w-full max-w-[90rem] gap-10 px-4 py-16 md:grid-cols-[1fr_1fr] md:items-center md:gap-14 md:py-24">
+      <div>
+      <p class="text-sm font-semibold uppercase tracking-wider text-white drop-shadow-md">{hero.badge}</p>
+      <h1
+        class="game-art-hero-title mt-3 max-w-3xl bg-gradient-to-r from-white via-white to-white/75 bg-clip-text text-4xl font-black tracking-tight text-transparent drop-shadow-lg sm:text-5xl md:text-6xl lg:text-7xl"
+      >
+        {hero.title}
+      </h1>
+      <div class="game-art-hero-copy mt-5 max-w-xl space-y-4 text-base text-white/90 drop-shadow-md md:text-lg">
+        {hero.descriptionItems.map((item: { label: string; text: string }) => (
+          <p class="game-art-hero-copy__item"><strong class="game-art-hero-copy__label">{item.label}</strong><span class="game-art-hero-copy__text">{item.text}</span></p>
+        ))}
+      </div>
+      <div class="mt-8 flex flex-wrap gap-3">
+        {
+          hero.ctaPrimary && (
+            <a
+              href={listPath(NAVIGATION_CONFIG[0]?.key ?? 'guides', locale)}
+              class="btn-primary"
+              data-home-slot="hero_primary"
+              data-home-item="primary_category"
+            >
+              <Icon name="lucide:book-open" class="mr-2 h-4 w-4" />
+              {hero.ctaPrimary}
+            </a>
+          )
+        }
+        {
+          hero.ctaSecondary && (
+            <a
+              href={secondaryCtaHref}
+              target={secondaryCtaIsExternal ? '_blank' : undefined}
+              rel={secondaryCtaIsExternal ? 'noopener noreferrer' : undefined}
+              class="btn-outline"
+              data-home-slot="hero_secondary"
+              data-home-item={hero.ctaSecondaryHref ? 'custom' : 'official'}
+            >
+              <Icon name={secondaryCtaIsExternal ? 'lucide:external-link' : 'lucide:badge-percent'} class="mr-2 h-4 w-4" />
+              {hero.ctaSecondary}
+            </a>
+          )
+        }
+      </div>
+      </div>
+      {hero.coverImage ? (
+        <div class="overflow-hidden rounded-2xl border border-border bg-card/70 p-2 shadow-xl shadow-black/10">
+          <a
+            href={heroCoverHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group block overflow-hidden rounded-xl"
+            data-home-slot="hero_cover"
+            data-home-item="official_game_cover"
+          >
+            <img
+              src={hero.coverImage}
+              alt={hero.coverAlt ?? `${site.game.name} official game cover`}
+              class="block h-auto w-full transition duration-300 group-hover:scale-[1.02]"
+              loading="eager"
+              decoding="async"
+            />
+          </a>
+          {hero.coverCaption && <p class="px-2 pb-1 pt-3 text-xs text-muted-foreground">{hero.coverCaption}</p>}
+        </div>
+      ) : hero.videoId ? (
+        <div class="overflow-hidden rounded-2xl border border-border bg-card/70 p-2 shadow-xl shadow-black/10">
+          <LazyYouTube videoId={hero.videoId} title={hero.videoCaption ?? `${site.game.name} video`} />
+          <p class="px-2 pb-1 pt-3 text-xs text-muted-foreground">{hero.videoCaption ?? hero.videoId}</p>
+        </div>
+      ) : null}
+    </div>
+  </section>
+
+  {/* ───────────────────────────── Quick Start ────────────────────────── */}
+  <QuickStart
+    locale={locale}
+    badge={start.badge}
+    title={start.title}
+    cards={startCards}
+  />
+
+  <PlayerDecisionGuide
+    eyebrow={decisionGuide.eyebrow}
+    title={decisionGuide.title}
+    description={decisionGuide.description}
+    routeLabel={decisionGuide.routeLabel}
+    groups={decisionGuideGroups}
+  />
+
+  {/* ───────────────────── Recent Updates + Trending ───────────────────── */}
+  <section class="section border-t border-border">
+    <div class="grid gap-8 lg:grid-cols-3">
+      {/* Recent updates — 2/3 width on desktop. */}
+      <div class="lg:col-span-2">
+        <div class="flex items-baseline justify-between">
+          <h2 class="text-2xl font-bold">{updates.title}</h2>
+          <a
+            href={listPath(browseAllCategory?.key ?? 'guides', locale)}
+            class="text-sm text-foreground hover:text-nav hover:underline"
+            data-home-slot="recent_updates_browse_all"
+            data-home-item="browse_all"
+            >{shared.browseAll}</a
+          >
+        </div>
+        <div class="mt-4 grid gap-4 sm:grid-cols-2">
+          {
+            recent.length === 0 ? (
+              <p class="text-sm text-muted-foreground">{shared.noArticles}</p>
+            ) : (
+              recent.map((entry) => {
+                const parsed = parseEntryId(entry.id);
+                if (!parsed) return null;
+                const coverRef = extractFirstBodyImage(entry.body ?? '');
+                const cover = coverRef ? resolveArticleImage(coverRef) : undefined;
+                return (
+                  <a
+                    href={detailPath(parsed.category, parsed.slug, locale)}
+                    class="card group overflow-hidden p-0 transition hover:-translate-y-0.5 hover:border-nav/60 hover:shadow-lg"
+                    data-home-slot="recent_update"
+                    data-home-item={entry.data.title}
+                  >
+                    {cover && <ArticleCover src={cover} title={entry.data.title} alt={entry.data.title} class="aspect-video w-full" />}
+                    <div class="p-4">
+                    <p class="text-xs uppercase tracking-wider text-muted-foreground">
+                      {parsed.category}
+                    </p>
+                    <h3 class="mt-1 font-semibold leading-snug">{entry.data.title}</h3>
+                    <p class="mt-1 line-clamp-2 text-sm text-muted-foreground">
+                      {entry.data.description}
+                    </p>
+                    </div>
+                  </a>
+                );
+              })
+            )
+          }
+        </div>
+      </div>
+
+      {/* Trending — 1/3 width sidebar list. */}
+      {trendingLinks.length > 0 && (
+        <aside>
+          <p class="text-sm font-semibold uppercase tracking-wider text-foreground">{popular.badge}</p>
+          <h2 class="mt-1 text-2xl font-bold">{popular.title}</h2>
+          <ul class="mt-4 space-y-2">
+            {trendingLinks.slice(0, 2).map((link: QuickLink, index: number) => {
+              const href = trendingHref(link);
+              const label = trendingLabel(link);
+              return (
+                <li data-popular-item>
+                  {href ? (
+                    <a
+                      href={href}
+                      data-popular-link
+                      data-home-slot="popular"
+                      data-home-item={label}
+                      class="group block overflow-hidden rounded-md border bg-card text-sm font-medium transition hover:-translate-y-0.5 hover:border-nav/50 hover:shadow-md"
+                    >
+                      <ArticleCover src={popularCardImages[index]} title={label} alt={label} class="aspect-video w-full transition duration-300 group-hover:scale-[1.02]" />
+                      <span data-popular-label class="flex items-center gap-2 p-3 leading-snug">
+                        <Icon name="lucide:trending-up" class="h-4 w-4 shrink-0 text-nav" />
+                        {label}
+                      </span>
+                    </a>
+                  ) : (
+                    <div class="group overflow-hidden rounded-md border bg-card text-sm font-medium">
+                      <ArticleCover src={popularCardImages[index]} title={label} alt={label} class="aspect-video w-full" />
+                      <span data-popular-label class="flex items-center gap-2 p-3 leading-snug">
+                        <Icon name="lucide:trending-up" class="h-4 w-4 shrink-0 text-nav" />
+                        {label}
+                      </span>
+                    </div>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </aside>
+      )}
+    </div>
+  </section>
+
+  {/* ──────────────────────────── Explore Modules ─────────────────────── */}
+  {
+    explore.modules?.length > 0 && (
+      <section class="section border-t border-border">
+        <h2 class="text-2xl font-bold">{explore.title}</h2>
+        <p class="mt-1 text-sm text-muted-foreground">{explore.description}</p>
+        <div class="mt-8">
+          <ExploreModules modules={explore.modules} locale={locale} />
+        </div>
+      </section>
+    )
+  }
+
+  {/* ─────────────────────────────── Final CTA ────────────────────────── */}
+  {
+    closingCta.title && (
+      <section class="section section-full-bleed border-t border-border" data-home-closing-cta-section>
+        <div class="home-closing-cta relative isolate flex min-h-[22rem] flex-col justify-center overflow-hidden rounded-xl border border-white/20 p-8 text-center shadow-xl shadow-black/10 md:min-h-[27rem] md:p-12">
+          <div
+            class="home-closing-cta-track"
+            data-closing-cta-track
+            aria-hidden="true"
+            style={`width: ${closingCtaFrames.length * 100}%;`}
+          >
+            {closingCtaFrames.map((src) => (
+              <div class="home-closing-cta-slide" style={`flex-basis: ${100 / closingCtaFrames.length}%; min-width: ${100 / closingCtaFrames.length}%;`}>
+                <img src={src} alt="" loading="eager" decoding="async" />
+              </div>
+            ))}
+          </div>
+          <div class="relative z-10">
+            <h2 class="game-art-cta-title text-2xl font-bold text-white drop-shadow-md md:text-3xl">{closingCta.title}</h2>
+            <p class="game-art-cta-description mx-auto mt-2 max-w-xl text-white/85 drop-shadow-md">{closingCta.description}</p>
+          <div class="mt-6 flex flex-wrap justify-center gap-3">
+            <a
+              href={site.social.official}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn-primary"
+              data-home-slot="closing_cta"
+              data-home-item="official"
+            >
+              {closingCta.primary}
+            </a>
+            {closingCta.secondary && site.social.discord && (
+              <a
+                href={site.social.discord}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-outline"
+                data-home-slot="closing_cta"
+                data-home-item="discord"
+              >
+              {closingCta.secondary}
+              </a>
+            )}
+          </div>
+          </div>
+          <button
+            type="button"
+            class="home-closing-cta-control home-closing-cta-control-left"
+            data-closing-cta-prev
+            aria-label="Previous featured image"
+          >
+            <span class="home-closing-cta-arrow home-closing-cta-arrow-left" aria-hidden="true"></span>
+          </button>
+          <button
+            type="button"
+            class="home-closing-cta-control home-closing-cta-control-right"
+            data-closing-cta-next
+            aria-label="Next featured image"
+          >
+            <span class="home-closing-cta-arrow home-closing-cta-arrow-right" aria-hidden="true"></span>
+          </button>
+        </div>
+      </section>
+    )
+  }
+</LocaleLayout>
+
+<script is:inline>
+  const closingCta = document.querySelector('[data-closing-cta-track]')?.closest('.home-closing-cta');
+  const closingCtaTrack = closingCta?.querySelector('[data-closing-cta-track]');
+  const closingCtaPrevious = closingCta?.querySelector('[data-closing-cta-prev]');
+  const closingCtaNext = closingCta?.querySelector('[data-closing-cta-next]');
+
+  if (closingCta && closingCtaTrack && closingCtaPrevious && closingCtaNext) {
+    let trackIndex = 1;
+    let autoTimer;
+    let transitionTimer;
+    let pendingResetIndex;
+    let isTransitioning = false;
+    const frameCount = closingCtaTrack.querySelectorAll('.home-closing-cta-slide').length;
+    const frameStep = 100 / frameCount;
+
+    const setTrackIndex = (nextIndex, instant = false) => {
+      trackIndex = Math.max(0, Math.min(frameCount - 1, nextIndex));
+      if (instant) closingCtaTrack.style.transition = 'none';
+      closingCtaTrack.style.transform = `translate3d(-${trackIndex * frameStep}%, 0, 0)`;
+    };
+
+    const finishTransition = () => {
+      if (transitionTimer) window.clearTimeout(transitionTimer);
+      transitionTimer = undefined;
+      isTransitioning = false;
+
+      if (pendingResetIndex === undefined) return;
+      const resetIndex = pendingResetIndex;
+      pendingResetIndex = undefined;
+      setTrackIndex(resetIndex, true);
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => {
+          closingCtaTrack.style.removeProperty('transition');
+        });
+      });
+    };
+
+    const resetAutoTimer = () => {
+      if (autoTimer) window.clearInterval(autoTimer);
+      autoTimer = window.setInterval(() => {
+        if (!isTransitioning) move(1);
+      }, 3000);
+    };
+
+    const move = (direction) => {
+      if (isTransitioning) return;
+      const nextIndex = trackIndex + direction;
+      if (nextIndex < 0 || nextIndex >= frameCount) return;
+      pendingResetIndex = nextIndex === frameCount - 1 ? 1 : nextIndex === 0 ? frameCount - 2 : undefined;
+      isTransitioning = true;
+      setTrackIndex(nextIndex);
+      resetAutoTimer();
+      transitionTimer = window.setTimeout(finishTransition, 700);
+    };
+
+    closingCtaPrevious.addEventListener('click', () => move(-1));
+    closingCtaNext.addEventListener('click', () => move(1));
+    closingCta.addEventListener('keydown', (event) => {
+      if (event.altKey || event.ctrlKey || event.metaKey) return;
+      const target = event.target;
+      if (target instanceof HTMLElement && target.closest('input, textarea, select, [contenteditable="true"]')) return;
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        move(-1);
+      } else if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        move(1);
+      }
+    });
+    window.addEventListener('resize', () => setTrackIndex(trackIndex));
+    closingCtaTrack.addEventListener('transitionend', (event) => {
+      if (event.propertyName !== 'transform' || !isTransitioning) return;
+      finishTransition();
+    });
+
+    setTrackIndex(trackIndex);
+    resetAutoTimer();
+  }
+</script>
+
+{gaId && (
+  <script>
+    import { trackHomepageClick } from '~/lib/homepage-analytics';
+
+    document.querySelectorAll<HTMLAnchorElement>('[data-home-slot]').forEach((element) => {
+      element.addEventListener('click', () => {
+        const target = new URL(element.href, window.location.origin);
+
+        trackHomepageClick(window, {
+          slot: element.dataset.homeSlot || 'unknown',
+          item: element.dataset.homeItem || '',
+          targetPath: target.pathname,
+          variant: 'home-v1',
+          locale: document.documentElement.lang || 'en',
+        });
+      });
+    });
+  </script>
+)}
+
+<style>
+  :global(#main.home-wide > .section-full-bleed) {
+    --home-bleed-gutter: clamp(1rem, 3vw, 4rem);
+    box-sizing: border-box;
+    width: calc(100vw - 2 * var(--home-bleed-gutter));
+    max-width: none;
+    margin-left: calc(50% - 50vw + var(--home-bleed-gutter));
+    margin-right: 0;
+    padding-inline: 0;
+    position: relative;
+    left: auto;
+    transform: none;
+  }
+
+  :global(#main.home-wide .section) {
+    max-width: 90rem;
+  }
+
+  .home-closing-cta-track {
+    position: absolute;
+    inset: 0;
+    right: auto;
+    pointer-events: none;
+    z-index: 0;
+    display: flex;
+    width: 500%;
+    height: 100%;
+    transform: translate3d(-20%, 0, 0);
+    transition: transform 0.6s ease-in-out;
+    will-change: transform;
+  }
+
+  .home-closing-cta-slide {
+    position: relative;
+    flex: 0 0 20%;
+    min-width: 20%;
+    height: 100%;
+    background: hsl(var(--foreground));
+  }
+
+  .home-closing-cta-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transform: scale(1.03);
+  }
+
+  .home-closing-cta-control {
+    position: absolute;
+    top: 50%;
+    z-index: 20;
+    display: flex;
+    width: 2.75rem;
+    height: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid hsl(var(--background) / 0.28);
+    border-radius: 9999px;
+    background: hsl(var(--foreground) / 0.62);
+    color: white;
+    transform: translateY(-50%);
+    transition: background-color 180ms ease, transform 180ms ease;
+  }
+
+  .home-closing-cta-control:hover {
+    background: hsl(var(--foreground) / 0.84);
+    transform: translateY(-50%) scale(1.05);
+  }
+
+  .home-closing-cta-control:focus-visible {
+    outline: 2px solid hsl(var(--brand-light));
+    outline-offset: 3px;
+  }
+
+  .home-closing-cta-control-left {
+    left: 1rem;
+  }
+
+  .home-closing-cta-control-right {
+    right: 1rem;
+  }
+
+  .home-closing-cta-arrow {
+    display: block;
+    width: 0;
+    height: 0;
+    border-top: 0.45rem solid transparent;
+    border-bottom: 0.45rem solid transparent;
+  }
+
+  .home-closing-cta-arrow-left {
+    margin-left: -0.15rem;
+    border-right: 0.65rem solid currentColor;
+  }
+
+  .home-closing-cta-arrow-right {
+    margin-right: -0.15rem;
+    border-left: 0.65rem solid currentColor;
+  }
+</style>
+
+{popularRuntimeEnabled && (
+  <script is:inline define:vars={{ articleIndex }}>
+    // This request is emitted only when Cloudflare Pages Functions + D1 are
+    // explicitly enabled. Static deployments keep their build-time links.
+    const index = articleIndex;
+    const items = Array.from(document.querySelectorAll('[data-popular-item]'));
+    if (items.length > 0) {
+      fetch('/api/popular?days=7&limit=3', { headers: { accept: 'application/json' } })
+        .then((response) => (response.ok ? response.json() : null))
+        .then((popular) => {
+          if (!Array.isArray(popular)) return;
+          popular.slice(0, 3).forEach((item, position) => {
+            if (typeof item.slug !== 'string') return;
+            const metadata = index[item.slug];
+            const container = items[position];
+            const link = container?.querySelector('[data-popular-link]');
+            if (!metadata || !link) return;
+            link.href = item.slug;
+            const label = link.querySelector('[data-popular-label]');
+            if (label) label.lastChild.textContent = metadata.title;
+            link.title = metadata.description;
+          });
+        })
+        .catch(() => {
+          /* Statistics are optional; keep the static recommendations. */
+        });
+    }
+  </script>
+)}

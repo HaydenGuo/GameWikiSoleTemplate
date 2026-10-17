@@ -1,0 +1,132 @@
+---
+type Status = 'ready' | 'check' | 'missing';
+
+interface DashboardItem {
+  label: string;
+  status: Status;
+  detail: string;
+}
+
+interface Labels {
+  ready: string;
+  check: string;
+  missing: string;
+  legendAriaLabel: string;
+  itemsAriaLabel: string;
+  summary: string;
+}
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  centerLabel: string;
+  items: DashboardItem[];
+  labels: Labels;
+  statusLabels?: Partial<Record<Status, string>>;
+  centerValue?: string;
+  summary?: string;
+}
+
+const { eyebrow, title, centerLabel, items, labels, statusLabels: customStatusLabels = {}, centerValue, summary } = Astro.props;
+const visibleItems = items.slice(0, 6);
+const center = 160;
+const radius = 104;
+const polygonRadius = 88;
+const markerRadius = 120;
+const circumference = 2 * Math.PI * radius;
+const stepAngle = 360 / Math.max(visibleItems.length, 1);
+const startAngle = -90;
+const pointFor = (distance: number, index: number) => {
+  const angle = ((startAngle + index * stepAngle) * Math.PI) / 180;
+  return { x: center + Math.cos(angle) * distance, y: center + Math.sin(angle) * distance };
+};
+const ringSegment = circumference / Math.max(visibleItems.length, 1);
+const polygonPoints = visibleItems.map((_, index) => { const point = pointFor(polygonRadius, index); return `${point.x.toFixed(2)},${point.y.toFixed(2)}`; }).join(' ');
+const readyCount = visibleItems.filter((item) => item.status === 'ready').length;
+const displayValue = centerValue ?? `${readyCount}/${visibleItems.length}`;
+const displaySummary = summary ?? labels.summary.replace('{ready}', String(readyCount)).replace('{total}', String(visibleItems.length));
+const statusLabels: Record<Status, string> = {
+  ready: customStatusLabels.ready ?? labels.ready,
+  check: customStatusLabels.check ?? labels.check,
+  missing: customStatusLabels.missing ?? labels.missing,
+};
+---
+
+<section class="article-readiness-dashboard not-prose" data-readiness-dashboard aria-labelledby="readiness-dashboard-title">
+  <div class="article-readiness-dashboard__header">
+    <div><p class="article-readiness-dashboard__eyebrow">{eyebrow}</p><h3 id="readiness-dashboard-title">{title}</h3></div>
+    <p class="article-readiness-dashboard__summary">{displaySummary}</p>
+  </div>
+  <div class="article-readiness-dashboard__body">
+    <div class="article-readiness-dashboard__dial-wrap">
+      <svg class="article-readiness-dashboard__dial" viewBox="0 0 320 320" role="img" aria-label={`${title}: ${displaySummary}`}>
+        <circle class="article-readiness-dashboard__dial-wash" cx={center} cy={center} r="139" />
+        <circle class="article-readiness-dashboard__dial-track" cx={center} cy={center} r={radius} />
+        {visibleItems.map((item, index) => {
+          const marker = pointFor(markerRadius, index);
+          const rotation = startAngle + index * stepAngle;
+          const dash = Math.max(ringSegment - 9, 1);
+          return <g class:list={["article-readiness-dashboard__segment", `article-readiness-dashboard__segment--${item.status}`]}>
+            <circle class="article-readiness-dashboard__segment-ring" cx={center} cy={center} r={radius} stroke-dasharray={`${dash} ${circumference - dash}`} transform={`rotate(${rotation} ${center} ${center})`} />
+            <circle class="article-readiness-dashboard__marker" cx={marker.x} cy={marker.y} r="15" />
+            <text class="article-readiness-dashboard__marker-label" x={marker.x} y={marker.y + 4.5} text-anchor="middle">{index + 1}</text>
+          </g>;
+        })}
+        <polygon class="article-readiness-dashboard__shape" points={polygonPoints} />
+        <circle class="article-readiness-dashboard__core" cx={center} cy={center} r="60" />
+        <text class="article-readiness-dashboard__score" x={center} y="157" text-anchor="middle">{displayValue}</text>
+        <text class="article-readiness-dashboard__center-label" x={center} y="180" text-anchor="middle">{centerLabel}</text>
+      </svg>
+      <div class="article-readiness-dashboard__legend" aria-label={labels.legendAriaLabel}>
+        {(Object.entries(statusLabels) as Array<[Status, string]>).map(([status, label]) => <span class={`article-readiness-dashboard__legend-item article-readiness-dashboard__legend-item--${status}`}><span aria-hidden="true"></span>{label}</span>)}
+      </div>
+    </div>
+    <div class="article-readiness-dashboard__items" role="group" aria-label={labels.itemsAriaLabel}>
+      {visibleItems.map((item, index) => <div class:list={["article-readiness-dashboard__item", `article-readiness-dashboard__item--${item.status}`]}>
+        <span class="article-readiness-dashboard__item-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+        <span class="article-readiness-dashboard__item-copy"><span class="article-readiness-dashboard__item-topline"><strong>{item.label}</strong><span class="article-readiness-dashboard__status">{statusLabels[item.status]}</span></span><span class="article-readiness-dashboard__detail">{item.detail}</span></span>
+      </div>)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .article-readiness-dashboard { --readiness-ink: hsl(var(--foreground)); --readiness-muted: hsl(var(--muted-foreground)); --readiness-line: hsl(var(--border)); --readiness-accent: hsl(var(--brand-text)); --readiness-ready: #4e7560; --readiness-check: #b77912; --readiness-missing: #a45e50; margin: 2.25rem 0; border: 1px solid var(--readiness-line); border-top: 3px solid hsl(var(--brand) / 0.76); border-radius: 0.25rem 1rem 0.25rem 0.25rem; background: linear-gradient(135deg, hsl(var(--card)), hsl(var(--brand) / 0.07)); color: var(--readiness-ink); overflow: hidden; }
+  .article-readiness-dashboard__header { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; padding: 1.5rem 1.75rem 0; }
+  .article-readiness-dashboard__eyebrow { margin: 0 0 0.55rem; color: var(--readiness-accent); font-size: 0.68rem; font-weight: 800; letter-spacing: 0.16em; line-height: 1.3; text-transform: uppercase; }
+  .article-readiness-dashboard h3 { margin: 0; font-family: ui-serif, Georgia, Cambria, 'Times New Roman', serif; font-size: clamp(1.35rem, 2.2vw, 2rem); font-weight: 650; line-height: 1.15; }
+  .article-readiness-dashboard__summary { margin: 0; color: var(--readiness-muted); font-size: 0.85rem; letter-spacing: 0.04em; text-transform: uppercase; }
+  .article-readiness-dashboard__body { display: grid; grid-template-columns: minmax(15rem, 34%) minmax(0, 1fr); align-items: center; gap: 1.25rem; padding: 0.5rem 1.5rem 1.25rem; }
+  .article-readiness-dashboard__dial-wrap { display: grid; justify-items: center; min-width: 0; }
+  .article-readiness-dashboard__dial { display: block; width: min(100%, 19rem); height: auto; overflow: visible; }
+  .article-readiness-dashboard__dial-wash { fill: hsl(var(--brand) / 0.055); stroke: none; }
+  .article-readiness-dashboard__dial-track, .article-readiness-dashboard__segment-ring { fill: none; stroke-width: 9; }
+  .article-readiness-dashboard__dial-track { stroke: hsl(var(--border) / 0.7); }
+  .article-readiness-dashboard__segment-ring { stroke: var(--readiness-muted); opacity: 0.3; }
+  .article-readiness-dashboard__segment--ready .article-readiness-dashboard__segment-ring { stroke: var(--readiness-ready); opacity: 0.96; }
+  .article-readiness-dashboard__segment--check .article-readiness-dashboard__segment-ring { stroke: var(--readiness-check); opacity: 0.96; }
+  .article-readiness-dashboard__segment--missing .article-readiness-dashboard__segment-ring { stroke: var(--readiness-missing); opacity: 0.96; }
+  .article-readiness-dashboard__marker { fill: hsl(var(--card)); stroke: var(--readiness-muted); stroke-width: 2; }
+  .article-readiness-dashboard__segment--ready .article-readiness-dashboard__marker { stroke: var(--readiness-ready); }
+  .article-readiness-dashboard__segment--check .article-readiness-dashboard__marker { stroke: var(--readiness-check); }
+  .article-readiness-dashboard__segment--missing .article-readiness-dashboard__marker { stroke: var(--readiness-missing); }
+  .article-readiness-dashboard__marker-label { fill: var(--readiness-ink); font-size: 0.65rem; font-weight: 800; }
+  .article-readiness-dashboard__shape { fill: hsl(var(--brand) / 0.1); stroke: hsl(var(--brand) / 0.7); stroke-width: 1.5; }
+  .article-readiness-dashboard__core { fill: hsl(var(--card)); stroke: hsl(var(--brand) / 0.42); stroke-width: 1.5; }
+  .article-readiness-dashboard__score { fill: var(--readiness-ink); font-size: 1.65rem; font-weight: 800; }
+  .article-readiness-dashboard__center-label { fill: var(--readiness-muted); font-size: 0.56rem; font-weight: 800; letter-spacing: 0.09em; text-transform: uppercase; }
+  .article-readiness-dashboard__legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; margin-top: -0.4rem; }
+  .article-readiness-dashboard__legend-item { display: inline-flex; align-items: center; gap: 0.3rem; color: var(--readiness-muted); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; }
+  .article-readiness-dashboard__legend-item span { width: 0.45rem; height: 0.45rem; border-radius: 999px; background: currentColor; }
+  .article-readiness-dashboard__legend-item--ready { color: var(--readiness-ready); } .article-readiness-dashboard__legend-item--check { color: var(--readiness-check); } .article-readiness-dashboard__legend-item--missing { color: var(--readiness-missing); }
+  .article-readiness-dashboard__items { display: grid; gap: 0.55rem; min-width: 0; }
+  .article-readiness-dashboard__item { display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: 0.65rem; width: 100%; padding: 0.78rem 0.85rem; border: 1px solid hsl(var(--border) / 0.8); border-left: 3px solid var(--readiness-muted); background: hsl(var(--background) / 0.48); }
+  .article-readiness-dashboard__item--ready { border-left-color: var(--readiness-ready); } .article-readiness-dashboard__item--check { border-left-color: var(--readiness-check); } .article-readiness-dashboard__item--missing { border-left-color: var(--readiness-missing); }
+  .article-readiness-dashboard__item-index { color: var(--readiness-accent); font-size: 0.68rem; font-weight: 800; letter-spacing: 0.08em; }
+  .article-readiness-dashboard__item-copy { display: grid; gap: 0.25rem; min-width: 0; }
+  .article-readiness-dashboard__item-topline { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; } .article-readiness-dashboard__item-topline strong { font-size: 0.98rem; line-height: 1.25; }
+  .article-readiness-dashboard__status { flex: 0 0 auto; color: var(--readiness-muted); font-size: 0.65rem; font-weight: 800; letter-spacing: 0.09em; text-transform: uppercase; }
+  .article-readiness-dashboard__item--ready .article-readiness-dashboard__status { color: var(--readiness-ready); } .article-readiness-dashboard__item--check .article-readiness-dashboard__status { color: var(--readiness-check); } .article-readiness-dashboard__item--missing .article-readiness-dashboard__status { color: var(--readiness-missing); }
+  .article-readiness-dashboard__detail { color: var(--readiness-muted); font-size: 0.84rem; line-height: 1.45; }
+  @media (max-width: 760px) { .article-readiness-dashboard__header { align-items: flex-start; flex-direction: column; padding: 1.25rem 1.1rem 0; } .article-readiness-dashboard__body { grid-template-columns: 1fr; padding: 0.5rem 1rem 1rem; } .article-readiness-dashboard__dial { width: min(100%, 17rem); } }
+</style>

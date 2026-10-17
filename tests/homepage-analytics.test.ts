@@ -70,7 +70,7 @@ describe('homepage analytics', () => {
       expect(homeSource).toContain(`data-home-slot="${slot}"`);
     }
 
-    expect(homeSource).toContain("import { trackHomepageClick } from '@hb-game-wiki/template/lib/homepage-analytics'");
+    expect(homeSource).toContain("import { trackHomepageClick } from '~/lib/homepage-analytics'");
     expect(homeSource).toContain("{gaId && (");
     expect(homeSource).toContain("variant: 'home-v1'");
     expect(layoutSource).toContain('window.gtag = gtag');
