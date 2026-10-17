@@ -11,7 +11,7 @@
  */
 
 /** Keep in sync with package.json "version" (used by the announcement bar). */
-export const PROJECT_VERSION = '1.1.0';
+export const PROJECT_VERSION = '1.1.1';
 
 export type LandingLocale = 'en' | 'zh';
 
@@ -266,7 +266,7 @@ const en: LandingContent = {
   description:
     'An open-source Astro starter for game wikis, with configurable content, search, localization, and an optional AI-assisted writing workflow.',
   announcement: {
-    text: `v${PROJECT_VERSION} is the first standalone release of GameWikiSoleTemplate, bringing the reusable wiki runtime, starter configuration, example content, and validation workflow together in one repository. It also includes per-section homepage cover uniqueness and a review workflow that keeps architecture, behavior, config/content, docs, and format-only changes clearly scoped.`,
+    text: `v${PROJECT_VERSION} refreshes the project branding and repository references, replaces stale advertising guidance, and keeps unverified game examples out of published builds until they are source-checked.`,
     href: RELEASES,
   },
   hero: {
@@ -708,7 +708,7 @@ const zh: LandingContent = {
   description:
     '开源 Astro 游戏 Wiki starter，提供结构化内容、站内搜索、多语言路由和可选的 AI 辅助写作工作流。',
   announcement: {
-    text: `v${PROJECT_VERSION} 是 GameWikiSoleTemplate 独立仓库的首个正式版本，将可复用 wiki 运行时代码、起步配置、示例内容和验证流程统一在一个仓库中；同时包含按区块保证首页卡片封面不重复，以及将架构、行为、配置/内容、文档和纯格式修改分开审阅的工作流。`,
+    text: `v${PROJECT_VERSION} 更新了项目品牌和仓库引用，替换了过期广告指南，并将未经核验的游戏示例文章从正式构建中移出，待补充可靠来源后再发布。`,
     href: RELEASES,
   },
   hero: {
