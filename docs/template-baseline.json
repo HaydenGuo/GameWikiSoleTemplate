@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "created_at": "2026-10-17T02:10:20.861Z",
+  "created_at": "2026-10-17T02:18:03.274Z",
   "source_template": "GameWikiSoleTemplate-merge",
   "allowed_deletions": [],
   "files": [
@@ -151,8 +151,8 @@
     },
     {
       "path": ".superpowers/sdd/2026-10-17-gamewiki-sole-template/progress.md",
-      "bytes": 3115,
-      "sha256": "fa45edd902c1f971b8901f3a4f62b7397a75101e77b6cc5eea1e18c284e23f3d"
+      "bytes": 4970,
+      "sha256": "a628239499604691a394a6dce1bbb353039b821d5b9a49a3ff2d0403484647af"
     },
     {
       "path": ".superpowers/sdd/2026-10-17-gamewiki-sole-template/task-1-brief.md",
@@ -171,8 +171,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 2812,
-      "sha256": "9507f03d3bc7a47b17f7e83de7dddd0066cbebcdc3a1e0d189683abe09803da6"
+      "bytes": 2932,
+      "sha256": "b99e1520d3e844b9478a72d6e497dc8c8c6d8eea4ca900bd37bc566c22b43421"
     },
     {
       "path": "astro.config.ts",
@@ -437,7 +437,7 @@
     {
       "path": "docs/superpowers/plans/2026-10-17-gamewiki-sole-template.md",
       "bytes": 16501,
-      "sha256": "6775f2afa4d5cc08d0cb609b30e05eadbc41ac3cc7a3dd755aad08b3c6041017"
+      "sha256": "490241ed7f6a4d0d1f0cbc3dce03a13cb2b177278d49ca755dba84604481d109"
     },
     {
       "path": "docs/superpowers/specs/2026-08-18-anvil-ops-cli-mcp-design.md",
@@ -786,8 +786,8 @@
     },
     {
       "path": "scripts/lib/apply-rewrites.ts",
-      "bytes": 22756,
-      "sha256": "800da5153697bd59e5c523dd579baab37b4082fd64dde05ff5d0be8e263564b2"
+      "bytes": 22719,
+      "sha256": "a976c80ce483dd6cc59741659d85a7fc1a1e3a5045609f5d7acaa59be1202b8e"
     },
     {
       "path": "scripts/lib/popular-manifest.ts",
@@ -1621,8 +1621,8 @@
     },
     {
       "path": "tests/navigation-mode.test.ts",
-      "bytes": 3079,
-      "sha256": "47cbc6211a947d4c240dbbd38f7b74faef8f745a36e8dcac8fac03e81eb4ebb9"
+      "bytes": 3034,
+      "sha256": "fa0a4fc3db601325e5550f8b12283ad48b61efb40ebf217afb3d3ffe1e7c632c"
     },
     {
       "path": "tests/no-tldr-sections.test.ts",
@@ -1656,8 +1656,8 @@
     },
     {
       "path": "tests/source-policy.test.ts",
-      "bytes": 4705,
-      "sha256": "e34355405af583ac239235fc5a77931f0c90a34253b53a58d397ef24f9869fe7"
+      "bytes": 4569,
+      "sha256": "7b1222862c68bcf021c8c876583995d2ed5085ad45b83b7cd097addc69be9d0f"
     },
     {
       "path": "tests/tags.test.ts",
@@ -1676,8 +1676,8 @@
     },
     {
       "path": "tests/workflows.test.ts",
-      "bytes": 8063,
-      "sha256": "657098c5abf836a43469c052c67d17ff9bbc2999ccd8acc9af5513d36b6897eb"
+      "bytes": 8011,
+      "sha256": "8e2e38978f02fec070d3c2a134001b769c7f5790eda6bb3d52c4777197a1e00c"
     },
     {
       "path": "tools/anvil-ops/.gitignore",
