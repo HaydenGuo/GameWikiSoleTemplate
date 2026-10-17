@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.3](https://github.com/HaydenGuo/GameWikiSoleTemplate/compare/v1.1.2...v1.1.3) - 2026-10-18
+
+- Limit Quick Start to at most four content categories shown in the primary navigation, excluding utility routes.
+- Remove cover zoom and arrow movement on Quick Start cards.
+
+将 Quick Start 限定为最多四个一级内容栏目，并排除工具页面；移除卡片封面的悬停放大和箭头位移动效。
+
 ## [1.1.2](https://github.com/HaydenGuo/GameWikiSoleTemplate/compare/v1.1.1...v1.1.2) - 2026-10-17
 
 - Streamline the stale-material audit, dependency review, and local verification workflow.

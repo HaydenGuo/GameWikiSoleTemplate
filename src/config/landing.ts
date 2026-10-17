@@ -11,7 +11,7 @@
  */
 
 /** Keep in sync with package.json "version" (used by the announcement bar). */
-export const PROJECT_VERSION = '1.1.2';
+export const PROJECT_VERSION = '1.1.3';
 
 export type LandingLocale = 'en' | 'zh';
 
@@ -266,7 +266,7 @@ const en: LandingContent = {
   description:
     'An open-source Astro starter for game wikis, with configurable content, search, localization, and an optional AI-assisted writing workflow.',
   announcement: {
-    text: `v${PROJECT_VERSION} keeps release versions and announcements synchronized, and streamlines the workflow for auditing and cleaning stale template materials.`,
+    text: `v${PROJECT_VERSION} limits Quick Start to up to four primary content categories and keeps utility routes out of its cards.`,
     href: RELEASES,
   },
   hero: {
@@ -708,7 +708,7 @@ const zh: LandingContent = {
   description:
     '开源 Astro 游戏 Wiki starter，提供结构化内容、站内搜索、多语言路由和可选的 AI 辅助写作工作流。',
   announcement: {
-    text: `v${PROJECT_VERSION} 同步了发版版本号与公告文案，并简化了模板旧资料的核查和清理流程。`,
+    text: `v${PROJECT_VERSION} 将 Quick Start 限定为最多四个一级内容栏目，并排除 deals 等工具页面。`,
     href: RELEASES,
   },
   hero: {
