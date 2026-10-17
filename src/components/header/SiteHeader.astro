@@ -9,9 +9,10 @@ import { site } from '~/config/site';
 import { type Locale } from '~/i18n/routing';
 import { getUi } from '~/i18n/ui';
 import { getDynamicNavigation } from '~/lib/navigation';
-import { localizePath } from '~/lib/url';
+import { localeSwitchPath, localizePath } from '~/lib/url';
 import ThemeToggle from './ThemeToggle.astro';
 import SearchButton from './SearchButton.astro';
+import LanguageSwitcher from './LanguageSwitcher.astro';
 
 interface Props {
   locale: Locale;
@@ -19,7 +20,7 @@ interface Props {
   /** Forwarded by LocaleLayout for locale-aware pages. */
   availableLocales?: readonly Locale[];
 }
-const { locale, currentPath } = Astro.props;
+const { locale, currentPath, availableLocales } = Astro.props;
 const ui = getUi(locale);
 const nav: Record<string, string> = ui.nav as Record<string, string>;
 // The header and browser/search identity use renditions of the same generated
@@ -99,8 +100,13 @@ const navigationGroups = (await getDynamicNavigation(locale, nav)).filter((group
     </nav>
 
     {/* Right actions */}
-    <div class="ml-auto flex items-center gap-1">
+    <div class="ml-auto flex items-center gap-1 md:translate-x-3 2xl:translate-x-24">
       <SearchButton locale={locale} />
+      <LanguageSwitcher
+        locale={locale}
+        availableLocales={availableLocales}
+        pathFor={(targetLocale) => localeSwitchPath(currentPath, locale, targetLocale)}
+      />
       <ThemeToggle />
 
       {/* Mobile menu */}
