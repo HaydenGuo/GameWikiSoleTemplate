@@ -258,8 +258,9 @@ describe('homepage visual baseline survives apply-template presets', () => {
     for (const preset of ['codes', 'guides'] as const) {
       const home = buildHomePreset(makeInput({ homePreset: preset })) as any;
       expect(home.hero.steamStats).toEqual(expect.objectContaining({
-        popularity: expect.any(String), rank: expect.any(String), players: expect.any(String),
-        deal: expect.any(String), configure: expect.any(String), unavailable: expect.any(String),
+        rank: expect.any(String), peak: expect.any(String), players: expect.any(String),
+        steamPrice: expect.any(String), deal: expect.any(String), viewDeal: expect.any(String),
+        configure: expect.any(String), unavailable: expect.any(String),
       }));
       expect(home.start.cards.length).toBeGreaterThanOrEqual(3);
       expect(home.start.cards.every((card: any) => typeof card.key === 'string' && typeof card.image === 'string')).toBe(true);
