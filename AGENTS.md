@@ -35,6 +35,10 @@ When two classes must ship together because one cannot work or be reviewed witho
 
 At the start of the task, record the intended paths. Before committing, inspect the changed-path list and diff, explain any scope additions, and keep unrelated pre-existing work out of the commit. Do not stage the whole working tree when unrelated or unreviewed changes are present.
 
+### Stale-material cleanup
+
+For cleanup details, follow the single inventory, dependency, and verification procedure in [workflow-contract.md](docs/workflow-contract.md#旧资料清理流程). Preserve owner data and historical decisions unless the user asks to remove them.
+
 ## Source organization
 
 Keep the three layers separate:

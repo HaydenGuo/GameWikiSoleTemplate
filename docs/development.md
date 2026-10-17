@@ -14,23 +14,20 @@ Content 层 src/content, src/locales/<loc>.json 的 home 数据 — fork 用户�
 **每次写代码前自问:这个改动会不会强迫 fork 用户在 merge 上游时冲突?**
 新功能尽量落在 Code 层且默认关闭(env 门控/optional 字段),这样 fork 用户 merge 上游永远安全——这是 staying-up-to-date.md 里 SemVer 兼容承诺的工程基础。
 
-## 1. 验证清单(每次改动后,提交前)
+## 1. 验证(按改动范围选择)
 
-```bash
-pnpm typecheck       # 0 errors(astro check)
-pnpm lint            # 0 errors 0 warnings(全绿)
-pnpm test            # vitest 全过(纯函数放 lib/url、lib/seo,可测)
-pnpm build           # Zod schema 校验 + 全站构建
-pnpm check-content   # 内容 lint(改了 MDX 时)
-pnpm check-links     # 内链审计(build 之后,必须跑)
-pnpm check-i18n      # 加了 locale JSON key 后,看覆盖率报告
-pnpm check-publish-scope # 按 site.publish.json 检查新增/修改/删除文件范围
-```
+本地只跑与改动相关的检查；GitHub PR CI 会执行完整门禁。常用对应关系：
 
-改了 `.astro` 路由文件 → 必跑 build(getStaticPaths 的错误只在构建时暴露)。
-改了 workflow YAML → `python3 -c "import yaml; yaml.safe_load(open('<file>'))"`(v1.6 曾因 YAML 缩进断裂翻车)。
+| 改动 | 本地检查 |
+|---|---|
+| Astro/路由/配置/运行时代码 | `pnpm typecheck`、`pnpm lint`、`pnpm build`；路由或链接变化再跑 `pnpm check-links` |
+| MDX/首页文案/内容链接 | `pnpm check-content`、`pnpm build`，然后 `pnpm check-links` |
+| locale JSON | `pnpm check-i18n`；影响配置时再跑 `pnpm check-config` |
+| 测试逻辑 | 运行对应测试；CI 会跑完整 `pnpm test` |
+| workflow YAML/脚本 | YAML 解析或对应脚本检查 |
+| 文档/纯格式 | `git diff --check`；无需为了文档改动重跑站点构建 |
 
-模板派生站点还必须先通过 `template-baseline:check`。发布范围检查和模板基线检查解决的是两件不同的事：前者防止把无关文件带入发布，后者防止模板文件被意外覆盖或删除；两者都通过后才能进入发布 skill 的 dry-run。环境变量同步只验证名称、来源和目标，不打印值。
+模板派生站点的模板文件删除另需 `template-baseline:check`；实际项目发布另需 `check-publish-scope`。这两项只在对应场景运行，不作为每次模板 PR 的通用门槛。
 
 ## 2. 常见扩展模式
 
@@ -85,15 +82,15 @@ pnpm check-publish-scope # 按 site.publish.json 检查新增/修改/删除文�
 ## 4. 发版流程(SemVer)
 
 ```
-1. 全部改动已合入 main,第 1 节验证清单全绿
-2. 版本号三处同步:
+1. 功能 PR 先通过本地检查、GitHub CI 和现有 Vercel 项目预览，再按用户确认合入 main
+2. 合并后在 main 上发布新版本；版本号三处必须一致:
    - package.json "version"
    - src/config/landing.ts PROJECT_VERSION + 中英公告文案(announcement.text)
-3. GitHub Releases:发布说明补日期、compare 链接和版本摘要；版本号与 `package.json`、`src/config/landing.ts` 保持一致
-4. docs/PRD.md §14.2 路线图该版本标 ✅
-5. commit:feat(vX.Y): ... 一个 + git commit --allow-empty -m "chore(release): vX.Y.0" 一个
-6. git push origin main(CI 绿 + Cloudflare Pages 自动部署)
-7. gh release create vX.Y.0 --latest --notes "<CHANGELOG 同款中英摘要>"
+   - CHANGELOG.md 最新版本标题和日期
+3. 发布前核对三个版本源与标签名一致，并确认公告文案描述的是本次版本，不沿用旧版本介绍。
+4. 若版本是 PRD 路线图中的里程碑，再更新 `docs/PRD.md` §14.2 的状态。
+5. 提交版本更新和对应的 `vX.Y.Z` 标签，推送 `main` 与标签；确认 main CI 和生产部署完成。
+6. 创建 GitHub Release，包含日期、compare 链接和 CHANGELOG 对应的中英文摘要。
 ```
 
 Minor = 新功能(默认关闭/向后兼容);Patch = 修复;Major = breaking(需在 CHANGELOG 写迁移说明)。config 层兼容承诺见 [staying-up-to-date.md](staying-up-to-date.md)。
