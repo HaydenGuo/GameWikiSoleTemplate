@@ -254,6 +254,24 @@ describe('demo asset inventories stay in sync with setup.yml (drift has shipped 
 });
 
 describe('homepage visual baseline survives apply-template presets', () => {
+  test('Quick Start uses at most four Stage 3 primary content categories and excludes utility routes', () => {
+    const input = makeInput({
+      categories: [
+        { key: 'bosses', icon: 'swords' },
+        { key: 'guides', icon: 'book-open' },
+        { key: 'codes', icon: 'gift' },
+        { key: 'items', icon: 'package' },
+        { key: 'maps', icon: 'map' },
+      ],
+      utilityNavigationItems: [{ key: 'deals', path: '/deals', icon: 'tag' }],
+    });
+    const home = buildHomePreset(input) as any;
+    expect(home.start.cards.map((card: any) => card.key)).toEqual(['guides', 'items', 'maps', 'bosses']);
+    expect(home.start.cards).toHaveLength(4);
+    expect(HOME_PAGE_SOURCE.match(/\.filter\(\(item\) => item\.isContentType && item\.showInPrimaryNavigation !== false\)/g)).toHaveLength(2);
+    expect(HOME_PAGE_SOURCE).toMatch(/\.slice\(0, 4\)/);
+  });
+
   test('generated home presets retain image-led card composition', () => {
     for (const preset of ['codes', 'guides'] as const) {
       const home = buildHomePreset(makeInput({ homePreset: preset })) as any;

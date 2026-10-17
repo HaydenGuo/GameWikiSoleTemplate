@@ -45,7 +45,7 @@ const open = sharedStrings.open ?? 'Open';
         <a
           href={localizePath(card.href, locale)}
           class:list={[
-            'home-start-card group relative isolate flex overflow-hidden border border-border bg-card text-card-foreground transition-colors hover:border-nav focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-nav focus-visible:ring-offset-2',
+            'home-start-card relative isolate flex overflow-hidden border border-border bg-card text-card-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-nav focus-visible:ring-offset-2',
             index === 0
               ? `min-h-[19rem] ${cards.length === 1 ? 'md:col-span-12 md:min-h-[22rem]' : `md:col-span-7 ${cards.length > 3 ? 'md:min-h-[30rem]' : 'md:min-h-[22rem]'}`}`
               : 'min-h-[9rem] md:col-span-5 md:min-h-[9.5rem]',
@@ -56,9 +56,9 @@ const open = sharedStrings.open ?? 'Open';
           {card.image ? (
             <div class:list={['home-start-art', index === 0 ? 'absolute inset-0 -z-20' : 'relative w-[38%] shrink-0 overflow-hidden']}>
               {typeof card.image === 'string' ? (
-                <img src={card.image} alt={card.title} class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04] motion-reduce:transition-none" loading="lazy" />
+                <img src={card.image} alt={card.title} class="h-full w-full object-cover" loading="lazy" />
               ) : (
-                <Image src={card.image} alt={card.title} class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04] motion-reduce:transition-none" loading="lazy" />
+                <Image src={card.image} alt={card.title} class="h-full w-full object-cover" loading="lazy" />
               )}
             </div>
           ) : (
@@ -87,7 +87,7 @@ const open = sharedStrings.open ?? 'Open';
             </p>
             <span class:list={['mt-3 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider', index === 0 ? 'text-white' : 'text-foreground']}>
               <span class="border-b border-nav/70 pb-0.5">{open}</span>
-              <Icon name="lucide:arrow-right" class="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+              <Icon name="lucide:arrow-right" class="h-3.5 w-3.5" />
             </span>
           </div>
         </a>
