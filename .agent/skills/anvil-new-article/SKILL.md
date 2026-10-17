@@ -1,9 +1,9 @@
 ---
 name: anvil-new-article
-description: 从用户提供的素材(口述要点/YouTube 视频/别的攻略/原始数据)直接生成一篇符合 AnvilWiki schema 的 MDX 文章页,自动填 frontmatter(title/description/category/tags/summary/boss 等),写完后自动跑校验。视频素材走 Step 0 抓字幕再成文。触发词:写文章 / 生成攻略页 / 视频转攻略 / new article / 帮我把这些内容做成页面。
+description: 从用户提供的素材(口述要点/YouTube 视频/别的攻略/原始数据)直接生成一篇符合 GameWikiSoleTemplate schema 的 MDX 文章页,自动填 frontmatter(title/description/category/tags/summary/boss 等),写完后自动跑校验。视频素材走 Step 0 抓字幕再成文。触发词:写文章 / 生成攻略页 / 视频转攻略 / new article / 帮我把这些内容做成页面。
 ---
 
-# AnvilWiki 新文章生成
+# GameWikiSoleTemplate 新文章生成
 
 把用户给的任何素材变成一篇构建必过的 MDX 页面。**先读规范再动手:**
 
@@ -26,7 +26,7 @@ description: 从用户提供的素材(口述要点/YouTube 视频/别的攻略/�
 
 **从视频/字幕提取什么 → 落到哪里:**
 
-| 从视频/字幕提取 | 落到 AnvilWiki 契约 |
+| 从视频/字幕提取 | 落到 GameWikiSoleTemplate 契约 |
 |---|---|
 | 核心话题 + 搜索意图 | 走 Step 1 的 category 判型表 |
 | kebab-case slug | 文件名 `src/content/wiki/<locale>/<category>/<slug>.mdx` |
@@ -103,4 +103,4 @@ pnpm build             # Zod schema + 全站构建,任何 frontmatter 错误在�
 
 ---
 
-> **致谢**:视频源工作流(Step 0)的管线形状(字幕 → 结构化提取 → 页面草稿)与提取字段设计参考 [kennyzir/7deer_skills](https://github.com/kennyzir/7deer_skills/tree/main/youtube-content-gen)(MIT)的 youtube-content-gen 技能;已按 AnvilWiki 的内容层契约重写(MDX + frontmatter,非代码生成),draft 门禁与 check-content/build 产线为本模板自有。
+> **致谢**:视频源工作流(Step 0)的管线形状(字幕 → 结构化提取 → 页面草稿)与提取字段设计参考 [kennyzir/7deer_skills](https://github.com/kennyzir/7deer_skills/tree/main/youtube-content-gen)(MIT)的 youtube-content-gen 技能;已按 GameWikiSoleTemplate 的内容层契约重写(MDX + frontmatter,非代码生成),draft 门禁与 check-content/build 产线为本模板自有。

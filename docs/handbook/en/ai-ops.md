@@ -105,7 +105,7 @@ The `metrics` report now also ends with an **AI referrals** section — visits c
 
 ## v2.0: batch drafts straight to a PR (content pipeline)
 
-For "scaffold 20 pages from a keyword list", you don't even need a terminal: **Actions → Auto content PR → Run workflow**, paste the CSV, and the pipeline runs the deterministic generator (`bulk-new-posts`), then all eight quality gates, and only opens a **draft PR** if everything is green. Fill the drafts with real game facts in a local AI session, then merge. One prerequisite checkbox (Settings → Actions → "Allow GitHub Actions to create and approve pull requests") and the full contract are in [docs/content-pipeline.md](https://github.com/PNGTRID/AnvilWiki/blob/main/docs/content-pipeline.md). No AI key ever enters CI — the workflow only runs deterministic scripts.
+For "scaffold 20 pages from a keyword list", you don't even need a terminal: **Actions → Auto content PR → Run workflow**, paste the CSV, and the pipeline runs the deterministic generator (`bulk-new-posts`), then all eight quality gates, and only opens a **draft PR** if everything is green. Fill the drafts with real game facts in a local AI session, then merge. One prerequisite checkbox (Settings → Actions → "Allow GitHub Actions to create and approve pull requests") and the full contract are in [docs/content-pipeline.md](https://github.com/HaydenGuo/GameWikiSoleTemplate/blob/main/docs/content-pipeline.md). No AI key ever enters CI — the workflow only runs deterministic scripts.
 
 ## The safety line: why it can't touch your live site
 

@@ -12,7 +12,7 @@ updated: 2026-08-17
 
 Last chapter the tools were all installed, and your game is already picked — but right now you still have nothing. By the end of this chapter, your computer holds a full set of website files, and the browser opens a running site that carries your game's name.
 
-Think of it as opening a bakery: the AnvilWiki template is a **bakery already fully decorated** (shelves, counter, and lights all in place, with a set of sample cakes on display). Your job is to copy the whole bakery and make it yours, then swap the samples for your own cakes.
+Think of it as opening a bakery: the GameWikiSoleTemplate template is a **bakery already fully decorated** (shelves, counter, and lights all in place, with a set of sample cakes on display). Your job is to copy the whole bakery and make it yours, then swap the samples for your own cakes.
 
 ## What you'll have when this chapter is done
 
@@ -21,9 +21,9 @@ Think of it as opening a bakery: the AnvilWiki template is a **bakery already fu
 
 ### Step 1: Copy the template repo into your GitHub (fork)
 
-**What to do**: copy the entire AnvilWiki bakery under your name. The original store keeps running as usual; the copy you made is yours to change freely.
-**How to do it**: log into GitHub, open [github.com/PNGTRID/AnvilWiki](https://github.com/PNGTRID/AnvilWiki), click the **Fork** button at the top right, then click **Create fork**.
-**You'll see**: you land on the `your-username/AnvilWiki` repo page.
+**What to do**: copy the entire GameWikiSoleTemplate bakery under your name. The original store keeps running as usual; the copy you made is yours to change freely.
+**How to do it**: log into GitHub, open [github.com/PNGTRID/GameWikiSoleTemplate](https://github.com/HaydenGuo/GameWikiSoleTemplate), click the **Fork** button at the top right, then click **Create fork**.
+**You'll see**: you land on the `your-username/GameWikiSoleTemplate` repo page.
 **Confirm it worked**: the repo name at the top left shows your username, not PNGTRID.
 
 ### Step 2: Move the repo onto your computer (clone)
@@ -32,8 +32,8 @@ Think of it as opening a bakery: the AnvilWiki template is a **bakery already fu
 **How to do it**: on your repo page, click the green **Code** button and copy the address; open the terminal and enter in order (replace `<your-username>` with your GitHub username):
 
 ```bash
-git clone https://github.com/<your-username>/AnvilWiki.git
-cd AnvilWiki
+git clone https://github.com/<your-username>/GameWikiSoleTemplate.git
+cd GameWikiSoleTemplate
 pnpm install
 ```
 
@@ -73,12 +73,12 @@ pnpm dev
 | Categories | Choose from the fixed keys `guides,builds,items,maps,bosses,tier-list,news,codes`, comma-separated and lowercase. Custom keys and reordering are not supported. | The top navigation is generated in the fixed order |
 | Clear demo content? | Press Enter (default no) | Keep the demo articles as reference for now; clear them before launch |
 | Homepage preset | Press Enter (picks 1) | 1 = codes-style homepage (most people), 2 = guides-style, 3 = keep the demo |
-| Remove landing page? | Press Enter (default yes) | /landing is the AnvilWiki project's own intro page; your game site doesn't need it, auto-removed |
+| Remove landing page? | Press Enter (default yes) | /landing is the GameWikiSoleTemplate project's own intro page; your game site doesn't need it, auto-removed |
 
 **You'll see**: the command rewrites files one by one, each line prefixed with a green ✅, and it reports done at the end.
 **Confirm it worked**: type `pnpm check-config` in the terminal, press Enter, and it prints "✅ Config is consistent".
 
-Small tip: to preview what it will change before letting it act, run `pnpm apply-template --dry-run` first (prints the plan only, changes nothing). Also, GitHub has a button called **Initialize AnvilWiki** (in the repo's Actions tab), but it **only does final cleanup** — it does not swap in your game name, your theme color, or your languages. The full replacement only happens with this local command.
+Small tip: to preview what it will change before letting it act, run `pnpm apply-template --dry-run` first (prints the plan only, changes nothing). Also, GitHub has a button called **Initialize GameWikiSoleTemplate** (in the repo's Actions tab), but it **only does final cleanup** — it does not swap in your game name, your theme color, or your languages. The full replacement only happens with this local command.
 
 ### Step 5: Swap in your icons (2 minutes, strongly recommended)
 
@@ -107,7 +107,7 @@ When you've seen enough, `Control + C` to stop it.
 - **`pnpm install` or build prints a wall of red**: read the **last line** first — 90% of the answer lives there; if you really can't parse it, copy the whole red block, hand it to your AI assistant, and ask "how do I fix this error".
 - **localhost:4321 won't open**: make sure `pnpm dev` is still running in the terminal (window not closed, no Control + C pressed); and don't type the address as https.
 - **You answered apply-template wrong mid-way**: press `Control + C` to cancel and run it again — it overwrites with the new answers.
-- **"After reopening the terminal every command says not a git repository"**: a fresh terminal starts in your home folder — type `cd AnvilWiki` first to go back to the site folder, then continue.
+- **"After reopening the terminal every command says not a git repository"**: a fresh terminal starts in your home folder — type `cd GameWikiSoleTemplate` first to go back to the site folder, then continue.
 
 ## ✅ Acceptance criteria (all must hold)
 

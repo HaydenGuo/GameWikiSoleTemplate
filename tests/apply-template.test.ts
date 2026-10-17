@@ -114,14 +114,14 @@ describe('single-game navigation profiles', () => {
 });
 
 const LF_WRANGLER = [
-  '# AnvilWiki wrangler.toml — this file mentions [vars] in a comment, which',
+  '# GameWikiSoleTemplate wrangler.toml — this file mentions [vars] in a comment, which',
   '# must NOT be mistaken for the real section (line-start anchoring).',
-  'name = "anvilwiki"',
+  'name = "gamewiki-sole-template"',
   'compatibility_date = "2025-01-01"',
   '',
   '[vars]',
-  'SITE_URL = "https://anvilwiki.pages.dev"',
-  'PUBLIC_GISCUS_REPO = "PNGTRID/AnvilWiki"',
+  'SITE_URL = "https://your-game-wiki.example"',
+  'PUBLIC_GISCUS_REPO = "HaydenGuo/GameWikiSoleTemplate"',
   'PUBLIC_GISCUS_REPO_ID = "R_demo"',
   'PUBLIC_GISCUS_MAPPING = "pathname"',
   '',
@@ -292,7 +292,7 @@ describe('rewriteSiteTs (quote/backslash-safe, $-expansion-proof site.ts rewriti
     "  name: 'Anvil Quest Wiki',",
     "  shortName: 'AQ Wiki',",
     "  description: 'demo description',",
-    "  domain: 'anvilwiki.pages.dev',",
+    "  domain: 'your-game-wiki.example',",
     "  tagline: 'demo tagline',",
     "  legalNotice: 'demo notice',",
     "  contactEmail: '',",

@@ -1,14 +1,14 @@
-# AnvilWiki 文档中心
+# GameWikiSoleTemplate 文档中心
 
 > 全部文档按**角色**和**使用时机**组织。从下面找到你的路径,按顺序读即可。
 
-**先看这个:[站内文档中心](https://anvilwiki.pages.dev/zh/landing/docs)** —— 两本**相互独立**的引导式手册:[学习手册 11 章](https://anvilwiki.pages.dev/zh/landing/docs/learn)(零基础向,从选游戏到赚到钱、再到模板化复制、批量铺内页和 SEO 进阶,每步 SOP + 18 个可复制提示词)+ [开发手册 7 章](https://anvilwiki.pages.dev/zh/landing/docs/dev)(定制/集成/同步/AI 运营,按需查询),中英双语;本页的仓库文档是配套的查阅式参考。手册 markdown 源码在 [`handbook/`](handbook/) 目录(fork 后保留)。
+手册源文件位于 [`handbook/en/`](handbook/en/)，可以直接从仓库阅读。本站不再提供旧版 `/landing/docs` 文档中心路由；本页列出当前仓库中维护的文档与手册。
 
 ## 快速索引
 
 | 文档 | 一句话 | 读者 |
 |---|---|---|
-| [handbook/](handbook/) | 📚 站内手册源码:学习手册 11 章(SOP+提示词)+ 开发手册 7 章,中英双语 | 🎯 新手从[学习手册](https://anvilwiki.pages.dev/zh/landing/docs/learn)开始 |
+| [handbook/en/](handbook/en/) | 📚 英文操作手册源码，涵盖选品、建站、内容、SEO、广告与维护 | 🎯 新手从[选游戏](handbook/en/pick-your-game.md)开始 |
 | [game-selection.md](game-selection.md) | 做哪个游戏?上线第一天写什么? | 🎯 想建站赚钱的人(从这里开始) |
 | [sourcing.md](sourcing.md) | 去哪挖词:9 个渠道 + 第 7 条判断(意图满足度)+ 选词决策管理表 | 🎯 候选池不够大、想系统挖词的人 |
 | [requirements/](../requirements/) | 建站前内容准备两张表:事实来源表 + 对标参考表(模板) | 🎯 选好游戏、准备让 AI 产页的人 |
@@ -16,7 +16,7 @@
 | [apply-template.md](apply-template.md) | 了解底层配置字段与手动操作 | fork 用户 |
 | [art-typography.md](art-typography.md) | 按游戏气质选择全站标题字样式 | fork 用户 / 设计者 |
 | [deployment.md](deployment.md) | 部署到 Cloudflare Pages(含 wrangler.toml 大坑 + 数据复盘 + Clarity) | fork 用户 |
-| [ads.md](ads.md) | 广告时机 + AdSense 收款 + Adsterra 接入与收款 + 平台全景三档 + 游戏垂直网络 | 开始赚钱的站长 |
+| [ads.md](ads.md) | 广告合规检查、广告位配置与平台官方规则入口 | 开始接入广告的站长 |
 | [content-format.md](content-format.md) | 怎么写文章(frontmatter 字段表 + 组件用法) | 内容作者 |
 | [seo.md](seo.md) | SEO 工程化 + 外链实操(九渠道逐步教程) + 2026 Google 官方更新记录 | 内容作者 / 好奇的人 |
 | [comments.md](comments.md) | 接入 Giscus 评论 | 需要评论的站长 |
@@ -38,8 +38,7 @@
 ### 🎯 路径 A:我想用这个模板建站赚钱(最常见)
 
 ```
-0. 站内学习手册           ← 引导式主线:选品→建站→AI 产页→部署→变现运营
-                            (https://anvilwiki.pages.dev/zh/landing/docs,含提示词)
+0. [英文手册](handbook/en/launch-your-site.md) ← 建站、部署与后续运营的入门路径
 1. game-selection.md      ← 先回答"做哪个游戏",这比建站重要
    └ sourcing.md          ← 候选池不够大时:9 个挖词渠道 + 选词决策管理表
 2. README                 ← fork + 本地跑起来(5 分钟)
@@ -101,7 +100,7 @@
 ## 维护约定
 
 - 新增文档:**必须**同步加进上面的快速索引,并归入某条阅读路径
-- 文档面向 fork 用户的部分用中文为主、关键术语保留英文;面向国际社区的锚点在 README 英文区
+- 中文说明以仓库文档为主；当前 `handbook/` 中维护的操作手册为英文
 - 与代码强相关的规则(硬约束)优先写进 `AGENTS.md`(Agent 自动读),文档负责"为什么"和"怎么做"
 
 ## 致谢

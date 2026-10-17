@@ -13,14 +13,14 @@
   "site": {
     "name": "Anvil Quest Preview Codes Wiki",
     "shortName": "AQC Wiki",
-    "description": "Preview of the AnvilWiki codes homepage preset.",
+    "description": "Preview of the GameWikiSoleTemplate codes homepage preset.",
     "tagline": "Codes-first preview",
     "legalNotice": "Fan-made preview site."
   },
   "home": {
     "meta": {
       "title": "Anvil Quest Preview Codes Wiki — Codes, Guides & Tier Lists",
-      "description": "Preview of the AnvilWiki codes homepage preset."
+      "description": "Preview of the GameWikiSoleTemplate codes homepage preset."
     },
     "updates": {
       "title": "Recent updates"

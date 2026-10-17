@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://anvilwiki.pages.dev/docs/home.schema.json",
-  "title": "AnvilWiki locale JSON (home namespace)",
+  "$id": "https://gamewiki-sole-template.vercel.app/docs/home.schema.json",
+  "title": "GameWikiSoleTemplate locale JSON (home namespace)",
   "description": "Add \"$schema\": \"./docs/home.schema.json\" to src/locales/<locale>.json for editor validation. The 6 supported explore displayTypes are enforced; all other keys are structural hints.",
   "type": "object",
   "properties": {

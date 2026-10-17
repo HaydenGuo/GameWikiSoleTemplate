@@ -89,7 +89,7 @@ export type NavigationProfile =
 export const site: SiteConfig = {
   name: 'Anvil Quest Preview Guides Wiki',
   shortName: 'AQG Wiki',
-  description: 'Preview of the AnvilWiki guides homepage preset.',
+  description: 'Preview of the GameWikiSoleTemplate guides homepage preset.',
   domain: 'localhost:4322',
   enableDropdownNavigation: false,
   tagline: 'Guides-first preview',

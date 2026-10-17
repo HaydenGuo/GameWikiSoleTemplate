@@ -43,7 +43,7 @@ Find new games from the places below; gather 10 to 20 candidates before moving o
 | [Roblox's Discover page](https://www.roblox.com/discover) (switch to the Rising / Up-and-Coming sort) | The densest crowd of players searching "codes" |
 | Recent breakouts on YouTube gaming channels | Over 50K views in 7 days means people really watch |
 
-Candidate pool too small? The repo doc [`docs/sourcing.md`](https://github.com/PNGTRID/AnvilWiki/blob/main/docs/sourcing.md) is the full playbook: **9 sourcing channels** (how to read SteamDB's trending charts, spotting outlier videos from small creators on social media, sweeping game-aggregator sitemaps…), plus a **decision log table** — game name | build / skip / maybe | launch date | site link. Anything you can't call goes down as "maybe", and gets a second look the next day. Twenty minutes of channel-surfing a day yields a steady 3 to 5 new candidates: sourcing becomes a pipeline, not luck.
+Candidate pool too small? The repo doc [`docs/sourcing.md`](https://github.com/HaydenGuo/GameWikiSoleTemplate/blob/main/docs/sourcing.md) is the full playbook: **9 sourcing channels** (how to read SteamDB's trending charts, spotting outlier videos from small creators on social media, sweeping game-aggregator sitemaps…), plus a **decision log table** — game name | build / skip / maybe | launch date | site link. Anything you can't call goes down as "maybe", and gets a second look the next day. Twenty minutes of channel-surfing a day yields a steady 3 to 5 new candidates: sourcing becomes a pipeline, not luck.
 
 ## Gate 2: Score every candidate (5 minutes each)
 
@@ -74,7 +74,7 @@ Google `game name wiki` and `game name codes`, and read page one:
 | A [Fandom](https://www.fandom.com) (an old wiki site) exists, but the content is thin and updates are slow | Winnable — take its spot with fuller content |
 | [Fandom](https://www.fandom.com) or [Game8](https://game8.co) (a pro gaming site), thick content and daily updates | **Drop it, next candidate** |
 
-One more signal that's easy to miss: **a full page one ≠ no room**. Check whether those results actually answer what the player came to search for — if the whole page answers a different question (intent mismatch: players want nostalgia, page one is all gameplay min-maxing), a page that answers the real question can push past sites that merely "know the keywords". How to check, plus a real-world case, is in the "intent fit" section of [`docs/sourcing.md`](https://github.com/PNGTRID/AnvilWiki/blob/main/docs/sourcing.md).
+One more signal that's easy to miss: **a full page one ≠ no room**. Check whether those results actually answer what the player came to search for — if the whole page answers a different question (intent mismatch: players want nostalgia, page one is all gameplay min-maxing), a page that answers the real question can push past sites that merely "know the keywords". How to check, plus a real-world case, is in the "intent fit" section of [`docs/sourcing.md`](https://github.com/HaydenGuo/GameWikiSoleTemplate/blob/main/docs/sourcing.md).
 
 ## Let AI run the four gates for you (recommended)
 

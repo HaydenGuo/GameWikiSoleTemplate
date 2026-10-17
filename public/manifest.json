@@ -1,7 +1,7 @@
 {
   "name": "Anvil Quest Preview Guides Wiki",
   "short_name": "AQG Wiki",
-  "description": "Preview of the AnvilWiki guides homepage preset.",
+  "description": "Preview of the GameWikiSoleTemplate guides homepage preset.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

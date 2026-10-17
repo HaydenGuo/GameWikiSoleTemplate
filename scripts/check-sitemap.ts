@@ -26,7 +26,7 @@ interface Result {
  * Rewrite the host of an absolute URL to match `baseUrl`, keeping the path.
  *
  * Why: @astrojs/sitemap emits child sitemap URLs as absolute URLs using the
- * configured `site` (e.g. https://anvilwiki.pages.dev/sitemap-0.xml). When
+ * configured `site` (e.g. https://gamewiki-sole-template.vercel.app/sitemap-0.xml). When
  * running this script against a local preview (http://localhost:4321), we
  * must fetch the local copy of the child sitemap, not the production one —
  * otherwise we'd be testing production URLs, and on offline/dev machines
@@ -97,7 +97,7 @@ async function fetchSitemapUrls(baseUrl: string): Promise<string[]> {
 
 async function checkUrl(url: string, baseUrl: string): Promise<Result> {
   // Rewrite the host to baseUrl — @astrojs/sitemap emits absolute URLs using
-  // the configured `site` (e.g. https://anvilwiki.pages.dev/about), but we
+  // the configured `site` (e.g. https://gamewiki-sole-template.vercel.app/about), but we
   // want to check the server at baseUrl (e.g. local preview). The path is
   // what matters; the host is just the server being tested.
   const localUrl = rewriteHost(url, baseUrl);

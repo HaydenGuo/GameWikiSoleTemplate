@@ -4,7 +4,7 @@
 # npm credential (npm CLI >= 11.5.1 required, hence the one-time global
 # upgrade below — Node 22 bundles npm 10.x). Prerequisite (one-time, web):
 # npmjs.com → anvilwiki-ops → Settings → Trusted publishing → GitHub Actions
-# with PNGTRID/AnvilWiki and this workflow's filename.
+# with PNGTRID/GameWikiSoleTemplate and this workflow's filename.
 #
 # Trigger: Actions → Release anvilwiki-ops → Run workflow, or push a tag
 # starting with "ops-v". Tests and build run before the publish — a red gate

@@ -3,7 +3,7 @@
   "site": {
     "name": "Anvil Quest Preview Guides Wiki",
     "shortName": "AQG Wiki",
-    "description": "Preview of the AnvilWiki guides homepage preset.",
+    "description": "Preview of the GameWikiSoleTemplate guides homepage preset.",
     "tagline": "Guides-first preview",
     "legalNotice": "Fan-made preview site."
   },
@@ -190,7 +190,7 @@
   "home": {
     "meta": {
       "title": "Anvil Quest Preview Guides Wiki — Guides, Bosses & Progression",
-      "description": "Preview of the AnvilWiki guides homepage preset."
+      "description": "Preview of the GameWikiSoleTemplate guides homepage preset."
     },
     "updates": {
       "title": "Recent updates"
@@ -283,17 +283,17 @@
             {
               "title": "Learn the basics",
               "question": "What should I understand before leaving the starting area?",
-              "href": "/guides/beginner-guide"
+              "href": "/guides/"
             },
             {
               "title": "Choose an upgrade path",
               "question": "Which early gear and resources are worth investing in?",
-              "href": "/guides/forging-guide"
+              "href": "/guides/"
             },
             {
               "title": "Prepare for the first boss",
               "question": "What should I bring before my first serious fight?",
-              "href": "/bosses/emberfang"
+              "href": "/bosses/"
             }
           ],
           "image": "/images/home/decision-new.webp"
@@ -309,12 +309,12 @@
             {
               "title": "Farm what you are missing",
               "question": "Where can I get the materials needed for my next upgrade?",
-              "href": "/items/forging-materials-guide"
+              "href": "/items/"
             },
             {
               "title": "Fix a stalled build",
               "question": "Which equipment or crafting decision is slowing me down?",
-              "href": "/items/emberforged-armor-set"
+              "href": "/items/"
             }
           ],
           "image": "/images/home/decision-progress.webp"
@@ -323,19 +323,19 @@
           "label": "Experienced player",
           "directions": [
             {
-              "title": "Optimize your build",
-              "question": "Which gear combination gives the best results for my playstyle?",
-              "href": "/guides/weapon-tier-list"
+              "title": "Review upgrade options",
+              "question": "Which crafting path fits my current materials?",
+              "href": "/guides/"
             },
             {
               "title": "Farm more efficiently",
               "question": "Which route gives the best return for repeat runs?",
-              "href": "/items/forging-materials-guide"
+              "href": "/items/"
             },
             {
               "title": "Push endgame content",
               "question": "How do I prepare for the hardest encounters and rewards?",
-              "href": "/bosses/frostbound-monarch"
+              "href": "/bosses/"
             }
           ],
           "image": "/images/home/decision-endgame.webp"

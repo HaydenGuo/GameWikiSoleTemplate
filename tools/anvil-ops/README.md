@@ -1,6 +1,6 @@
 # anvilwiki-ops
 
-Ops toolkit for [AnvilWiki](https://github.com/PNGTRID/AnvilWiki) fork sites. Run from your fork's repo root.
+Ops toolkit for [GameWikiSoleTemplate](https://github.com/HaydenGuo/GameWikiSoleTemplate) fork sites. Run from your fork's repo root.
 
 > Status: 1.0.1 on npm. Commands: `doctor`, `metrics`, `audit`, `insights`, `submit`, `sites` (multi-site registry), `mcp` (stdio MCP server). Works with or without wrangler.toml (falls back to `.env` SITE_URL / PUBLIC_CF_BEACON_TOKEN).
 
@@ -17,7 +17,7 @@ npx anvilwiki-ops metrics --import-aio ~/Downloads/aio.csv   # GSC AI-report CSV
 
 ## Multi-site management
 
-Manage several AnvilWiki forks from one machine. Sites live in a registry at `~/.config/anvil-ops/sites.toml` (`$XDG_CONFIG_HOME` wins if set):
+Manage several GameWikiSoleTemplate forks from one machine. Sites live in a registry at `~/.config/anvil-ops/sites.toml` (`$XDG_CONFIG_HOME` wins if set):
 
 ```toml
 # Optional: used when --site is omitted and cwd has no site config (MCP default)

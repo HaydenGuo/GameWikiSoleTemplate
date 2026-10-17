@@ -42,7 +42,7 @@ Turn the P0/P1 items into an actionable checklist:
 Do not modify any content facts on your own. Output as a checkbox list.
 ```
 
-> Note: the repo's "weekly auto-check that opens an issue" feature **runs only on the official AnvilWiki repository by default — your site does not get the automatic reminder** — which is why you run this yourself every week. You can have GitHub open issues to remind you, too: delete the `if: github.repository ==` line condition in `.github/workflows/content-pipeline.yml` (let your AI assistant delete it — it's a one-sentence job).
+> Note: the repo's "weekly auto-check that opens an issue" feature **runs only on the official GameWikiSoleTemplate repository by default — your site does not get the automatic reminder** — which is why you run this yourself every week. You can have GitHub open issues to remind you, too: delete the `if: github.repository ==` line condition in `.github/workflows/content-pipeline.yml` (let your AI assistant delete it — it's a one-sentence job).
 
 ### Action 2: Update the codes (10 minutes)
 
@@ -93,7 +93,7 @@ Numbers tell you **how many people came**; Clarity tells you **what they did on 
 3. Open `src/components/layout/BaseLayout.astro` and paste it just before the closing `</head>` tag → push and redeploy
 4. Back in the dashboard, wait a few minutes until the status reads Receiving data
 
-Full steps (including which domains to allow if you've set a CSP) are in the repo doc [`docs/deployment.md`](https://github.com/PNGTRID/AnvilWiki/blob/main/docs/deployment.md), section "Use Microsoft Clarity to see what users do on your site". The script loads async and doesn't dent your Lighthouse score.
+Full steps (including which domains to allow if you've set a CSP) are in the repo doc [`docs/deployment.md`](https://github.com/HaydenGuo/GameWikiSoleTemplate/blob/main/docs/deployment.md), section "Use Microsoft Clarity to see what users do on your site". The script loads async and doesn't dent your Lighthouse score.
 
 ## Once a month (10 minutes each)
 
@@ -102,7 +102,7 @@ Full steps (including which domains to allow if you've set a CSP) are in the rep
 pnpm check-i18n
 
 # 2. Bring in the template author's updates (first time: run all three lines)
-git remote add upstream https://github.com/PNGTRID/AnvilWiki.git
+git remote add upstream https://github.com/HaydenGuo/GameWikiSoleTemplate.git
 git fetch upstream
 git merge upstream/main
 ```
@@ -143,4 +143,4 @@ Output a problem table: file / problem / suggested fix; only change things after
 
 ## Where to go from here
 
-Scaling starts with Chapter 9: **[turn your first site into a template](/landing/docs/templatize-your-site)** and copy the next game's site in 30 minutes. To customize this site first, go deep with the [developer manual](/landing/docs/architecture) (add categories, add languages, reskin, turn on comments and analytics); once you have results, submit a PR adding your site to the AnvilWiki official showcase wall (edit the showcase data in `src/config/landing.ts`) — your real case is the best advertisement this template can get.
+Scaling starts with Chapter 9: **[turn your first site into a template](/landing/docs/templatize-your-site)** and copy the next game's site in 30 minutes. To customize this site first, go deep with the [developer manual](/landing/docs/architecture) (add categories, add languages, reskin, turn on comments and analytics); once you have results, submit a PR adding your site to the GameWikiSoleTemplate official showcase wall (edit the showcase data in `src/config/landing.ts`) — your real case is the best advertisement this template can get.

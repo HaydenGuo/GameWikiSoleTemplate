@@ -2,7 +2,7 @@
  * template-audit.ts
  *
  * Template health check — answers "is this repo still a clean, reusable
- * AnvilWiki template, or has demo residue piled up?" Run it after your first
+ * GameWikiSoleTemplate template, or has demo residue piled up?" Run it after your first
  * site works, BEFORE copying the repo for your second game (see the learning
  * handbook chapter "Templatize your site").
  *
@@ -40,11 +40,16 @@ const REL = (p: string) => path.relative(ROOT, p);
 // Demo markers — KEEP IN SYNC with scripts/apply-template.ts
 // (DEMO_ARTICLE_IMAGES/clearDemoAssets) and setup.yml.
 // ---------------------------------------------------------------------------
-const DEMO_DOMAIN = 'anvilwiki.pages.dev';
+const DEMO_DOMAINS = ['your-game-wiki.example', 'anvilwiki.pages.dev'];
 const DEMO_GAME_NAME = 'Anvil Quest';
 /** Demo-game identifiers that must never appear in RENDERED code-layer output. */
 const DEMO_CODE_STRINGS = ['anvil quest', 'anvilquest', 'emberfang', 'stormcaller'];
-const DEMO_GISCUS_MARKERS = ['PNGTRID/AnvilWiki', 'R_kgDOT1aRPQ'];
+const DEMO_GISCUS_MARKERS = [
+  'PNGTRID/AnvilWiki',
+  'PNGTRID/GameWikiSoleTemplate',
+  'HaydenGuo/GameWikiSoleTemplate',
+  'R_kgDOT1aRPQ',
+];
 
 let passed = 0;
 let total = 0;
@@ -108,7 +113,7 @@ function walk(dir: string, exts: string[], acc: string[] = []): string[] {
   return acc;
 }
 
-console.log('\n🧰 AnvilWiki template health check\n');
+console.log('\n🧰 GameWikiSoleTemplate template health check\n');
 console.log('━'.repeat(60));
 
 // ---------------------------------------------------------------------------
@@ -151,8 +156,8 @@ check(() => {
   const domain = siteSrc.match(/^\s*domain:\s*['"]([^'"]+)['"]/m)?.[1];
   if (!domain) {
     fail('could not parse `domain` in src/config/site.ts');
-  } else if (domain === DEMO_DOMAIN) {
-    warn(`site.ts domain is still the demo "${DEMO_DOMAIN}" — fine for the demo repo, but a fork must rebrand (pnpm apply-template) before its second site.`);
+  } else if (DEMO_DOMAINS.includes(domain)) {
+    warn(`site.ts domain is still a template placeholder ("${domain}") — a fork must set its own domain before production.`);
   } else {
     ok(`site.ts domain "${domain}" is not the demo domain`);
   }
@@ -319,8 +324,8 @@ check(() => {
   const siteUrl = read('wrangler.toml').match(/^SITE_URL\s*=\s*"([^"]+)"/m)?.[1];
   if (!siteUrl) {
     warn('wrangler.toml has no SITE_URL in [vars] — see docs/deployment.md');
-  } else if (siteUrl === `https://${DEMO_DOMAIN}`) {
-    warn(`wrangler.toml SITE_URL is still the demo "${siteUrl}" — while this file exists it OVERRIDES the dashboard; a fork must edit [vars] or delete the file.`);
+  } else if (DEMO_DOMAINS.some((domain) => siteUrl === `https://${domain}`)) {
+    warn(`wrangler.toml SITE_URL is still a template placeholder ("${siteUrl}") — while this file exists it OVERRIDES the dashboard; a fork must edit [vars] or delete the file.`);
   } else {
     if (/^https:\/\/localhost(?::\d+)?$/i.test(siteUrl)) {
       warn(`wrangler.toml SITE_URL "${siteUrl}" is local-preview only — replace it before any production deploy.`);
@@ -338,7 +343,7 @@ check(() => {
   const src = read('wrangler.toml');
   const hit = DEMO_GISCUS_MARKERS.find((m) => src.includes(m));
   if (hit) {
-    warn(`wrangler.toml still points comments at the demo Giscus ("${hit}") — fork comments would land in PNGTRID/AnvilWiki discussions.`);
+    warn(`wrangler.toml still points comments at a template Giscus configuration ("${hit}") — configure your own discussion repository before enabling comments.`);
   } else {
     ok('wrangler.toml has no demo Giscus config');
   }

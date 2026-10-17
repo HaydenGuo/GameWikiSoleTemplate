@@ -1,14 +1,14 @@
 # 从 Next.js 模板迁移指南
 
-> 如果你已经在用一个 Next.js 的游戏 wiki 模板，想迁移到 AnvilWiki（Astro），本指南帮你平移。
+> 如果你已经在用一个 Next.js 的游戏 wiki 模板，想迁移到 GameWikiSoleTemplate（Astro），本指南帮你平移。
 >
-> ⚠️ **诚实声明**：下表的工时估算与「几乎一致/完全一致」的对照基于 AnvilWiki 自身的架构分析，**尚未经大量实战迁移案例验证**。不同 Next.js 模板结构差异巨大——请把这里的估算当作下限参考，实际以你的代码为准。迁移完成后欢迎提 PR 补充你的实测数据。
+> ⚠️ **诚实声明**：下表的工时估算与「几乎一致/完全一致」的对照基于 GameWikiSoleTemplate 自身的架构分析，**尚未经大量实战迁移案例验证**。不同 Next.js 模板结构差异巨大——请把这里的估算当作下限参考，实际以你的代码为准。迁移完成后欢迎提 PR 补充你的实测数据。
 
 ---
 
 ## 迁移路径对照表
 
-| Next.js 模板                          | AnvilWiki                                                | 迁移动作                              |
+| Next.js 模板                          | GameWikiSoleTemplate                                                | 迁移动作                              |
 | ------------------------------------- | -------------------------------------------------------- | ------------------------------------- |
 | `src/app/globals.css`                 | `src/styles/globals.css`                                 | 直接复制主题色 8 行(4 变量 × 亮/暗)                   |
 | `src/app/[locale]/page.tsx`           | `src/pages/[locale]/index.astro` + `HomePage.astro`      | 数据保留，渲染层重写                  |
@@ -43,7 +43,7 @@ export const metadata = {
 ## 正文
 ```
 
-**AnvilWiki**（YAML frontmatter + Zod 校验）：
+**GameWikiSoleTemplate**（YAML frontmatter + Zod 校验）：
 
 ```mdx
 ---
@@ -61,29 +61,29 @@ date: 2026-08-11
 ### 2. 多语言路由
 
 **Next.js**：middleware 拦截，`localePrefix: 'as-needed'`
-**AnvilWiki**：`astro.config.ts` 的 `i18n.routing.prefixDefaultLocale: false`
+**GameWikiSoleTemplate**：`astro.config.ts` 的 `i18n.routing.prefixDefaultLocale: false`
 
 效果一致（英文无前缀，其他带前缀），但 Astro 不需要 middleware 文件。
 
 ### 3. 内容加载
 
 **Next.js**：`src/lib/content.ts` 用 webpack 动态 `import()` 加载 MDX
-**AnvilWiki**：Content Collections API，构建时类型安全
+**GameWikiSoleTemplate**：Content Collections API，构建时类型安全
 
 ### 4. 部署
 
 **Next.js**：需要额外适配器
-**AnvilWiki**：`pnpm build` → `dist/` → Cloudflare 直连，零配置
+**GameWikiSoleTemplate**：`pnpm build` → `dist/` → Cloudflare 直连，零配置
 
 ---
 
 ## 迁移步骤
 
-### Step 1 — Fork AnvilWiki
+### Step 1 — Fork GameWikiSoleTemplate
 
 ```bash
-git clone https://github.com/<你>/anvilwiki.git
-cd anvilwiki
+git clone https://github.com/HaydenGuo/GameWikiSoleTemplate.git
+cd GameWikiSoleTemplate
 pnpm install
 pnpm dev  # 确认 demo 能跑
 ```
@@ -146,7 +146,7 @@ pnpm dev    # 逐页访问确认正常
 | 场景 | 建议 | 理由 |
 |---|---|---|
 | 站点流量 < 100GB/月、跑得好 | 不迁移 | 迁移成本 2 小时 > 节省的带宽费 |
-| 做新站 | 直接用 AnvilWiki | 0 迁移成本，从 Day 1 享受 Cloudflare 无限带宽 |
+| 做新站 | 直接用 GameWikiSoleTemplate | 0 迁移成本，从 Day 1 享受 Cloudflare 无限带宽 |
 | 站点爆量（>100GB/月） | 迁移 | 一次 2 小时投入，永久省带宽费 |
 | 有大量 React 交互组件 | 评估后再定 | 需把交互重写为纯 Astro 或引入 React island |
 

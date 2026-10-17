@@ -3,7 +3,7 @@ name: anvil-refresh
 description: 内容新鲜度巡检——扫描全站 lastModified 超 90 天的时效性文章(bosses/tier-list)、codes 页日期、sitemap 覆盖缺口,输出一份"该更新什么"的优先级清单。触发词:内容巡检 / 哪些文章过期了 / freshness check / 该更新什么。
 ---
 
-# AnvilWiki 内容新鲜度巡检
+# GameWikiSoleTemplate 内容新鲜度巡检
 
 静态 wiki 的排名衰减主因是内容过期。这个技能产出一份可执行的更新清单,不修改任何文件。
 

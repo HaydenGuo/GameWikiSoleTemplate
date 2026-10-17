@@ -17,8 +17,8 @@ The repo's Actions page holds a few automated pipelines, some red, some green �
 | Pipeline | When it runs | What it guards for you |
 |---|---|---|
 | **CI** | Every push / PR | Eight gates: lint → typecheck → test → check-config → build → check-content → check-links → check-i18n — one red gate and the merge is blocked |
-| **Content freshness audit** | Every Monday (scheduled) | Runs the freshness audit; stale pages automatically open reminder issues. **On by default only in the official AnvilWiki repo** (a fork stays quiet, sparing you a pile of reminders); to enable it on your own site, have AI delete the `if: github.repository ==` line in the file. It **only reminds, never edits content** — the risk of automation touching content is uncontrollable |
-| **Initialize AnvilWiki** | Manual trigger | Post-fork cleanup: resets wrangler.toml variables, removes the project landing page, optionally clears demo content. **It does not swap the game name / theme color / languages** — those still require a local `pnpm apply-template` run |
+| **Content freshness audit** | Every Monday (scheduled) | Runs the freshness audit; stale pages automatically open reminder issues. **On by default only in the official GameWikiSoleTemplate repo** (a fork stays quiet, sparing you a pile of reminders); to enable it on your own site, have AI delete the `if: github.repository ==` line in the file. It **only reminds, never edits content** — the risk of automation touching content is uncontrollable |
+| **Initialize GameWikiSoleTemplate** | Manual trigger | Post-fork cleanup: resets wrangler.toml variables, removes the project landing page, optionally clears demo content. **It does not swap the game name / theme color / languages** — those still require a local `pnpm apply-template` run |
 
 ## Security baseline (built in; don't dismantle it while customizing)
 

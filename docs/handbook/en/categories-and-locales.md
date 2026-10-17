@@ -25,7 +25,7 @@ Run `pnpm apply-template` and enter a comma-separated subset of those keys. The 
 Ask AI to choose categories with this prompt:
 
 ```text
-Review this game and choose only supported AnvilWiki navigation categories from:
+Review this game and choose only supported GameWikiSoleTemplate navigation categories from:
 guides, builds, items, maps, bosses, tier-list, news, codes.
 Use the category definitions in docs/apply-template.md. Return the selected keys
 in the template's fixed order, with one sentence of evidence for each selected

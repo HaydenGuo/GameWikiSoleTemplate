@@ -27,7 +27,7 @@ This chapter puts the book on the shelf: first onto GitHub, then onto Cloudflare
 ### Step 1: Push the files to GitHub
 
 **What to do**: for Cloudflare to reach the site files on your computer, they must first live on GitHub.
-**How to do it**: in the terminal (inside the AnvilWiki folder), enter in order:
+**How to do it**: in the terminal (inside the GameWikiSoleTemplate folder), enter in order:
 
 ```bash
 git add .
@@ -45,7 +45,7 @@ git push
 
 1. Register / log in at [dash.cloudflare.com](https://dash.cloudflare.com) (free).
 2. On the left, pick **Workers & Pages** → **Create** → **Pages** → **Connect to Git**.
-3. Authorize GitHub, select your AnvilWiki repo, click **Begin setup**.
+3. Authorize GitHub, select your GameWikiSoleTemplate repo, click **Begin setup**.
 4. Copy the build settings as-is:
 
 | What it asks | What you enter |

@@ -24,7 +24,7 @@ This chapter fixes exactly that: **turn "polishing my first site" into "polishin
 
 ## A few words to know
 
-- **Three-layer separation**: AnvilWiki's skeleton principle — copying ten sites only ever touches these three layers:
+- **Three-layer separation**: GameWikiSoleTemplate's skeleton principle — copying ten sites only ever touches these three layers:
 
   | Layer | What it is (analogy) | When swapping to a new game |
   |---|---|---|

@@ -1,17 +1,17 @@
 /**
  * Landing page configuration — text content for the project landing pages
- * at /landing (English) and /zh/landing (中文). They introduce the AnvilWiki
+ * at /landing (English) and /zh/landing (中文). They introduce the GameWikiSoleTemplate
  * template itself, NOT the demo game.
  *
  * This is separate from site.ts (which holds the DEMO GAME config).
  * The landing page represents the PROJECT, so its copy lives here.
  *
  * 👉 This file is NOT part of the "apply template" config layer — fork users
- *    don't need to touch it. It describes the AnvilWiki open-source project.
+ *    don't need to touch it. It describes the GameWikiSoleTemplate project.
  */
 
 /** Keep in sync with package.json "version" (used by the announcement bar). */
-export const PROJECT_VERSION = '1.0.0';
+export const PROJECT_VERSION = '1.1.0';
 
 export type LandingLocale = 'en' | 'zh';
 
@@ -38,10 +38,6 @@ export interface LandingContent {
     terminalLabel: string;
     copyLabel: string;
     copiedLabel: string;
-  };
-  socialProof: {
-    lighthouse: { label: string; score: number }[];
-    poweredBy: string;
   };
   features: { icon: string; title: string; description: string }[];
   compare: {
@@ -75,8 +71,6 @@ export interface LandingContent {
         url: string;
         positioning: string;
         license: string;
-        stars: string;
-        release: string;
         bestFor: string;
       }[];
       note: string;
@@ -175,10 +169,11 @@ export interface LandingContent {
   };
 }
 
-const RELEASES = 'https://github.com/PNGTRID/AnvilWiki/releases';
-const FORK_URL = 'https://github.com/PNGTRID/AnvilWiki/fork';
+const REPOSITORY = 'https://github.com/HaydenGuo/GameWikiSoleTemplate';
+const RELEASES = `${REPOSITORY}/releases`;
+const FORK_URL = `${REPOSITORY}/fork`;
 const SHOWCASE_DATA =
-  'https://github.com/PNGTRID/AnvilWiki/blob/main/src/config/landing.ts';
+  `${REPOSITORY}/blob/main/src/config/landing.ts`;
 
 /**
  * Community-built sites — locale-independent list shown by CommunitySites.astro.
@@ -267,9 +262,9 @@ export const COMMUNITY_SITES: {
 
 const en: LandingContent = {
   htmlLang: 'en',
-  title: 'AnvilWiki — Open-Source Game Wiki Template for Cloudflare',
+  title: 'GameWikiSoleTemplate — Open-Source Game Wiki Starter',
   description:
-    'An open-source game wiki template with an AI-native content workflow: pick the right game, generate pages by talking to your AI tool, codes pages stay fresh on autopilot. Lighthouse 4×100, free on Cloudflare, 100% ad revenue yours.',
+    'An open-source Astro starter for game wikis, with configurable content, search, localization, and an optional AI-assisted writing workflow.',
   announcement: {
     text: `v${PROJECT_VERSION} is the first standalone release of GameWikiSoleTemplate, bringing the reusable wiki runtime, starter configuration, example content, and validation workflow together in one repository. It also includes per-section homepage cover uniqueness and a review workflow that keeps architecture, behavior, config/content, docs, and format-only changes clearly scoped.`,
     href: RELEASES,
@@ -278,27 +273,18 @@ const en: LandingContent = {
     badge: 'Open Source · MIT · Cloudflare Pages',
     title: 'Turn a trending game into a traffic site — in 24 hours, not weeks',
     subtitle:
-      'An SEO-hardened game wiki template (Astro + Cloudflare Pages — Lighthouse 4×100, free unlimited bandwidth) with an AI content workflow that ships inside your repo: talk to your AI to generate pages, codes stay fresh on autopilot. Every ad dollar is yours.',
+      'An Astro game wiki starter with structured content, search, localization, and an optional AI-assisted writing workflow that lives alongside your site source.',
     primaryCta: { label: 'Fork on GitHub', href: FORK_URL },
-    secondaryCta: { label: 'Star on GitHub', href: 'https://github.com/PNGTRID/AnvilWiki' },
+    secondaryCta: { label: 'Star on GitHub', href: REPOSITORY },
     tertiaryCta: { label: 'Live Demo', href: '/' },
-    installCommand: `git clone https://github.com/PNGTRID/AnvilWiki.git
-cd anvilwiki
+    installCommand: `git clone ${REPOSITORY}.git
+cd GameWikiSoleTemplate
 pnpm install && pnpm dev`,
     screenshotCaption: 'The live demo — a complete wiki for the fictional game "Anvil Quest"',
-    screenshotAlt: 'AnvilWiki demo homepage — game wiki built with the template',
+    screenshotAlt: 'GameWikiSoleTemplate demo homepage — game wiki built with the starter',
     terminalLabel: 'Terminal',
     copyLabel: 'Copy',
     copiedLabel: 'Copied!',
-  },
-  socialProof: {
-    lighthouse: [
-      { label: 'Performance', score: 100 },
-      { label: 'Accessibility', score: 100 },
-      { label: 'Best Practices', score: 100 },
-      { label: 'SEO', score: 100 },
-    ],
-    poweredBy: 'Powered by Astro + Cloudflare Pages — free unlimited bandwidth',
   },
   features: [
     {
@@ -315,33 +301,33 @@ pnpm install && pnpm dev`,
     },
     {
       icon: 'lucide:ticket',
-      title: 'Codes Pages on Autopilot',
+      title: 'Structured Codes Pages',
       description:
-        'Structured codes frontmatter (status/expiry/source) auto-renders Active one-click-copy blocks + an Expired table that keeps long-tail "is X still working" traffic. A weekly audit workflow files an issue whenever pages go stale — freshness without you remembering.',
+        'Structured codes frontmatter (status/expiry/source) renders copyable active entries and an expired table. Optional checks can flag stale pages; editors still verify and update the information.',
     },
     {
       icon: 'lucide:dollar-sign',
-      title: '100% Your Revenue',
+      title: 'Optional Monetization',
       description:
-        'Built-in AdSense slots, sponsor card and affiliate CTA component — all env-gated, off by default. No platform cut, unlike hosted wiki farms that eat your earnings.',
+        'AdSense slots, sponsor card, and affiliate components are configurable and disabled by default. Each provider sets its own terms and fees.',
     },
     {
       icon: 'lucide:zap',
       title: 'SEO Engineering + Blazing Fast',
       description:
-        'Sitemap with lastmod, JSON-LD suite, hreflang, Quick Answer blocks for AI search, llms.txt — on top of Astro zero-JS and Lighthouse 4×100 out of the box.',
+        'Sitemap, structured data, hreflang, Quick Answer blocks, and minimal client-side JavaScript for a static-first site.',
     },
     {
       icon: 'lucide:cloud',
-      title: 'Free Forever',
+      title: 'Flexible Hosting',
       description:
-        'Deploy to Cloudflare Pages with zero config: free unlimited bandwidth + global CDN + SSL. i18n built in (English at root, fallback so URLs never 404). No hosting bills, ever.',
+        'Deploy the static Astro site to a host that fits your project. Review that provider’s current limits and pricing before launch. Localization is built in.',
     },
   ],
   compare: {
-    title: 'Why AnvilWiki?',
+    title: 'Why GameWikiSoleTemplate?',
     subtitle: 'How it compares to other options for game content sites.',
-    columns: ['AnvilWiki', 'Fandom', 'Starlight', 'Next.js DIY'],
+    columns: ['GameWikiSoleTemplate', 'Fandom', 'Starlight', 'Next.js DIY'],
     rows: [
       {
         label: 'Best for',
@@ -357,11 +343,11 @@ pnpm install && pnpm dev`,
       },
       {
         label: 'Ad revenue',
-        values: ['100% yours', 'Platform-split', 'None', 'DIY'],
+        values: ['Provider terms apply', 'Platform-split', 'None', 'DIY'],
       },
       {
         label: 'Hosting cost',
-        values: ['Free, unlimited BW', 'Free (hosted)', 'Pay your own', 'Pay your own'],
+        values: ['Host-dependent', 'Free (hosted)', 'Pay your own', 'Pay your own'],
       },
       {
         label: 'SEO built-in',
@@ -369,7 +355,7 @@ pnpm install && pnpm dev`,
       },
       {
         label: 'Performance',
-        values: ['Lighthouse 4×100', 'Medium', 'High', 'Varies'],
+        values: ['Static-first Astro pages', 'Medium', 'High', 'Varies'],
       },
       {
         label: 'You own it',
@@ -382,9 +368,9 @@ pnpm install && pnpm dev`,
     },
   },
   comparisonPage: {
-    title: 'AnvilWiki vs Fandom vs Wiki.js — How to Choose',
+    title: 'GameWikiSoleTemplate vs Fandom vs Wiki.js — How to Choose',
     subtitle:
-      'An honest, data-backed comparison of hosted wiki platforms (Fandom), self-hosted wiki engines (Wiki.js, BookStack, MediaWiki, DokuWiki, Docmost), and AnvilWiki — a static publishing template with an AI content workflow.',
+      'A practical comparison of hosted wiki platforms (Fandom), self-hosted wiki engines (Wiki.js, BookStack, MediaWiki, DokuWiki, Docmost), and GameWikiSoleTemplate — a static publishing starter with an AI content workflow.',
     intro:
       'These tools get recommended in the same breath, but they are three different species. Pick with three questions: who writes the content, who keeps the revenue, and how much server you want to run.',
     tldrTitle: 'The three species',
@@ -398,14 +384,14 @@ pnpm install && pnpm dev`,
         text: 'Self-hosted collaboration engines — web editors, accounts, permissions. You run (and pay for) a server and a database.',
       },
       {
-        name: 'AnvilWiki',
+        name: 'GameWikiSoleTemplate',
         text: 'Static publishing template — you and your AI agent write MDX in git, deploy free on Cloudflare Pages, keep 100% of ad revenue.',
       },
     ],
     table: {
       title: 'The core comparison',
-      subtitle: 'AnvilWiki vs a hosted platform vs self-hosted engines.',
-      columns: ['AnvilWiki', 'Fandom', 'Self-hosted engines'],
+      subtitle: 'GameWikiSoleTemplate vs a hosted platform vs self-hosted engines.',
+      columns: ['GameWikiSoleTemplate', 'Fandom', 'Self-hosted engines'],
       rows: [
         {
           label: 'Species',
@@ -429,7 +415,7 @@ pnpm install && pnpm dev`,
         },
         {
           label: 'Performance',
-          values: ['Lighthouse 4×100 out of the box', 'Medium', 'Depends on caching'],
+          values: ['Static-first Astro pages', 'Medium', 'Depends on caching'],
         },
         {
           label: 'Multi-user editing',
@@ -451,16 +437,14 @@ pnpm install && pnpm dev`,
     },
     engines: {
       title: 'The self-hosted engines, at a glance',
-      subtitle: 'Neutral facts, alphabetical order. GitHub data as of 2026-08.',
-      columns: ['Project', 'Positioning', 'License', 'Stars', 'Latest release', 'Best for'],
+      subtitle: 'A high-level overview. Check each project repository for current details.',
+      columns: ['Project', 'Positioning', 'License', 'Best for'],
       entries: [
         {
           name: 'BookStack',
           url: 'https://github.com/BookStackApp/BookStack',
           positioning: 'Structured team knowledge base (shelves → books → chapters → pages)',
           license: 'MIT',
-          stars: '~19.0k',
-          release: 'v26.05 (2026-07)',
           bestFor: 'Team docs, non-technical editors',
         },
         {
@@ -468,8 +452,6 @@ pnpm install && pnpm dev`,
           url: 'https://github.com/docmost/docmost',
           positioning: 'Modern real-time collaboration — a Notion/Confluence alternative',
           license: 'AGPL-3.0',
-          stars: '~21.4k',
-          release: 'v0.95 (2026-07)',
           bestFor: 'Real-time collaborative knowledge bases',
         },
         {
@@ -477,8 +459,6 @@ pnpm install && pnpm dev`,
           url: 'https://github.com/dokuwiki/dokuwiki',
           positioning: 'PHP wiki with no database — content lives in plain files',
           license: 'GPL-2.0',
-          stars: '~4.7k',
-          release: '2026-07-14',
           bestFor: 'Low-resource self-hosting',
         },
         {
@@ -486,8 +466,6 @@ pnpm install && pnpm dev`,
           url: 'https://github.com/wikimedia/mediawiki',
           positioning: 'The engine behind Wikipedia',
           license: 'GPL',
-          stars: '~5.2k (mirror)',
-          release: 'Continuous',
           bestFor: 'Large community encyclopedias',
         },
         {
@@ -495,15 +473,13 @@ pnpm install && pnpm dev`,
           url: 'https://github.com/requarks/wiki',
           positioning: 'Node.js wiki with Git sync and a modern UI',
           license: 'AGPL-3.0',
-          stars: '~28.8k',
-          release: 'v2.5 (2026-05)',
           bestFor: 'Modern self-hosted wikis',
         },
       ],
-      note: 'AnvilWiki itself is young — v2.0 shipped in 2026-08 and its GitHub star count is still small, not a decade of ecosystem like the projects above. What you get instead is an architecture written for the AI-search era: static, structured, agent-driven. Judge it by the demo, not the star count.',
+      note: 'Features, maintenance activity, and licensing can change. Review each project’s repository and current documentation before choosing.',
     },
     notFor: {
-      title: 'When NOT to pick AnvilWiki',
+      title: 'When NOT to pick GameWikiSoleTemplate',
       subtitle: 'Honest guidance — the right tool beats another star.',
       items: [
         {
@@ -514,14 +490,14 @@ pnpm install && pnpm dev`,
         { need: 'You need real-time collaborative docs for a company', pick: 'Docmost' },
         {
           need: 'Your goal is a solo, SEO-driven, ad-monetized game content site',
-          pick: 'AnvilWiki',
+          pick: 'GameWikiSoleTemplate',
         },
       ],
     },
     cta: {
       title: 'Still deciding? Try the demo.',
       subtitle:
-        'A complete game wiki built with AnvilWiki — Lighthouse 4×100, deployable in 30 minutes.',
+        'A configurable game wiki starter with structured content, search, and localization.',
       primaryLabel: 'View the demo',
       primaryHref: '/',
       secondaryLabel: 'Get started',
@@ -531,21 +507,21 @@ pnpm install && pnpm dev`,
   showcase: {
     title: 'See it in action',
     subtitle:
-      'A live demo built with AnvilWiki — a complete game wiki for the fictional "Anvil Quest".',
+      'A live example site built with GameWikiSoleTemplate for the fictional game "Anvil Quest".',
     points: [
       'Real game wiki layout (Hero → QuickStart → content modules → CTA)',
-      'Measured Lighthouse Performance 100 on a full content site',
+      'Static pages with structured article data and locale-aware routes',
       'Real i18n: English at root + Japanese prefixed, with fallback',
       'Working ad slots, search, comments — all env-gated, off by default',
     ],
     cta: { label: 'View live demo →', href: '/' },
-    browserUrl: 'anvilwiki.pages.dev/bosses/emberfang',
+    browserUrl: 'gamewiki-sole-template.vercel.app/bosses/emberfang',
     mobileCaption: 'Mobile-first: clean first screen, scrollable tables, tap-to-copy codes.',
     articleAlt: 'Boss guide article — Quick Answer card and structured Boss Overview data card',
     mobileAlt: 'Mobile view of the demo homepage',
   },
   builtWith: {
-    title: 'Built with AnvilWiki',
+    title: 'Built with GameWikiSoleTemplate',
     subtitle:
       'Real sites launched by the community — from Roblox hits to Steam classics. Yours could be next.',
     submitLabel: 'Built a site? Submit yours →',
@@ -614,7 +590,7 @@ pnpm install && pnpm dev`,
       {
         title: 'Deploy for free',
         description:
-          'Push to GitHub and connect Cloudflare Pages — the Astro build is auto-detected; free unlimited bandwidth + global CDN.',
+          'Push to GitHub and connect a supported static host. Check its current build settings, usage limits, and pricing before launch.',
         command: 'pnpm build && git push',
         linkLabel: 'Ch.5 · Put it online',
         href: '/landing/docs/put-site-online/',
@@ -634,7 +610,7 @@ pnpm install && pnpm dev`,
     },
   },
   handbook: {
-    hubTitle: 'AnvilWiki Docs',
+    hubTitle: 'GameWikiSoleTemplate Docs',
     hubSubtitle:
       'Two separate hands-on manuals, written for complete beginners: the Learning Manual walks you from game selection to a live, indexed, monetized wiki — then shows you how to templatize it, batch-produce inner pages, and win rankings and AI citations; the Development Manual covers customization and engineering. Every step is a SOP with copy-paste AI prompts.',
     beginnerHint: {
@@ -728,9 +704,9 @@ pnpm install && pnpm dev`,
 
 const zh: LandingContent = {
   htmlLang: 'zh',
-  title: 'AnvilWiki — 开源游戏 Wiki 模板 + AI 内容工作流',
+  title: 'GameWikiSoleTemplate — 开源游戏 Wiki 模板 + AI 内容工作流',
   description:
-    '开源游戏 wiki 模板 + AI 原生内容工作流:选对游戏、和 AI 对话就能产页、codes 页自动保鲜。Lighthouse 4×100、Cloudflare 免费部署、广告收入 100% 归你。',
+    '开源 Astro 游戏 Wiki starter，提供结构化内容、站内搜索、多语言路由和可选的 AI 辅助写作工作流。',
   announcement: {
     text: `v${PROJECT_VERSION} 是 GameWikiSoleTemplate 独立仓库的首个正式版本，将可复用 wiki 运行时代码、起步配置、示例内容和验证流程统一在一个仓库中；同时包含按区块保证首页卡片封面不重复，以及将架构、行为、配置/内容、文档和纯格式修改分开审阅的工作流。`,
     href: RELEASES,
@@ -739,27 +715,18 @@ const zh: LandingContent = {
     badge: '开源 · MIT 协议 · Cloudflare Pages',
     title: '把一个爆发期游戏,24 小时变成你的流量站',
     subtitle:
-      'SEO 强化的游戏 wiki 模板(Astro + Cloudflare Pages,Lighthouse 4×100、免费无限带宽)+ 随仓库分发的 AI 内容工作流:跟 AI 对话就能产页、codes 页自动保鲜——每一分广告收入都归你。',
+      '基于 Astro 的游戏 Wiki starter，支持结构化文章、站内搜索、多语言路由，以及与源码一同维护的 AI 辅助写作工作流。',
     primaryCta: { label: 'Fork 本仓库', href: FORK_URL },
-    secondaryCta: { label: 'GitHub 加星', href: 'https://github.com/PNGTRID/AnvilWiki' },
+    secondaryCta: { label: 'GitHub 加星', href: REPOSITORY },
     tertiaryCta: { label: '查看 Demo', href: '/' },
-    installCommand: `git clone https://github.com/PNGTRID/AnvilWiki.git
-cd anvilwiki
+    installCommand: `git clone ${REPOSITORY}.git
+cd GameWikiSoleTemplate
 pnpm install && pnpm dev`,
     screenshotCaption: '在线 Demo —— 虚构游戏「Anvil Quest」的完整 wiki',
-    screenshotAlt: 'AnvilWiki 演示站首页 —— 用模板搭建的游戏 wiki',
+    screenshotAlt: 'GameWikiSoleTemplate 演示站首页 —— 用模板搭建的游戏 wiki',
     terminalLabel: '终端',
     copyLabel: '复制',
     copiedLabel: '已复制!',
-  },
-  socialProof: {
-    lighthouse: [
-      { label: '性能', score: 100 },
-      { label: '无障碍', score: 100 },
-      { label: '最佳实践', score: 100 },
-      { label: 'SEO', score: 100 },
-    ],
-    poweredBy: '基于 Astro + Cloudflare Pages —— 免费无限带宽',
   },
   features: [
     {
@@ -776,33 +743,33 @@ pnpm install && pnpm dev`,
     },
     {
       icon: 'lucide:ticket',
-      title: 'codes 页自动化',
+      title: '结构化 codes 页面',
       description:
-        '结构化 codes 数据(状态/到期/来源)自动渲染 Active 一键复制区 + Expired 长尾表格(承接「XX 还能用吗」搜索);每周定时审计自动开 issue 提醒保鲜——不用你记得去更新。',
+        '结构化 codes 数据(状态/到期/来源)会生成可复制的有效区和过期表格。可选检查能提示旧页面，但内容仍需编辑者核实并更新。',
     },
     {
       icon: 'lucide:dollar-sign',
-      title: '广告收入 100% 归你',
+      title: '按需接入广告',
       description:
-        '内置 AdSense 广告位、赞助卡片、联盟链接组件——全部 env 门控默认关闭。无平台抽成,和托管 wiki 农场完全不同。',
+        '内置 AdSense 广告位、赞助卡片和联盟链接组件，默认关闭。每个供应商的条款和费用以其当前政策为准。',
     },
     {
       icon: 'lucide:zap',
       title: 'SEO 工程化 + 极致性能',
       description:
-        'sitemap(含 lastmod)、JSON-LD 全套、hreflang、面向 AI 搜索的 Quick Answer、llms.txt——建立在 Astro 零 JS 和开箱 Lighthouse 4×100 之上。',
+        'sitemap、结构化数据、hreflang、Quick Answer 与较少的客户端 JavaScript，构成静态优先的站点。',
     },
     {
       icon: 'lucide:cloud',
-      title: '永久免费',
+      title: '部署方式灵活',
       description:
-        '零配置部署到 Cloudflare Pages:免费无限带宽 + 全球 CDN + SSL;多语言开箱即用(英文根路径,回退机制保证直链永不 404)。永远没有服务器账单。',
+        '静态 Astro 站点可部署到适合项目的托管平台。上线前请核对供应商当前的用量限制与价格。模板内置多语言路由。',
     },
   ],
   compare: {
-    title: '为什么选择 AnvilWiki?',
+    title: '为什么选择 GameWikiSoleTemplate?',
     subtitle: '与其他游戏内容站方案的对比。',
-    columns: ['AnvilWiki', 'Fandom', 'Starlight', 'Next.js 自建'],
+    columns: ['GameWikiSoleTemplate', 'Fandom', 'Starlight', 'Next.js 自建'],
     rows: [
       {
         label: '适用场景',
@@ -818,11 +785,11 @@ pnpm install && pnpm dev`,
       },
       {
         label: '广告收入',
-        values: ['100% 归你', '平台分成', '无广告', '自己接'],
+        values: ['以供应商条款为准', '平台分成', '无广告', '自己接'],
       },
       {
         label: '托管成本',
-        values: ['免费无限带宽', '免费(平台托管)', '自付', '自付'],
+        values: ['取决于托管商', '免费(平台托管)', '自付', '自付'],
       },
       {
         label: 'SEO 内置',
@@ -830,7 +797,7 @@ pnpm install && pnpm dev`,
       },
       {
         label: '性能',
-        values: ['Lighthouse 4×100', '中等', '高', '取决于实现'],
+        values: ['Astro 静态优先页面', '中等', '高', '取决于实现'],
       },
       {
         label: '完全拥有',
@@ -843,9 +810,9 @@ pnpm install && pnpm dev`,
     },
   },
   comparisonPage: {
-    title: 'AnvilWiki 对比 Fandom、Wiki.js——怎么选',
+    title: 'GameWikiSoleTemplate 对比 Fandom、Wiki.js——怎么选',
     subtitle:
-      '托管平台(Fandom)、自托管协作引擎(Wiki.js / BookStack / MediaWiki / DokuWiki / Docmost)与 AnvilWiki(静态发布模板 + AI 内容工作流)的诚实对比,附 GitHub 数据。',
+      '对比托管平台(Fandom)、自托管协作引擎(Wiki.js / BookStack / MediaWiki / DokuWiki / Docmost)与 GameWikiSoleTemplate(静态发布模板 + AI 内容工作流)。',
     intro:
       '这些工具经常被放在一起推荐,但其实是三个不同的物种。选型只需要三个问题:内容谁来写、收入归谁、服务器想运维多少。',
     tldrTitle: '三个物种',
@@ -859,14 +826,14 @@ pnpm install && pnpm dev`,
         text: '自托管协作引擎——网页编辑器、账号、权限一应俱全,代价是你要自己养服务器和数据库。',
       },
       {
-        name: 'AnvilWiki',
-        text: '静态发布模板——你和 AI agent 在 git 里写 MDX,Cloudflare Pages 免费部署,广告收入 100% 归你。',
+        name: 'GameWikiSoleTemplate',
+        text: '静态发布模板——你和 AI agent 在 git 里写 MDX，部署和广告条款取决于你选择的供应商。',
       },
     ],
     table: {
       title: '核心对比',
-      subtitle: 'AnvilWiki vs 托管平台 vs 自托管引擎。',
-      columns: ['AnvilWiki', 'Fandom', '自托管引擎'],
+      subtitle: 'GameWikiSoleTemplate vs 托管平台 vs 自托管引擎。',
+      columns: ['GameWikiSoleTemplate', 'Fandom', '自托管引擎'],
       rows: [
         { label: '物种', values: ['静态站点模板', '托管 wiki 平台', '自托管 wiki 软件'] },
         {
@@ -879,10 +846,10 @@ pnpm install && pnpm dev`,
         },
         {
           label: '广告收入',
-          values: ['100% 归你(内置 AdSense 位)', '平台抽成', '自己接(多数无内置)'],
+          values: ['以供应商条款为准', '平台抽成', '自己接(多数无内置)'],
         },
         { label: 'SEO 控制权', values: ['全套内置', '平台说了算', '取决于配置'] },
-        { label: '性能', values: ['开箱 Lighthouse 4×100', '中等', '取决于缓存'] },
+        { label: '性能', values: ['Astro 静态优先页面', '中等', '取决于缓存'] },
         { label: '多人协作', values: ['不需要——单人 + AI', '强', '强——账号 + 权限'] },
         { label: 'AI 内容工作流', values: ['内置——技能随仓库分发', '无', '无'] },
         { label: '协议', values: ['MIT', '商业平台', 'GPL / AGPL / MIT(各异)'] },
@@ -891,16 +858,14 @@ pnpm install && pnpm dev`,
     },
     engines: {
       title: '自托管引擎速览',
-      subtitle: '中立事实,按字母序排列。GitHub 数据,截至 2026-08。',
-      columns: ['项目', '定位', '协议', 'Stars', '最近发版', '适合谁'],
+      subtitle: '项目概览。当前功能、维护情况与许可请查看各项目仓库。',
+      columns: ['项目', '定位', '协议', '适合谁'],
       entries: [
         {
           name: 'BookStack',
           url: 'https://github.com/BookStackApp/BookStack',
           positioning: '结构化团队知识库(书架 → 书 → 章节 → 页面)',
           license: 'MIT',
-          stars: '~19.0k',
-          release: 'v26.05(2026-07)',
           bestFor: '团队文档、非技术编辑者',
         },
         {
@@ -908,8 +873,6 @@ pnpm install && pnpm dev`,
           url: 'https://github.com/docmost/docmost',
           positioning: '现代实时协作,Notion/Confluence 的替代',
           license: 'AGPL-3.0',
-          stars: '~21.4k',
-          release: 'v0.95(2026-07)',
           bestFor: '实时协作团队知识库',
         },
         {
@@ -917,8 +880,6 @@ pnpm install && pnpm dev`,
           url: 'https://github.com/dokuwiki/dokuwiki',
           positioning: '免数据库的 PHP wiki,内容即纯文本文件',
           license: 'GPL-2.0',
-          stars: '~4.7k',
-          release: '2026-07-14',
           bestFor: '低资源自托管',
         },
         {
@@ -926,8 +887,6 @@ pnpm install && pnpm dev`,
           url: 'https://github.com/wikimedia/mediawiki',
           positioning: '维基百科背后的引擎',
           license: 'GPL',
-          stars: '~5.2k(镜像)',
-          release: '持续发版',
           bestFor: '大型社区百科',
         },
         {
@@ -935,26 +894,24 @@ pnpm install && pnpm dev`,
           url: 'https://github.com/requarks/wiki',
           positioning: 'Node.js wiki,Git 同步 + 现代界面',
           license: 'AGPL-3.0',
-          stars: '~28.8k',
-          release: 'v2.5(2026-05)',
           bestFor: '现代自托管 wiki',
         },
       ],
-      note: 'AnvilWiki 本身还很年轻——v2.0 于 2026-08 发布,GitHub star 数还很少,没有上面这些项目十年积累的生态;你换来的是为 AI 搜索时代写的架构:静态、结构化、agent 驱动。请用 demo 判断它,而不是用 star 数。',
+      note: '功能、维护状态与许可可能变化。选择前请查看各项目仓库和最新文档。',
     },
     notFor: {
-      title: '什么时候不该选 AnvilWiki',
+      title: '什么时候不该选 GameWikiSoleTemplate',
       subtitle: '诚实的建议——选对工具比多一颗星重要。',
       items: [
         { need: '团队需要网页编辑器 + 账号 + 权限', pick: 'Wiki.js 或 BookStack' },
         { need: '要做大型公开社区百科', pick: 'MediaWiki 或 Fandom' },
         { need: '公司需要实时协作文档', pick: 'Docmost' },
-        { need: '目标是单人 SEO 流量 + 广告变现的游戏内容站', pick: 'AnvilWiki' },
+        { need: '目标是单人 SEO 流量 + 广告变现的游戏内容站', pick: 'GameWikiSoleTemplate' },
       ],
     },
     cta: {
       title: '还在犹豫?先看 Demo。',
-      subtitle: '用 AnvilWiki 搭的完整游戏 wiki——Lighthouse 4×100,30 分钟可上线。',
+      subtitle: '一个可配置的游戏 Wiki starter，提供结构化内容、站内搜索和多语言支持。',
       primaryLabel: '查看 Demo',
       primaryHref: '/',
       secondaryLabel: '快速开始',
@@ -963,21 +920,21 @@ pnpm install && pnpm dev`,
   },
   showcase: {
     title: '看看实际效果',
-    subtitle: '用 AnvilWiki 构建的在线 Demo——虚构游戏「Anvil Quest」的完整 wiki 站。',
+    subtitle: '用 GameWikiSoleTemplate 构建的示例站，游戏内容属于虚构演示资料。',
     points: [
       '真实的游戏 wiki 布局(Hero → 快速入口 → 内容模块 → CTA)',
-      '完整内容站实测 Lighthouse 性能 100',
+      '静态页面、结构化文章数据与多语言路由',
       '真实多语言:英文根路径 + 日文带前缀 + 自动回退',
       '广告位 / 搜索 / 评论全部可用(env 驱动,默认关闭)',
     ],
     cta: { label: '查看在线 Demo →', href: '/' },
-    browserUrl: 'anvilwiki.pages.dev/bosses/emberfang',
+    browserUrl: 'gamewiki-sole-template.vercel.app/bosses/emberfang',
     mobileCaption: '移动优先:首屏干净、表格横滑、兑换码点击即复制。',
     articleAlt: 'Boss 攻略文章页 —— 快速答案卡片 + 结构化 Boss 数据卡',
     mobileAlt: '演示站首页的移动端视图',
   },
   builtWith: {
-    title: '用 AnvilWiki 建成的站',
+    title: '用 GameWikiSoleTemplate 建成的站',
     subtitle: '社区用户的真实案例——从 Roblox 热游到 Steam 经典,下一个可能就是你的站。',
     submitLabel: '你也建了站?提交案例 →',
     submitHref: SHOWCASE_DATA,
@@ -1062,7 +1019,7 @@ pnpm install && pnpm dev`,
     },
   },
   handbook: {
-    hubTitle: 'AnvilWiki 文档中心',
+    hubTitle: 'GameWikiSoleTemplate 文档中心',
     hubSubtitle:
       '两本相互独立的实操手册,按完全零基础标准编写:学习手册带你从选游戏走到上线、收录、变现,再教你把站打磨成模板、批量铺内页放大、把排名和 AI 引用做上去;开发手册覆盖定制与工程。每一步都是 SOP + 可复制的 AI 提示词。',
     beginnerHint: {

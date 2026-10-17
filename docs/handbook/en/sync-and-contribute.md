@@ -16,7 +16,7 @@ The template author keeps releasing new versions: bug fixes, new features. Shoul
 
 ```bash
 # 1. Run this the first time only: set the official repo as the "upstream" to watch
-git remote add upstream https://github.com/PNGTRID/AnvilWiki.git
+git remote add upstream https://github.com/HaydenGuo/GameWikiSoleTemplate.git
 
 # 2. Every later upgrade is just these commands
 git fetch upstream
@@ -60,7 +60,7 @@ Three long-term promises: article registration-card fields are **added only, nev
 
 **Your site itself is a contribution too**: send a PR adding it to the official showcase wall (edit the showcase data in `src/config/landing.ts`) — a real successful site is this template's most persuasive advertisement.
 
-(The full process for cutting versions of the template itself is maintainer-view material, recorded in the repo's [docs/development.md](https://github.com/PNGTRID/AnvilWiki/blob/main/docs/development.md); not repeated here.)
+(The full process for cutting versions of the template itself is maintainer-view material, recorded in the repo's [docs/development.md](https://github.com/HaydenGuo/GameWikiSoleTemplate/blob/main/docs/development.md); not repeated here.)
 
 ## If you get stuck
 
@@ -75,4 +75,4 @@ Three long-term promises: article registration-card fields are **added only, nev
 
 ## Next chapter
 
-Upstream syncing keeps you current as the template grows. The final chapter puts an AI on ops duty — [the anvilwiki-ops CLI and MCP](/landing/docs/ai-ops).
+Upstream syncing keeps you current as the template grows. The companion [anvilwiki-ops CLI and MCP guide](./ai-ops.md) covers optional operations tooling.

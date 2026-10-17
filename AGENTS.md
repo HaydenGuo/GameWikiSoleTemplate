@@ -97,7 +97,7 @@ Before creating or editing an article:
 
 ## Game brand mark
 
-When initializing a new game site, create a game-specific mark using the workflow in `docs/brand-mark-workflow.md`. Ground the motif in the game's official/store materials and the target site's theme; do not carry over the AnvilWiki mark, invent game lore, or substitute a letter tile. Inspect the result at 16×16 and 32×32 before running `pnpm gen-assets --force`. The generated header, favicon, and mobile icons must all derive from `src/assets/branding/brand-mark.png`.
+When initializing a new game site, create a game-specific mark using the workflow in `docs/brand-mark-workflow.md`. Ground the motif in the game's official/store materials and the target site's theme; do not carry over the GameWikiSoleTemplate mark, invent game lore, or substitute a letter tile. Inspect the result at 16×16 and 32×32 before running `pnpm gen-assets --force`. The generated header, favicon, and mobile icons must all derive from `src/assets/branding/brand-mark.png`.
 
 ## Template initializer
 
