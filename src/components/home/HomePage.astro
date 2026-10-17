@@ -51,7 +51,7 @@ for (const entry of articleEntries) {
   if (parsed) articleCountsByCategory.set(parsed.category, (articleCountsByCategory.get(parsed.category) ?? 0) + 1);
 }
 const browseAllCategory = NAVIGATION_CONFIG
-  .filter((item) => item.isContentType)
+  .filter((item) => item.isContentType && item.showInPrimaryNavigation !== false)
   .reduce((mostPopulated, item) =>
     (articleCountsByCategory.get(item.key) ?? 0) > (articleCountsByCategory.get(mostPopulated.key) ?? 0)
       ? item
@@ -169,6 +169,7 @@ for (const card of Array.isArray(start.cards) ? start.cards : []) {
   quickStartMetadata.set(card.key, card);
 }
 const orderedNavigation = NAVIGATION_CONFIG
+  .filter((item) => item.isContentType && item.showInPrimaryNavigation !== false)
   .map((item, index) => ({ item, index }))
   .sort((a, b) => (a.item.order ?? a.index + 1) - (b.item.order ?? b.index + 1) || a.index - b.index)
   .slice(0, 4);

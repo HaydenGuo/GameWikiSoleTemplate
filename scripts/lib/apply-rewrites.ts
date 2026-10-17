@@ -192,7 +192,7 @@ export function buildHomePreset(input: SkinInput): Record<string, unknown> | nul
     input.categories,
     input.utilityNavigationItems,
     input.navigationProfile,
-  ).slice(0, 4).map(({ key }) => ({
+  ).filter((item) => item.isContentType).slice(0, 4).map(({ key }) => ({
     key,
     description: quickStartDescriptions[key] ?? `Browse ${cap(key)} and related player resources.`,
     image: quickStartImages[key] ?? '/images/home/reference-card.svg',
