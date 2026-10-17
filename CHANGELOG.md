@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.0] - 2026-10-17
+
+- Add an EN language switcher to the site header and preserve the current page when switching locales.
+- Adjust the header action group position on wide screens.
+- Align landing comparison types and Steam stats tests with their current data.
+
+为页眉增加 EN 语言切换，并在切换语言时保留当前页面；调整宽屏页眉控件位置；同步修正落地页比较数据类型和 Steam 统计测试。
+
 This changelog tracks releases of the standalone `GameWikiSoleTemplate` repository. Earlier AnvilWiki product versions in `docs/PRD.md` are retained as pre-standalone project history and are not tags/releases of this repository.
 
 ## [1.0.1] - 2026-10-17
