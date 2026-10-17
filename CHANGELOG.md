@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.1] - 2026-10-17
+
+- Replace stale project branding, repository references, and platform guidance with current information.
+- Exclude unverified Anvil Quest demo articles from published builds until they are source-checked.
+- Keep homepage section links valid when example articles are drafts.
+
+更新项目品牌、仓库引用和平台指南；未经核实的 Anvil Quest 示例文章改为草稿，不进入正式构建；首页示例卡片调整为指向有效栏目。
+
 ## [1.1.0] - 2026-10-17
 
 - Add an EN language switcher to the site header and preserve the current page when switching locales.
