@@ -1312,8 +1312,11 @@ describe('sitemap', () => {
 
 ### 14.2 v1.0 后的迭代方向
 
+> GameWikiSoleTemplate 独立仓库的正式版本从 v1.0.0 单独计数；下方早期 AnvilWiki 版本与迭代记录保留为合并前的产品历史，不代表本仓库的 Release/tag 序列。
+
 | 版本 | 功能 | 优先级 | 状态 |
 |---|---|---|---|
+| **GameWikiSoleTemplate v1.0.0** | 独立仓库首个正式版本 | 高 | ✅ 已实现；版本记录见本文件「更新记录」及 GitHub Releases |
 | ~~v1.1~~ | ~~frontmatter 格式迁移指南~~ | ~~高~~ | ✅ 已实现（`docs/content-format.md` 提供从 JS metadata 到 YAML frontmatter 的迁移说明） |
 | v1.2 | 搜索功能（Pagefind 离线搜索，零运行时） | 中 | ✅ 已实现（`postbuild` 钩子 + `SearchButton.astro` `<dialog>` 模态，懒加载 pagefind-ui，Ctrl/Cmd+K 唤起，`data-pagefind-body` 精确索引文章正文） |
 | v1.3 | 更多 displayType（video-grid/timeline/comparison-table） | 中 | ✅ 已实现 timeline + video-grid（缩略图跳转,首页不 embed YouTube,保 Lighthouse 4×100）;comparison-table 待验证（见下） |
@@ -1589,6 +1592,7 @@ PUBLIC_GA_ID=
 
 | 日期 | 版本 | 说明 |
 |---|---|---|
+| 2026-10-17 | v1.0.0 | GameWikiSoleTemplate 独立仓库首个正式版本：合并模板站运行时代码、起步配置、示例内容与验证工作流；首页卡片按视觉区块保证封面不重复；新增变更分类和评审隔离规范。 |
 | 2026-09-25 | v2.7.2 | 示例攻略正文移除独立 `## TL;DR` 总结段，避免与页面固定 Quick Answer 重复；新增测试扫描 wiki MDX，防止该段落回归。仅模板内容调整，不改变 Core 文章契约。 |
 | 2026-08-11 | v0.1 | PRD 初稿；技术事实已通过 Astro 官方文档核实 |
 | 2026-08-12 | v0.2 | MVP 全部实现（MVP-0 至 MVP-5 + P0-P3）；更新待验证清单状态 |

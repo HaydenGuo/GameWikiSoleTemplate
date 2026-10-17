@@ -11,7 +11,7 @@
  */
 
 /** Keep in sync with package.json "version" (used by the announcement bar). */
-export const PROJECT_VERSION = '2.7.1';
+export const PROJECT_VERSION = '1.0.0';
 
 export type LandingLocale = 'en' | 'zh';
 
@@ -271,7 +271,7 @@ const en: LandingContent = {
   description:
     'An open-source game wiki template with an AI-native content workflow: pick the right game, generate pages by talking to your AI tool, codes pages stay fresh on autopilot. Lighthouse 4×100, free on Cloudflare, 100% ad revenue yours.',
   announcement: {
-    text: `v${PROJECT_VERSION} fork-safety hardening — apply-template's demo-locale cleanup now judges by content, not just filename: an en/ja locale only auto-deletes while its site.name is still the demo wiki's, locales you already rebranded (your translations) are kept with a loud warning, and corrupt JSON is never deleted. All eight site.ts string fields are now quote/backslash-escaped, so game names with apostrophes (e.g. "Assassin's …") no longer produce a syntactically broken config, and replacement goes through function callbacks so $&-style sequences in your input can't expand into the output. Docs: the AdSense pre-application audit baseline in docs/ads.md now reflects the v2.6.0 demo state.`,
+    text: `v${PROJECT_VERSION} is the first standalone release of GameWikiSoleTemplate, bringing the reusable wiki runtime, starter configuration, example content, and validation workflow together in one repository. It also includes per-section homepage cover uniqueness and a review workflow that keeps architecture, behavior, config/content, docs, and format-only changes clearly scoped.`,
     href: RELEASES,
   },
   hero: {
@@ -732,7 +732,7 @@ const zh: LandingContent = {
   description:
     '开源游戏 wiki 模板 + AI 原生内容工作流:选对游戏、和 AI 对话就能产页、codes 页自动保鲜。Lighthouse 4×100、Cloudflare 免费部署、广告收入 100% 归你。',
   announcement: {
-    text: `v${PROJECT_VERSION} fork 安全加固——apply-template 的 demo 语言清理改按内容判定：en/ja 只有在 site.name 仍是 demo 站名时才自动删除，你上一轮已换成自己游戏的语言文件（翻译成果）警告保留，损坏 JSON 一律不删。site.ts 八个字符串字段补单引号+反斜杠转义，含撇号的游戏名（如 "Assassin's …"）不再写出语法错误的配置，四处替换改函数回调杜绝 $& 展开。文档：docs/ads.md 的 AdSense 申请体检基线同步到 v2.6.0 后的 demo 状态。`,
+    text: `v${PROJECT_VERSION} 是 GameWikiSoleTemplate 独立仓库的首个正式版本，将可复用 wiki 运行时代码、起步配置、示例内容和验证流程统一在一个仓库中；同时包含按区块保证首页卡片封面不重复，以及将架构、行为、配置/内容、文档和纯格式修改分开审阅的工作流。`,
     href: RELEASES,
   },
   hero: {
