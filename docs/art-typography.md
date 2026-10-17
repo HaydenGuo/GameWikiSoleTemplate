@@ -13,4 +13,4 @@
 
 首页必须提供 `home.hero.descriptionItems`，并且恰好包含两段，顺序固定为 `Game background` 与 `Core gameplay`。每项使用 `{ "label": "...", "text": "..." }`。原有 `home.hero.description` 继续用于页面元描述，不能替代首页分段介绍。分段标签不带底色或竖线，两段正文之间留出间距；正文应由该游戏自己的 locale 内容提供。
 
-修改样式配置后运行 `pnpm dev` 或 `pnpm build` 即会应用。`pnpm template:link` 会在共享组件重新链接后再次应用样式；脚本只操作标记过的标题节点和样式区块，不改游戏文案、图片或正文内容。
+修改样式配置后运行 `pnpm dev` 或 `pnpm build` 即会应用。共享组件使用本仓库中的本地源码；脚本只操作标记过的标题节点和样式区块，不改游戏文案、图片或正文内容。

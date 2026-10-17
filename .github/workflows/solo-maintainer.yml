@@ -36,19 +36,8 @@ jobs:
           node-version-file: '.nvmrc'
           cache: pnpm
 
-      - name: Authenticate private GameWikiCore dependency
-        uses: ./.github/actions/auth-core
-        with:
-          token: ${{ secrets.GAMEWIKI_CORE_READ_TOKEN }}
-
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-
-      - name: Link installed core source
-        run: pnpm template:link
-
-      - name: Check fixed template boundary
-        run: pnpm check-template-boundary
 
       - name: Check consumer contract
         run: pnpm typecheck

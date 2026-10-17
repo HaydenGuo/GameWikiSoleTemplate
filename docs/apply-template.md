@@ -1,12 +1,12 @@
 # 配置参考手册
 
-> 本仓库是内容站 starter，架构来自独立的 `GameWikiCore`。`apply-template` 只处理站点配置、正文、素材和语言；不要把 `src/components`、`src/pages`、`src/lib`、`src/i18n` 或 `src/styles` 当作可编辑模板文件。边界规则和核心升级流程见 [starter-boundary.md](starter-boundary.md)。
+> 本仓库在一个源码树中维护通用运行时、站点配置和示例内容。`apply-template` 更新站点配置、正文、素材和语言；通用组件改动应同步更新测试与 starter baseline。
 
 > 把 AnvilWiki 从 demo 站（虚构游戏 "Anvil Quest"）换成你的目标游戏站点。
 >
 > 本文档按**文件**组织——你要改什么，就查对应文件的章节。不规定操作顺序，你想先改哪个都行。
 >
-> 核心原则：**只改配置层和内容层，代码层（src/pages/、src/components/、src/lib/）不动。**
+> 核心原则：游戏身份和事实放在配置层、内容层与资源中；运行时代码保持通用，必要的通用行为可以在本仓库内修改。
 
 ---
 

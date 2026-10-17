@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "created_at": "2026-09-23T14:49:30.734Z",
-  "source_template": "GameWikiTemplate",
+  "created_at": "2026-10-17T02:10:20.861Z",
+  "source_template": "GameWikiSoleTemplate-merge",
   "allowed_deletions": [],
   "files": [
     {
@@ -11,13 +11,13 @@
     },
     {
       "path": ".agent/skills/anvil-batch-articles/SKILL.md",
-      "bytes": 4883,
-      "sha256": "9ec3f9eda9f0294d7f20ff5949892f807ba2721b5c86d709b6012916693d3a89"
+      "bytes": 5290,
+      "sha256": "6e58fb5a8d7f990402d5d7a081b458b14464bc4fd9c4d3cf4b21e623f008a05d"
     },
     {
       "path": ".agent/skills/anvil-new-article/SKILL.md",
-      "bytes": 7821,
-      "sha256": "985afdad28a61fc12f3a4cd5b0472fabf813d4a16cac8225719d0625a964da48"
+      "bytes": 8208,
+      "sha256": "b9ef186f506e53949ae30912bdb2e0868cd2d369c8912a6eca004d5ae4c1496b"
     },
     {
       "path": ".agent/skills/anvil-refresh/SKILL.md",
@@ -31,38 +31,33 @@
     },
     {
       "path": ".agents/skills/neon-postgres/SKILL.md",
-      "bytes": 16823,
-      "sha256": "abff63bb99c6890c8834f116587bd6437231d4f6225a0ab05277c0a5ba5081e2"
+      "bytes": 16545,
+      "sha256": "84de1bb89fc9844c751ad733719e688d38d808be9657a96d30798ea15040ac3e"
     },
     {
       "path": ".agents/skills/neon-postgres/references/full-text-search.md",
-      "bytes": 4000,
-      "sha256": "454251822161bf4648c61db0c18c34adfc6a23e207223e02d00789bd78348dd5"
+      "bytes": 3901,
+      "sha256": "025d4380ccfe8e2c745687d82ed6182d501d5678a3941112f37f58bac38e7db4"
     },
     {
       "path": ".agents/skills/neon-postgres/references/hybrid-search.md",
-      "bytes": 4541,
-      "sha256": "e53232da82327ed66dbdb17a249a6c5a8d6af185367f3303e5e7ce5f3f2bf337"
+      "bytes": 4451,
+      "sha256": "80b9b1a9974c41eea80bfa4159c5be2b89ca0caaf96b06356ce60d49b2443f90"
     },
     {
       "path": ".agents/skills/neon-postgres/references/vector-search.md",
-      "bytes": 6381,
-      "sha256": "d6db3fefc1b76a5c4e34ae069b7b35ffc9de53442cf1827268e2c1d673614cfa"
+      "bytes": 6244,
+      "sha256": "4d7c14f1940033e2c379be62f00ef5ba5e17878a44bc11957a5176f91c2aa0ac"
     },
     {
       "path": ".agents/skills/neon/SKILL.md",
-      "bytes": 33263,
-      "sha256": "25fdc7ec50c62e35d79f140a10b2385d12a2f24ceecbfd446987d6e2e6ad8135"
+      "bytes": 32773,
+      "sha256": "a6c2f2ca27a3bf6059ef852427dbd89d37080cc4a7424b464041f30ed9e3155d"
     },
     {
       "path": ".agents/skills/neon/references/claimable-neon.md",
-      "bytes": 7909,
-      "sha256": "01f1701aafb4c58c1c79e9e2f0335714ecd0aca6406b58cb1f4758e2ed96248c"
-    },
-    {
-      "path": ".env.example",
-      "bytes": 3307,
-      "sha256": "8305341e3e3481a1fb06ad9edcd706853ec45787d7acfa8206a4efe3dedbcf97"
+      "bytes": 7788,
+      "sha256": "5d220f032995a44dbd618b807a0c6a6814d1e69ea32014285c62ddd23cfaeefd"
     },
     {
       "path": ".gitattributes",
@@ -101,8 +96,8 @@
     },
     {
       "path": ".github/workflows/ci.yml",
-      "bytes": 3628,
-      "sha256": "1659cc65063e9417ae49a10830d8690b60161a03e8dc4729c9d7067312753a95"
+      "bytes": 3629,
+      "sha256": "be2aa22c5c1a8b11530408c22056b73b82385474b10b416c265cf0d2f2038040"
     },
     {
       "path": ".github/workflows/content-pipeline.yml",
@@ -116,13 +111,18 @@
     },
     {
       "path": ".github/workflows/setup.yml",
-      "bytes": 8511,
-      "sha256": "48aa8aa839801c852c867de6fbaa9da374a5664dabce493086a208bba23890d2"
+      "bytes": 8512,
+      "sha256": "3ed2cf8feb0cb6519bc013650a52af4979ede2a2a467d8a1f3459621f28097cb"
+    },
+    {
+      "path": ".github/workflows/solo-maintainer.yml",
+      "bytes": 1135,
+      "sha256": "d23fa1fb0b67e532f3b511564c900a5bdbe122edac72f910218b0321f3ccb81a"
     },
     {
       "path": ".gitignore",
-      "bytes": 788,
-      "sha256": "654c4d3483d9eb0f46dd56b18c340cc83693df59f1ec06c93faa668234ea29d6"
+      "bytes": 785,
+      "sha256": "c8362d84123d49643d1ec434e39b4ccbe522364cceda845950d3ca4e015e36d8"
     },
     {
       "path": ".nvmrc",
@@ -140,9 +140,29 @@
       "sha256": "e99fc30d4ddcd41e28b3fb9db713c93b642b2df836f0e9b01fc71feea7d8dec8"
     },
     {
+      "path": ".superpowers/sdd/.gitignore",
+      "bytes": 4,
+      "sha256": "936cfcdc808afb959382fa1e29a59729a87334a66a4c6605612d8c91bc0244a9"
+    },
+    {
+      "path": ".superpowers/sdd/2026-10-17-gamewiki-sole-template/plan-path",
+      "bytes": 61,
+      "sha256": "d418b12fe7c9d813d4342f12017765c9dafde2da7673853ae48a7d72193b6a22"
+    },
+    {
+      "path": ".superpowers/sdd/2026-10-17-gamewiki-sole-template/progress.md",
+      "bytes": 3115,
+      "sha256": "fa45edd902c1f971b8901f3a4f62b7397a75101e77b6cc5eea1e18c284e23f3d"
+    },
+    {
+      "path": ".superpowers/sdd/2026-10-17-gamewiki-sole-template/task-1-brief.md",
+      "bytes": 2882,
+      "sha256": "895fba6f29cd78ccbee6a658b58c8506416919606fbbbd34847b96862874090d"
+    },
+    {
       "path": "AGENTS.md",
-      "bytes": 9925,
-      "sha256": "ed38897cd80a2152a2d355ed014794a870b68ada221abbc6906faf36975832b8"
+      "bytes": 11405,
+      "sha256": "55dd63a8ebb27e9cea7dcca7e2b10886afb3839bd27beb9a5c0a619e15a8052f"
     },
     {
       "path": "LICENSE",
@@ -151,8 +171,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 27348,
-      "sha256": "9cb316f14326a04a8226634b40a66410f3c2f3ff4c8836b4f81142f1bbd19d8a"
+      "bytes": 2812,
+      "sha256": "9507f03d3bc7a47b17f7e83de7dddd0066cbebcdc3a1e0d189683abe09803da6"
     },
     {
       "path": "astro.config.ts",
@@ -161,13 +181,13 @@
     },
     {
       "path": "docs/PRD.md",
-      "bytes": 106784,
-      "sha256": "2d901e91f1108ee8c0c06bc05ddbc991b62a7c2e08e87f3bb362bebb6a48985c"
+      "bytes": 107017,
+      "sha256": "8ad91ed3cc88ca0018936ceb4c33bae229be8fba405d4bc63f8d9efd5997c393"
     },
     {
       "path": "docs/README.md",
-      "bytes": 8781,
-      "sha256": "3a82016819c5aca16058901cea3f432ee1fa2b8459e9e854b486ad38a0953485"
+      "bytes": 8880,
+      "sha256": "f8800052984867b404bd8b45b200ca1547c9beb177e7d6e1666cb09b39aee80d"
     },
     {
       "path": "docs/ads.md",
@@ -176,8 +196,18 @@
     },
     {
       "path": "docs/apply-template.md",
-      "bytes": 21853,
-      "sha256": "c047e34b2f65245023c6ecdbce16474a2fd9971d93fa7e710a93337433a13708"
+      "bytes": 21777,
+      "sha256": "1ce2ae4e809f4cce19091c019a667689a6f41b6bdd3d70442b179f121bb2f85b"
+    },
+    {
+      "path": "docs/art-typography.md",
+      "bytes": 1573,
+      "sha256": "5534565325d01a4d568692e06e9add972401d13cb6d917993d42b4f7dada471e"
+    },
+    {
+      "path": "docs/brand-mark-workflow.md",
+      "bytes": 3221,
+      "sha256": "a49c2923d7bddf7f43ba8184dc144f840eaa5766504ffda69f674aa67090759e"
     },
     {
       "path": "docs/comments.md",
@@ -186,8 +216,8 @@
     },
     {
       "path": "docs/content-format.md",
-      "bytes": 20342,
-      "sha256": "2e9a3e289fd9f2e9bbcfde186af2ac538eccc9dbe802df96fd0dfae599116296"
+      "bytes": 22550,
+      "sha256": "cd700e2cff0d3fadd560af2af9a89c5b049ae0a78ddc21e4fd8c85521f2d6075"
     },
     {
       "path": "docs/content-pipeline.md",
@@ -196,8 +226,8 @@
     },
     {
       "path": "docs/deployment.md",
-      "bytes": 19768,
-      "sha256": "8947773ea29302ac65362a5b446bd6d0dc0e938d4aec97fb0713cb4ab336627b"
+      "bytes": 20477,
+      "sha256": "18fecefd3c62e71f30e2a4e854b7f31711df401e38688bb74321c24c6d24a6e7"
     },
     {
       "path": "docs/development.md",
@@ -241,8 +271,8 @@
     },
     {
       "path": "docs/handbook/en/first-10-pages.md",
-      "bytes": 12532,
-      "sha256": "c18fe198d419a08c2201f9d694c4b895f0c634b3c8c38965873e206debece8c9"
+      "bytes": 13101,
+      "sha256": "2ce7d0d7bdf18730604f809ff942db068ec8e121147247b3e8ee3698c71530dd"
     },
     {
       "path": "docs/handbook/en/get-on-google.md",
@@ -261,8 +291,8 @@
     },
     {
       "path": "docs/handbook/en/launch-your-site.md",
-      "bytes": 9951,
-      "sha256": "9d85346ea1db4d9a671ba6b46ea21a8f85d4d15ce1eaf544f612baeaf10a91ec"
+      "bytes": 9615,
+      "sha256": "edafe73529d37658148d8f8f5867d753e98eb088a3e77727a8daacd6bc387a71"
     },
     {
       "path": "docs/handbook/en/pick-your-game.md",
@@ -301,8 +331,8 @@
     },
     {
       "path": "docs/home.schema.json",
-      "bytes": 8712,
-      "sha256": "91075bb34b47304e8f32ac3703c5cb83a5b62546145f7d0315fc4568de1bf052"
+      "bytes": 8876,
+      "sha256": "4bd40ff736bcb2df241c0eb7aa72453b0546b82862b25d7302c77472da777250"
     },
     {
       "path": "docs/migration-from-nextjs.md",
@@ -321,8 +351,8 @@
     },
     {
       "path": "docs/roadmap.md",
-      "bytes": 5568,
-      "sha256": "b3e358dbfd7e316e301290e95f78cb508079c5705285ffb368f294d1d42eec66"
+      "bytes": 5575,
+      "sha256": "0e094098a07e6f7eec5cd7442b0ead47cc51051ba180402f2196951f958852e3"
     },
     {
       "path": "docs/seo.md",
@@ -330,9 +360,19 @@
       "sha256": "b93e4ff38f0e8ffd9331250c783f40a93d2d0a44b916695fac5902c21a7d35d5"
     },
     {
+      "path": "docs/solo-maintainer-protection.md",
+      "bytes": 1081,
+      "sha256": "32c20cbcc8af15015e26aaa0597193acc34c55123d8f598a657f9f633a1f4cee"
+    },
+    {
       "path": "docs/sourcing.md",
       "bytes": 12317,
       "sha256": "bd229b26bb4c1f47f9e7151ae07ada737ad3573d39ee2ebde40e4e3d7e9d2d2b"
+    },
+    {
+      "path": "docs/starter-boundary.md",
+      "bytes": 1973,
+      "sha256": "207682dcd51090ab1d170de99a3da67bd41c3ece33e452530f8fb02537c986a7"
     },
     {
       "path": "docs/staying-up-to-date.md",
@@ -366,8 +406,8 @@
     },
     {
       "path": "docs/superpowers/plans/2026-09-04-privacy-advertising-compliance.md",
-      "bytes": 2402,
-      "sha256": "5f716eff49f53dc180bbb369f0443bb2bf396a9d5b959ae76e3e48e44b358f28"
+      "bytes": 2401,
+      "sha256": "b16317327d5e610e19b38508cf335ceb941ef952809fff188a1950b08d77d29a"
     },
     {
       "path": "docs/superpowers/plans/2026-09-05-home-presets.md",
@@ -395,6 +435,11 @@
       "sha256": "d749ee0f550b2e55f5f208a56c973cf746aa7d41d3d41ccf708d1a389be1c36a"
     },
     {
+      "path": "docs/superpowers/plans/2026-10-17-gamewiki-sole-template.md",
+      "bytes": 16501,
+      "sha256": "6775f2afa4d5cc08d0cb609b30e05eadbc41ac3cc7a3dd755aad08b3c6041017"
+    },
+    {
       "path": "docs/superpowers/specs/2026-08-18-anvil-ops-cli-mcp-design.md",
       "bytes": 9573,
       "sha256": "a738caac54e6cfb6fe5de6301cf190a82da6013beb9345edb7d4168cffc0d32f"
@@ -418,6 +463,11 @@
       "path": "docs/superpowers/specs/2026-09-13-homepage-analytics-design.md",
       "bytes": 1939,
       "sha256": "af79303e10e71f49c95e8db33817c1dfa75c4cea2b382ca7e99d529a0af90b81"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-10-17-gamewiki-sole-template-design.md",
+      "bytes": 7801,
+      "sha256": "bcce5c0e68f5e9d9546fc8bb998f6201f6434f607a1e815742c8f7a50992c89a"
     },
     {
       "path": "docs/template-preservation.md",
@@ -445,6 +495,11 @@
       "sha256": "5a7640ae63451d7d7db0790886c92f7022d513eaa132a1eee650ccb8b20231a2"
     },
     {
+      "path": "functions/api/game-deals.ts",
+      "bytes": 17635,
+      "sha256": "fe065fdf277f85bc9ee283a50a86887032c4b8d710b59df16989c1958088d056"
+    },
+    {
       "path": "functions/api/popular.ts",
       "bytes": 386,
       "sha256": "dd9c8a3d9692322b40d2741a8a83fa006e957550a1f19f5d5de03ceeb86f0c71"
@@ -461,13 +516,13 @@
     },
     {
       "path": "package.json",
-      "bytes": 3558,
-      "sha256": "0903d590c43f7866940376159f9e86723e7475a773036787a19a6e1ea1d7a37b"
+      "bytes": 3156,
+      "sha256": "4a7837d81b383b1e79c593abf950698acdac81f57f725b123e43400307f0d7cd"
     },
     {
       "path": "pnpm-lock.yaml",
-      "bytes": 264596,
-      "sha256": "803e03cd911ea23e6926198e79532f1b6fded12873de049ea8bed3a0fe5dd6a5"
+      "bytes": 258730,
+      "sha256": "a98ee2a13e1630422ec2736e0f2630f95cb3aba2562b094b8f4ae8c334f96268"
     },
     {
       "path": "pnpm-workspace.yaml",
@@ -496,43 +551,48 @@
     },
     {
       "path": "public/android-chrome-192x192.png",
-      "bytes": 4068,
-      "sha256": "bac5e8e5c6e3479fc60f3205ebc8ecc45a165e9e15052c163623b0a3e9eeed20"
+      "bytes": 29979,
+      "sha256": "87029d34b8eb9de06c77ad4262f748c489d679414a274abc846ab7078958db24"
     },
     {
       "path": "public/android-chrome-512x512.png",
-      "bytes": 6451,
-      "sha256": "a8f1485e3a6c4516607034578ae4af2f00e16e09a1f416fd8b9e88191dd495d6"
+      "bytes": 142532,
+      "sha256": "ffa1f7ae6132c9ad32e615646c55b5f3d13c232de6fab9091dcb7ed00bb65279"
     },
     {
       "path": "public/apple-touch-icon.png",
-      "bytes": 3641,
-      "sha256": "ce3969f2d3b7bd698f941fd3529ba45f26f8addef41e1ea86dd69bfd260b8384"
+      "bytes": 27178,
+      "sha256": "d0b4c7eaf1ea78114db33b91a3ec1909773b3931a5d6d0e9c3cef075c2b1a116"
+    },
+    {
+      "path": "public/brand-mark-512.png",
+      "bytes": 142532,
+      "sha256": "ffa1f7ae6132c9ad32e615646c55b5f3d13c232de6fab9091dcb7ed00bb65279"
     },
     {
       "path": "public/favicon-16x16.png",
-      "bytes": 398,
-      "sha256": "bf15249367f3963ce219d21c42e0dec3ca828997f36546494a99f4656fa8db72"
+      "bytes": 722,
+      "sha256": "b3db160e9cb0d2d91fc224ac63bebae7ae28b6cee1407ab3af94d108b9b0a48f"
     },
     {
       "path": "public/favicon-32x32.png",
-      "bytes": 678,
-      "sha256": "1c9f91ecd6efc94b7e306d6a198f3ea1e6967c72a1c8dc1fda0c1e7ee59f2ebc"
+      "bytes": 1937,
+      "sha256": "3dcd6b5e1bd23c531b169141cbb8685b7ca183473ede6c47974f2fe87572333b"
     },
     {
       "path": "public/favicon-48x48.png",
-      "bytes": 1003,
-      "sha256": "8af4242067072dfc9bc61f688a6b31a70b467886a4a91bd33365a06318b63d34"
+      "bytes": 3558,
+      "sha256": "9af28181566c27a86ddb6d77693281e86be79e1617dff7181e6fb167ce0cee00"
     },
     {
       "path": "public/favicon.ico",
-      "bytes": 700,
-      "sha256": "2ae126f5cfd4412b428f3ab9358d7dcba4e14727a7b9aaeb20f87def8e0e2e1d"
+      "bytes": 1959,
+      "sha256": "c13b2388d70c0aca011b49c57a6603be29a6139213e580455c83cfae7614932d"
     },
     {
       "path": "public/favicon.svg",
-      "bytes": 305,
-      "sha256": "319a6ec59336ea9df85bbf8ba96f886d4968d14166e4f65cab7d1ef39716a78c"
+      "bytes": 165,
+      "sha256": "6be4596fb08d30324bf4d77a2fd3cd31e69c4fdd95ee03ff17688a7e00fea054"
     },
     {
       "path": "public/images/hero.svg",
@@ -548,6 +608,21 @@
       "path": "public/images/home/boss-card.svg",
       "bytes": 458,
       "sha256": "94f686a5da25f80f297842a18eac1b6637e5945232151951066f908d7deae8b0"
+    },
+    {
+      "path": "public/images/home/decision-endgame.webp",
+      "bytes": 105002,
+      "sha256": "472148913c4761ab1c6d77a50b6c6b69b37327eab5018462f443281494c30cd6"
+    },
+    {
+      "path": "public/images/home/decision-new.webp",
+      "bytes": 249508,
+      "sha256": "21011f28f3b1aa5e8f21410ca3edd014c4b0d8fabf8e516ec3a823e6b34e272b"
+    },
+    {
+      "path": "public/images/home/decision-progress.webp",
+      "bytes": 186030,
+      "sha256": "e03192ebac0107a9ca6c3bbbf11a484866f78cc0ea5edcd4113e0778935fbdd5"
     },
     {
       "path": "public/images/home/guide-card.svg",
@@ -630,9 +705,19 @@
       "sha256": "b6b5acd4cbca0c9329bfab0bbc53854cce717da9352d7b1e6d40e49e0e909aa0"
     },
     {
+      "path": "requirements/00浜嬪疄鏉ユ簮.md",
+      "bytes": 3953,
+      "sha256": "29585e6bf1286ddb6a359671f55b1ad699a041ee1525e5f0e0b7578acebf28aa"
+    },
+    {
+      "path": "scripts/apply-art-typography.mjs",
+      "bytes": 13309,
+      "sha256": "ceeb637328e7cc368450bdd52216d48279e8d277cc75142108964837d577c75d"
+    },
+    {
       "path": "scripts/apply-template.ts",
-      "bytes": 36698,
-      "sha256": "8ee18900017c667cbe6c937a2a4552f4e060139763446c5da6471f561eac5ba3"
+      "bytes": 36921,
+      "sha256": "0f63700a416fe416f15c8d9091284b8e1ec5b9ba406e0a534d231fc772168f1b"
     },
     {
       "path": "scripts/bulk-new-posts.ts",
@@ -646,8 +731,8 @@
     },
     {
       "path": "scripts/check-content.ts",
-      "bytes": 11763,
-      "sha256": "0891d30551a1e6da1a6bd4f46a25ef63f1c6afa0aa94e0b02030347570cd5813"
+      "bytes": 11825,
+      "sha256": "00d181f5498f0177fd9e39a837cf01cfcff29072a3ddd7c7c5b738eb274511fb"
     },
     {
       "path": "scripts/check-i18n.ts",
@@ -658,6 +743,11 @@
       "path": "scripts/check-links.ts",
       "bytes": 3873,
       "sha256": "96b57120137b3c596fd1360797cc8865fb6c03351e4b0cc1cd714e97dc1bea4c"
+    },
+    {
+      "path": "scripts/check-package-manager.mjs",
+      "bytes": 2063,
+      "sha256": "6b4108c436291ad791bf0749873cb1154f549ff0bbcf1868f46ceabb5e9e87c5"
     },
     {
       "path": "scripts/check-publish-scope.ts",
@@ -671,8 +761,8 @@
     },
     {
       "path": "scripts/e2e-apply-template.mjs",
-      "bytes": 11268,
-      "sha256": "73602ca9c04be4ed8e6de4ec909eaf6a50dbfd89a801e1512364fcb900beee75"
+      "bytes": 12611,
+      "sha256": "710f03b4f0c73318d9789984af87d5ca37555c05386688de7a708b0c577ae4e7"
     },
     {
       "path": "scripts/fonts/Lato-Bold.ttf",
@@ -686,8 +776,8 @@
     },
     {
       "path": "scripts/gen-assets.ts",
-      "bytes": 10840,
-      "sha256": "812ef15342f66534a937e9d236d3ed9127b49fb797f279e88e0ac355b5aacd10"
+      "bytes": 11558,
+      "sha256": "15813557c5d62409ab8ba089c12a3e707c4de612f2ad3369e2d19ac63ef21c0e"
     },
     {
       "path": "scripts/generate-popular-slug-manifest.ts",
@@ -696,8 +786,8 @@
     },
     {
       "path": "scripts/lib/apply-rewrites.ts",
-      "bytes": 18111,
-      "sha256": "f69b2cf3bb20589c23fa395c5a64602d275e6e448eeb2c2004c9eb43ee63a68b"
+      "bytes": 22756,
+      "sha256": "800da5153697bd59e5c523dd579baab37b4082fd64dde05ff5d0be8e263564b2"
     },
     {
       "path": "scripts/lib/popular-manifest.ts",
@@ -810,379 +900,329 @@
       "sha256": "5911ec427ea1f27089f36a5e75fba2a5c77f9a7b654ef81de673a3eafeb85168"
     },
     {
+      "path": "src/assets/branding/brand-mark.png",
+      "bytes": 674457,
+      "sha256": "5320da010af66ee519c639b9b35f6dd37b06fc3f7ef16d05fec3f125b2e58cee"
+    },
+    {
       "path": "src/components/ads/AdSenseSlot.astro",
-      "bytes": 2089,
-      "sha256": "37fb5d6e9266de8bbaeea654aa69bdfe728e0c268e02bfd522e063e50cb40825"
+      "bytes": 2150,
+      "sha256": "0a296f0f0a8b765d8c7ffadfef5997dcc5bfd94d85524505059ea5f95759dcdd"
     },
     {
       "path": "src/components/ads/AffiliateSuggestion.astro",
-      "bytes": 1715,
-      "sha256": "be18557a7ccb90fb604f073dc529a34b04c00c57765e2cc162d62a3292be5b2c"
+      "bytes": 1767,
+      "sha256": "1749685dd62bf5df7c8594de50f4484571a22c16fe97e57e992f12041c81f2b8"
     },
     {
       "path": "src/components/ads/InContentAd.astro",
-      "bytes": 1275,
-      "sha256": "5dfb942b0ef0426be646f39a885a19eb86e1cf10bbecce9d58e5b1025fc0f0e7"
+      "bytes": 1310,
+      "sha256": "68181c26dac148ff5b731180deb6889d18ed9f4d015f15512d188c8bf0874c82"
     },
     {
       "path": "src/components/ads/SidebarAd.astro",
-      "bytes": 768,
-      "sha256": "b197a556bd20b542a4dd258a8c9c68e3bca7e7be73b2125856393931857f3f3d"
+      "bytes": 793,
+      "sha256": "783144bda6b5e3aba9b0279ae7aeeb91707e2ce484067843920be210d75f9e7f"
     },
     {
       "path": "src/components/ads/StickyBanner.astro",
-      "bytes": 2957,
-      "sha256": "dc6fb5ec5d1fd3c2d7ce7fa970bb2d404aebdc3e364a002244f3b81da6e499b3"
+      "bytes": 3039,
+      "sha256": "c7f978e16b199049c837b1f41106ba6e467756b7a249f573f66feedf944b7a40"
     },
     {
       "path": "src/components/article/ArticleCover.astro",
-      "bytes": 1081,
-      "sha256": "28f81e1c221cca88b7b51ac6dce0c2d67e4d523488f1086e1a66ca1f372e5057"
+      "bytes": 1581,
+      "sha256": "f94641106f04fa506d29ed66316f03abad855c67e0fcc9410289f090a72a9e4a"
     },
     {
       "path": "src/components/article/ArticlePage.astro",
-      "bytes": 26397,
-      "sha256": "e28ff0eeab950db3cde80287202759c32ba1f682eae2176752b69c20b536c56a"
+      "bytes": 27449,
+      "sha256": "6a0f484a213e6750cd7c938575424035dfc28d29be572d8dfe3639b46f27d571"
     },
     {
       "path": "src/components/article/BackToTop.astro",
-      "bytes": 1351,
-      "sha256": "7f1975543ce0ef9fa504b66490b21317000e20bdb3768f6ad1e027caf29b0963"
+      "bytes": 1394,
+      "sha256": "679e8641939f5ccc8bda62b0cba54e01d6bd06296adf28ac6470ead065111957"
     },
     {
       "path": "src/components/article/BossStatCard.astro",
-      "bytes": 1994,
-      "sha256": "7e9221800d3cb8f5e1ddb5e0c9097fca8feafff8a107316eb14107231326dbb6"
+      "bytes": 2049,
+      "sha256": "871447c96ca4fda1ea3e28a2c7d6cdfe060664e19aa8ed8765e5dac167393958"
     },
     {
       "path": "src/components/article/CodeBlock.astro",
-      "bytes": 2975,
-      "sha256": "a0a74ec360a8e7eb9ba087758722efafb5d29bee4909dceeef5fb549906a6289"
+      "bytes": 3069,
+      "sha256": "78ca9e8ac749fda81414b83a4c3c14c4ff5c58424a9f02b20f50d41d0a38a097"
     },
     {
       "path": "src/components/article/CodesTable.astro",
-      "bytes": 3714,
-      "sha256": "9656fd45f4a1ede2e16b4d0a12d8856816619758e6a8f12bcf61fc40f59780a9"
+      "bytes": 3818,
+      "sha256": "2a8c99fc4ef30a47d069de008805ca3db7a57fe99161376c34dbe716c9c52cab"
     },
     {
       "path": "src/components/article/Comments.astro",
-      "bytes": 3917,
-      "sha256": "350fd366bb811ee725a3969e96e8900f8f15b9bd10abe9764ea053bae4faccff"
+      "bytes": 4024,
+      "sha256": "d78dea632fa03c9bde79308708680c930dfa69a0d44d4faed030d387be001852"
     },
     {
       "path": "src/components/article/ListPage.astro",
-      "bytes": 7460,
-      "sha256": "a5b2090f09cacd61a327fdda2ab69e080c1b370734b1d27216d372d74f9de72c"
+      "bytes": 7648,
+      "sha256": "9ac21bd232434426c0fa6a51de278fe5d5bd123bd4c02eba913ca60018ec258a"
     },
     {
       "path": "src/components/article/RecentPage.astro",
-      "bytes": 3940,
-      "sha256": "b36717d0e0e849760c2a05b203b4b46ef91e9dfda6f477cf29885fdba865ccf5"
+      "bytes": 4089,
+      "sha256": "0e89e70d140684a4b12b6ad6c5f5eabb6cfecc5e0f7d174c94a23ae5ced000bc"
     },
     {
       "path": "src/components/article/ShareButton.astro",
-      "bytes": 2435,
-      "sha256": "548e9d0eb7ce22ac8bc93425f16f923b7fdbee559edf49c5e59d8476c0ce3f39"
+      "bytes": 2509,
+      "sha256": "c344548bc8d83165e488c902913aaf3d069ef61ea15b47755d1da95503fd10fa"
     },
     {
       "path": "src/components/article/Sources.astro",
-      "bytes": 1222,
-      "sha256": "afccc048278024febe80cbb2998a7f96335fce6d748e93510fceca10139c1f0a"
+      "bytes": 1263,
+      "sha256": "9334f67cc25a52086e71618e5b58633d55edd012a1ae31991176eb9e914dfc7d"
     },
     {
       "path": "src/components/article/SponsorCard.astro",
-      "bytes": 2112,
-      "sha256": "5f0763502cf056a67ba8035e47a06d26825ac5e3b8f211744f807c20755c13d2"
+      "bytes": 2174,
+      "sha256": "af6fce7d1e7a892e609fdbd0034560006bdb1e4b7836a6d702e1cf8dfd687566"
     },
     {
       "path": "src/components/article/StatBar.astro",
-      "bytes": 1102,
-      "sha256": "cb5c37c2bbba47cfbd289de754f386062736dd5955642fc1434a9c1aa0dad246"
+      "bytes": 1133,
+      "sha256": "22b47f1716089656dd56e6c1cf33870cf44997afbb60459369c6e8929127dafa"
     },
     {
       "path": "src/components/article/TableOfContents.astro",
-      "bytes": 6034,
-      "sha256": "c0f551c1d513ad15a7ea003d4f40a3804f5ff1338508ec43a96171e57f5eeeeb"
+      "bytes": 6196,
+      "sha256": "b0f258df86478ae1320583510860c7a0d292ccb25e1745dffb655b1d5a920f39"
     },
     {
       "path": "src/components/article/TagListPage.astro",
-      "bytes": 4515,
-      "sha256": "4e519f8d717d66877446f457975f2387926a09004f641daad3d3408853a1284c"
+      "bytes": 4674,
+      "sha256": "212d770210202397d7204bd97e1d68c68e33dc41a1fc70005049e46b7e6e574b"
     },
     {
       "path": "src/components/article/TagsIndexPage.astro",
-      "bytes": 2717,
-      "sha256": "76fe86431b2ae45aac9ec3bb6b63409771144869cb83f215905e9555436852c5"
+      "bytes": 2794,
+      "sha256": "36e4b745a6275a0bdab1e4b68722c3ac08d18fb076a1cbcf648c300ea975c7b7"
+    },
+    {
+      "path": "src/components/deals/DealsPage.astro",
+      "bytes": 15427,
+      "sha256": "029af5d2b2ebcf9f530e98caf266fd6749efe0d86165e54739cde3fedc8395a7"
     },
     {
       "path": "src/components/footer/SiteFooter.astro",
-      "bytes": 4039,
-      "sha256": "9f90444d18d4eefc65db3b3c469ce292e0f35a17e2b4f8ca8a57ff922da39b08"
+      "bytes": 4149,
+      "sha256": "4c8d99d6a4f05624174bd0240acea68600e3a4188cbb8f8cba1608091d8017f6"
     },
     {
       "path": "src/components/header/LanguageSwitcher.astro",
-      "bytes": 1598,
-      "sha256": "680359675daf0c6cc0da8c6395eca32100ed8702c3b1b4fd53b86e827d57c32e"
+      "bytes": 1645,
+      "sha256": "9593e30c75681dbc000def78236bb2af4fce09ebe3ac2a311340e4b7470f77ed"
     },
     {
       "path": "src/components/header/SearchButton.astro",
-      "bytes": 18574,
-      "sha256": "822b69216c2e1a808773983752a5193ba490ae5e0f76aa545da162ae15e01ea7"
+      "bytes": 19130,
+      "sha256": "7b771acb168203049bbd92f0b8faa6f84f35f0812af067d9efea7b0fc56f8972"
     },
     {
       "path": "src/components/header/SecondaryNav.astro",
-      "bytes": 2448,
-      "sha256": "65dcd08836dee3d88ecd440a9188ce4237a533a389f96d1bee1afb5b46c20496"
+      "bytes": 2411,
+      "sha256": "509f98fe0dd57e0d0c8b67ccacd0af4e16a60b779b3fd46eb7d95c2417066161"
     },
     {
       "path": "src/components/header/SiteHeader.astro",
-      "bytes": 9629,
-      "sha256": "061632886bc20a65d6d269de0b23f1a19ef044be4d947f8fef8970e5bfd7bc61"
+      "bytes": 8355,
+      "sha256": "f6be8ceb7fe79fb9912cb12f2a6e165fe6f04a07812bda99ce664b9b90cea27c"
     },
     {
       "path": "src/components/header/ThemeToggle.astro",
-      "bytes": 2292,
-      "sha256": "04721ee34c0da75eaac0ffcd7202be8fbd176df514a3db2c8e8b1b099276659e"
+      "bytes": 2362,
+      "sha256": "2ab1e25cefe615d93c7f8e24f02cb326d4734b2b9a7e53dbe2259527b6a01d10"
     },
     {
       "path": "src/components/home/ExploreModules.astro",
-      "bytes": 3521,
-      "sha256": "e5ba57a5261e9cde07afb6321a15b8b3d49e92b4d406a65d3dc73fbe5c907d44"
+      "bytes": 3602,
+      "sha256": "30caffe827c84165cd88c265ead71f9d7991dee9c5c31771d0495258e2a7f55c"
     },
     {
       "path": "src/components/home/FaqSection.astro",
-      "bytes": 1638,
-      "sha256": "112c4fff932c92235614517bcd18f9f6e7fc6480a7aa34d1040751608ddb4625"
+      "bytes": 1691,
+      "sha256": "3734f40e09c99e8d130b37924afaf5cef55db90156134288187891c6f5b8beb4"
     },
     {
       "path": "src/components/home/HomePage.astro",
-      "bytes": 23492,
-      "sha256": "ba29307557a8e37d1997c874a50afa7bf89c51289241a7adca016f781b25ba9c"
+      "bytes": 30909,
+      "sha256": "b9fe413ec632fdd90c134cbdbc4ebb633b33d4ca33f8ab9c42d96b0da52638ab"
+    },
+    {
+      "path": "src/components/home/PlayerDecisionGuide.astro",
+      "bytes": 3704,
+      "sha256": "78c0d5a31ac57003fcc39a4ef8f3c4b1980e5bed4bb2cd5f3d8a67dd5ce585af"
     },
     {
       "path": "src/components/home/QuickStart.astro",
-      "bytes": 3444,
-      "sha256": "b57c730503930b307f446eccc130c4d01e9f66e5ea1389403bf1ba5cd3f3dafa"
+      "bytes": 3877,
+      "sha256": "d36a2765f4c2aa3e75802c1a1785e60e5d450c315f3622b954590829e88fe446"
     },
     {
       "path": "src/components/home/TrendingNow.astro",
-      "bytes": 1928,
-      "sha256": "ae739a41a49b398e781dff4bf5207865ffbdd8043189fd8ef880ffb422b98654"
+      "bytes": 1983,
+      "sha256": "eb97dfcd783a36e23046595b2dcbe7dde2f81a2a4dd05b64ea62ef26f7cf4644"
     },
     {
       "path": "src/components/home/VideoSection.astro",
-      "bytes": 833,
-      "sha256": "ef6d7bd30e231545206fe5cbb0213f3ee8ff06d8ddd74ca575f54b48e985ed96"
+      "bytes": 860,
+      "sha256": "fd7db2e95669c5c807eb52d57c4043a9ed9b1453e5b340f46e850afc4238aa53"
     },
     {
       "path": "src/components/home/modules/CardList.astro",
-      "bytes": 684,
-      "sha256": "4a455aff190524850b1e440095b5433b0e7b11439b4f825502f11102de6be70e"
+      "bytes": 708,
+      "sha256": "caae9713806d5c963fd06ce50f47c8390adf31687c35d51fb5f5f9c7a998850b"
     },
     {
       "path": "src/components/home/modules/CodeCards.astro",
-      "bytes": 1121,
-      "sha256": "56bbfcdd5875d148ca74c851b8059624a6b0975664808fbdaa7a2cc47cca558b"
+      "bytes": 1158,
+      "sha256": "ad6df62cd196953a00c1eb23ca7f741ce1d6ddc3a3c3629f233d8ff40179d079"
     },
     {
       "path": "src/components/home/modules/StepByStep.astro",
-      "bytes": 634,
-      "sha256": "8a59daf5f3c41d0fef9f6614caf187fc1afdf1671cc16f82f0f069610c89dd74"
+      "bytes": 657,
+      "sha256": "c0a77c5e39055d06bbd60500234027093a350d3100bbcd9ca6039bfef61ef9d3"
     },
     {
       "path": "src/components/home/modules/TierGrid.astro",
-      "bytes": 987,
-      "sha256": "8de921badf5d505b0a791793c7403b485f7b062e44b0a3d186daeb0a1509b5f6"
+      "bytes": 1022,
+      "sha256": "bc31504b7c04e0597d264788e8e5a5fb54b00380e3ebff455a21ce9e5f927f84"
     },
     {
       "path": "src/components/home/modules/Timeline.astro",
-      "bytes": 2767,
-      "sha256": "63e7293d70b581ae10535417d54e935eef1e9232301c250ec3a910d53c9be684"
+      "bytes": 2843,
+      "sha256": "69aedb17fee1663e33e14bb2727f5458a6c4508748bbe46dc6aa4e82cb8e35a4"
     },
     {
       "path": "src/components/home/modules/VideoGrid.astro",
-      "bytes": 3191,
-      "sha256": "d5ffdb65976d3e103f933099971182ed2d41b05194f10199fdfed89383827c32"
-    },
-    {
-      "path": "src/components/landing/Community.astro",
-      "bytes": 4201,
-      "sha256": "e85c54906aa23f84601d21e6eb39c5a9be0e2835fe8fda9a793d687f6fb63327"
-    },
-    {
-      "path": "src/components/landing/CommunitySites.astro",
-      "bytes": 3251,
-      "sha256": "2c407fbbf4155a667167e6bf53a3a8c3c61c5fd1dc5fb6b0656f81e479f459d4"
-    },
-    {
-      "path": "src/components/landing/CompareTable.astro",
-      "bytes": 2103,
-      "sha256": "0e7cc15d1d9befde3bcbb005b65caf9e2e0a0a48ecae15a9ae3a75a1280d8957"
-    },
-    {
-      "path": "src/components/landing/ComparisonPage.astro",
-      "bytes": 6094,
-      "sha256": "1edb30e474cdba4e43f8b7edca4e82bae09ad363461c0daad6b37ba2444f29d4"
-    },
-    {
-      "path": "src/components/landing/DevGuide.astro",
-      "bytes": 3099,
-      "sha256": "fff1f3a28750f576294593b0c1920be65e7e9d5ac07f6a3e2883bb7365b9d66b"
-    },
-    {
-      "path": "src/components/landing/DocsEntry.astro",
-      "bytes": 1558,
-      "sha256": "9219e5ee2ba356e0a4bb05fab3a38bfc5bdecffaf2847c246b4eda4738475871"
-    },
-    {
-      "path": "src/components/landing/FeatureGrid.astro",
-      "bytes": 907,
-      "sha256": "d5db0d844c301a788fe166249d4f18017560a944aa93211c500faccd481e0f97"
-    },
-    {
-      "path": "src/components/landing/FinalCta.astro",
-      "bytes": 1077,
-      "sha256": "ec0cee15c6fbb3ea79c3db7823721d2f63a6c9a97ae0d82bc35ba43447def215"
-    },
-    {
-      "path": "src/components/landing/HandbookChapter.astro",
-      "bytes": 6489,
-      "sha256": "460c9d125b9d797f8c97f2451d31cf2400c2f9870105097e5ac4ce23659b27f7"
-    },
-    {
-      "path": "src/components/landing/HandbookHub.astro",
-      "bytes": 4072,
-      "sha256": "68cb9e832f97ce5129c26aa81d931551ac42367f34cb18997b8484b73eb185ed"
-    },
-    {
-      "path": "src/components/landing/HandbookManualList.astro",
-      "bytes": 3087,
-      "sha256": "0f78b9caa5b1b3f07743b61b51bbacddb446393fd03b23584758fd86cf0f6383"
-    },
-    {
-      "path": "src/components/landing/HandbookNav.astro",
-      "bytes": 5090,
-      "sha256": "906de3c02bb838e48821d6ef60290dff241da8c266f059d2ff08da09a19139b3"
-    },
-    {
-      "path": "src/components/landing/LandingHero.astro",
-      "bytes": 4989,
-      "sha256": "3a08d607d0fe30c6f91a71c85d6a98bd1c8f83646f0b2e85938368605a24ac58"
-    },
-    {
-      "path": "src/components/landing/LandingLayout.astro",
-      "bytes": 8209,
-      "sha256": "c544d4d01558d173c81df0eaa238a2c081d06ead5fd2ca1b1aaea711a58e7c4f"
-    },
-    {
-      "path": "src/components/landing/Showcase.astro",
-      "bytes": 2595,
-      "sha256": "fb3e19a5d0efb5153b783932d3f2660880eaac017eca3a4b9b26c15dd550b44f"
-    },
-    {
-      "path": "src/components/landing/SocialProofBar.astro",
-      "bytes": 1236,
-      "sha256": "2173c4ff8ddd283aeeb61c0a85f9e5192f01551835b9647151823092695fa27d"
+      "bytes": 3271,
+      "sha256": "00604471cf0dda93916787b2cb565c28d9cba23728c29554e5d09ccb25de9287"
     },
     {
       "path": "src/components/layout/BaseLayout.astro",
-      "bytes": 14552,
-      "sha256": "d3372dff2948344d5c12a2a1be3375df10c9bbb694a230df3f42edc9de601308"
+      "bytes": 15050,
+      "sha256": "f1c5b5a1f255263d04751fc1e77e9eb9eab756ef7589a7e7be42570f840f47bd"
     },
     {
       "path": "src/components/layout/CookieConsent.astro",
-      "bytes": 5194,
-      "sha256": "94172d20d64ac279c0ceb2c4b998614cb82a40e9a48a848a0572319950e2e68e"
+      "bytes": 5349,
+      "sha256": "38436a949cde7c0f1d399105d0f0c38fa73a610557c39aa329ec27afca652db6"
     },
     {
       "path": "src/components/layout/LegalContent.astro",
-      "bytes": 9445,
-      "sha256": "b26cedfdcd5f02aa0c6acd4424261c312a734cf41bfedd4e08233096f3a57d55"
+      "bytes": 9697,
+      "sha256": "c135749c3d97bd2dfb56baf49fcd5a87985abc327e98f97f1da0576901d7ff47"
     },
     {
       "path": "src/components/layout/LegalPage.astro",
-      "bytes": 1090,
-      "sha256": "2e465aeeaaaa56dbad2d5cbc2a9973aaa15c7958cd3e7585b1494a027c2b6ab6"
+      "bytes": 1122,
+      "sha256": "43a303071a0ed535aa8af69845229648dda2d76a1ca5157c81b77925544c41ef"
     },
     {
       "path": "src/components/layout/LocaleLayout.astro",
-      "bytes": 2340,
-      "sha256": "bf9deca0f61f7f01e37c01a745d0112a6c9f25ee05d39179cfb2ddfd7ae70fea"
+      "bytes": 2403,
+      "sha256": "614e264b800971fded8d2107585bcee4368266b4c3afb6ed076932334e59dbc7"
     },
     {
       "path": "src/components/mdx/Accordion.astro",
-      "bytes": 1123,
-      "sha256": "c60d1ea2453ed684110e1d3afce9c09eb8db9ddf6bda14945a6488c93b81fe95"
+      "bytes": 1156,
+      "sha256": "d187e36522a17e95bcc347fe7e53e394113c63aab3c0c6558fb83f317d36f499"
     },
     {
       "path": "src/components/mdx/AffiliateLink.astro",
-      "bytes": 2072,
-      "sha256": "a81a26f132d019acf31adc30025a4f205bd90ff1a7215866dec5422dfb397c16"
+      "bytes": 2133,
+      "sha256": "8eff7f69d69ef792bccc16f2aa8865a49841d109475225f017334201bfe56a0d"
     },
     {
       "path": "src/components/mdx/ArticleFieldNote.astro",
-      "bytes": 3455,
-      "sha256": "e646028cee71cb815167e0d66eb6947e6136027b5c980544b9c7f70abae3225b"
+      "bytes": 3530,
+      "sha256": "92cc1e216d4963e66810c366a6187fb3b08be4054f86c8ebebc7441d5c7688e1"
     },
     {
       "path": "src/components/mdx/ArticleImage.astro",
-      "bytes": 748,
-      "sha256": "87df44be2e1a17a96a3427a332af4d9f8e71104db86c2bded44fdcdbabb92bce"
+      "bytes": 773,
+      "sha256": "67ee201ced73148846fdf3fff594bdd360cdc1f1e4abb712625465b88845e2f4"
     },
     {
       "path": "src/components/mdx/ArticleReadinessDashboard.astro",
-      "bytes": 11436,
-      "sha256": "1a59c7145acac220814116028ea2520fecc3e18b3016cd1658b4b7260c1e057e"
+      "bytes": 11568,
+      "sha256": "6b3979ff0a434cf2430aace275eb3fb20cd9a0dce6478e89701e5e63f61b7185"
     },
     {
       "path": "src/components/mdx/Callout.astro",
-      "bytes": 1753,
-      "sha256": "e885145951bfa23fcfe58e838f954304aaeefdb9c4f369c9fb855a368dcb5156"
+      "bytes": 1812,
+      "sha256": "60ff8a19dd7e16581769ede7d415845587d49fce301878a319b6d108ae990c6c"
     },
     {
       "path": "src/components/mdx/Citation.astro",
-      "bytes": 528,
-      "sha256": "7a86b8795ef3c40b87680bbc4807cdf68a1a599180ac6f8512c752807a3f223b"
+      "bytes": 547,
+      "sha256": "b10598cf159e0f989419c67ded043612a8fc5730b264b443ca8a6a9be6ba7233"
     },
     {
       "path": "src/components/mdx/DecisionFilter.astro",
-      "bytes": 2786,
-      "sha256": "47804c653c1770139eff629724f8b0ac3b6d5d106e6443a4d06eb5ac422e47bd"
+      "bytes": 2870,
+      "sha256": "f96b3fbb320db5344671ac210649c53b6616848d00376410db751afe0e8da950"
+    },
+    {
+      "path": "src/components/mdx/GuideFlow.astro",
+      "bytes": 3895,
+      "sha256": "6a6ab2463fb928cd879c49dd843d513fd0cdcc5748e3d6cd4d5dc24a5a4957de"
+    },
+    {
+      "path": "src/components/mdx/ImageText.astro",
+      "bytes": 1515,
+      "sha256": "3e47a1cbe2a0f59af9a990c6365c08f9cb29b64a760a52ed558073e986f49619"
     },
     {
       "path": "src/components/mdx/ItemInlineIcon.astro",
-      "bytes": 809,
-      "sha256": "e904296f54d34be16a79b94851d40fee23107be3aa50f278fa6f41df9642f0a1"
+      "bytes": 852,
+      "sha256": "a33a9b27f90b66099060b09cc05da2044ea94544eee45bc17a982064c3fb9651"
     },
     {
       "path": "src/components/mdx/TaskPlanner.astro",
-      "bytes": 8412,
-      "sha256": "07ad0fe7b3b4f6da60db081729c2e74c5aaf3284acdded28ea0911c0c4ac56f4"
+      "bytes": 8602,
+      "sha256": "543ce70ee245e7468613fc9505fec0619998dcafe85168a0d66f664cc59e2369"
     },
     {
       "path": "src/components/mdx/Video.astro",
-      "bytes": 1194,
-      "sha256": "58aa551bb3b4c7bc22cf599c84c58a8399361ce263e7701f8b59708d03231053"
+      "bytes": 1228,
+      "sha256": "c334d322b38d9cc0f6b73df6e9559d13f8d1c4c0896980abe72acfcc10e36cca"
     },
     {
       "path": "src/components/seo/JsonLd.astro",
-      "bytes": 639,
-      "sha256": "370c5a419371e5c3b2e59f72f3c3ce3d22ab88f0e862e3707348d079e4ef29d4"
+      "bytes": 655,
+      "sha256": "d2604cc10b6145eacc5c7509c4c896cdd319a3136e0890395f8af0df5c974b36"
     },
     {
       "path": "src/components/sidebar/WikiSidebar.astro",
-      "bytes": 3030,
-      "sha256": "6b2acb1aeb2881347a928496b7ee7a3ea13dc629d9891f47a36dc67210934f4e"
+      "bytes": 3116,
+      "sha256": "b2010cc41dc93cc6b777b1ea0a45ce503babd49e8f69dff6411130c87a77c50b"
     },
     {
       "path": "src/components/video/LazyYouTube.astro",
-      "bytes": 4651,
-      "sha256": "c9a656ccc373dc1fee50c9ef36fac639b6a42f6ca52c6744d94ae0b068f4d665"
+      "bytes": 4775,
+      "sha256": "23bf544dc83a0cf829effd9aa5db79beb8ec1235a95a7ea5de7df6d7c5c2627d"
     },
     {
       "path": "src/config/affiliates.ts",
       "bytes": 1371,
       "sha256": "ef842604127243cdde89f756d345c06fbf6cee27afdc64a4d2cab5ef683bfb64"
+    },
+    {
+      "path": "src/config/art-typography.ts",
+      "bytes": 268,
+      "sha256": "c9c24db49d8282bb51adae8fcd0fbae37a295ea90c7344d01d6f96c861d39003"
     },
     {
       "path": "src/config/article-template.ts",
@@ -1201,8 +1241,8 @@
     },
     {
       "path": "src/config/navigation.ts",
-      "bytes": 3678,
-      "sha256": "0ee6977c15dbf6bd4cf132ed273056346ab5b2cb75ae4550cb80e61a0ee0703b"
+      "bytes": 3657,
+      "sha256": "cf84446c3d7a7485a5bb825fc51fc07d7408b15f5eb1ecc0d74f9e0d90cda185"
     },
     {
       "path": "src/config/project.ts",
@@ -1216,23 +1256,23 @@
     },
     {
       "path": "src/content.config.ts",
-      "bytes": 10369,
-      "sha256": "0f2250f851ef8e869fc3a8508db30e9e1b6fe92b1347e423c4235df63a71bd53"
+      "bytes": 10431,
+      "sha256": "0020b41729aa3fda043beaf2322d6fa5ccc2a27e6a63bf8dfb2c70fff3c091bd"
     },
     {
       "path": "src/content/wiki/en/bosses/emberfang.mdx",
-      "bytes": 10221,
-      "sha256": "f354341642c4091e75267355affee2fa83bc6d8eace4494dc23345e492c912a8"
+      "bytes": 9764,
+      "sha256": "87f1ede7936d5ea5c4843ff3197f1937aad217b0538e391f42f0cd83b04e766f"
     },
     {
       "path": "src/content/wiki/en/bosses/frostbound-monarch.mdx",
-      "bytes": 9834,
-      "sha256": "98b1c66c39a45ff37584cb8df94e16a9da8adc7c027c3aa62c152388d2cf3bcc"
+      "bytes": 9469,
+      "sha256": "d095d487059c1d513c4186c9fe8737002482e42bdb98403181fc4e40a85688d1"
     },
     {
       "path": "src/content/wiki/en/bosses/stormcaller.mdx",
-      "bytes": 10553,
-      "sha256": "89f5b90e777bd66e9b371a589402ccddf3b72b5794a807f0f2315ccecfaa6be8"
+      "bytes": 10066,
+      "sha256": "f8d0ba393a001c345514d24aaf413b7e231c151442299a4fbe165ced4f132bcb"
     },
     {
       "path": "src/content/wiki/en/codes/all-codes.mdx",
@@ -1246,23 +1286,23 @@
     },
     {
       "path": "src/content/wiki/en/guides/forging-guide.mdx",
-      "bytes": 7428,
-      "sha256": "d7081e1e1d7e81dba5eb74ebb7cbf6a7cd3b23cd712981a89ef9ee9e455f414f"
+      "bytes": 7920,
+      "sha256": "cfbae8869a90ffb24b8634ba0997e39d928d9802e7865db5a5663ff5f4c33e4b"
     },
     {
       "path": "src/content/wiki/en/guides/weapon-tier-list.mdx",
-      "bytes": 9440,
-      "sha256": "5c83db4eececb068be0448b049da213b191381adea3516a25cbe361ef6f156fa"
+      "bytes": 8773,
+      "sha256": "4ae3b74adbf355bb0da9139223303297cfe749770b399b73b33d785fe4750b2d"
     },
     {
       "path": "src/content/wiki/en/items/emberforged-armor-set.mdx",
-      "bytes": 6397,
-      "sha256": "b468e7420d082a2b8425b279403d693441eb045fe8becf4cccbebb16af3138c1"
+      "bytes": 6024,
+      "sha256": "1487347d269b58b30207fd9578d6f82f8d079668dbe6fd2ea1622df258feaf88"
     },
     {
       "path": "src/content/wiki/en/items/forging-materials-guide.mdx",
-      "bytes": 7000,
-      "sha256": "0525ba795ec455d76d0d83eb08633f287682efa0d5aeee21f395c60636fdaa2f"
+      "bytes": 6676,
+      "sha256": "1a8311ca341dad7de3aa5dcfce3b6a52873eb2cbe1865f6179a6cf9268559bc2"
     },
     {
       "path": "src/content/wiki/ja/bosses/emberfang.mdx",
@@ -1286,203 +1326,218 @@
     },
     {
       "path": "src/i18n/content.ts",
-      "bytes": 9206,
-      "sha256": "aeecf9dc1745cc0f6994de5d435fe9ae2c5707beacf0f693bdad97f0aa98c106"
+      "bytes": 9454,
+      "sha256": "4ea421acaf442024620333a48f71a8c2b132235047d06fe78aeead30cddbae78"
     },
     {
       "path": "src/i18n/locale-config.ts",
-      "bytes": 434,
-      "sha256": "13d5a3cb4db9b4ed3cf8abd011254397d5fb4a7545efdfbe9a966b47a13878ef"
+      "bytes": 442,
+      "sha256": "427f57282d6c3e0e94ff455897a655ae946df7b2d5ce6728bb4287029e49a98f"
     },
     {
       "path": "src/i18n/routing.ts",
-      "bytes": 1700,
-      "sha256": "1906eb8086ccf384c8041cd8e9e663755f88e68eb6db27eb8c58f4da9f9a1f42"
+      "bytes": 1746,
+      "sha256": "9f6f7d23d1d998ef496a6fb21b6c7de2f7db9cafa3739a8792cf270385c56d23"
     },
     {
       "path": "src/i18n/ui.ts",
-      "bytes": 2356,
-      "sha256": "a866e44faac057d3546c708fb27f39bdc4606e5af5c6dc2582872c7716ea4bbc"
+      "bytes": 2429,
+      "sha256": "f3b310bcf7dfc3ec0a1b4d5c74d7fc28a0558a5fb782c060c2fb216618c38247"
     },
     {
       "path": "src/lib/affiliates.ts",
-      "bytes": 879,
-      "sha256": "44f43da5b3ab38a8346215101f71793c2212b767ebea491b0968b72f5bd70968"
+      "bytes": 907,
+      "sha256": "356b9b8b33657c96826e12c21795fa5cde3a045aaa9a28fca9e74b7d2fadc7a5"
     },
     {
       "path": "src/lib/article-images.ts",
-      "bytes": 910,
-      "sha256": "38240127bda1062a285b60bebe91ee97223fffb49204c1a2bccfaa76e3d4ab63"
+      "bytes": 933,
+      "sha256": "1f2db2467f4aa0ca77df625268cbafba5912324e05339d4bfee130705ed05b65"
     },
     {
       "path": "src/lib/brand-utils.ts",
-      "bytes": 1491,
-      "sha256": "2b54ae594b69df8f6197ee700961e4e3322a847fec504fb8d16f89b457e47b36"
+      "bytes": 1536,
+      "sha256": "fcb3b2ffe4b8739da6afd86a35b05d04a009f9dba515fb2af6868b27ee7b9fa6"
     },
     {
       "path": "src/lib/content-utils.ts",
-      "bytes": 5548,
-      "sha256": "70bff367d1ddb8c3ce40537aec33c97085b01a0ab608d44d86abbfd9f93302ba"
+      "bytes": 5689,
+      "sha256": "c4558bc8404dc32cbf4fe9ecc4ba865796ebaabf576bea6ee5c301fa108345de"
     },
     {
       "path": "src/lib/content.ts",
-      "bytes": 882,
-      "sha256": "c1e11a39d3c9c37368099eb5be67df38caf9ca2410eecc6dfa55a745c5e7d5c7"
+      "bytes": 918,
+      "sha256": "ce4e15cca8d55c180ebb5cd3d9059d248fe67812e3d0781c685dc05c8e531745"
     },
     {
       "path": "src/lib/handbook.ts",
-      "bytes": 3513,
-      "sha256": "4f4bfcb6190156d578d43fe7dd8a2781f3de1ca6b9e1b9962194eda062a25963"
+      "bytes": 3714,
+      "sha256": "7d291b38c98d80b872f7b7ae9994835962bef91d77498b488ba6f1bbd3d21a2c"
     },
     {
       "path": "src/lib/homepage-analytics.ts",
-      "bytes": 898,
-      "sha256": "f797f229fff7304c94f560ba35a462cffe0256309e442eb5d093a8b06a529e3c"
+      "bytes": 933,
+      "sha256": "dfe11ca9661b33a4f3cdab1429e8a1a24d652f32ade06578f0192e3a53ecb344"
+    },
+    {
+      "path": "src/lib/navigation-mode.ts",
+      "bytes": 589,
+      "sha256": "9fed1b958a9fe536505d3ea95854c5ec7e4adaeab7c029fb802dc51ffbcb749c"
     },
     {
       "path": "src/lib/navigation.ts",
-      "bytes": 3019,
-      "sha256": "8c313ec80083d7bbd1d5e9bb1216901831c2366e7245699a6d46dbaaef0caf8c"
+      "bytes": 3585,
+      "sha256": "332acf37644d55cbe55ad7c0bc69ea372f93574ec0e8eaf869a97d83f4273c36"
     },
     {
       "path": "src/lib/popular-api.ts",
-      "bytes": 1136,
-      "sha256": "00ef6fc362cfb0a1fde9ad29cd4694fa87d8e329ae6db502bd61257fb76d9c4b"
+      "bytes": 1164,
+      "sha256": "d8f2a19edaa1e3c99b23c9d5d4de5ba8de3236b85e0a0fd4bd22680c73cf0ae7"
     },
     {
       "path": "src/lib/seo.ts",
-      "bytes": 8625,
-      "sha256": "b376353759c893300c8d7f97282f678c685778fed68129d9370981879352d8ab"
+      "bytes": 8916,
+      "sha256": "e086ecaf15b5554780122bde3a0ddfbb225cccda758396236a6df8e31d49928b"
     },
     {
       "path": "src/lib/source-policy.ts",
-      "bytes": 2486,
-      "sha256": "f9b3e910a8a35e51d30b3bae349101e984eac427bb13185e00f74ffabd18f69d"
+      "bytes": 3212,
+      "sha256": "a4024b88eeca4b000710239a03c947e7b1eeba9fb7c4cf9241b5e8d4a961fab9"
     },
     {
       "path": "src/lib/url.ts",
-      "bytes": 3728,
-      "sha256": "fcd0fb8a84a6cdf076d219677094bc2bfb8ae03394089bd1db361d2883088dd8"
+      "bytes": 3824,
+      "sha256": "7900827f05c27fe5e87d02bf6781e105041fc5d6ddb0389cd93b2f16a0cfa28f"
     },
     {
       "path": "src/locales/en.json",
-      "bytes": 20418,
-      "sha256": "700db12926049f915ca41fb9b79f4c8250aa89f32dcb38e47a7bd66c34677fd2"
+      "bytes": 20334,
+      "sha256": "d82325456473a917dddf636c11e6c6ceb7d3aa630f2d517562e8a390a3185c08"
     },
     {
       "path": "src/pages/404.astro",
-      "bytes": 2640,
-      "sha256": "f819cbd21add2259adff469205608003060692518dbfc5f35eb9a1ae5926c73f"
+      "bytes": 2711,
+      "sha256": "f78cde8c111d8250e01664501fbbc76a4c82e3c052fe190274d4948233e73246"
     },
     {
       "path": "src/pages/[...slug].astro",
-      "bytes": 3765,
-      "sha256": "8974b3d3c3a7ef6ad89809cfc7c92589763d2f69a8c715253f97ff4a508c9e17"
+      "bytes": 4249,
+      "sha256": "c49061c60fa15156bc2e8d813ef76824ffb948fd485265930ddbb6a2cccb3596"
     },
     {
       "path": "src/pages/[locale]/[...slug].astro",
-      "bytes": 4795,
-      "sha256": "3a7240166d42cefb96e2f071f5bef25d678149f08eebc0af47e837af067025e7"
+      "bytes": 5351,
+      "sha256": "e2a7f5dbe927ccc8f715dd4b48fe96b6bd4f1b90e79659c611cc99ec180a34ec"
     },
     {
       "path": "src/pages/[locale]/[legal].astro",
-      "bytes": 1919,
-      "sha256": "a5b862c203733de77741a07b10d57ff92c04010a2a05b8da325c1e486fb7462a"
+      "bytes": 1968,
+      "sha256": "bfd9ed116facdf019ebdafb04cc74d6b7db32417d95b7acd2320093eef381d7c"
     },
     {
       "path": "src/pages/[locale]/faq.astro",
-      "bytes": 1796,
-      "sha256": "6bc92eff32e71b52790bdf14e8e7fa9fb6e70d701b3bd62a926cff630a121c8d"
+      "bytes": 1844,
+      "sha256": "dac26f48376824553f7039c30c8e26dc58308a8477c7a6af840a2022dd5c0259"
     },
     {
       "path": "src/pages/[locale]/index.astro",
-      "bytes": 1214,
-      "sha256": "e928ccdd5b4b8521a1c6f4e3dea775d25344c11583fe41f39a8c866ee6b40637"
+      "bytes": 1245,
+      "sha256": "44e229314673b0c5ddfbabaa8f23895f9e95779af2dba9c0f9759f6b32a711d7"
     },
     {
       "path": "src/pages/[locale]/recent.astro",
-      "bytes": 750,
-      "sha256": "aa6cadfe0e59e9c49b90bd2936395364108f1ca44b8bdcec317afad6355f37ed"
+      "bytes": 774,
+      "sha256": "d23e57089dcb84072bfccdbbcba2a07391ba04936487f5e01d3606ddd124b178"
     },
     {
       "path": "src/pages/[locale]/tags/[tag].astro",
-      "bytes": 1803,
-      "sha256": "ddcb2b02bf25c8b5dd482258248caf16b463b77cae3df78db4e4c0c999ce17bf"
+      "bytes": 1851,
+      "sha256": "73dfdfda7dbd439b2a412e8a16b4e27062175dba5aa26187d094d85c08a6040a"
     },
     {
       "path": "src/pages/[locale]/tags/index.astro",
-      "bytes": 748,
-      "sha256": "5848197a718709875cf3552bb7cf5d8b3d6397f6c407034b215dd8fc8c267808"
+      "bytes": 772,
+      "sha256": "82beb6815743d6d18b3f043cba06fa3d321463fc77e1b2e5a7e3f2760f8e950d"
     },
     {
       "path": "src/pages/about.astro",
-      "bytes": 304,
-      "sha256": "76ebc2c104338c93e90352ee98f40150ba0a22e69babdef03cb1c4b1246a1d7b"
+      "bytes": 313,
+      "sha256": "7c94ca9c08df72ef696fa79f429a938cf66f1eb3a605538bda6298a0489264c1"
     },
     {
       "path": "src/pages/contact.astro",
-      "bytes": 308,
-      "sha256": "bf2cbf7010b82ff63e7607b2e37d716e4133acf06d97ca60fc04b472b7116129"
+      "bytes": 317,
+      "sha256": "b9bcfb17167855a143280909f8db042b8044ebc1417a9cc0359cbe756dac379e"
     },
     {
       "path": "src/pages/copyright.astro",
-      "bytes": 312,
-      "sha256": "344b59cfc32724a6597ba069e9bf5f8fd7e3f0e8f8695c5131a5b1c77d7450de"
+      "bytes": 321,
+      "sha256": "8f05c21220c6a500b305b86a36e514aa376a02ebe44c41ff8d6d1fcf403d62cc"
     },
     {
       "path": "src/pages/faq.astro",
-      "bytes": 1249,
-      "sha256": "ceaf74f9475a5d839f76cfd3874211481f6dc9bc828d33c9cde459a61ec2a776"
+      "bytes": 1283,
+      "sha256": "7a422b74641c337c2679ba5fd107dd637c9adf1f5c7a1d6d4d9e70855bc925fa"
     },
     {
       "path": "src/pages/index.astro",
-      "bytes": 910,
-      "sha256": "075a4d2f0f0ec6720aaca4b3bee53ad8a30289b73e61d4f0a273f68794bef91b"
+      "bytes": 934,
+      "sha256": "1425d9f2a61dfff0afe825e707db62022e1fd8f449d8f7acebb9a12b49bc193e"
     },
     {
       "path": "src/pages/llms.txt.ts",
-      "bytes": 3178,
-      "sha256": "1131dc408b2bbc5840f102bbf273901c7af269ea09400c96d5430b28e11c1ffd"
+      "bytes": 1923,
+      "sha256": "939a637ba36da3374b9833aee545105c02fc0926c858d8ba26f7ef7be9403217"
     },
     {
       "path": "src/pages/privacy-policy.astro",
-      "bytes": 322,
-      "sha256": "f0b15a46859d0678d31813137075ff0cbc45dd170c88d5cf055673c5625a292a"
+      "bytes": 331,
+      "sha256": "9c633e93d6a179cd9c62b8a984afb473a8a0e696c61962bb1697627467c0316a"
     },
     {
       "path": "src/pages/recent.astro",
-      "bytes": 391,
-      "sha256": "140805c32c57113a87d5aa970b5341d4b38076d88a956fa68faad5140e252721"
+      "bytes": 403,
+      "sha256": "bf66cf315c491e0711cb7ce3ad65f160033725039ca7e203ef3cfb1339ae0fd9"
     },
     {
       "path": "src/pages/robots.txt.ts",
-      "bytes": 305,
-      "sha256": "bbfbd26a4b7f7af7e17df99f535857c5d9207023c34076d2404fba65a097552c"
+      "bytes": 319,
+      "sha256": "3b7c17a69021e8f5e27b6c9588761cdfa36b5273cb82c7ff489fedbdda0917a5"
     },
     {
       "path": "src/pages/rss.xml.ts",
-      "bytes": 2180,
-      "sha256": "68d7580cae2c971845bbbc187d1891170bdf56ef0e456ed80f83ae4ffabc1730"
+      "bytes": 2236,
+      "sha256": "fcee08c18a8e19b7b165a17fc947274669be6154cfbe5a285024ac0f43d8acb2"
     },
     {
       "path": "src/pages/tags/[tag].astro",
-      "bytes": 1669,
-      "sha256": "680f2c22cfd74e498c1afae87f2f8bcb7712e63f5eea647d66605b07a3c92fae"
+      "bytes": 1713,
+      "sha256": "9355cd5e69bfd237bf952c650f7b8f1aacc516717df363f05ed0dd39b69ba9d8"
     },
     {
       "path": "src/pages/tags/index.astro",
-      "bytes": 460,
-      "sha256": "88afbe2c65ffdc2cbba668439486ec625b8320ef30170e0be250a7bc0487da42"
+      "bytes": 473,
+      "sha256": "e01f1b400572c7d5b45c7873d0dfbffaad4b1d5b68bb3521e2b16f2bbc8db52b"
     },
     {
       "path": "src/pages/terms-of-service.astro",
-      "bytes": 326,
-      "sha256": "9aac1807ed9c3c615d360b25c8926f295d1b944fd595cbf4305c317166f828e5"
+      "bytes": 335,
+      "sha256": "f2b88d72adc0953acb725dc36fff1dac696252cfd8b36436f6570ae19eaa67b9"
+    },
+    {
+      "path": "src/styles/deals-page.css",
+      "bytes": 18766,
+      "sha256": "556b9cea7ccd2391b369dc70be75c1ecdcee12dd5a8445f7d0003b93452a4fc5"
+    },
+    {
+      "path": "src/styles/generated.css",
+      "bytes": 85332,
+      "sha256": "aa84800c2f4b4d143fc50e8794063d9933cf62af839c5e510079b28293176e54"
     },
     {
       "path": "src/styles/globals.css",
-      "bytes": 7584,
-      "sha256": "6f66a813f9867698126368a3654343c86dff99345babd6db2e6a951d5dc5824a"
+      "bytes": 10047,
+      "sha256": "d526da0dd78b953ee55f3c8f2e910cf86d5bca25ac26d69785eaea44089889dc"
     },
     {
       "path": "tailwind.config.mjs",
@@ -1501,8 +1556,8 @@
     },
     {
       "path": "tests/apply-template.test.ts",
-      "bytes": 16025,
-      "sha256": "2537a68fe0c7118041f6ab7e7aeaa258f907338d24b06eb74681e68c92bfea6c"
+      "bytes": 19109,
+      "sha256": "20f20ff06161bf6df791bc55da87a832712f0617428f376880865016f7bfc641"
     },
     {
       "path": "tests/article-gallery-removal.test.ts",
@@ -1523,6 +1578,11 @@
       "path": "tests/article-widgets.test.ts",
       "bytes": 2781,
       "sha256": "2e017db79173658dafef18f1250acec64976f353055ab1201d6d74148863a5eb"
+    },
+    {
+      "path": "tests/carousel-layout.test.ts",
+      "bytes": 951,
+      "sha256": "462f039f6456113f9b1c7108e82046e0781085c84d5230dc718b04b4d773823c"
     },
     {
       "path": "tests/content-utils.test.ts",
@@ -1561,8 +1621,13 @@
     },
     {
       "path": "tests/navigation-mode.test.ts",
-      "bytes": 1802,
-      "sha256": "d51b00808611ce4e1e62324a4b42684461810d18c3637c6c982b993abbdc5368"
+      "bytes": 3079,
+      "sha256": "47cbc6211a947d4c240dbbd38f7b74faef8f745a36e8dcac8fac03e81eb4ebb9"
+    },
+    {
+      "path": "tests/no-tldr-sections.test.ts",
+      "bytes": 921,
+      "sha256": "5602265cd1bcf73c6afed880aa0253e444a1196a8393a8e348a51bb1c69a74a1"
     },
     {
       "path": "tests/popular-api.test.ts",
@@ -1591,13 +1656,18 @@
     },
     {
       "path": "tests/source-policy.test.ts",
-      "bytes": 1876,
-      "sha256": "cf26438836b1d386c1f3f25233c6ecb0b31eaba1364189ee94d9c083adbb5c62"
+      "bytes": 4705,
+      "sha256": "e34355405af583ac239235fc5a77931f0c90a34253b53a58d397ef24f9869fe7"
     },
     {
       "path": "tests/tags.test.ts",
       "bytes": 3021,
       "sha256": "da7458a6944f228cd6f6967a9abce0b06c87fdc7105f741a1d430876ee87d46a"
+    },
+    {
+      "path": "tests/template-package.test.ts",
+      "bytes": 4533,
+      "sha256": "2d1ce60f9e430492e41e53f6f06f5e8e84ed240a3fb31d204ad215ecc12150d8"
     },
     {
       "path": "tests/url.test.ts",
@@ -1606,8 +1676,8 @@
     },
     {
       "path": "tests/workflows.test.ts",
-      "bytes": 9500,
-      "sha256": "6153f741e3b08cef7ba5f0a56d62454bad7976cbe88652d38f5ed185e0063141"
+      "bytes": 8063,
+      "sha256": "657098c5abf836a43469c052c67d17ff9bbc2999ccd8acc9af5513d36b6897eb"
     },
     {
       "path": "tools/anvil-ops/.gitignore",
@@ -1906,8 +1976,8 @@
     },
     {
       "path": "tsconfig.json",
-      "bytes": 331,
-      "sha256": "1b12d577c87c4bc2779a38b5948297bd3bcf69377f9ddceb58e0a09bbba1fd86"
+      "bytes": 352,
+      "sha256": "6eac5005c1521e4ae914abdc03cace2075fe43b0aeee7795f19fe4113d0a4158"
     },
     {
       "path": "vitest.config.ts",
@@ -1916,33 +1986,8 @@
     },
     {
       "path": "wrangler.toml",
-      "bytes": 1859,
-      "sha256": "29df3ed47d34784c2cc50789e1ff620e25b271835cbb716305f1b162973ee890"
-    },
-    {
-      "path": "functions/api/game-deals.ts",
-      "bytes": 17635,
-      "sha256": "fe065fdf277f85bc9ee283a50a86887032c4b8d710b59df16989c1958088d056"
-    },
-    {
-      "path": "scripts/check-template-boundary.ts",
-      "bytes": 4506,
-      "sha256": "b9b675acbdb4b5574135ef6bf8219be617841293e65e0d5bc83b3264ff63082b"
-    },
-    {
-      "path": "scripts/link-template-source.mjs",
-      "bytes": 5073,
-      "sha256": "29d2ff98fd00788b57732019e0affabd0b92328f36eeffaf9ec7d2822cb1a585"
-    },
-    {
-      "path": "src/config/art-typography.ts",
-      "bytes": 268,
-      "sha256": "c9c24db49d8282bb51adae8fcd0fbae37a295ea90c7344d01d6f96c861d39003"
-    },
-    {
-      "path": "scripts/apply-art-typography.mjs",
-      "bytes": 12993,
-      "sha256": "dd9163a7d3c32de3f54d763d2d8c421795b148e7147ef9c52ebc2e89a7792bed"
+      "bytes": 1986,
+      "sha256": "4534af613e70ceed9d1186f2ff793886b7fb3e89bb27ec9688cd8b0131dc09fe"
     }
   ],
   "json_contracts": [
@@ -1971,6 +2016,7 @@
         "nav.tier-list",
         "nav.news",
         "nav.codes",
+        "nav.deals",
         "search",
         "search.placeholder",
         "search.noResults",
@@ -2097,6 +2143,9 @@
         "overview.news",
         "overview.news.overviewTitle",
         "overview.news.overviewDescription",
+        "overview.deals",
+        "overview.deals.overviewTitle",
+        "overview.deals.overviewDescription",
         "home",
         "home.meta",
         "home.meta.title",
@@ -2112,18 +2161,27 @@
         "home.closingCta.description",
         "home.closingCta.primary",
         "home.closingCta.secondary",
+        "home.closingCta.primaryHref",
         "home.hero",
         "home.hero.badge",
         "home.hero.title",
         "home.hero.description",
+        "home.hero.descriptionItems",
         "home.hero.ctaPrimary",
         "home.hero.ctaSecondary",
         "home.hero.videoId",
         "home.hero.videoCaption",
+        "home.hero.ctaSecondaryHref",
         "home.start",
         "home.start.badge",
         "home.start.title",
         "home.start.cards",
+        "home.decisionGuide",
+        "home.decisionGuide.eyebrow",
+        "home.decisionGuide.title",
+        "home.decisionGuide.description",
+        "home.decisionGuide.routeLabel",
+        "home.decisionGuide.groups",
         "home.explore",
         "home.explore.title",
         "home.explore.description",
@@ -2146,7 +2204,100 @@
         "footer.contact",
         "footer.copyrightText",
         "footer.community",
-        "footer.legal"
+        "footer.legal",
+        "dealsPage",
+        "dealsPage.titleSuffix",
+        "dealsPage.appIdMissing",
+        "dealsPage.metaTitle",
+        "dealsPage.metaDescription",
+        "dealsPage.breadcrumbHome",
+        "dealsPage.breadcrumbCurrent",
+        "dealsPage.eyebrow",
+        "dealsPage.posterTagline",
+        "dealsPage.posterFreeBadge",
+        "dealsPage.posterLiveBadge",
+        "dealsPage.savingsHeadline",
+        "dealsPage.freeToUse",
+        "dealsPage.steamStoreLabel",
+        "dealsPage.steamChartsLabel",
+        "dealsPage.lowestPrice",
+        "dealsPage.liveOfferLabel",
+        "dealsPage.steamBaseline",
+        "dealsPage.steamComparisonUnavailableShort",
+        "dealsPage.noDealsPoster",
+        "dealsPage.offerCheckIncomplete",
+        "dealsPage.offerSourcesUnavailableShort",
+        "dealsPage.savingsContext",
+        "dealsPage.getBestDeal",
+        "dealsPage.refreshWait",
+        "dealsPage.title",
+        "dealsPage.intro",
+        "dealsPage.regionNote",
+        "dealsPage.steamHeading",
+        "dealsPage.steamHelper",
+        "dealsPage.refreshNow",
+        "dealsPage.loading",
+        "dealsPage.checkingPrices",
+        "dealsPage.checkingData",
+        "dealsPage.steamPrice",
+        "dealsPage.playersOnline",
+        "dealsPage.steamRank",
+        "dealsPage.dailyPeak",
+        "dealsPage.cheaperOffers",
+        "dealsPage.liveSteamCounter",
+        "dealsPage.steamChartsLink",
+        "dealsPage.unavailable",
+        "dealsPage.noSteamDiscount",
+        "dealsPage.steamDiscountSuffix",
+        "dealsPage.retailerHeading",
+        "dealsPage.retailerHelper",
+        "dealsPage.viewSteam",
+        "dealsPage.loadingComparison",
+        "dealsPage.checkingRetailers",
+        "dealsPage.offerChecked",
+        "dealsPage.offerEnds",
+        "dealsPage.retailerAction",
+        "dealsPage.comparisonUnavailable",
+        "dealsPage.noDeals",
+        "dealsPage.noDealsPartial",
+        "dealsPage.offerSourcesUnavailable",
+        "dealsPage.popularHeading",
+        "dealsPage.popularHelper",
+        "dealsPage.allOffers",
+        "dealsPage.loadingPopular",
+        "dealsPage.loadingCards",
+        "dealsPage.popularitySourceUnavailable",
+        "dealsPage.noPopularOffers",
+        "dealsPage.liveRankCheckedAt",
+        "dealsPage.snapshotPrefix",
+        "dealsPage.snapshotStale",
+        "dealsPage.stalePlayerNote",
+        "dealsPage.codeLabel",
+        "dealsPage.openDeal",
+        "dealsPage.popularDiscountSuffix",
+        "dealsPage.dataError",
+        "dealsPage.refreshError",
+        "dealsPage.checkedAt",
+        "dealsPage.hourlyRefresh",
+        "dealsPage.steamSummaryNoPrice",
+        "dealsPage.offerSingular",
+        "dealsPage.offerPlural",
+        "dealsPage.belowSteam",
+        "dealsPage.discountSingular",
+        "dealsPage.discountPlural",
+        "dealsPage.onStandardListing",
+        "dealsPage.lowestComparable",
+        "dealsPage.noLowerPrice",
+        "dealsPage.noOfferMatch",
+        "dealsPage.currentPrice",
+        "dealsPage.belowSteamBadge",
+        "dealsPage.playerCountUnavailable",
+        "dealsPage.online",
+        "dealsPage.checkedOfferPrefix",
+        "dealsPage.rankPrefix",
+        "dealsPage.onlineSuffix",
+        "dealsPage.footerRetailers",
+        "dealsPage.footerActivity"
       ]
     }
   ]

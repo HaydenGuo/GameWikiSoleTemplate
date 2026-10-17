@@ -91,8 +91,6 @@ describe('article source policy', () => {
   });
 });
 
-import { describe, expect, it } from 'vitest';
-import { createSourcePolicy, isAllowedArticleSource } from '../src/lib/source-policy';
 
 describe('configured article source pages', () => {
   it('allows only exact approved material pages outside the built-in source hosts', () => {

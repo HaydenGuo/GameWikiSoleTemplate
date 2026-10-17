@@ -1,20 +1,19 @@
-# GameWikiTemplate
+# GameWikiSoleTemplate
 
-这是一个基于 Astro 的游戏 Wiki 与攻略站 starter。游戏身份、文章、图片、多语言内容和部署配置维护在本仓库中；通用框架代码由 [GameWikiCore](https://github.com/HaydenGuo/GameWikiCore) 提供。
+这是一个基于 Astro 的游戏 Wiki 与攻略站 starter。游戏身份、文章、图片、多语言内容和部署配置维护在本仓库中；通用运行时代码、站点配置、示例内容和开发工具都在本仓库中。
 
-## Core 边界
+## 单仓库源码
 
-本 starter 将 `@hb-game-wiki/template` 固定在 GameWikiCore `v2.3.1`。
+本 starter 将通用运行时代码与站点模板维护在同一仓库。
 
 ```text
-GameWikiCore             通用组件、路由、样式与校验
-        ↓ v2.3.1
-GameWikiTemplate         Starter 配置与内容
-        ↓ 定制
-你的游戏站
+GameWikiSoleTemplate
+├── 通用运行时：src/components、src/pages、src/lib、src/i18n、src/styles
+├── Starter 配置：src/config、src/locales、wrangler.toml
+└── 示例内容：src/content、src/assets、public
 ```
 
-Core 管理的目录由 `pnpm template:link` 链接，并由 `pnpm check-template-boundary` 检查。修改这条边界前，请先阅读 [docs/starter-boundary.md](docs/starter-boundary.md)。
+所有代码均为本仓库内的普通源码文件。目录说明见 [docs/starter-boundary.md](docs/starter-boundary.md)。
 
 ## 本地运行
 
@@ -45,23 +44,22 @@ MIT，详见 [LICENSE](LICENSE)。
 
 ---
 
-# GameWikiTemplate
+# GameWikiSoleTemplate
 
-An Astro starter for game wiki and guide sites. Site identity, articles, images, locales, and deployment settings live in this repository; shared framework code comes from [GameWikiCore](https://github.com/HaydenGuo/GameWikiCore).
+A single-repository Astro starter for game wiki and guide sites. Runtime code, site configuration, example content, and development tooling live together here.
 
-## Core boundary
+## Single-source codebase
 
-This starter pins `@hb-game-wiki/template` to GameWikiCore `v2.3.1`.
+This starter keeps its reusable runtime and site template in one repository.
 
 ```text
-GameWikiCore             Shared components, routes, styles, and validation
-        ↓ v2.3.1
-GameWikiTemplate         Starter configuration and content
-        ↓ customize
-Your game site
+GameWikiSoleTemplate
+├── Reusable runtime: src/components, src/pages, src/lib, src/i18n, src/styles
+├── Starter configuration: src/config, src/locales, wrangler.toml
+└── Example content: src/content, src/assets, public
 ```
 
-Core-owned directories are linked by `pnpm template:link` and checked by `pnpm check-template-boundary`. See [docs/starter-boundary.md](docs/starter-boundary.md) before changing the boundary.
+All source directories are ordinary tracked files in this repository. See [docs/starter-boundary.md](docs/starter-boundary.md) for the source layout.
 
 ## Local setup
 

@@ -81,4 +81,22 @@ describe('unified GameWikiSoleTemplate package contract', () => {
       expect(fs.readFileSync(file, 'utf8'), path.relative(root, file)).not.toContain('@hb-game-wiki/template/');
     }
   });
+
+  it('does not document a separate Core package or source-link workflow', () => {
+    const activeFiles = [
+      'README.md',
+      'AGENTS.md',
+      'docs/apply-template.md',
+      'docs/art-typography.md',
+      'docs/solo-maintainer-protection.md',
+      'docs/starter-boundary.md',
+      ...fs.readdirSync(path.join(root, '.github'), { recursive: true, withFileTypes: true })
+        .filter((entry) => entry.isFile())
+        .map((entry) => path.join(path.relative(root, entry.parentPath), entry.name)),
+    ];
+    for (const file of activeFiles) {
+      const content = fs.readFileSync(path.join(root, file), 'utf8');
+      expect(content, file).not.toMatch(/GameWikiCore|@hb-game-wiki\/template|template:link|check-template-boundary/);
+    }
+  });
 });

@@ -90,12 +90,6 @@ if (hasHead) {
 step('pnpm install in scratch copy');
 execSync('pnpm install --prefer-offline', { cwd: scratch, stdio: 'inherit', shell: win });
 
-// The architecture directories are junctions in a working checkout and are
-// intentionally absent from git archive output. Recreate them from the
-// installed GameWikiCore package before exercising the real initializer.
-step('link installed GameWikiCore source in scratch copy');
-execSync('pnpm template:link', { cwd: scratch, stdio: 'inherit', shell: win });
-
 // 3. Drive the CLI via --answers (non-interactive, same ask/askBool path):
 //    18 prompts, all defaults except game name / domain / locales /
 //    categories / clear-content / preset / proceed.

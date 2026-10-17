@@ -2,7 +2,7 @@
 
 ## Project purpose
 
-AnvilWiki is an open-source Astro 5 game-wiki template for static deployment to Cloudflare Pages. It provides reusable UI, SEO, i18n, content validation, search, optional ads, and the `apply-template` initializer.
+GameWikiSoleTemplate is a single-source Astro 5 game-wiki starter for static deployment to Cloudflare Pages. Runtime, configuration, content examples, validation, search, optional ads, and the `apply-template` initializer live in this repository.
 
 The template must remain generic. A fork supplies the game identity, content, images, video IDs, categories, translations, and deployment values through configuration and content files.
 
@@ -15,20 +15,11 @@ The template must remain generic. A fork supplies the game identity, content, im
 - `docs/template-preservation.md` — fork-time preservation contract and baseline check.
 - The nearest existing component or article of the same type.
 
-## GitHub API edit workflow
+## Change workflow
 
-For changes to this canonical template repository, GitHub is the source of truth and edits must be made through GitHub APIs. Do not modify template files in a local checkout, clone the repository as a substitute editing location, or silently switch to local edits.
+Work on a task branch, inspect the relevant source and tests, make focused changes, and run the checks for the affected behavior. Keep changes generic and configuration-driven. Do not deploy or change production settings unless separately authorized.
 
-Before changing files:
-
-1. Read the current default branch, the target branch state, and the current file contents from GitHub. Use the live GitHub state, not a cached local copy.
-2. Create a new task branch from the confirmed current `main` (use the `codex/<short-task-name>` prefix); do not edit `main` directly.
-3. Make the requested file changes on that GitHub branch with the GitHub Contents API or Git Data API, preserving unrelated content.
-4. Inspect the resulting commit and diff from GitHub, then open a pull request to `main` and present it to the user for confirmation. Do not merge until the user explicitly approves the merge.
-5. If the required GitHub API operation is unavailable or fails, report the exact blocker and ask how to proceed. Do not fall back to local repository edits or a new local clone.
-6. Do not deploy or change production settings unless the user separately authorizes deployment.
-
-## Architecture boundary
+## Source organization
 
 Keep the three layers separate:
 

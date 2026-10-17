@@ -155,7 +155,6 @@ export function buildHomePreset(input: SkinInput): Record<string, unknown> | nul
   if (input.homePreset === 'keep') return null;
   const cats = input.categories.map((c) => c.key);
   const selectedCats = cats.length > 0 ? cats : ['guides'];
-  const first = cats[0] ?? 'guides';
   const cap = (c: string) => c[0].toUpperCase() + c.slice(1);
   const quickStartImages: Record<string, string> = {
     guides: '/images/home/guide-card.svg',

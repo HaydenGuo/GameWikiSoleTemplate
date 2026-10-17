@@ -35,11 +35,6 @@ jobs:
           node-version-file: '.nvmrc'
           cache: pnpm
 
-      - name: Authenticate private GameWikiCore dependency
-        uses: ./.github/actions/auth-core
-        with:
-          token: ${{ secrets.GAMEWIKI_CORE_READ_TOKEN }}
-
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
@@ -77,10 +72,6 @@ jobs:
 
       # The harness does its own pnpm install inside the scratch copy (same
       # lockfile → shares the cached store); no root install needed here.
-      - name: Authenticate private GameWikiCore dependency
-        uses: ./.github/actions/auth-core
-        with:
-          token: ${{ secrets.GAMEWIKI_CORE_READ_TOKEN }}
 
       - name: E2E — apply-template real mode + build
         run: pnpm test:e2e

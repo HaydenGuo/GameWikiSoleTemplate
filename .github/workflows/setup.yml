@@ -144,10 +144,6 @@ jobs:
       # user. Catches file-list drift in the steps above, broken imports,
       # and schema violations; without this, a drift bug would only surface
       # on the fork's first Cloudflare Pages build.
-      - name: Authenticate private GameWikiCore dependency
-        uses: ./.github/actions/auth-core
-        with:
-          token: ${{ secrets.GAMEWIKI_CORE_READ_TOKEN }}
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile

@@ -135,11 +135,11 @@ describe('auto-content pipeline safety contract', () => {
     expect(String(pr?.with?.['add-paths'] ?? '')).toContain('src/content/**');
   });
 
-  test('never references LLM/AI secrets and only uses the Core read token', () => {
+  test('does not require an external Core or LLM secret', () => {
     const raw = readFileSync(join(root, AUTO), 'utf8');
     expect(raw).not.toMatch(/OPENAI|ANTHROPIC|API_KEY/);
     const secretReferences = raw.match(/secrets\.[A-Z_]+/g) ?? [];
-    expect(secretReferences).toEqual(['secrets.GAMEWIKI_CORE_READ_TOKEN']);
+    expect(secretReferences).toEqual([]);
   });
 });
 

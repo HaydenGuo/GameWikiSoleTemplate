@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { describe, expect, test } from 'vitest';
+import { describe, expect, it, test } from 'vitest';
+import { resolvePrimaryNavigationMode } from '../src/lib/navigation-mode';
 
 const ROOT = resolve(__dirname, '..');
 const headerSource = readFileSync(resolve(ROOT, 'src/components/header/SiteHeader.astro'), 'utf8');
@@ -36,8 +37,6 @@ describe('header navigation modes', () => {
   });
 });
 
-import { describe, expect, it } from 'vitest';
-import { resolvePrimaryNavigationMode } from '../src/lib/navigation-mode';
 
 describe('primary navigation mode', () => {
   it('defaults to primary-only when dropdowns are disabled', () => {
