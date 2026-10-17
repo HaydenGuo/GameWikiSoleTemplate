@@ -72,7 +72,7 @@ Use a clean install from the unified repository, then run the relevant full star
 ## Self-review
 
 - Scope is limited to producing the unified reusable starter; existing site and production changes are excluded.
-- The main risks are overlapping scripts, the article contract mismatch, internal package-path imports, and initializer E2E assumptions. Each is called out for explicit migration and verification.
+- The main risks are overlapping scripts, internal package-path imports, initializer E2E assumptions, and preserving the fixed article contract. Each is called out for explicit migration and verification.
 - No claim is made that the source merge, tests, repository creation, or GitHub publication has occurred.
 
 ## Baseline correction
