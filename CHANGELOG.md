@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2](https://github.com/HaydenGuo/GameWikiSoleTemplate/compare/v1.1.1...v1.1.2) - 2026-10-17
+
+- Streamline the stale-material audit, dependency review, and local verification workflow.
+- Synchronize the project announcement version and copy with the formal release.
+
+简化旧资料审计、依赖检查和本地验证流程；同步项目公告的版本号与本次正式发版内容。
+
 ## [1.1.1] - 2026-10-17
 
 - Replace stale project branding, repository references, and platform guidance with current information.
