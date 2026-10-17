@@ -19,6 +19,22 @@ The template must remain generic. A fork supplies the game identity, content, im
 
 Work on a task branch, inspect the relevant source and tests, make focused changes, and run the checks for the affected behavior. Keep changes generic and configuration-driven. Do not deploy or change production settings unless separately authorized.
 
+### Change classification and separation
+
+Before editing, choose one primary change class and state the expected file scope:
+
+- **Architecture** — module boundaries, shared contracts, dependency direction, routing/data flow, persistence, or build/deployment structure.
+- **Behavior** — runtime, UI, script, validation, or initializer behavior.
+- **Format-only** — whitespace, line endings, formatter output, or import ordering with no behavior, configuration, content, or documentation changes.
+- **Config/content** — site settings, locale data, copy, assets, or example articles without changing reusable runtime behavior.
+- **Docs/process** — instructions, contribution workflow, PR templates, or CI governance.
+
+Keep each pull request focused on one primary class. Split independent work into separate branches or pull requests. In particular, keep format-only changes separate from architecture, behavior, and config/content changes; run formatters only on the explicitly scoped files. Do not reformat an entire file or directory as a side effect of a functional change.
+
+When two classes must ship together because one cannot work or be reviewed without the other, state the dependency and reason in the PR, keep the file scope narrow, and separate the changes into logical commits where practical. Architecture changes must identify the current and target boundary, affected callers/contracts, compatibility or migration impact, and the evidence used to accept the change.
+
+At the start of the task, record the intended paths. Before committing, inspect the changed-path list and diff, explain any scope additions, and keep unrelated pre-existing work out of the commit. Do not stage the whole working tree when unrelated or unreviewed changes are present.
+
 ## Source organization
 
 Keep the three layers separate:
