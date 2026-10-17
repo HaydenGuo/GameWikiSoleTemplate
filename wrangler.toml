@@ -1,0 +1,51 @@
+# Cloudflare Pages configuration for local preview with Wrangler.
+#
+# Usage:
+#   pnpm build
+#   npx wrangler pages dev dist
+#
+# This file is optional — Cloudflare Pages auto-detects Astro when you
+# connect your GitHub repo via the dashboard. Use this only for local
+# preview or `wrangler pages deploy`.
+#
+# Reference: https://developers.cloudflare.com/pages/functions/wrangler-configuration/
+
+name = "anvilwiki"
+compatibility_date = "2026-08-11"
+pages_build_output_dir = "dist"
+
+[vars]
+# Skip Cloudflare auto-install so the build command can authenticate the private Core dependency.
+SKIP_DEPENDENCY_INSTALL = "1"
+# Site (must include https:// protocol — Astro validates this as a URL)
+SITE_URL = "https://localhost:4322"
+# Giscus comments — blank = comments disabled until you fill your own values.
+# See docs/comments.md for how to get these from giscus.app.
+PUBLIC_GISCUS_REPO = ""
+PUBLIC_GISCUS_REPO_ID = ""
+PUBLIC_GISCUS_CATEGORY = ""
+PUBLIC_GISCUS_CATEGORY_ID = ""
+PUBLIC_GISCUS_MAPPING = "pathname"
+# Sponsor card — blank = disabled. Fill PUBLIC_SPONSOR_URL to enable.
+PUBLIC_SPONSOR_URL = ""
+PUBLIC_SPONSOR_IMAGE_URL = ""
+# Cloudflare Web Analytics — blank = disabled.
+PUBLIC_CF_BEACON_TOKEN = ""
+# Popular / Most Read is disabled for the default static deployment. To
+# enable it, set this to "true" and add the D1 binding below before deploying.
+PUBLIC_POPULAR_ENABLED = "false"
+# Optional slots (empty = disabled) — fill HERE, not the dashboard:
+#PUBLIC_ADSENSE_CLIENT = ""
+#PUBLIC_ADSENSE_SLOT_STICKY = ""
+#PUBLIC_ADSENSE_SLOT_SIDEBAR = ""
+#PUBLIC_ADSENSE_SLOT_INCONTENT = ""
+#PUBLIC_GA_ID = ""
+#PUBLIC_GSC_VERIFICATION = ""
+
+# Optional Cloudflare Pages Functions + D1 binding for Popular / Most Read.
+# Create a D1 database, replace the placeholders, and keep the binding name
+# POPULAR_DB in sync with functions/lib/popular.ts.
+# [[d1_databases]]
+# binding = "POPULAR_DB"
+# database_name = "your-game-wiki"
+# database_id = "replace-with-your-d1-database-id"

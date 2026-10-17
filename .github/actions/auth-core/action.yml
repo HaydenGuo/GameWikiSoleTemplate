@@ -1,0 +1,21 @@
+name: Authenticate private GameWikiCore dependency
+description: Configure read-only GitHub authentication for pnpm git dependencies.
+inputs:
+  token:
+    description: "Fine-grained token with Contents: read access to HaydenGuo/GameWikiCore."
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: Configure read-only Core access
+      shell: bash
+      env:
+        CORE_READ_TOKEN: ${{ inputs.token }}
+      run: |
+        if [[ -z "$CORE_READ_TOKEN" ]]; then
+          echo "::error::Missing GAMEWIKI_CORE_READ_TOKEN. Add a fine-grained GitHub token with Contents: read access to HaydenGuo/GameWikiCore under Settings → Secrets and variables → Actions."
+          exit 1
+        fi
+        auth_header="$(printf 'x-access-token:%s' "$CORE_READ_TOKEN" | base64 -w0)"
+        echo "::add-mask::$auth_header"
+        git config --global http.https://github.com/.extraheader "AUTHORIZATION: basic $auth_header"

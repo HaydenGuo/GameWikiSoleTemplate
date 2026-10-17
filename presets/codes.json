@@ -1,0 +1,113 @@
+{
+  "name": "codes",
+  "navigation": [
+    "guides",
+    "builds",
+    "items",
+    "maps",
+    "bosses",
+    "tier-list",
+    "news",
+    "codes"
+  ],
+  "site": {
+    "name": "Anvil Quest Preview Codes Wiki",
+    "shortName": "AQC Wiki",
+    "description": "Preview of the AnvilWiki codes homepage preset.",
+    "tagline": "Codes-first preview",
+    "legalNotice": "Fan-made preview site."
+  },
+  "home": {
+    "meta": {
+      "title": "Anvil Quest Preview Codes Wiki — Codes, Guides & Tier Lists",
+      "description": "Preview of the AnvilWiki codes homepage preset."
+    },
+    "updates": {
+      "title": "Recent updates"
+    },
+    "popular": {
+      "badge": "Popular",
+      "title": "Most read",
+      "quickLinks": [
+        {
+          "label": "Anvil Quest Beginner Guide - Your First Two Hours",
+          "href": "/guides/beginner-guide"
+        },
+        {
+          "label": "All Working Codes",
+          "href": "/codes/all-codes"
+        },
+        {
+          "label": "Emberfang Boss Guide",
+          "href": "/bosses/emberfang"
+        }
+      ]
+    },
+    "closingCta": {
+      "title": "Start your Anvil Quest Preview Codes journey",
+      "description": "Bookmark this wiki and check back after every game update.",
+      "primary": "Browse all",
+      "secondary": "Join the community"
+    },
+    "hero": {
+      "badge": "Fan-made wiki",
+      "title": "Anvil Quest Preview Codes Codes",
+      "description": "All working Anvil Quest Preview Codes codes with expiry dates, plus guides and tier lists.",
+      "ctaPrimary": "Play now",
+      "ctaSecondary": "Browse guides"
+    },
+    "start": {
+      "badge": "Quick start",
+      "title": "Jump straight in",
+      "cards": [
+        {
+          "number": "1",
+          "title": "Codes",
+          "description": "Free gold, XP, cosmetics",
+          "icon": "lucide:gift",
+          "href": "/codes"
+        },
+        {
+          "number": "2",
+          "title": "Bosses",
+          "description": "Phase-by-phase strategy",
+          "icon": "lucide:swords",
+          "href": "/bosses"
+        },
+        {
+          "number": "3",
+          "title": "Tier list",
+          "description": "Best weapons ranked",
+          "icon": "lucide:bar-chart-3",
+          "href": "/guides"
+        }
+      ]
+    },
+    "explore": {
+      "title": "Explore",
+      "description": "The essentials",
+      "modules": [
+        {
+          "order": 1,
+          "name": "Active codes",
+          "description": "Redeem before they expire",
+          "href": "/codes",
+          "displayType": "badge-list",
+          "highlights": [
+            {
+              "label": "CODE-PLACEHOLDER",
+              "detail": "Tap to copy on the codes page",
+              "badge": "NEW"
+            }
+          ]
+        }
+      ]
+    },
+    "faq": {
+      "title": "FAQ",
+      "description": "Common questions",
+      "items": []
+    }
+  },
+  "themeBrand": "25 95% 53%"
+}

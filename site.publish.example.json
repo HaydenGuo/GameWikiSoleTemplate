@@ -1,0 +1,47 @@
+{
+  "siteName": "your-game-wiki",
+  "domain": "example.com",
+  "canonicalHost": "example.com",
+  "publishPaths": [
+    "site.publish.json",
+    "src/**",
+    "public/**",
+    "scripts/**",
+    "functions/**",
+    "migrations/**",
+    "tests/**",
+    "docs/template-baseline.json",
+    "wrangler.toml",
+    "package.json",
+    "pnpm-lock.yaml"
+  ],
+  "envSync": [
+    {
+      "name": "PUBLIC_YOURGAME_ADSTERRA_KEY_NATIVE",
+      "sourceEnv": "PUBLIC_YOURGAME_ADSTERRA_KEY_NATIVE",
+      "target": ["production"],
+      "sensitive": false
+    }
+  ],
+  "github": {
+    "enabled": false,
+    "owner": "your-account",
+    "repo": "your-game-wiki",
+    "defaultBranch": "main"
+  },
+  "cloudflare": {
+    "enabled": true,
+    "enableDnsUpdate": false,
+    "provider": "your-registrar"
+  },
+  "analytics": {
+    "enablePropertySetup": false,
+    "gaIdEnv": ""
+  },
+  "searchConsole": {
+    "enabled": false,
+    "enablePropertySetup": false,
+    "siteUrl": "sc-domain:example.com",
+    "sitemapUrl": "https://example.com/sitemap-index.xml"
+  }
+}

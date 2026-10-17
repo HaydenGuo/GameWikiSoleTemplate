@@ -1,0 +1,77 @@
+# Release anvilwiki-ops — npm publish via Trusted Publishing (OIDC, v2.0).
+#
+# Zero npm tokens, zero OTP: GitHub exchanges an OIDC token for a short-lived
+# npm credential (npm CLI >= 11.5.1 required, hence the one-time global
+# upgrade below — Node 22 bundles npm 10.x). Prerequisite (one-time, web):
+# npmjs.com → anvilwiki-ops → Settings → Trusted publishing → GitHub Actions
+# with PNGTRID/AnvilWiki and this workflow's filename.
+#
+# Trigger: Actions → Release anvilwiki-ops → Run workflow, or push a tag
+# starting with "ops-v". Tests and build run before the publish — a red gate
+# means nothing is published.
+
+name: Release anvilwiki-ops
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ['ops-v*']
+
+permissions:
+  contents: read
+  id-token: write # OIDC — the whole point; never add other secrets here.
+
+concurrency:
+  group: release-ops
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: tools/anvil-ops
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      # Tag↔version guard: pushing ops-v1.0.2 while package.json says 1.0.3
+      # would otherwise publish the wrong version with correct provenance.
+      - name: Verify tag matches package.json version
+        if: ${{ github.ref_type == 'tag' }}
+        working-directory: .
+        run: |
+          TAG_VERSION="${GITHUB_REF_NAME#ops-v}"
+          PKG_VERSION=$(node -p "require('./tools/anvil-ops/package.json').version")
+          if [ "$TAG_VERSION" != "$PKG_VERSION" ]; then
+            echo "::error::tag ops-v$TAG_VERSION does not match tools/anvil-ops/package.json version $PKG_VERSION"
+            exit 1
+          fi
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
+        with:
+          version: 11.1.1
+          run_install: false
+
+      - name: Setup Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: pnpm
+          cache-dependency-path: tools/anvil-ops/pnpm-lock.yaml
+          registry-url: https://registry.npmjs.org
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Quality gates (typecheck + tests + build)
+        run: pnpm typecheck && pnpm test && pnpm build
+
+      # OIDC trusted publishing needs npm CLI >= 11.5.1; Node 22 ships 10.x.
+      # Pinned to major 11 — never a floating latest.
+      - name: Upgrade npm for OIDC publish
+        run: npm install -g npm@11
+
+      - name: Publish (no token — OIDC)
+        run: npm publish

@@ -1,0 +1,489 @@
+{
+  "$schema": "../../docs/home.schema.json",
+  "site": {
+    "name": "Anvil Quest Preview Guides Wiki",
+    "shortName": "AQG Wiki",
+    "description": "Preview of the AnvilWiki guides homepage preset.",
+    "tagline": "Guides-first preview",
+    "legalNotice": "Fan-made preview site."
+  },
+  "nav": {
+    "home": "Home",
+    "toggleTheme": "Toggle theme",
+    "menu": "Menu",
+    "close": "Close",
+    "search": "Search",
+    "language": "Language",
+    "guides": "Guides",
+    "builds": "Builds",
+    "items": "Items",
+    "maps": "Maps",
+    "bosses": "Bosses",
+    "tier-list": "Tier List",
+    "news": "News",
+    "codes": "Codes",
+    "deals": "Deals"
+  },
+  "search": {
+    "placeholder": "Search the wiki...",
+    "noResults": "No matches found"
+  },
+  "shared": {
+    "lastUpdated": "Last updated",
+    "publishedOn": "Published",
+    "noArticles": "No articles yet. Check back soon!",
+    "defaultListDescription": "Browse every {title} article — walkthroughs, tips, tier lists and up-to-date reference tables, all in one place.",
+    "relatedArticles": "Related Articles",
+    "onThisPage": "On this page",
+    "browseAll": "Browse all",
+    "viewAll": "View all",
+    "sectionNavigation": "Section navigation",
+    "quickLinks": "Quick links",
+    "commentsHeading": "Comments",
+    "share": "Share",
+    "copyLink": "Copy link",
+    "copied": "Copied!",
+    "consentText": "We use cookies for analytics and ads to keep this site free.",
+    "accept": "Accept",
+    "decline": "Decline",
+    "consentTitle": "Cookies",
+    "consentSettings": "Privacy settings",
+    "consentSave": "Save choices",
+    "consentAnalytics": "Analytics cookies",
+    "consentAdvertising": "Advertising cookies",
+    "consentNecessary": "Necessary cookies (always on)",
+    "bossCard": {
+      "title": "Boss Overview",
+      "hp": "HP",
+      "weakness": "Weakness",
+      "resistant": "Resistant",
+      "location": "Location",
+      "level": "Rec. Level"
+    },
+    "codesTable": {
+      "active": "Active Codes",
+      "expired": "Expired Codes",
+      "reward": "Reward",
+      "expires": "Expires",
+      "source": "Source",
+      "code": "Code"
+    },
+    "codesFaq": [
+      {
+        "question": "How do I redeem codes?",
+        "answer": "Open the game, click the settings gear in the top-right, paste your code into the Redeem Code field, and confirm. Codes are case-sensitive."
+      },
+      {
+        "question": "Why do codes stop working?",
+        "answer": "Codes expire on a schedule set by the developer (usually monthly or tied to update milestones), and some are one-per-account. This page is re-tested regularly."
+      },
+      {
+        "question": "How often are new codes released?",
+        "answer": "New codes typically arrive with each major game update. Bookmark this page and check back after every patch."
+      },
+      {
+        "question": "Do codes expire?",
+        "answer": "Yes — most codes have an expiry date, shown next to each code. Expired codes move to the expired table below."
+      }
+    ],
+    "possiblyOutdated": "This guide was last checked on",
+    "outdatedNote": "— the game may have changed since. Some details could be out of date.",
+    "prevArticle": "Previous",
+    "nextArticle": "Next",
+    "minuteRead": "min read",
+    "wasThisHelpful": "Was this helpful?",
+    "feedbackThanks": "Thanks for the feedback!",
+    "sponsoredLabel": "Sponsored",
+    "gameVersion": "Game version",
+    "allTags": "All Tags",
+    "tagsIndexDescription": "Browse all articles by topic.",
+    "articlesCount": "articles",
+    "recentTitle": "Recent Updates",
+    "recentDescription": "The latest articles and updates across the wiki, newest first.",
+    "sponsorTitle": "Support this wiki",
+    "sponsorText": "If these guides helped you, consider supporting the site.",
+    "sponsorButton": "Support us",
+    "notFoundSearchHint": "Try searching the wiki instead.",
+    "notFoundPopular": "Popular pages",
+    "quickAnswer": "Quick Answer",
+    "skipToContent": "Skip to content",
+    "tapToCopy": "Tap to copy",
+    "open": "Open",
+    "playVideo": "Play video",
+    "closeAd": "Close ad",
+    "adLabel": "Advertisement",
+    "codesFaqTitle": "Codes FAQ",
+    "faqTitle": "FAQ",
+    "toggleTheme": "Toggle theme",
+    "fallbackNotice": "English fallback",
+    "copyQuickAnswer": "Copy quick answer",
+    "feedbackYes": "Yes",
+    "feedbackNo": "No",
+    "breadcrumbAria": "Breadcrumb",
+    "paginationAria": "Article pagination",
+    "widgets": {
+      "decisionFilter": {
+        "eyebrow": "Interactive guide",
+        "all": "All",
+        "prompt": "Filter by situation",
+        "empty": "No matching advice for this filter."
+      },
+      "taskPlanner": {
+        "eyebrow": "Interactive checklist",
+        "prompt": "Choose your situation",
+        "copy": "Copy checklist",
+        "copied": "Copied",
+        "copyFailed": "Copy failed",
+        "reset": "Reset",
+        "progress": "{completed}/{total} complete",
+        "notePrefix": "Note: "
+      },
+      "fieldNote": {
+        "chipsAriaLabel": "Key checks"
+      },
+      "readiness": {
+        "ready": "Ready",
+        "check": "Check",
+        "missing": "Missing",
+        "legendAriaLabel": "Dashboard status legend",
+        "itemsAriaLabel": "Current page checks",
+        "summary": "{ready}/{total} checks ready"
+      }
+    }
+  },
+  "overview": {
+    "guides": {
+      "overviewTitle": "All Guides",
+      "overviewDescription": "Guides content for Anvil Quest Preview Guides. Replace this overview text in the locale JSON — it feeds the category page title and description."
+    },
+    "builds": {
+      "overviewTitle": "All Builds",
+      "overviewDescription": "Builds content for Anvil Quest Preview Guides. Replace this overview text in the locale JSON — it feeds the category page title and description."
+    },
+    "maps": {
+      "overviewTitle": "All Maps",
+      "overviewDescription": "Maps content for Anvil Quest Preview Guides. Replace this overview text in the locale JSON — it feeds the category page title and description."
+    },
+    "codes": {
+      "overviewTitle": "All Codes",
+      "overviewDescription": "Codes content for Anvil Quest Preview Guides. Replace this overview text in the locale JSON — it feeds the category page title and description."
+    },
+    "bosses": {
+      "overviewTitle": "All Bosses",
+      "overviewDescription": "Bosses content for Anvil Quest Preview Guides. Replace this overview text in the locale JSON — it feeds the category page title and description."
+    },
+    "items": {
+      "overviewTitle": "All Items",
+      "overviewDescription": "Items content for Anvil Quest Preview Guides. Replace this overview text in the locale JSON — it feeds the category page title and description."
+    },
+    "tier-list": {
+      "overviewTitle": "All Tier List",
+      "overviewDescription": "Tier List content for Anvil Quest Preview Guides. Replace this overview text in the locale JSON — it feeds the category page title and description."
+    },
+    "news": {
+      "overviewTitle": "Recent News",
+      "overviewDescription": "News content for Anvil Quest Preview Guides. Replace this overview text in the locale JSON — it feeds the category page title and description."
+    },
+    "deals": {
+      "overviewTitle": "Game Deals",
+      "overviewDescription": "Browse game deals, compare live Steam pricing and player activity, and find current lower offers from participating retailers."
+    }
+  },
+  "home": {
+    "meta": {
+      "title": "Anvil Quest Preview Guides Wiki — Guides, Bosses & Progression",
+      "description": "Preview of the AnvilWiki guides homepage preset."
+    },
+    "updates": {
+      "title": "Recent updates"
+    },
+    "popular": {
+      "badge": "Popular",
+      "title": "Most read",
+      "quickLinks": [
+        {
+          "label": "Guides",
+          "href": "/guides"
+        },
+        {
+          "label": "Codes",
+          "href": "/codes"
+        },
+        {
+          "label": "Bosses",
+          "href": "/bosses"
+        }
+      ]
+    },
+    "closingCta": {
+      "title": "Start your Anvil Quest Preview Guides journey",
+      "description": "Bookmark this wiki and check back after every game update.",
+      "primary": "Browse Guides",
+      "secondary": "Join the community",
+      "primaryHref": "/guides/"
+    },
+    "hero": {
+      "badge": "Anvil Quest Preview Guides",
+      "title": "Anvil Quest Preview Guides Wiki",
+      "description": "Complete Anvil Quest Preview Guides guides — bosses, items, and progression.",
+      "descriptionItems": [
+        {
+          "label": "Game background",
+          "text": "Replace this preview copy with a source-checked summary of the game's setting and premise before publishing."
+        },
+        {
+          "label": "Core gameplay",
+          "text": "Replace this preview copy with a source-checked summary of the game's main activities, player choices, and progression loop before publishing."
+        }
+      ],
+      "ctaPrimary": "Start Reading",
+      "ctaSecondary": "Get Free Deals",
+      "videoId": "aqz-KE-bpKQ",
+      "videoCaption": "Template demo video — replace before publishing",
+      "ctaSecondaryHref": "/deals/"
+    },
+    "start": {
+      "badge": "Quick start",
+      "title": "New here?",
+      "cards": [
+        {
+          "key": "guides",
+          "description": "Browse walkthroughs and practical player guides.",
+          "image": "/images/home/guide-card.svg"
+        },
+        {
+          "key": "builds",
+          "description": "Compare builds and plan your next upgrade.",
+          "image": "/images/home/items-card.svg"
+        },
+        {
+          "key": "items",
+          "description": "Find item details and useful equipment.",
+          "image": "/images/home/items-card.svg"
+        },
+        {
+          "key": "maps",
+          "description": "Explore locations, routes, and discoveries.",
+          "image": "/images/home/reference-card.svg"
+        }
+      ]
+    },
+    "decisionGuide": {
+      "eyebrow": "Choose your route",
+      "title": "What should you do next?",
+      "description": "Pick the path that matches your current goal. Each route takes you to a focused set of guides instead of making you search the whole wiki.",
+      "routeLabel": "routes",
+      "groups": [
+        {
+          "label": "New player",
+          "directions": [
+            {
+              "title": "Learn the basics",
+              "question": "What should I understand before leaving the starting area?",
+              "href": "/guides/beginner-guide"
+            },
+            {
+              "title": "Choose an upgrade path",
+              "question": "Which early gear and resources are worth investing in?",
+              "href": "/guides/forging-guide"
+            },
+            {
+              "title": "Prepare for the first boss",
+              "question": "What should I bring before my first serious fight?",
+              "href": "/bosses/emberfang"
+            }
+          ],
+          "image": "/images/home/decision-new.webp"
+        },
+        {
+          "label": "Currently progressing",
+          "directions": [
+            {
+              "title": "Clear the next progression wall",
+              "question": "Which boss, quest, or upgrade should I tackle next?",
+              "href": "/bosses"
+            },
+            {
+              "title": "Farm what you are missing",
+              "question": "Where can I get the materials needed for my next upgrade?",
+              "href": "/items/forging-materials-guide"
+            },
+            {
+              "title": "Fix a stalled build",
+              "question": "Which equipment or crafting decision is slowing me down?",
+              "href": "/items/emberforged-armor-set"
+            }
+          ],
+          "image": "/images/home/decision-progress.webp"
+        },
+        {
+          "label": "Experienced player",
+          "directions": [
+            {
+              "title": "Optimize your build",
+              "question": "Which gear combination gives the best results for my playstyle?",
+              "href": "/guides/weapon-tier-list"
+            },
+            {
+              "title": "Farm more efficiently",
+              "question": "Which route gives the best return for repeat runs?",
+              "href": "/items/forging-materials-guide"
+            },
+            {
+              "title": "Push endgame content",
+              "question": "How do I prepare for the hardest encounters and rewards?",
+              "href": "/bosses/frostbound-monarch"
+            }
+          ],
+          "image": "/images/home/decision-endgame.webp"
+        }
+      ]
+    },
+    "explore": {
+      "title": "Explore",
+      "description": "Content modules",
+      "modules": [
+        {
+          "order": 1,
+          "name": "Getting started",
+          "description": "Step-by-step progression",
+          "href": "/guides",
+          "displayType": "steps",
+          "image": "/images/home/guide-card.svg",
+          "highlights": [
+            {
+              "label": "Step 1",
+              "detail": "Finish the tutorial",
+              "badge": "5 min"
+            },
+            {
+              "label": "Step 2",
+              "detail": "Claim starter codes",
+              "badge": "1 min"
+            },
+            {
+              "label": "Step 3",
+              "detail": "First boss run",
+              "badge": "15 min"
+            }
+          ]
+        }
+      ]
+    },
+    "faq": {
+      "title": "FAQ",
+      "description": "Common questions",
+      "items": []
+    }
+  },
+  "footer": {
+    "playGame": "Play Anvil Quest",
+    "officialDiscord": "Official Discord",
+    "officialYoutube": "Official YouTube",
+    "officialTwitter": "Official Twitter",
+    "officialReddit": "Official Reddit",
+    "about": "About",
+    "faq": "FAQ",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "copyright": "Copyright",
+    "contact": "Contact",
+    "copyrightText": "© 2026 Anvil Quest Preview Guides Wiki. All rights reserved.",
+    "community": "Community",
+    "legal": "Legal"
+  },
+  "dealsPage": {
+    "titleSuffix": "Deals & Discounts",
+    "appIdMissing": "Add this game's Steam AppID to src/config/site.ts to enable live pricing and player activity.",
+    "metaTitle": "",
+    "metaDescription": "Compare free game deals with Steam prices, live player activity, rankings, and current retailer offers.",
+    "breadcrumbHome": "Home",
+    "breadcrumbCurrent": "Deals",
+    "eyebrow": "Price tracker · US region",
+    "posterTagline": "Compare current game offers with Steam prices, live player counts, and current retailer deals.",
+    "posterFreeBadge": "FREE DEALS · NO FEES",
+    "posterLiveBadge": "LIVE DATA · REFRESHES HOURLY",
+    "savingsHeadline": "YOU SAVE",
+    "freeToUse": "FREE TO USE · NO FEES",
+    "steamStoreLabel": "CURRENT STEAM STORE PRICE",
+    "steamChartsLabel": "STEAM MOST PLAYED",
+    "lowestPrice": "LOWEST PRICE",
+    "liveOfferLabel": "LIVE STORE OFFERS",
+    "steamBaseline": "Steam",
+    "steamComparisonUnavailableShort": "Steam price unavailable for comparison",
+    "noDealsPoster": "No current lower offer found",
+    "offerCheckIncomplete": "Some price sources are unavailable",
+    "offerSourcesUnavailableShort": "Live offer sources unavailable",
+    "savingsContext": "SAVED VS STEAM",
+    "getBestDeal": "Get the best deal",
+    "refreshWait": "Refresh available in",
+    "title": "Game deals",
+    "intro": "Compare verified retailer prices with the current Steam listing. Steam player activity and available offers are checked independently, so missing data is never presented as a confirmed discount.",
+    "regionNote": "Prices are shown in USD. Retailer availability and checkout terms may change by region.",
+    "steamHeading": "Steam price and live activity",
+    "steamHelper": "Player count is a current snapshot from Steam's public API.",
+    "refreshNow": "Refresh now",
+    "loading": "Loading…",
+    "checkingPrices": "Checking current prices…",
+    "checkingData": "Refreshing Steam and retailer data…",
+    "steamPrice": "Steam price",
+    "playersOnline": "Players online",
+    "steamRank": "Steam rank",
+    "dailyPeak": "24-hour peak",
+    "cheaperOffers": "Cheaper offers",
+    "liveSteamCounter": "Live Steam chart snapshot",
+    "steamChartsLink": "Open Steam's Most Played chart ↗",
+    "unavailable": "Unavailable",
+    "noSteamDiscount": "No Steam discount now",
+    "steamDiscountSuffix": "% off on Steam",
+    "retailerHeading": "Current game offers",
+    "retailerHelper": "Only same-edition offers priced below Steam are counted in the comparison.",
+    "viewSteam": "Open Steam page ↗",
+    "loadingComparison": "Loading the Steam price comparison…",
+    "checkingRetailers": "Checking retailer listings…",
+    "offerChecked": "Checked",
+    "offerEnds": "Offer ends",
+    "retailerAction": "View retailer offer ↗",
+    "comparisonUnavailable": "Steam’s current price could not be read, so retailer prices cannot be safely compared yet.",
+    "noDeals": "Currently no deals found. Steam and retailer data were checked; see the refresh time above and check back later.",
+    "noDealsPartial": "No discount below Steam was returned by the available retailer source. Another price source is temporarily unavailable, so this result may be incomplete.",
+    "offerSourcesUnavailable": "Retailer price sources are temporarily unavailable. This is a data-source error, so the page is not treating it as “no offers found.”",
+    "popularHeading": "Offers for popular Steam games",
+    "popularHelper": "Current coupons and discounts for games ranked in Steam's live top-20 most-played chart. Ranks are refreshed from Steam; offer timestamps come from the source snapshot.",
+    "allOffers": "Browse all tracked game offers ↗",
+    "loadingPopular": "Loading the latest popular-games offers…",
+    "loadingCards": "Loading current offers…",
+    "popularitySourceUnavailable": "The popular-games offer source is temporarily unavailable.",
+    "noPopularOffers": "No current coupon or discounted listing was found for Steam's live top-20 games. The source snapshot time is shown above.",
+    "liveRankCheckedAt": "Live Steam ranks checked:",
+    "snapshotPrefix": "Offers and player counts in the source snapshot:",
+    "snapshotStale": "This offer snapshot is older. Check the linked retailer page to confirm its current price and availability.",
+    "stalePlayerNote": "Player count unavailable",
+    "codeLabel": "Code",
+    "openDeal": "Open deal ↗",
+    "popularDiscountSuffix": "% off",
+    "dataError": "Current offer data could not be reached. This is a data-source error, so the page is not treating it as “no offers found.”",
+    "refreshError": "A live data refresh failed. The last update time is shown when cached data is available; try Refresh now in a moment.",
+    "checkedAt": "Prices checked",
+    "hourlyRefresh": "The page refreshes automatically every hour.",
+    "steamSummaryNoPrice": "Steam’s current price could not be read, so retailer prices cannot be safely compared yet.",
+    "offerSingular": "offer",
+    "offerPlural": "offers",
+    "belowSteam": "below Steam’s",
+    "discountSingular": "discount",
+    "discountPlural": "discounts",
+    "onStandardListing": "on the standard listing.",
+    "lowestComparable": "The lowest comparable offer is",
+    "noLowerPrice": "Currently no deals found below the Steam price. The page checked live retailer and Steam listings; the latest refresh time is shown above.",
+    "noOfferMatch": "No lower price confirmed",
+    "currentPrice": "Current price",
+    "belowSteamBadge": "below Steam",
+    "playerCountUnavailable": "player count unavailable",
+    "online": "online",
+    "checkedOfferPrefix": "Offer checked",
+    "rankPrefix": "Steam #",
+    "onlineSuffix": "online",
+    "footerRetailers": "Offer prices and coupon eligibility are set by each retailer. Confirm the final price and regional availability on the linked store page before purchase.",
+    "footerActivity": "The Steam player count is a point-in-time activity measure, not a review score or all-time record. Steam's current popularity position is shown only when the live ranking source provides it."
+  }
+}

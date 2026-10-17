@@ -1,0 +1,145 @@
+/**
+ * Handbook parity + frontmatter gate (docs/handbook/{en,zh}/*.md).
+ *
+ * The in-site docs center renders zh chapters at /zh/landing/docs with
+ * hreflang pairs pointing at the en version — a missing half would produce
+ * a lying hreflang or a dead alternate. 1:1 parity is therefore a hard
+ * requirement, enforced here (build-time Zod covers field TYPES, this test
+ * covers language PAIRING + ordering sanity).
+ *
+ * Pure fs scan (no astro:content under Vitest — see lib/url notes).
+ */
+import { describe, expect, it } from 'vitest';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+import {
+  chaptersForLocale,
+  handbookPath,
+  parseHandbookId,
+  prevNext,
+  sortChapters,
+  type ChapterLike,
+} from '~/lib/handbook';
+
+const ROOT = fileURLToPath(new URL('..', import.meta.url));
+const HANDBOOK_DIR = path.resolve(ROOT, 'docs/handbook');
+
+function listChapters(locale: string): string[] {
+  const dir = path.join(HANDBOOK_DIR, locale);
+  if (!fs.existsSync(dir)) return [];
+  return fs.readdirSync(dir).filter((f) => f.endsWith('.md')).sort();
+}
+
+function readFrontmatter(locale: string, file: string): Record<string, string> {
+  const raw = fs.readFileSync(path.join(HANDBOOK_DIR, locale, file), 'utf8');
+  const fm = raw.split('---')[1] ?? '';
+  const out: Record<string, string> = {};
+  for (const line of fm.split('\n')) {
+    const m = line.match(/^([a-zA-Z]+):\s*(.+)$/);
+    if (m) out[m[1]] = m[2].trim();
+  }
+  return out;
+}
+
+describe('handbook: en/zh parity (hard requirement)', () => {
+  it('zh chapters mirror en chapters slug-for-slug', () => {
+    const enChapters = listChapters('en');
+    const zhChapters = listChapters('zh');
+    if (enChapters.length === 0 || zhChapters.length === 0) return;
+    expect(zhChapters, 'when both handbook locales are shipped they must mirror each other').toEqual(
+      enChapters,
+    );
+  });
+
+  it('en and zh twins share manual + order', () => {
+    const enChapters = listChapters('en');
+    const zhChapters = listChapters('zh');
+    if (enChapters.length === 0 || zhChapters.length === 0) return;
+    for (const file of enChapters) {
+      const en = readFrontmatter('en', file);
+      const zh = readFrontmatter('zh', file);
+      expect(zh.manual, `${file}: manual differs between locales`).toBe(en.manual);
+      expect(zh.order, `${file}: order differs between locales`).toBe(en.order);
+    }
+  });
+
+  it('frontmatter carries the required fields', () => {
+    for (const locale of ['en', 'zh']) {
+      for (const file of listChapters(locale)) {
+        const fm = readFrontmatter(locale, file);
+        for (const key of ['title', 'description', 'manual', 'order']) {
+          expect(fm[key], `${locale}/${file}: missing "${key}"`).toBeTruthy();
+        }
+        expect(['learn', 'dev'], `${locale}/${file}: manual must be learn|dev`).toContain(
+          fm.manual,
+        );
+      }
+    }
+  });
+
+  it('order is unique within each manual', () => {
+    for (const locale of ['en', 'zh']) {
+      const seen = new Map<string, string>();
+      for (const file of listChapters(locale)) {
+        const fm = readFrontmatter(locale, file);
+        const key = `${fm.manual}:${fm.order}`;
+        expect(seen.has(key), `${locale}/${file}: duplicate order ${key} (also ${seen.get(key)})`)
+          .toBe(false);
+        seen.set(key, file);
+      }
+    }
+  });
+});
+
+describe('lib/handbook pure functions', () => {
+  const mk = (id: string, manual: 'learn' | 'dev', order: number): ChapterLike => ({
+    id,
+    data: { manual, order },
+  });
+  const list = [
+    mk('zh/deploy', 'learn', 5),
+    mk('en/pick', 'learn', 1),
+    mk('en/deploy', 'learn', 4),
+    mk('en/customize', 'dev', 2),
+    mk('en/pick2', 'learn', 2),
+    mk('en/arch', 'dev', 1),
+  ];
+
+  it('parseHandbookId strips .md and rejects junk', () => {
+    expect(parseHandbookId('en/pick-your-game.md')).toEqual({ locale: 'en', slug: 'pick-your-game' });
+    expect(parseHandbookId('zh/launch')).toEqual({ locale: 'zh', slug: 'launch' });
+    expect(parseHandbookId('fr/launch')).toBeNull();
+    expect(parseHandbookId('noseparator')).toBeNull();
+    expect(parseHandbookId('en/')).toBeNull();
+  });
+
+  it('sortChapters: learn before dev, order ascending', () => {
+    const sorted = sortChapters(list).map((c) => c.id);
+    expect(sorted).toEqual(['en/pick', 'en/pick2', 'en/deploy', 'zh/deploy', 'en/arch', 'en/customize']);
+  });
+
+  it('chaptersForLocale filters one locale', () => {
+    expect(chaptersForLocale(list, 'zh').map((c) => c.id)).toEqual(['zh/deploy']);
+  });
+
+  it('prevNext stays inside the same manual', () => {
+    const en = chaptersForLocale(list, 'en');
+    // Last learn chapter: has a dev chapter after it globally, but next must be null.
+    expect(prevNext(en, 'en/deploy')).toEqual({
+      prev: { id: 'en/pick2', data: { manual: 'learn', order: 2 } },
+      next: null,
+    });
+    expect(prevNext(en, 'en/pick2').next?.id).toBe('en/deploy');
+    expect(prevNext(en, 'en/customize').next).toBeNull();
+    expect(prevNext(en, 'en/arch').prev).toBeNull();
+    expect(prevNext(en, 'en/missing')).toEqual({ prev: null, next: null });
+  });
+
+  it('handbookPath builds locale-correct URLs', () => {
+    expect(handbookPath('en', 'pick-your-game')).toBe('/landing/docs/pick-your-game/');
+    expect(handbookPath('zh', 'pick-your-game')).toBe('/zh/landing/docs/pick-your-game/');
+    expect(handbookPath('zh', '', true)).toBe('/zh/landing/docs/');
+  });
+});

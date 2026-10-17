@@ -1,0 +1,130 @@
+{
+  "name": "guides",
+  "navigation": [
+    "guides",
+    "builds",
+    "items",
+    "maps",
+    "bosses",
+    "tier-list",
+    "news",
+    "codes"
+  ],
+  "site": {
+    "name": "Anvil Quest Preview Guides Wiki",
+    "shortName": "AQG Wiki",
+    "description": "Preview of the AnvilWiki guides homepage preset.",
+    "tagline": "Guides-first preview",
+    "legalNotice": "Fan-made preview site."
+  },
+  "home": {
+    "meta": {
+      "title": "Anvil Quest Preview Guides Wiki — Guides, Bosses & Progression",
+      "description": "Preview of the AnvilWiki guides homepage preset."
+    },
+    "updates": {
+      "title": "Recent updates"
+    },
+    "popular": {
+      "badge": "Popular",
+      "title": "Most read",
+      "quickLinks": [
+        {
+          "label": "Anvil Quest Beginner Guide - Your First Two Hours",
+          "href": "/guides/beginner-guide"
+        },
+        {
+          "label": "All Working Codes",
+          "href": "/codes/all-codes"
+        },
+        {
+          "label": "Emberfang Boss Guide",
+          "href": "/bosses/emberfang"
+        }
+      ]
+    },
+    "closingCta": {
+      "title": "Start your Anvil Quest Preview Guides journey",
+      "description": "Bookmark this wiki and check back after every game update.",
+      "primary": "Browse all",
+      "secondary": "Join the community"
+    },
+    "hero": {
+      "badge": "Anvil Quest Preview Guides",
+      "title": "Anvil Quest Preview Guides Wiki",
+      "description": "Complete Anvil Quest Preview Guides guides — bosses, items, and progression.",
+      "ctaPrimary": "Start reading",
+      "ctaSecondary": "Browse all"
+    },
+    "start": {
+      "badge": "Quick start",
+      "title": "New here?",
+      "cards": [
+        {
+          "number": "1",
+          "title": "Guides",
+          "description": "Browse guides",
+          "icon": "lucide:book-open",
+          "href": "/guides"
+        },
+        {
+          "number": "2",
+          "title": "Codes",
+          "description": "Browse codes",
+          "icon": "lucide:book-open",
+          "href": "/codes"
+        },
+        {
+          "number": "3",
+          "title": "Bosses",
+          "description": "Browse bosses",
+          "icon": "lucide:book-open",
+          "href": "/bosses"
+        },
+        {
+          "number": "4",
+          "title": "Tier-list",
+          "description": "Browse tier-list",
+          "icon": "lucide:book-open",
+          "href": "/tier-list"
+        }
+      ]
+    },
+    "explore": {
+      "title": "Explore",
+      "description": "Content modules",
+      "modules": [
+        {
+          "order": 1,
+          "name": "Getting started",
+          "description": "Step-by-step progression",
+          "href": "/guides",
+          "displayType": "steps",
+          "highlights": [
+            {
+              "label": "Step 1",
+              "detail": "Finish the tutorial",
+              "badge": "5 min"
+            },
+            {
+              "label": "Step 2",
+              "detail": "Claim starter codes",
+              "badge": "1 min"
+            },
+            {
+              "label": "Step 3",
+              "detail": "First boss run",
+              "badge": "15 min"
+            }
+          ]
+        }
+      ]
+    },
+    "faq": {
+      "title": "FAQ",
+      "description": "Common questions",
+      "items": []
+    }
+  },
+  "themeBrand": "175 77% 26%"
+}

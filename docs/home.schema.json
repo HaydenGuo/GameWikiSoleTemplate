@@ -1,0 +1,228 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://anvilwiki.pages.dev/docs/home.schema.json",
+  "title": "AnvilWiki locale JSON (home namespace)",
+  "description": "Add \"$schema\": \"./docs/home.schema.json\" to src/locales/<locale>.json for editor validation. The 6 supported explore displayTypes are enforced; all other keys are structural hints.",
+  "type": "object",
+  "properties": {
+    "site": { "type": "object" },
+    "nav": { "type": "object", "additionalProperties": { "type": "string" } },
+    "overview": { "type": "object" },
+    "footer": { "type": "object" },
+    "shared": { "type": "object" },
+    "home": {
+      "type": "object",
+      "required": ["hero", "start", "decisionGuide", "explore"],
+      "properties": {
+        "meta": {
+          "type": "object",
+          "properties": {
+            "watermark": { "type": "string" },
+            "title": { "type": "string" },
+            "description": { "type": "string", "maxLength": 60 }
+          }
+        },
+        "hero": {
+          "type": "object",
+          "required": ["title", "description", "descriptionItems", "ctaPrimary"],
+          "properties": {
+            "badge": { "type": "string" },
+            "title": { "type": "string" },
+            "description": { "type": "string", "minLength": 20 },
+            "badges": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["label"],
+                "properties": {
+                  "label": { "type": "string", "minLength": 1 },
+                  "kind": { "type": "string", "enum": ["standard", "deal"] }
+                }
+              }
+            },
+            "descriptionItems": {
+              "type": "array",
+              "description": "Required two-part overview shown under the homepage title. Keep these sections in this order: Game background, Core gameplay.",
+              "minItems": 2,
+              "maxItems": 2,
+              "items": {
+                "type": "object",
+                "required": ["label", "text"],
+                "properties": {
+                  "label": { "type": "string", "minLength": 1 },
+                  "text": { "type": "string", "minLength": 1 }
+                }
+              }
+            },
+            "ctaPrimary": { "$ref": "#/$defs/cta" },
+            "ctaSecondary": { "$ref": "#/$defs/cta" },
+            "ctaSecondaryHref": {
+              "type": "string",
+              "pattern": "^(\\/|https?://)",
+              "description": "Optional destination override for the secondary homepage call to action. Defaults to the official game URL."
+            },
+            "coverImage": { "type": "string", "pattern": "^/", "description": "Optional local game-specific cover image. When present, it replaces the hero video panel." },
+            "coverAlt": { "type": "string", "minLength": 1 },
+            "coverCaption": { "type": "string" },
+            "coverHref": { "type": "string", "pattern": "^(\\/|https?://)" },
+            "videoId": { "type": "string", "description": "YouTube video ID — hero video is lazy-loaded, leave empty for none." },
+            "videoCaption": { "type": "string" }
+          }
+        },
+        "updates": {
+          "type": "object",
+          "properties": {
+            "badge": { "type": "string" },
+            "title": { "type": "string" }
+          }
+        },
+        "start": {
+          "type": "object",
+          "required": ["title", "cards"],
+          "properties": {
+            "badge": { "type": "string" },
+            "title": { "type": "string" },
+            "cards": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["key", "description"],
+                "description": "Metadata keyed by a primary navigation item. Core derives the displayed label, icon, destination, order, and first-four selection from NAVIGATION_CONFIG.",
+                "properties": {
+                  "key": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+                  "description": { "type": "string" },
+                  "image": { "type": "string", "pattern": "^/" }
+                }
+              }
+            }
+          }
+        },
+        "decisionGuide": {
+          "type": "object",
+          "description": "Fixed player-situation route guide rendered directly below Quick Start.",
+          "required": ["title", "groups"],
+          "properties": {
+            "eyebrow": { "type": "string" },
+            "title": { "type": "string" },
+            "description": { "type": "string" },
+            "routeLabel": { "type": "string" },
+            "groups": {
+              "type": "array",
+              "maxItems": 3,
+              "items": {
+                "type": "object",
+                "required": ["label", "directions"],
+                "properties": {
+                  "label": { "type": "string" },
+                  "directions": {
+                    "type": "array",
+                    "maxItems": 3,
+                    "items": {
+                      "type": "object",
+                      "required": ["title", "question", "href"],
+                      "properties": {
+                        "title": { "type": "string" },
+                        "question": { "type": "string" },
+                        "href": { "type": "string", "pattern": "^/" }
+                      }
+                    }
+                  },
+                  "image": { "type": "string", "pattern": "^/", "description": "Optional local scene artwork for a player situation route card." }
+                }
+              }
+            }
+          }
+        },
+        "popular": {
+          "type": "object",
+          "properties": {
+            "badge": { "type": "string" },
+            "title": { "type": "string" },
+            "quickLinks": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["label", "href"],
+                "properties": {
+                  "label": { "type": "string" },
+                  "href": { "type": "string" },
+                  "image": { "type": "string", "pattern": "^/" }
+                }
+              }
+            }
+          }
+        },
+        "explore": {
+          "type": "object",
+          "required": ["title", "modules"],
+          "properties": {
+            "title": { "type": "string" },
+            "description": { "type": "string" },
+            "modules": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["order", "name", "href", "displayType", "highlights"],
+                "properties": {
+                  "order": { "type": "number" },
+                  "name": { "type": "string" },
+                  "description": { "type": "string" },
+                  "href": { "type": "string", "pattern": "^/" },
+                  "image": { "type": "string", "pattern": "^/" },
+                  "displayType": {
+                    "type": "string",
+                    "enum": ["badge-list", "steps", "ranked-grid", "labeled-cards", "timeline", "video-grid"],
+                    "description": "badge-list (codes) · steps (progression) · ranked-grid (tier lists) · labeled-cards (item cards) · timeline (patch notes) · video-grid (thumbnails that LINK OUT, never embed)"
+                  },
+                  "highlights": {
+                    "type": "array",
+                    "description": "Fields depend on displayType — see src/components/home/modules/*.",
+                    "items": { "type": "object" }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "faq": {
+          "type": "object",
+          "properties": {
+            "title": { "type": "string" },
+            "description": { "type": "string" },
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["question", "answer"],
+                "properties": {
+                  "question": { "type": "string" },
+                  "answer": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "closingCta": {
+          "type": "object",
+          "properties": {
+            "title": { "type": "string" },
+            "description": { "type": "string" },
+            "primary": { "type": "string" },
+            "primaryHref": { "type": "string", "pattern": "^(\\/|https?://)" },
+            "secondary": { "type": "string" }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "cta": {
+      "type": "object",
+      "required": ["label", "href"],
+      "properties": {
+        "label": { "type": "string" },
+        "href": { "type": "string" }
+      }
+    }
+  }
+}

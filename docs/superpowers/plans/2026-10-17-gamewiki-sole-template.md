@@ -34,7 +34,7 @@
 
 **Files:**
 - Copy tracked files from current `GameWikiTemplate` `main` into this repository, excluding upstream `.git`; retain this repository's `docs/superpowers/**` files.
-- Modify: `package.json`, `pnpm-lock.yaml`, `tsconfig.json`, `tests/template-package.test.ts`.
+- Modify: `.gitignore`, `package.json`, `pnpm-lock.yaml`, `tsconfig.json`, `tests/template-package.test.ts`.
 - Delete: `scripts/link-template-source.mjs` and `scripts/check-template-boundary.ts`.
 
 **Interfaces:**
@@ -47,7 +47,7 @@ Create branch `codex/merge-template-core` from the approved design commit. Copy 
 
 - [ ] **Step 2: Add package-boundary tests**
 
-Rewrite `tests/template-package.test.ts` to assert `package.json.name === 'gamewiki-sole-template'`; `@hb-game-wiki/template` is absent from dependency groups and TypeScript paths; root scripts do not include `template:link` or `check-template-boundary`; and `src/config/article-template.ts` still defines the fixed `quick-answer`, editable `body`, and fixed `sources` regions. Defer stale-reference scanning in docs/workflows to Task 4.
+Rewrite `tests/template-package.test.ts` to assert `package.json.name === 'gamewiki-sole-template'`; `@hb-game-wiki/template` is absent from dependency groups and TypeScript paths; root scripts do not include `template:link` or `check-template-boundary`; the `.gitignore` permits tracking unified runtime files under `src/components`, `src/i18n`, `src/lib`, `src/pages`, `src/styles`, and `src/config/article-template.ts`; and the article file still defines fixed `quick-answer` and `sources` around editable `body`. Defer stale-reference scanning in docs/workflows to Task 4.
 
 - [ ] **Step 3: Install test tooling and run the package test**
 
@@ -57,7 +57,7 @@ Expected: dependency install uses the current manifest; the package test fails o
 
 - [ ] **Step 4: Implement the package boundary removal**
 
-Set the package name to `gamewiki-sole-template`; remove `@hb-game-wiki/template`, its TypeScript path alias, and link/junction lifecycle hooks. Keep popular-slug manifest generation in `prebuild`. Delete the two obsolete link/boundary scripts. Do not modify game-site repositories.
+Set the package name to `gamewiki-sole-template`; remove `@hb-game-wiki/template`, its TypeScript path alias, and link/junction lifecycle hooks. Keep popular-slug manifest generation in `prebuild`. Remove the `.gitignore` entries that hide Core-owned `src` directories and `src/config/article-template.ts`, since those are now first-party tracked source. Delete the two obsolete link/boundary scripts. Do not modify game-site repositories.
 
 - [ ] **Step 5: Refresh the lockfile and pass the package test**
 
