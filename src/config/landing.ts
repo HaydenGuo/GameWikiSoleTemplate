@@ -75,6 +75,7 @@ export interface LandingContent {
         url: string;
         positioning: string;
         license: string;
+        stars: string;
         bestFor: string;
       }[];
       note: string;
