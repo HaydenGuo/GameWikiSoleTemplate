@@ -25,7 +25,7 @@ const nav: Record<string, string> = ui.nav as Record<string, string>;
 // The header and browser/search identity use renditions of the same generated
 // AI brand mark. Keep the source path fixed so a per-site override cannot drift.
 const headerIcon = '/brand-mark-512.png';
-const navigationGroups = await getDynamicNavigation(locale, nav);
+const navigationGroups = (await getDynamicNavigation(locale, nav)).filter((group) => group.showInPrimaryNavigation);
 
 ---
 

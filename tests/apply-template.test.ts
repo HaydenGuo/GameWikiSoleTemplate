@@ -257,10 +257,10 @@ describe('homepage visual baseline survives apply-template presets', () => {
   test('generated home presets retain image-led card composition', () => {
     for (const preset of ['codes', 'guides'] as const) {
       const home = buildHomePreset(makeInput({ homePreset: preset })) as any;
-      expect(home.hero.descriptionItems).toEqual([
-        expect.objectContaining({ label: 'Game background', text: expect.any(String) }),
-        expect.objectContaining({ label: 'Core gameplay', text: expect.any(String) }),
-      ]);
+      expect(home.hero.steamStats).toEqual(expect.objectContaining({
+        popularity: expect.any(String), rank: expect.any(String), players: expect.any(String),
+        deal: expect.any(String), configure: expect.any(String), unavailable: expect.any(String),
+      }));
       expect(home.start.cards.length).toBeGreaterThanOrEqual(3);
       expect(home.start.cards.every((card: any) => typeof card.key === 'string' && typeof card.image === 'string')).toBe(true);
       expect(home.explore.modules.every((module: any) => typeof module.image === 'string')).toBe(true);

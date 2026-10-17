@@ -31,6 +31,8 @@ export interface NavigationItem {
   icon: string;
   /** Whether this category has MDX content (always true for content types). */
   isContentType: boolean;
+  /** Set false to keep a utility page routable while omitting it from the header nav. */
+  showInPrimaryNavigation?: boolean;
   /** Sort order in nav menu (lower = earlier). Optional, defaults to array order. */
   order?: number;
   /** Select a second-level header dropdown for this category; requires subgroup data. */
@@ -57,7 +59,7 @@ export const NAVIGATION_CONFIG: NavigationItem[] = [
   { key: 'tier-list', path: '/tier-list', icon: 'lucide:bar-chart-3', isContentType: true, order: 6 },
   { key: 'news', path: '/news', icon: 'lucide:newspaper', isContentType: true, order: 7 },
   { key: 'codes', path: '/codes', icon: 'lucide:gift', isContentType: true, order: 8 },
-  { key: 'deals', path: '/deals', icon: 'lucide:badge-percent', isContentType: false, order: 9 },
+  { key: 'deals', path: '/deals', icon: 'lucide:badge-percent', isContentType: false, order: 9, showInPrimaryNavigation: false },
 ];
 
 /**

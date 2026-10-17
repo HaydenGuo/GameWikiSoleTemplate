@@ -151,6 +151,16 @@ export function mergeNavigationItems(
  * All copy uses the game name the user entered — placeholders to refine,
  * not demo-game leftovers. Module hrefs point at the categories they chose.
  */
+function defaultSteamStats() {
+  return {
+    rank: 'Steam rank', peak: '24H peak players', players: 'Playing now',
+    steamPrice: 'Steam price', deal: 'Best discount', viewDeal: 'View deal',
+    loading: 'Loading…', configure: 'Set up Steam ID', configureHint: 'Add this game\'s Steam App ID in site configuration to show live stats and deals.',
+    unavailable: 'Unavailable', unavailableHint: 'Live Steam data is temporarily unavailable. Please check back shortly.',
+    noDeal: 'No offer available', off: 'off',
+  };
+}
+
 export function buildHomePreset(input: SkinInput): Record<string, unknown> | null {
   if (input.homePreset === 'keep') return null;
   const cats = input.categories.map((c) => c.key);
@@ -240,10 +250,7 @@ export function buildHomePreset(input: SkinInput): Record<string, unknown> | nul
         badge: 'Fan-made wiki',
         title: `${input.gameName} Codes`,
         description: `All working ${input.gameName} codes with expiry dates, plus guides and tier lists.`,
-        descriptionItems: [
-          { label: 'Game background', text: 'Replace this starter text with a source-checked summary of the game setting and premise.' },
-          { label: 'Core gameplay', text: 'Replace this starter text with a source-checked summary of the main activities, choices, and progression loop.' },
-        ],
+        steamStats: defaultSteamStats(),
         ctaPrimary: 'Play now',
         ctaSecondary: 'Browse guides',
       },
@@ -280,10 +287,7 @@ export function buildHomePreset(input: SkinInput): Record<string, unknown> | nul
       badge: input.gameName,
       title: `${input.gameName} Wiki`,
       description: `Complete ${input.gameName} guides — bosses, items, and progression.`,
-      descriptionItems: [
-        { label: 'Game background', text: 'Replace this starter text with a source-checked summary of the game setting and premise.' },
-        { label: 'Core gameplay', text: 'Replace this starter text with a source-checked summary of the main activities, choices, and progression loop.' },
-      ],
+      steamStats: defaultSteamStats(),
       ctaPrimary: 'Start reading',
       ctaSecondary: 'Browse all',
     },

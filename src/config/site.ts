@@ -51,6 +51,8 @@ export interface SiteConfig {
     name: string;
     /** Optional Steam AppID for the reusable Deals page. Leave unset until configured for a specific game. */
     steamAppId?: number;
+    /** Optional Steam store title used by Steam data and retailer offer lookups. */
+    steamGameTitle?: string;
     /** Platform: "Roblox" | "Steam" | "Epic Games" | "Mobile" | ... */
     platform: string;
     /** Developer / studio name. */
@@ -101,6 +103,9 @@ export const site: SiteConfig = {
   trustedStorePages: [],
   trustedMaterialPages: [],
   game: {
+    // Temporary live-data test target; replace or remove together with steamAppId for a real fork.
+    steamAppId: 1867240,
+    steamGameTitle: 'WARDOGS',
     name: 'Anvil Quest Preview Guides',
     platform: 'Roblox',
     developer: 'Forge Studios',

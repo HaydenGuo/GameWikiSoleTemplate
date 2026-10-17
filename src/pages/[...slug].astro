@@ -94,7 +94,7 @@ const alternates =
 ---
 
 {view === 'list' && <ListPage locale={locale} category={category} alternates={alternates} />}
-{view === 'deals' && <DealsPage locale={locale} gameName={site.game.name} steamAppId={site.game.steamAppId} />}
+{view === 'deals' && <DealsPage locale={locale} gameName={site.game.name} steamAppId={site.game.steamAppId} steamGameTitle={site.game.steamGameTitle} />}
 {view === 'article' && resolved && (
   <ArticlePage locale={locale} resolved={resolved} alternates={alternates} availableLocales={altLocales} />
 )}

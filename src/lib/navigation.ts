@@ -31,6 +31,8 @@ export interface NavGroup {
   path: string;
   icon: string;
   count: number;
+  /** Whether this category belongs in the site header's primary navigation. */
+  showInPrimaryNavigation: boolean;
   /** All actual articles in this category, used by the sidebar. */
   entries: NavEntry[];
   /** Explicit second-level groups assigned to the header dropdown. */
@@ -90,6 +92,7 @@ export async function getDynamicNavigation(
       path: item.path,
       icon: item.icon,
       count: entries.length,
+      showInPrimaryNavigation: item.showInPrimaryNavigation !== false,
       entries: allEntries,
       subnavigations,
       navigationMode,

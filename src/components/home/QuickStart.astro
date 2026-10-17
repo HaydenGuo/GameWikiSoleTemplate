@@ -2,10 +2,8 @@
 /**
  * QuickStart — prominent icon-card grid of the 4 things a new player needs.
  *
- * Renders `home.start.cards` as large, clickable tiles (2×2 on desktop,
- * single column on mobile). Each card carries an icon, title, one-line
- * description, and a theme-colored arrow — modeled on the "quick actions"
- * pattern used by successful game-wiki homepages.
+ * Renders `home.start.cards` as an image-led index with one featured entry
+ * and a compact route list. The visual order follows NAVIGATION_CONFIG.
  *
  * Placed immediately after the Hero so first-time visitors see their
  * next step without scrolling past marketing copy.
@@ -37,48 +35,60 @@ const sharedStrings = getUi(locale).shared as unknown as Record<string, any>;
 const open = sharedStrings.open ?? 'Open';
 ---
 {cards.length > 0 && (
-  <section class="section border-t border-border">
-    <p class="text-sm font-semibold uppercase tracking-wider text-foreground">{badge}</p>
-    <h2 class="mt-1 text-2xl font-bold tracking-tight md:text-3xl">{title}</h2>
-    <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 md:mt-8">
-      {cards.map((card: StartCard) => (
+  <section class="section border-t border-border" aria-labelledby="quick-start-title">
+    <header class="home-section-heading">
+      <p class="home-section-kicker">{badge}</p>
+      <h2 id="quick-start-title" class="home-section-title">{title}</h2>
+    </header>
+    <div class="home-start-board mt-7 grid gap-3 md:grid-cols-12 md:gap-4">
+      {cards.map((card: StartCard, index: number) => (
         <a
           href={localizePath(card.href, locale)}
-          class="card group overflow-hidden p-0 transition hover:-translate-y-0.5 hover:border-nav/60 hover:shadow-lg"
+          class:list={[
+            'home-start-card group relative isolate flex overflow-hidden border border-border bg-card text-card-foreground transition-colors hover:border-nav focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-nav focus-visible:ring-offset-2',
+            index === 0
+              ? `min-h-[19rem] ${cards.length === 1 ? 'md:col-span-12 md:min-h-[22rem]' : `md:col-span-7 ${cards.length > 3 ? 'md:min-h-[30rem]' : 'md:min-h-[22rem]'}`}`
+              : 'min-h-[9rem] md:col-span-5 md:min-h-[9.5rem]',
+          ]}
+          style={index === 0 && cards.length > 1 ? `grid-row: span ${cards.length - 1} / span ${cards.length - 1}` : undefined}
+          data-home-start-card
         >
-          {card.image && (
-            <div class="relative aspect-[16/9] overflow-hidden bg-muted">
+          {card.image ? (
+            <div class:list={['home-start-art', index === 0 ? 'absolute inset-0 -z-20' : 'relative w-[38%] shrink-0 overflow-hidden']}>
               {typeof card.image === 'string' ? (
-                <img src={card.image} alt={card.title} class="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]" loading="lazy" />
+                <img src={card.image} alt={card.title} class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04] motion-reduce:transition-none" loading="lazy" />
               ) : (
-                <Image src={card.image} alt={card.title} class="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]" loading="lazy" />
+                <Image src={card.image} alt={card.title} class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04] motion-reduce:transition-none" loading="lazy" />
               )}
-              <span class="absolute left-3 top-3 flex h-10 w-10 items-center justify-center rounded-xl bg-background/90 text-nav shadow-sm">
-                <Icon name={card.icon} class="h-5 w-5" />
-              </span>
-              <span class="absolute right-3 top-3 rounded-full bg-background/90 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-foreground shadow-sm">
+            </div>
+          ) : (
+            <div class="flex w-[38%] shrink-0 items-center justify-center bg-muted text-nav">
+              <Icon name={card.icon} class="h-8 w-8" />
+            </div>
+          )}
+
+          {index === 0 && <div aria-hidden="true" class="absolute inset-0 -z-10 bg-gradient-to-t from-black/85 via-black/20 to-black/5" />}
+
+          <div class:list={[
+            'home-start-copy flex min-w-0 flex-1 flex-col justify-end',
+            index === 0 ? 'p-6 text-white md:p-8' : 'justify-center p-4 md:p-5',
+          ]}>
+            <div class="flex items-center gap-2">
+              <Icon name={card.icon} class:list={['h-4 w-4 shrink-0', index === 0 ? 'text-white' : 'text-nav']} />
+              <span class:list={['text-[0.68rem] font-bold uppercase tracking-[0.16em]', index === 0 ? 'text-white/75' : 'text-muted-foreground']}>
                 {card.number}
               </span>
             </div>
-          )}
-          <div class="p-5">
-          {!card.image && <div class="flex items-center justify-between">
-            <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-nav/10 text-nav">
-              <Icon name={card.icon} class="h-6 w-6" />
+            <h3 class:list={['mt-2 font-bold leading-tight tracking-tight', index === 0 ? 'text-2xl md:text-4xl' : 'text-lg md:text-xl']}>
+              {card.title}
+            </h3>
+            <p class:list={['mt-1 line-clamp-2 text-sm leading-relaxed', index === 0 ? 'max-w-lg text-white/80 md:text-base' : 'text-muted-foreground']}>
+              {card.description}
+            </p>
+            <span class:list={['mt-3 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider', index === 0 ? 'text-white' : 'text-foreground']}>
+              <span class="border-b border-nav/70 pb-0.5">{open}</span>
+              <Icon name="lucide:arrow-right" class="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
             </span>
-            <span class="text-xs font-bold uppercase tracking-wider text-muted-foreground">
-              {card.number}
-            </span>
-          </div>}
-          <h3 class:list={[!card.image && 'mt-4', 'font-semibold leading-snug']}>{card.title}</h3>
-          <p class="mt-1 line-clamp-2 text-sm text-muted-foreground">{card.description}</p>
-          <span class="mt-3 inline-flex items-center gap-1 text-xs font-medium text-foreground hover:text-nav">
-            <span class="border-b border-transparent transition group-hover:border-nav">{open}</span>
-            <Icon
-              name="lucide:arrow-right"
-              class="h-3 w-3 transition group-hover:translate-x-0.5"
-            />
-          </span>
           </div>
         </a>
       ))}

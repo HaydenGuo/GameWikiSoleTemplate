@@ -78,9 +78,7 @@ const secondaryCtaIsExternal = /^https?:\/\//i.test(secondaryCtaHref);
 const heroCoverHref = hero.coverHref ?? (site.game.steamAppId
   ? `https://store.steampowered.com/app/${site.game.steamAppId}/`
   : site.social.official);
-if (!Array.isArray(hero.descriptionItems) || hero.descriptionItems.length !== 2 || hero.descriptionItems.some((item: any) => typeof item?.label !== 'string' || !item.label.trim() || typeof item?.text !== 'string' || !item.text.trim())) {
-  throw new Error('Homepage contract violation: home.hero.descriptionItems must contain exactly two sections with non-empty labels and text.');
-}
+const steamStats = hero.steamStats ?? {};
 // Shape-only defaults: getUi() deep-merges over en.json, so titles/labels are
 // guaranteed present — no hardcoded English fallbacks (UI text lives in the
 // locale JSON per the template's own rule).
@@ -174,7 +172,7 @@ const orderedNavigation = NAVIGATION_CONFIG
   .map((item, index) => ({ item, index }))
   .sort((a, b) => (a.item.order ?? a.index + 1) - (b.item.order ?? b.index + 1) || a.index - b.index)
   .slice(0, 4);
-const startCardDefinitions = orderedNavigation.map(({ item }, index) => {
+const startCardDefinitions = orderedNavigation.map(({ item }) => {
   const metadata = quickStartMetadata.get(item.key);
   const title = (ui.nav as Record<string, string>)[item.key];
   if (!title) {
@@ -182,7 +180,7 @@ const startCardDefinitions = orderedNavigation.map(({ item }, index) => {
   }
   const href = item.path;
   return {
-    number: String(index + 1),
+    number: `${articleCountsByCategory.get(item.key) ?? 0} ${shared.articlesCount ?? 'articles'}`,
     title,
     description: metadata?.description ?? `Explore ${title} and the latest player guides.`,
     icon: item.icon,
@@ -331,11 +329,6 @@ const exploreModules = configuredExploreModules.map((module: any) =>
       >
         {hero.title}
       </h1>
-      <div class="game-art-hero-copy mt-5 max-w-xl space-y-4 text-base text-white/90 drop-shadow-md md:text-lg">
-        {hero.descriptionItems.map((item: { label: string; text: string }) => (
-          <p class="game-art-hero-copy__item"><strong class="game-art-hero-copy__label">{item.label}</strong><span class="game-art-hero-copy__text">{item.text}</span></p>
-        ))}
-      </div>
       <div class="mt-8 flex flex-wrap gap-3">
         {
           hero.ctaPrimary && (
@@ -396,6 +389,45 @@ const exploreModules = configuredExploreModules.map((module: any) =>
     </div>
   </section>
 
+  <div class="mx-auto w-full max-w-[90rem] px-4 py-6 sm:py-8">
+    <div class="game-art-hero-copy text-foreground" data-home-steam-app-id={site.game.steamAppId ?? ''} data-home-steam-game={site.game.steamGameTitle ?? site.game.name} data-home-steam-copy={JSON.stringify(steamStats)}>
+      <dl class="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6" aria-live="polite" aria-busy={site.game.steamAppId ? 'true' : 'false'}>
+        {[
+          ['rank', steamStats.rank],
+          ['peak', steamStats.peak],
+          ['players', steamStats.players],
+          ['steamPrice', steamStats.steamPrice],
+          ['deal', steamStats.deal],
+        ].map(([key, label]) => (
+          <div class="relative flex min-h-28 flex-col items-center justify-center overflow-hidden rounded-xl border border-nav/35 bg-transparent px-3 py-4 text-center shadow-lg shadow-black/10 transition hover:border-nav/60 hover:shadow-xl sm:px-3.5">
+            <span class="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-transparent via-nav-light to-transparent" aria-hidden="true"></span>
+            <dt class="text-xs font-extrabold uppercase tracking-[0.14em] text-nav">{label}</dt>
+            <dd class="mt-2 flex w-full items-center justify-center gap-2 text-2xl font-black leading-none tracking-tight text-card-foreground tabular-nums sm:text-3xl lg:text-4xl">
+              <span data-home-steam-value={key}>{site.game.steamAppId ? steamStats.loading : steamStats.configure}</span>
+            </dd>
+          </div>
+        ))}
+        <div class="relative flex min-h-28 items-center justify-center overflow-hidden rounded-xl border border-nav/45 bg-nav/10 px-3 py-4 text-center shadow-lg shadow-black/10 transition hover:border-nav/70 hover:bg-nav/15 hover:shadow-xl sm:px-3.5" data-home-steam-deal-card hidden>
+          <span class="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-transparent via-nav-light to-transparent" aria-hidden="true"></span>
+          <dt class="sr-only">{steamStats.viewDeal}</dt>
+          <dd class="m-0 w-full">
+            <a
+              class="inline-flex min-h-16 w-full flex-col items-center justify-center gap-1 rounded-lg font-extrabold text-nav transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-nav"
+              data-home-steam-deal-link
+              href="#"
+              target="_blank"
+              rel="sponsored noopener noreferrer"
+              aria-label={steamStats.viewDeal}
+            >
+              <span class="text-base uppercase tracking-[0.14em] sm:text-lg">{steamStats.viewDeal}</span>
+              <span class="text-2xl leading-none" aria-hidden="true">↗</span>
+            </a>
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+
   {/* ───────────────────────────── Quick Start ────────────────────────── */}
   <QuickStart
     locale={locale}
@@ -417,8 +449,8 @@ const exploreModules = configuredExploreModules.map((module: any) =>
     <div class="grid gap-8 lg:grid-cols-3">
       {/* Recent updates — 2/3 width on desktop. */}
       <div class="lg:col-span-2">
-        <div class="flex items-baseline justify-between">
-          <h2 class="text-2xl font-bold">{updates.title}</h2>
+        <div class="flex items-end justify-between gap-4 border-b border-border pb-3">
+          <h2 class="home-section-title">{updates.title}</h2>
           <a
             href={listPath(browseAllCategory?.key ?? 'guides', locale)}
             class="text-sm text-foreground hover:text-nav hover:underline"
@@ -508,8 +540,10 @@ const exploreModules = configuredExploreModules.map((module: any) =>
   {
     explore.modules?.length > 0 && (
       <section class="section border-t border-border">
-        <h2 class="text-2xl font-bold">{explore.title}</h2>
-        <p class="mt-1 text-sm text-muted-foreground">{explore.description}</p>
+        <header class="home-section-heading max-w-3xl">
+          <h2 class="home-section-title">{explore.title}</h2>
+          <p class="text-sm leading-6 text-muted-foreground">{explore.description}</p>
+        </header>
         <div class="mt-8">
           <ExploreModules modules={exploreModules} locale={locale} />
         </div>
@@ -583,6 +617,54 @@ const exploreModules = configuredExploreModules.map((module: any) =>
     )
   }
 </LocaleLayout>
+
+<script is:inline>
+  (() => {
+  const statsRoot = document.querySelector('[data-home-steam-app-id]');
+  if (statsRoot) {
+    const labels = JSON.parse(statsRoot.dataset.homeSteamCopy || '{}');
+    const appId = statsRoot.dataset.homeSteamAppId || '';
+    const game = statsRoot.dataset.homeSteamGame || '';
+    const value = (key, text) => {
+      const target = statsRoot.querySelector(`[data-home-steam-value="${key}"]`);
+      if (target) target.textContent = text;
+    };
+    const dealLink = statsRoot.querySelector('[data-home-steam-deal-link]');
+    const dealCard = statsRoot.querySelector('[data-home-steam-deal-card]');
+    const unavailable = () => {
+      for (const key of ['rank', 'peak', 'players', 'steamPrice', 'deal']) value(key, labels.unavailable);
+      statsRoot.querySelector('dl')?.setAttribute('aria-busy', 'false');
+    };
+    if (appId) {
+      fetch(`/api/game-deals?appid=${encodeURIComponent(appId)}&title=${encodeURIComponent(game)}`, { headers: { accept: 'application/json' }, cache: 'no-cache' })
+        .then((response) => { if (!response.ok) throw new Error('Steam data unavailable'); return response.json(); })
+        .then((data) => {
+          const steam = data.steam;
+          const best = data.offers?.[0];
+          value('rank', steam?.rank ? Number(steam.rank).toLocaleString() : labels.unavailable);
+          value('peak', steam?.dailyPeak == null ? labels.unavailable : Number(steam.dailyPeak).toLocaleString());
+          value('players', steam?.currentPlayers == null ? labels.unavailable : Number(steam.currentPlayers).toLocaleString());
+          value('steamPrice', steam?.formattedPrice || (steam?.price != null ? new Intl.NumberFormat(undefined, { style: 'currency', currency: steam.currency || 'USD' }).format(Number(steam.price)) : labels.unavailable));
+          const discountPercent = best?.price != null && Number(steam?.price) > 0
+            ? Math.max(0, Math.round((1 - Number(best.price) / Number(steam.price)) * 100))
+            : null;
+          value('deal', discountPercent !== null && discountPercent > 0 ? `${discountPercent}% ${labels.off}` : labels.noDeal);
+          if (dealLink && best?.actionUrl) {
+            try {
+              const destination = new URL(best.actionUrl);
+              if (destination.protocol === 'https:' || destination.protocol === 'http:') {
+                dealLink.href = destination.href;
+                if (dealCard) dealCard.hidden = false;
+              }
+            } catch {}
+          }
+          statsRoot.querySelector('dl')?.setAttribute('aria-busy', 'false');
+        })
+        .catch(unavailable);
+    }
+  }
+  })();
+</script>
 
 <script is:inline>
   const closingCta = document.querySelector('[data-closing-cta-track]')?.closest('.home-closing-cta');

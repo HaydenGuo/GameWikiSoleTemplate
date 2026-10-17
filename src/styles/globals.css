@@ -90,6 +90,75 @@
 
 /* Utility classes referencing the theme token. */
 @layer components {
+  /* Editorial cues for the homepage: compact labels, a clear headline scale,
+     and varied image panels make the guide feel authored without fixing a
+     particular game's colors or vocabulary. */
+  .home-section-heading {
+    display: grid;
+    justify-items: start;
+    gap: 0.45rem;
+  }
+
+  .home-section-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    color: hsl(var(--brand-text));
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .home-section-kicker::before {
+    width: 1.25rem;
+    border-top: 2px solid currentColor;
+    content: '';
+  }
+
+  .home-section-title {
+    font-size: clamp(1.65rem, 2.8vw, 2.35rem);
+    font-weight: 800;
+    letter-spacing: -0.045em;
+    line-height: 1.05;
+  }
+
+  .home-start-card:first-child::after {
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    left: 0;
+    width: 24%;
+    height: 0.25rem;
+    background: hsl(var(--brand));
+    content: '';
+    transition: width 220ms ease;
+  }
+
+  .home-start-card:first-child:hover::after,
+  .home-start-card:first-child:focus-visible::after {
+    width: 100%;
+  }
+
+  .home-start-card:not(:first-child) .home-start-art img {
+    min-height: 100%;
+  }
+
+  .home-explore-card:first-child {
+    align-self: stretch;
+  }
+
+  .home-explore-card > img {
+    border-bottom: 1px solid hsl(var(--border));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .home-start-card:first-child::after {
+      transition: none;
+    }
+  }
+
   /* Game imagery stays inside the homepage hero and article reading surface.
      It deliberately does not sit under global navigation or the whole page. */
   .home-hero-backdrop {

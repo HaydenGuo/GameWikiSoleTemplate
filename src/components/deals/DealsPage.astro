@@ -8,9 +8,10 @@ interface Props {
   locale: Locale;
   gameName: string;
   steamAppId?: number;
+  steamGameTitle?: string;
 }
 
-const { locale, gameName, steamAppId } = Astro.props;
+const { locale, gameName, steamAppId, steamGameTitle } = Astro.props;
 const copy = (getUi(locale) as unknown as Record<string, any>).dealsPage;
 const title = copy.metaTitle || `${gameName} ${copy.titleSuffix}`;
 const description = copy.metaDescription;
@@ -20,7 +21,7 @@ const steamUrl = steamAppId ? `https://store.steampowered.com/app/${steamAppId}/
 
 <LocaleLayout locale={locale} title={title} description={description}>
   <style is:global set:html={dealsStyles}></style>
-  <article class="deals-page mx-auto max-w-6xl" data-pagefind-body data-pagefind-meta="category:deals" data-deals-copy={JSON.stringify(copy)} data-steam-app-id={steamAppId ?? ''} data-game-name={gameName}>
+  <article class="deals-page mx-auto max-w-6xl" data-pagefind-body data-pagefind-meta="category:deals" data-deals-copy={JSON.stringify(copy)} data-steam-app-id={steamAppId ?? ''} data-game-name={steamGameTitle ?? gameName}>
     <nav class="text-sm text-muted-foreground" aria-label="Breadcrumb">
       <a href="/" class="hover:text-nav">{copy.breadcrumbHome}</a>
       <span class="mx-1">/</span>

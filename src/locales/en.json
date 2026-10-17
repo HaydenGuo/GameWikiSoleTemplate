@@ -226,16 +226,21 @@
       "badge": "Anvil Quest Preview Guides",
       "title": "Anvil Quest Preview Guides Wiki",
       "description": "Complete Anvil Quest Preview Guides guides — bosses, items, and progression.",
-      "descriptionItems": [
-        {
-          "label": "Game background",
-          "text": "Replace this preview copy with a source-checked summary of the game's setting and premise before publishing."
-        },
-        {
-          "label": "Core gameplay",
-          "text": "Replace this preview copy with a source-checked summary of the game's main activities, player choices, and progression loop before publishing."
-        }
-      ],
+      "steamStats": {
+        "rank": "Steam rank",
+        "peak": "24H peak players",
+        "players": "Playing now",
+        "steamPrice": "Steam price",
+        "deal": "Best discount",
+        "viewDeal": "View deal",
+        "loading": "Loading…",
+        "configure": "Set up Steam ID",
+        "configureHint": "Add this game's Steam App ID in site configuration to show live stats and deals.",
+        "unavailable": "Unavailable",
+        "unavailableHint": "Live Steam data is temporarily unavailable. Please check back shortly.",
+        "noDeal": "No offer available",
+        "off": "off"
+      },
       "ctaPrimary": "Start Reading",
       "ctaSecondary": "Get Free Deals",
       "videoId": "aqz-KE-bpKQ",

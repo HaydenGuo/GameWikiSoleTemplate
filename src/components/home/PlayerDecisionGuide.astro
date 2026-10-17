@@ -36,16 +36,16 @@ const {
 
 {groups.length > 0 && (
   <section class="section border-t border-border" aria-labelledby="player-decision-guide-title">
-    <div class="max-w-3xl">
-      <p class="text-xs font-bold uppercase tracking-[0.18em] text-nav">{eyebrow}</p>
-      <h2 id="player-decision-guide-title" class="mt-2 text-2xl font-bold tracking-tight md:text-3xl">{title}</h2>
+    <div class="home-section-heading max-w-3xl">
+      <p class="home-section-kicker">{eyebrow}</p>
+      <h2 id="player-decision-guide-title" class="home-section-title">{title}</h2>
       {description && <p class="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground md:text-base">{description}</p>}
     </div>
 
-    <div class="mt-7 grid gap-5 lg:grid-cols-3">
+    <div class="mt-7 grid gap-4 lg:grid-cols-3 lg:gap-5">
       {groups.slice(0, 3).map((group, groupIndex) => (
-        <article class="decision-group-card overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-shadow hover:shadow-md" aria-labelledby={`decision-group-${groupIndex}`}>
-          <div class="relative isolate flex h-48 flex-col justify-between overflow-hidden bg-foreground p-5 sm:h-52">
+        <article class="decision-group-card overflow-hidden border border-border bg-card transition-colors hover:border-nav/60" aria-labelledby={`decision-group-${groupIndex}`}>
+          <div class="relative isolate flex h-44 flex-col justify-between overflow-hidden bg-foreground p-5 sm:h-48">
             {group.image && (
               <img
                 src={group.image}
@@ -57,18 +57,18 @@ const {
             )}
             <div aria-hidden="true" class="absolute inset-0 -z-10 bg-gradient-to-b from-black/45 via-black/10 to-black/75" />
             <div class="relative z-10 flex items-start justify-end">
-              <span class="rounded-full border border-white/40 bg-black/20 px-3 py-1 text-[0.68rem] font-bold uppercase tracking-[0.12em] text-white backdrop-blur-sm">
+              <span class="border border-white/50 bg-black/25 px-2.5 py-1 text-[0.65rem] font-bold uppercase tracking-[0.14em] text-white backdrop-blur-sm">
                 {group.directions.length} {routeLabel}
               </span>
             </div>
             <h3 id={`decision-group-${groupIndex}`} class="relative z-10 text-2xl font-bold tracking-tight text-white drop-shadow-sm">{group.label}</h3>
           </div>
 
-          <div class="space-y-1 p-3">
+          <div class="divide-y divide-border px-4">
             {group.directions.slice(0, 3).map((direction) => (
               <a
                 href={direction.href}
-                class="group/route flex items-start gap-3 rounded-xl px-3 py-3.5 transition-colors hover:bg-muted/60 focus-visible:bg-muted/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-nav/50"
+                class="group/route flex items-start gap-3 py-4 transition-colors hover:text-nav focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-nav/50"
               >
                 <span class="min-w-0 flex-1">
                   <span class="block font-semibold leading-snug text-foreground transition-colors group-hover/route:text-nav">{direction.title}</span>

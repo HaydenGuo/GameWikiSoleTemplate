@@ -145,7 +145,7 @@ for (const loc of routingLocales) {
 if (displayErrors === 0) console.log('  ✅ all displayTypes valid');
 
 // --- Check 4: mandatory two-part homepage introduction ---------------------
-console.log('\n4. Homepage introduction (exactly two required sections)');
+console.log('\n4. Homepage Steam stats labels and fallback states');
 let introErrors = 0;
 for (const loc of routingLocales) {
   const jsonPath = path.resolve(ROOT, 'src/locales', `${loc}.json`);
@@ -156,30 +156,16 @@ for (const loc of routingLocales) {
   } catch {
     continue;
   }
-  const items = json?.home?.hero?.descriptionItems;
-  if (!Array.isArray(items) || items.length !== 2) {
-    err(`${loc}.json home.hero.descriptionItems must contain exactly two sections: Game background and Core gameplay`);
-    introErrors++;
-    continue;
-  }
-  const expectedLabels = ['Game background', 'Core gameplay'];
-  for (let i = 0; i < items.length; i++) {
-    const item = items[i];
-    if (loc === 'en' && item?.label !== expectedLabels[i]) {
-      err(`${loc}.json home.hero.descriptionItems[${i}].label must be "${expectedLabels[i]}"`);
-      introErrors++;
-    }
-    if (typeof item?.label !== 'string' || !item.label.trim()) {
-      err(`${loc}.json home.hero.descriptionItems[${i}].label must be a non-empty string`);
-      introErrors++;
-    }
-    if (typeof item?.text !== 'string' || !item.text.trim()) {
-      err(`${loc}.json home.hero.descriptionItems[${i}].text must be a non-empty string`);
+  const stats = json?.home?.hero?.steamStats;
+  const required = ['rank', 'peak', 'players', 'steamPrice', 'deal', 'viewDeal', 'loading', 'configure', 'configureHint', 'unavailable', 'unavailableHint', 'noDeal', 'off'];
+  for (const key of required) {
+    if (typeof stats?.[key] !== 'string' || !stats[key].trim()) {
+      err(`${loc}.json home.hero.steamStats.${key} must be a non-empty string`);
       introErrors++;
     }
   }
 }
-if (introErrors === 0) console.log('  ✅ both introduction sections are present in all locales');
+if (introErrors === 0) console.log('  ✅ Steam stats labels and fallback states are present in all locales');
 
 // --- Check 5: fixed homepage decision guide -------------------------------
 console.log('\n5. Homepage decision guide contract (3 groups × 3 directions)');

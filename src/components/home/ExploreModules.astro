@@ -49,13 +49,21 @@ const sharedStrings = getUi(locale).shared as unknown as Record<string, any>;
 const viewAll = sharedStrings.viewAll ?? 'View all';
 ---
 
-<div class="grid gap-6 md:grid-cols-2">
+<div class="home-explore-board grid gap-4 md:grid-cols-12 md:gap-5">
   {
-    modules.map((m) => (
-      <a href={localizePath(m.href, locale)} class="card group block overflow-hidden p-0 transition hover:-translate-y-0.5 hover:border-nav/60 hover:shadow-lg">
-        {m.image && <img src={m.image} alt={m.name} class="aspect-[16/7] w-full object-cover transition duration-300 group-hover:scale-[1.02]" loading="lazy" />}
-        <div class="p-5">
-        <h3 class="text-lg font-bold leading-snug">{m.name}</h3>
+    modules.map((m, index) => (
+      <a
+        href={localizePath(m.href, locale)}
+        class:list={[
+          'home-explore-card group block overflow-hidden border border-border bg-card text-card-foreground transition-colors hover:border-nav focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-nav focus-visible:ring-offset-2',
+          index === 0 ? (modules.length === 1 ? 'md:col-span-12' : 'md:col-span-7') : 'md:col-span-5',
+        ]}
+        style={index === 0 && modules.length > 1 ? `grid-row: span ${modules.length - 1} / span ${modules.length - 1}` : undefined}
+      >
+        {m.image && <img src={m.image} alt={m.name} class:list={['w-full object-cover transition-transform duration-500 group-hover:scale-[1.025] motion-reduce:transition-none', index === 0 ? 'aspect-[16/8]' : 'aspect-[16/7]']} loading="lazy" />}
+        <div class:list={['home-explore-copy', index === 0 ? 'p-5 md:p-7' : 'p-4 md:p-5']}>
+        <p class="home-section-kicker">{String(m.order).padStart(2, '0')}</p>
+        <h3 class:list={['mt-1 font-bold leading-snug tracking-tight', index === 0 ? 'text-2xl md:text-3xl' : 'text-lg']}>{m.name}</h3>
         <p class="mt-1 text-sm text-muted-foreground">{m.description}</p>
 
         <div class="mt-4">
@@ -67,7 +75,7 @@ const viewAll = sharedStrings.viewAll ?? 'View all';
           {m.displayType === 'video-grid' && <VideoGrid highlights={m.highlights} />}
         </div>
 
-        <p class="mt-4 inline-flex items-center gap-1 text-xs font-medium text-foreground hover:text-nav">
+        <p class="mt-4 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-foreground">
           <span class="border-b border-transparent transition group-hover:border-nav">{viewAll}</span>
           <Icon
             name="lucide:arrow-right"

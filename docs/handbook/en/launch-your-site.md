@@ -1,6 +1,6 @@
 ---
 title: "Chapter 3 · Copy the Template, Get Your Site Running"
-description: "Fork the AnvilWiki template to your GitHub, clone it locally, and run one Q&A command that swaps the demo for your game — 30 minutes to your site in the browser."
+description: "Fork GameWikiSoleTemplate, clone it locally, and use one setup flow to replace the demo with your game site."
 manual: learn
 order: 3
 icon: lucide:rocket
