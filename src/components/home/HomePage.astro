@@ -190,9 +190,9 @@ const startCardDefinitions = orderedNavigation.map(({ item }, index) => {
     imageCandidates: [...(metadata?.image ? [metadata.image] : []), ...coversForHref(href)],
   };
 });
-// Keep visible card art unique across the homepage. If the site cannot provide
-// enough distinct content art, the build fails with the card that needs art.
-const homepageImageKeys = new Set<string>();
+// Keep card art unique within each visual group. Different sections may reuse
+// source art, but neighboring cards never silently repeat it.
+const quickStartImageKeys = new Set<string>();
 const startCardImages = assignDistinctImages(
   startCardDefinitions.map((card) => ({
     label: card.title,
@@ -200,12 +200,13 @@ const startCardImages = assignDistinctImages(
   })),
   [...allArticleCovers, ...genericHomeImages],
   'Quick Start cards',
-  homepageImageKeys,
+  quickStartImageKeys,
 );
 const startCards = startCardDefinitions.map((card, index) => {
   const { imageCandidates: _imageCandidates, ...startCard } = card;
   return { ...startCard, image: startCardImages[index] };
 });
+const decisionGuideImageKeys = new Set<string>();
 const decisionGuideDefinitions = decisionGuide.groups.map((group: any) => {
   const routeCovers = group.directions.flatMap((direction: any) => coversForHref(direction.href));
   return {
@@ -220,7 +221,7 @@ const decisionGuideImages = assignDistinctImages(
   })),
   [...allArticleCovers, ...genericHomeImages],
   'What should you do next cards',
-  homepageImageKeys,
+  decisionGuideImageKeys,
 );
 const decisionGuideGroups = decisionGuideDefinitions.map((group: any, index: number) => {
   const { imageCandidates: _imageCandidates, ...decisionGroup } = group;
@@ -254,11 +255,12 @@ const recentImageCards = recent.flatMap((entry) => {
   const href = detailPath(parsed.category, parsed.slug, locale);
   return [{ label: entry.data.title, entryId: entry.id, candidates: coversForHref(href) }];
 });
+const recentAndTrendingImageKeys = new Set<string>();
 const recentCardImages = assignDistinctImages(
   recentImageCards.map(({ label, candidates }) => ({ label, candidates })),
   [...allArticleCovers, ...genericHomeImages],
   'Recent update cards',
-  homepageImageKeys,
+  recentAndTrendingImageKeys,
 );
 const recentImageByEntryId = new Map(recentImageCards.map((card, index) => [card.entryId, recentCardImages[index]]));
 const configuredPopularLinks: QuickLink[] = Array.isArray(popular.quickLinks) ? popular.quickLinks : [];
@@ -274,7 +276,7 @@ const popularCardImages = assignDistinctImages(
   })),
   [...allArticleCovers, ...genericHomeImages],
   'Trending cards',
-  homepageImageKeys,
+  recentAndTrendingImageKeys,
 );
 function trendingHref(link: QuickLink): string | null {
   return typeof link === 'string' ? null : localizePath(link.href, locale);
@@ -288,11 +290,12 @@ const exploreImageCards = configuredExploreModules.flatMap((module: any) =>
     ? [{ label: module.name, candidates: [module.image] }]
     : [],
 );
+const exploreImageKeys = new Set<string>();
 const exploreModuleImages = assignDistinctImages(
   exploreImageCards,
   [...allArticleCovers, ...genericHomeImages],
   'Explore cards',
-  homepageImageKeys,
+  exploreImageKeys,
 );
 let exploreImageIndex = 0;
 const exploreModules = configuredExploreModules.map((module: any) =>
