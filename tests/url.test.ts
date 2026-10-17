@@ -4,7 +4,6 @@ import {
   listPath,
   detailPath,
   homeUrl,
-  slugifyTag,
   absoluteUrl,
   languageAlternates,
 } from '~/lib/url';
@@ -69,34 +68,6 @@ describe('url helpers', () => {
         nonDefaultLocale && detailPath('guides', 'early-game/beginner', nonDefaultLocale),
       ).toBe(nonDefaultLocale ? `/${nonDefaultLocale}/guides/early-game/beginner/` : undefined);
     });
-  });
-});
-
-describe('slugifyTag (CJK / non-ASCII fallback)', () => {
-  it('slugifies ASCII tags to lowercase kebab-case', () => {
-    expect(slugifyTag('Boss Guide')).toBe('boss-guide');
-    expect(slugifyTag('Fire_Warden')).toBe('fire-warden');
-  });
-
-  it('returns CJK tags raw instead of collapsing to empty', () => {
-    // The ASCII branch strips every CJK char → '' → all such tags would
-    // collide on /tags/. The raw fallback keeps them unique; Astro writes
-    // params to disk verbatim, so the built directory is the raw tag and
-    // browser-encoded links (/tags/%E7%84%B0…) resolve to it.
-    const zh = slugifyTag('焰牙');
-    expect(zh).toBe('焰牙');
-    expect(zh).not.toBe('');
-  });
-
-  it('keeps two different CJK tags distinguishable', () => {
-    expect(slugifyTag('焰牙')).not.toBe(slugifyTag('风暴召唤者'));
-  });
-
-  it('keeps pure-symbol tags non-empty', () => {
-    // Whatever the exact characters, the slug is stable and distinct from ''
-    // — the property the fallback exists to guarantee.
-    expect(slugifyTag('!!!')).toBe('!!!');
-    expect(slugifyTag('  ???  ')).toBe('???');
   });
 });
 

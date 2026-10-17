@@ -17,7 +17,6 @@
 
 import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
 import { defaultLocale, type Locale } from './routing';
-import { slugifyTag } from '~/lib/url';
 import { selectRelatedEntries } from '~/lib/content-utils';
 
 export type WikiEntry = CollectionEntry<'wiki'>;
@@ -172,74 +171,6 @@ export async function getRelatedEntries(
     { id: current.id, data: { tags: current.data.tags, category: current.data.category, date: current.data.date } },
     limit,
   );
-}
-
-/**
- * All tags for a locale with article counts, most-used first.
- * Does NOT fall back to English (list accuracy rule — PRD §9.3).
- */
-export async function getTagsWithCounts(locale: Locale): Promise<Array<{ tag: string; count: number }>> {
-  const all = await getCollection('wiki');
-  const counts = new Map<string, number>();
-  for (const e of all) {
-    const parsed = parseEntryId(e.id);
-    if (!isPublished(e) || parsed?.locale !== locale) continue;
-    for (const tag of e.data.tags) {
-      counts.set(tag, (counts.get(tag) ?? 0) + 1);
-    }
-  }
-  return Array.from(counts.entries())
-    .map(([tag, count]) => ({ tag, count }))
-    .sort((a, b) => b.count - a.count || a.tag.localeCompare(b.tag));
-}
-
-/**
- * All articles in a locale carrying a given tag (matched by slugified tag).
- * Does NOT fall back to English — empty result shows the empty state.
- */
-export async function getEntriesByTag(tagSlug: string, locale: Locale): Promise<WikiEntry[]> {
-  const all = await getCollection('wiki');
-  return all
-    .filter((e) => {
-      if (!isPublished(e)) return false;
-      const parsed = parseEntryId(e.id);
-      if (parsed?.locale !== locale) return false;
-      return e.data.tags.some((t: string) => slugifyTag(t) === tagSlug);
-    })
-    .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
-}
-
-/**
- * All locales where at least one article carries this tag slug.
- * Used to build hreflang alternates that never point at a 404
- * (tag pages don't fall back to English).
- */
-export async function localesForTag(tagSlug: string): Promise<Locale[]> {
-  const all = await getCollection('wiki');
-  const found = new Set<Locale>();
-  for (const e of all) {
-    if (!isPublished(e)) continue;
-    const parsed = parseEntryId(e.id);
-    if (parsed && e.data.tags.some((t: string) => slugifyTag(t) === tagSlug)) {
-      found.add(parsed.locale);
-    }
-  }
-  return Array.from(found);
-}
-
-/**
- * The display tag (original casing) for a tag slug in a locale,
- * or null when no article carries it.
- */
-export async function tagLabelFor(tagSlug: string, locale: Locale): Promise<string | null> {
-  const all = await getCollection('wiki');
-  for (const e of all) {
-    const parsed = parseEntryId(e.id);
-    if (!isPublished(e) || parsed?.locale !== locale) continue;
-    const match = e.data.tags.find((t: string) => slugifyTag(t) === tagSlug);
-    if (match) return match;
-  }
-  return null;
 }
 
 // Staleness constants + predicate live in lib/content-utils.ts (pure,

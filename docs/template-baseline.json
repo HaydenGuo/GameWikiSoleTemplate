@@ -2,7 +2,24 @@
   "schema_version": 1,
   "created_at": "2026-10-17T02:18:03.274Z",
   "source_template": "GameWikiSoleTemplate-merge",
-  "allowed_deletions": [],
+  "allowed_deletions": [
+    {
+      "path": "src/components/article/TagListPage.astro",
+      "reason": "移除自动生成的单标签聚合页，避免新增文章制造单篇薄内容页面"
+    },
+    {
+      "path": "src/components/article/TagsIndexPage.astro",
+      "reason": "移除已无用途的标签索引页面"
+    },
+    {
+      "path": "src/pages/[locale]/tags/**",
+      "reason": "移除所有非默认语言的自动标签归档路由"
+    },
+    {
+      "path": "src/pages/tags/**",
+      "reason": "移除默认语言的自动标签归档路由"
+    }
+  ],
   "files": [
     {
       "path": ".agent/skills/anvil-adsense-audit/SKILL.md",

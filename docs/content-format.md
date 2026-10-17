@@ -1,6 +1,6 @@
 # MDX 文章格式
 
-> 怎么写一篇 AnvilWiki 的 MDX 文章。文章是 wiki 的核心——文件路径即 URL。
+> 怎么写一篇 GameWikiSoleTemplate 的 MDX 文章。文章是 wiki 的核心——文件路径即 URL。
 
 ---
 
@@ -44,7 +44,7 @@ noindex: false
 | `category`     | string   | ✅   | 必须在 `navigation.ts` 的 key 列表里 | 决定 URL 路径和列表页归属                |
 | `date`         | date     | ✅   | ISO 格式（YYYY-MM-DD）               | 发布日期 + Article JSON-LD datePublished |
 | `lastModified` | date     | 可选 | ISO 格式                             | 最后修改日期（JSON-LD dateModified + sitemap lastmod；boss/tier-list 超 90 天自动显示"可能过期"提示） |
-| `tags`         | string[] | 可选 | 默认 `[]`                            | "相关文章"推荐 + 标签聚合页（`/tags/<tag>`，v1.5 起文章页 tag 可点击） |
+| `tags`         | string[] | 可选 | 默认 `[]`                            | 用于“相关文章”匹配；不生成标签归档页，也不作为站内链接显示 |
 | `keywords`     | string[] | 可选 | 最多 8 个，每项 1-80 字符              | 文章级搜索意图词；有值时输出 keywords meta tag |
 | `draft`        | boolean  | 可选 | 默认 `false`                         | 草稿：`pnpm dev` 可预览，生产构建完全排除（页面/列表/RSS/sitemap） |
 | `gameVersion`  | string   | 可选 | ≤ 20 字符                            | 适用的游戏版本号（如 `v2.5`），文章头渲染成徽章——快速迭代游戏的时效性/E-E-A-T 信号 |
@@ -299,7 +299,7 @@ title: 'Emberfang Boss Guide'
 
 ### MDX 扩展（可选）
 
-MDX 支持 JSX 组件，但 AnvilWiki 默认不引入 React 组件。如果你需要复杂交互，参考 [PRD §ADR-002](./PRD.md#adr-002为什么用纯-astro-原生组件而不是-react-islands) 的说明。
+MDX 支持 JSX 组件，但 GameWikiSoleTemplate 默认不引入 React 组件。如果你需要复杂交互，参考 [PRD §ADR-002](./PRD.md#adr-002为什么用纯-astro-原生组件而不是-react-islands) 的说明。
 
 ---
 
@@ -320,7 +320,7 @@ export const metadata = {
 ...
 ```
 
-AnvilWiki 用 YAML frontmatter，需要手动改成：
+GameWikiSoleTemplate 用 YAML frontmatter，需要手动改成：
 
 ```mdx
 ---

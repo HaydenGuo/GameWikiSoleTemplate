@@ -41,19 +41,6 @@ export function detailPath(category: string, slug: string, locale: Locale): stri
   return localizePath(`/${category}/${slug}`, locale);
 }
 
-/** Tag index URL for a locale. e.g. tagsPath('en') -> '/tags' */
-export function tagsPath(locale: Locale): string {
-  return localizePath('/tags', locale);
-}
-
-/**
- * Tag aggregation page URL. `tagSlug` must come from slugifyTag() so article
- * tag links and the route params always match.
- */
-export function tagPath(tagSlug: string, locale: Locale): string {
-  return localizePath(`/tags/${tagSlug}`, locale);
-}
-
 /** Recent-updates page URL for a locale. */
 export function recentPath(locale: Locale): string {
   return localizePath('/recent', locale);
@@ -72,25 +59,4 @@ export function languageAlternates(
     hreflang: loc,
     href: `${siteUrl}${buildPath(loc)}`,
   }));
-}
-
-/**
- * Slugify a tag for use in URLs: lowercase, whitespace/underscores → "-".
- * Tag pages are keyed by this slug; both article tag links and route
- * params go through this function so they always match. Pure function
- * (testable without a build).
- */
-export function slugifyTag(tag: string): string {
-  const slug = tag
-    .trim()
-    .toLowerCase()
-    .replace(/[\s_]+/g, '-')
-    .replace(/[^a-z0-9-]/g, '');
-  // Non-ASCII tags (CJK etc.) would collapse to '' — which would route all
-  // of them to the same /tags/ page. Fall back to the raw tag: Astro writes
-  // params to disk verbatim, so a percent-encoded value here becomes a
-  // literal '%E7...' directory that only serves at the double-encoded URL,
-  // while every in-page link points at the single-encoded form (404). The
-  // raw tag builds a raw-named directory that both URL forms resolve to.
-  return slug || tag.trim();
 }

@@ -1,35 +1,16 @@
 import { describe, it, expect } from 'vitest';
 import { videoObjectJsonLd, urlListJsonLd, imageObjectJsonLd } from '~/lib/seo';
-import { slugifyTag, tagPath, tagsPath, recentPath } from '~/lib/url';
+import { recentPath } from '~/lib/url';
 import { locales } from '~/i18n/routing';
 
 const nonDefaultLocale = locales.find((locale) => locale !== 'en');
 
-describe('slugifyTag', () => {
-  it('lowercases and hyphenates whitespace', () => {
-    expect(slugifyTag('Fire Boss')).toBe('fire-boss');
-  });
-  it('strips characters that are not URL-safe', () => {
-    expect(slugifyTag('DPS Check!')).toBe('dps-check');
-  });
-  it('converts underscores to hyphens', () => {
-    expect(slugifyTag('early_game')).toBe('early-game');
-  });
-  it('is idempotent', () => {
-    expect(slugifyTag(slugifyTag('Ash Warden'))).toBe(slugifyTag('Ash Warden'));
-  });
-});
-
-describe('tag/recent URL helpers', () => {
-  it('builds unprefixed English paths', () => {
-    expect(tagsPath('en')).toBe('/tags/');
-    expect(tagPath('fire-boss', 'en')).toBe('/tags/fire-boss/');
+describe('recent URL helper', () => {
+  it('builds unprefixed English path', () => {
     expect(recentPath('en')).toBe('/recent/');
   });
-  it('prefixes non-default locales', () => {
+  it('prefixes non-default locale', () => {
     if (!nonDefaultLocale) return;
-    expect(tagsPath(nonDefaultLocale)).toBe(`/${nonDefaultLocale}/tags/`);
-    expect(tagPath('fire-boss', nonDefaultLocale)).toBe(`/${nonDefaultLocale}/tags/fire-boss/`);
     expect(recentPath(nonDefaultLocale)).toBe(`/${nonDefaultLocale}/recent/`);
   });
 });

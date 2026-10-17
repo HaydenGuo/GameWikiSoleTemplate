@@ -37,7 +37,6 @@ import {
   extractFirstBodyImage,
   isPossiblyOutdated,
   parseEntryId,
-  slugifyTag,
   type ResolvedEntry,
 } from '~/lib/content';
 import SponsorCard from '~/components/article/SponsorCard.astro';
@@ -48,7 +47,7 @@ import {
   videoObjectJsonLd,
   faqPageJsonLd,
 } from '~/lib/seo';
-import { listPath, detailPath, tagPath, homeUrl } from '~/lib/url';
+import { listPath, detailPath, homeUrl } from '~/lib/url';
 import { site } from '~/config/site';
 import { getAuthor } from '~/config/authors';
 import { resolveArticleImage } from '~/lib/article-images';
@@ -496,23 +495,6 @@ const jsonLd = [
 
       {/* FIXED REGION: Sources. Content authors edit only frontmatter sources. */}
       {showSources && <Sources sources={entry.data.sources} heading={shared.sources ?? 'Sources'} />}
-
-      {/* Tags */}
-      {
-        entry.data.tags.length > 0 && (
-          <div class="mt-8 flex flex-wrap gap-2">
-            {entry.data.tags.map((tag: string) => (
-              <a
-                href={tagPath(slugifyTag(tag), servedLocale)}
-                class="inline-flex items-center gap-1 rounded-full bg-muted px-3 py-1 text-xs text-foreground transition hover:bg-nav/15 hover:text-nav"
-              >
-                <Icon name="lucide:hash" class="h-3 w-3" />
-                {tag}
-              </a>
-            ))}
-          </div>
-        )
-      }
 
       {/* In-content ad */}
       <InContentAd />
