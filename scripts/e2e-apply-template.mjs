@@ -152,7 +152,7 @@ const checks = [
   ['hero.ctaPrimary is a string (components render it as link text)', typeof en.home?.hero?.ctaPrimary === 'string'],
   ['hero.ctaSecondary is a string', typeof en.home?.hero?.ctaSecondary === 'string'],
   ['closingCta.primary is a string', typeof en.home?.closingCta?.primary === 'string'],
-  ['start.cards are keyed metadata for the first four primary navigation entries', JSON.stringify(en.home?.start?.cards?.map((card) => card.key)) === JSON.stringify(['guides', 'bosses', 'codes', 'deals'])],
+  ['start.cards are keyed metadata for the first four primary content navigation entries', JSON.stringify(en.home?.start?.cards?.map((card) => card.key)) === JSON.stringify(['guides', 'bosses', 'codes'])],
   ['nav labels auto-filled for chosen categories (3-place rule)', ['bosses', 'guides', 'codes'].every((k) => typeof en.nav?.[k] === 'string')],
   ['existing Deals utility label survives template initialization', en.nav?.deals === 'Deals'],
   ['zh locale retains the Deals utility label too', (() => {
