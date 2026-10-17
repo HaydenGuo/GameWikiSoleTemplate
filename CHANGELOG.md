@@ -2,6 +2,13 @@
 
 This changelog tracks releases of the standalone `GameWikiSoleTemplate` repository. Earlier AnvilWiki product versions in `docs/PRD.md` are retained as pre-standalone project history and are not tags/releases of this repository.
 
+## [1.0.1] - 2026-10-17
+
+- Remove automatically generated tag archive pages and their navigation links to avoid thin pages when tags are used by only one article.
+- Keep article tags as metadata for related-article recommendations.
+
+移除自动生成的标签聚合页及其入口，避免单篇标签页；文章标签仍用于相关文章推荐。
+
 ## [1.0.0] - 2026-10-17
 
 First formal release of the standalone merged template repository.
