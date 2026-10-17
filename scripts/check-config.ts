@@ -72,7 +72,7 @@ try {
   process.exit(1);
 }
 
-console.log('\n🔧 AnvilWiki config consistency check\n');
+console.log('\n🔧 GameWikiSoleTemplate config consistency check\n');
 console.log('━'.repeat(60));
 
 // --- Check 1: nav key → en.json nav.<key> → content dir -------------------

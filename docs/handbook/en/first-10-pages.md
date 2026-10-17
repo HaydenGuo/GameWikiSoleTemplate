@@ -33,9 +33,9 @@ Good news: in this chapter you don't write a single word yourself. You **play th
 ## Step 1: Open your website folder with the AI assistant
 
 **What to do**: have the AI assistant "enter" your website folder, so the files it writes land in the right places.
-**How to do it**: open the sixth tool you installed in Chapter 2 — the AI assistant — and point it at the `AnvilWiki` folder its own way — **Cursor / ZCode**: click the "Open Folder" button in the UI and pick the folder; **Claude Code / Codex** (terminal-based): type `cd AnvilWiki` in the terminal to enter the folder, then launch the tool (e.g. `claude`). Start a new chat once it's open.
-**You'll see**: the AI assistant's window shows the folder path, ending in `AnvilWiki`.
-**Confirm it worked**: ask it "which folder are you in right now?" — its answer ends in AnvilWiki.
+**How to do it**: open the sixth tool you installed in Chapter 2 — the AI assistant — and point it at the `GameWikiSoleTemplate` folder its own way — **Cursor / ZCode**: click the "Open Folder" button in the UI and pick the folder; **Claude Code / Codex** (terminal-based): type `cd GameWikiSoleTemplate` in the terminal to enter the folder, then launch the tool (e.g. `claude`). Start a new chat once it's open.
+**You'll see**: the AI assistant's window shows the folder path, ending in `GameWikiSoleTemplate`.
+**Confirm it worked**: ask it "which folder are you in right now?" — its answer ends in GameWikiSoleTemplate.
 
 Once opened, it automatically knows three things (no teaching needed): the site's format rules (AGENTS.md), four ready-made skills, and the info-card format (the schema).
 
@@ -49,7 +49,7 @@ How good the AI's writing turns out **is 80% decided by your materials**. Notes 
 
 **No materials?** Play for an hour yourself, noting on your phone as you go; 20 fragments in an hour is enough for three articles.
 
-To make materials systematic, the repo's [`requirements/`](https://github.com/PNGTRID/AnvilWiki/tree/main/requirements) ships two fill-in templates: a **fact-sources table** (for every page: which key facts came from where, source links, last-updated dates — the credibility receipt behind E-E-A-T, and the AI's data rations so nothing gets invented) and a **benchmark table** (tear down 1 to 3 well-trafficked peer sites: homepage structure, article structure, ad-slot layout — the "copy the best homework" reference for your AI). Both are fill-in-the-blank, and each carries a ready-to-paste research prompt.
+To make materials systematic, the repo's [`requirements/`](https://github.com/HaydenGuo/GameWikiSoleTemplate/tree/main/requirements) ships two fill-in templates: a **fact-sources table** (for every page: which key facts came from where, source links, last-updated dates — the credibility receipt behind E-E-A-T, and the AI's data rations so nothing gets invented) and a **benchmark table** (tear down 1 to 3 well-trafficked peer sites: homepage structure, article structure, ad-slot layout — the "copy the best homework" reference for your AI). Both are fill-in-the-blank, and each carries a ready-to-paste research prompt.
 
 ## Step 3: Use prompts to produce three kinds of pages
 

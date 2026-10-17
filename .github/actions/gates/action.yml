@@ -1,4 +1,4 @@
-name: 'AnvilWiki quality gates'
+name: 'GameWikiSoleTemplate quality gates'
 description: >-
   The eight validation gates shared by CI and the content pipeline. Every gate
   can fail the run — a draft PR from the pipeline is only created after all
@@ -8,7 +8,7 @@ inputs:
   site-url:
     description: 'SITE_URL for the build step (CI passes vars.SITE_URL; falls back to the demo domain).'
     required: false
-    default: 'https://anvilwiki.pages.dev'
+    default: 'https://gamewiki-sole-template.vercel.app'
 
 runs:
   using: 'composite'

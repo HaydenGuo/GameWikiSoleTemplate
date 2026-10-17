@@ -1,6 +1,6 @@
 # 部署指南
 
-> 把 AnvilWiki 部署到 Cloudflare Pages，全程免费、零配置、无限带宽。
+> 把 GameWikiSoleTemplate 部署到 Cloudflare Pages，全程免费、零配置、无限带宽。
 >
 > 预计耗时：首次 10 分钟，熟练后 3 分钟。
 
@@ -11,7 +11,7 @@
 - 一个 [GitHub](https://github.com) 账号（免费）
 - 一个 [Cloudflare](https://cloudflare.com) 账号（免费）
 - 本地已安装 Node.js 22+ 和 pnpm
-- 已经 fork 了 AnvilWiki 仓库并改好了配置层（见 [apply-template.md](./apply-template.md)）
+- 已经 fork 了 GameWikiSoleTemplate 仓库并改好了配置层（见 [apply-template.md](./apply-template.md)）
 
 > 还没 fork？看 [快速开始](../README.md#5-分钟快速开始)。
 
@@ -29,7 +29,7 @@
 # 在项目根目录
 git init
 git add .
-git commit -m "Initial commit: AnvilWiki site"
+git commit -m "Initial commit: GameWikiSoleTemplate site"
 git branch -M main
 git remote add origin https://github.com/<你的用户名>/<你的仓库>.git
 git push -u origin main
@@ -43,7 +43,7 @@ git push -u origin main
 2. 左侧菜单选 **Workers & Pages**
 3. 点 **Create** → **Pages** → **Connect to Git**
 4. 授权 Cloudflare 访问你的 GitHub（首次需要）
-5. 选中你的 AnvilWiki 仓库
+5. 选中你的 GameWikiSoleTemplate 仓库
 6. 点 **Begin setup**
 
 ### Step 3 — 配置构建
@@ -178,7 +178,7 @@ wrangler pages deploy dist --project-name=<你的项目名>
 
 ## 方式三：导出静态文件到其他平台
 
-AnvilWiki 是纯静态站点（`dist/`），可以部署到任何静态托管：
+GameWikiSoleTemplate 是纯静态站点（`dist/`），可以部署到任何静态托管：
 
 | 平台             | 配置                                      | 免费额度     |
 | ---------------- | ----------------------------------------- | ------------ |
@@ -187,7 +187,7 @@ AnvilWiki 是纯静态站点（`dist/`），可以部署到任何静态托管：
 | **GitHub Pages** | 需配 `base`                               | 100GB/月带宽 |
 | **自建 VPS**     | `scp -r dist/ user@vps:/var/www/` + nginx | 看你的 VPS   |
 
-> ⚠️ 只有 Cloudflare Pages 是**无限带宽**。其他平台超量后要么限速要么收费。这也是 AnvilWiki 默认推荐 Cloudflare 的原因。
+> ⚠️ 只有 Cloudflare Pages 是**无限带宽**。其他平台超量后要么限速要么收费。这也是 GameWikiSoleTemplate 默认推荐 Cloudflare 的原因。
 
 ---
 

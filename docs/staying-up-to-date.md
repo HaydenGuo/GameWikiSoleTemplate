@@ -1,10 +1,10 @@
 # 同步上游更新(Staying Up to Date)
 
-> fork 之后如何持续吸收 AnvilWiki 上游的新功能,而不丢失你自己的游戏配置和内容。
+> fork 之后如何持续吸收 GameWikiSoleTemplate 上游的新功能,而不丢失你自己的游戏配置和内容。
 
 ## 核心原则:三层分离让 merge 可行
 
-AnvilWiki 的代码/配置/内容三层分离(见 README)正是为这个场景设计的:
+GameWikiSoleTemplate 的代码/配置/内容三层分离(见 README)正是为这个场景设计的:
 
 | 层 | 目录 | fork 后你会改吗 | merge 冲突概率 |
 | --- | --- | --- | --- |
@@ -18,7 +18,7 @@ AnvilWiki 的代码/配置/内容三层分离(见 README)正是为这个场景�
 
 ```bash
 # 1. 添加上游 remote(一次性)
-git remote add upstream https://github.com/PNGTRID/AnvilWiki.git
+git remote add upstream https://github.com/HaydenGuo/GameWikiSoleTemplate.git
 
 # 2. 拉取并合并
 git fetch upstream

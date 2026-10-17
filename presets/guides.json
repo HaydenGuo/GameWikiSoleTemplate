@@ -13,14 +13,14 @@
   "site": {
     "name": "Anvil Quest Preview Guides Wiki",
     "shortName": "AQG Wiki",
-    "description": "Preview of the AnvilWiki guides homepage preset.",
+    "description": "Preview of the GameWikiSoleTemplate guides homepage preset.",
     "tagline": "Guides-first preview",
     "legalNotice": "Fan-made preview site."
   },
   "home": {
     "meta": {
       "title": "Anvil Quest Preview Guides Wiki — Guides, Bosses & Progression",
-      "description": "Preview of the AnvilWiki guides homepage preset."
+      "description": "Preview of the GameWikiSoleTemplate guides homepage preset."
     },
     "updates": {
       "title": "Recent updates"

@@ -34,7 +34,7 @@ import { fileURLToPath } from 'node:url';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const preset = process.env.PRESET === 'guides' ? 'guides' : 'codes';
 const keep = process.env.KEEP === '1';
-const scratch = mkdtempSync(join(tmpdir(), 'anvilwiki-e2e-'));
+const scratch = mkdtempSync(join(tmpdir(), 'gamewiki-sole-template-e2e-'));
 const win = process.platform === 'win32';
 
 let failed = false;

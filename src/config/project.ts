@@ -1,5 +1,5 @@
 /**
- * Project-level flags — describe the AnvilWiki open-source project itself,
+ * Project-level flags — describe the GameWikiSoleTemplate open-source project itself,
  * NOT the demo game. This file survives `apply-template` (unlike the landing
  * page files, which the CLI removes).
  */

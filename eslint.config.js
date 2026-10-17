@@ -1,5 +1,5 @@
 /**
- * ESLint flat config for AnvilWiki.
+ * ESLint flat config for GameWikiSoleTemplate.
  *
  * Lints .js, .ts, and .astro files. Focuses on catching real bugs
  * (no-explicit-any, no-unused-vars) rather than stylistic rules —

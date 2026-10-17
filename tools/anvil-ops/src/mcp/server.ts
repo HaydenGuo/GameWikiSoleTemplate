@@ -51,7 +51,7 @@ export function buildServer(opts: BuildServerOpts): McpServer {
     {
       title: 'anvil-ops doctor',
       description:
-        'Health check for AnvilWiki site ops: wrangler.toml site config, gh CLI, GSC service account, CF Web Analytics token. Run this FIRST in any ops session before other anvil-ops tools.',
+        'Health check for GameWikiSoleTemplate site ops: wrangler.toml site config, gh CLI, GSC service account, CF Web Analytics token. Run this FIRST in any ops session before other anvil-ops tools.',
       inputSchema: {
         site: siteParam,
       },

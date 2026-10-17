@@ -1,6 +1,6 @@
-# Fork setup — one-click initialization after forking AnvilWiki.
+# Fork setup — one-click initialization after forking GameWikiSoleTemplate.
 #
-# Run this ONCE from your fork's Actions tab ("Initialize AnvilWiki" → Run workflow).
+# Run this ONCE from your fork's Actions tab ("Initialize GameWikiSoleTemplate" → Run workflow).
 # Safe-to-automate, non-interactive steps only:
 #   1. Reset wrangler.toml [vars] to your domain (SITE_URL) + clear demo Giscus values
 #   2. Remove the project landing page (fork users don't need it)
@@ -12,7 +12,7 @@
 #
 # After merging: connect the repo to Cloudflare Pages (docs/deployment.md).
 
-name: Initialize AnvilWiki
+name: Initialize GameWikiSoleTemplate
 
 on:
   workflow_dispatch:
@@ -155,7 +155,7 @@ jobs:
 
       - name: Create branch and pull request
         run: |
-          git config user.name "anvilwiki-setup"
+          git config user.name "gamewiki-template-setup"
           git config user.email "actions@github.com"
           # Idempotent re-runs: -B resets the branch instead of colliding with
           # the previous run's commits, --force-with-lease overwrites the remote
@@ -171,8 +171,8 @@ jobs:
           # --force-with-lease alone rejects idempotent re-runs ("stale info").
           git fetch origin chore/init-from-template || true
           git push --force-with-lease origin chore/init-from-template
-          gh pr create --title "Initialize AnvilWiki for your game" \
-            --body "Automated by the Initialize AnvilWiki workflow. wrangler.toml [vars] reset to ${SITE_URL_INPUT} (demo Giscus cleared); project landing page removed. Next: run pnpm apply-template locally for game name / theme / locales, then connect Cloudflare Pages (docs/deployment.md)." \
+          gh pr create --title "Initialize GameWikiSoleTemplate for your game" \
+            --body "Automated by the Initialize GameWikiSoleTemplate workflow. wrangler.toml [vars] reset to ${SITE_URL_INPUT} (demo Giscus cleared); project landing page removed. Next: run pnpm apply-template locally for game name / theme / locales, then connect Cloudflare Pages (docs/deployment.md)." \
             || echo "PR already exists — leaving the existing one open."
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

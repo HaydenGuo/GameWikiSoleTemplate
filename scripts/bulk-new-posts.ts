@@ -166,7 +166,7 @@ const NO_INPUT_IS_ERROR = ARGS.some((a) => !a.startsWith('--') && a !== '-n');
 const inputFile = findInputFile();
 if (!inputFile) {
   console.log(`
-📖 AnvilWiki bulk article scaffold
+📖 GameWikiSoleTemplate bulk article scaffold
 
 No list file found (looked for new-posts.csv / new-posts.tsv at the repo root).
 Create one, or pass a path explicitly.
@@ -300,7 +300,7 @@ for (let r = headerIdx + 1; r < table.length; r++) {
 // ---------------------------------------------------------------------------
 // Report + write
 // ---------------------------------------------------------------------------
-console.log(`\n📝 AnvilWiki — bulk article scaffold (${inputFile})\n`);
+console.log(`\n📝 GameWikiSoleTemplate — bulk article scaffold (${inputFile})\n`);
 
 for (const note of notes) console.log(`  ℹ️  ${note}`);
 

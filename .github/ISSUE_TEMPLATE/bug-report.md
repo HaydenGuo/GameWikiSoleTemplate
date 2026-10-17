@@ -21,7 +21,7 @@ labels: bug
 
 ## Environment
 
-- AnvilWiki version / commit: <!-- e.g. v0.1.0 or commit hash -->
+- GameWikiSoleTemplate version / commit: <!-- e.g. v0.1.0 or commit hash -->
 - Node version: <!-- run `node -v` -->
 - Browser (if rendering issue):
 

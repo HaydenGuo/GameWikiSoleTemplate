@@ -91,7 +91,7 @@ Backlinks (other sites linking to yours) account for roughly 13% of Google's ran
 - **When you do build**: swap links with same-niche sites whose DR (domain rating) is a bit above yours; find no-login, post-and-link sites, verify one by hand that a link actually sticks, then have your AI script the batch; keep a steady small drip — hundreds dumped at once look bought.
 - **The red line**: quality beats quantity, and **never buy junk backlinks** (link farms / bulk spam) — at best useless, at worst a manual penalty.
 
-The full chapter is "Link-building strategy" in the repo doc [`docs/seo.md`](https://github.com/PNGTRID/AnvilWiki/blob/main/docs/seo.md) — including a priority-ranked list of nine channels (Reddit / Steam / Discord / link exchanges / resource pages / broken-link swaps and more), step-by-step instructions for each, outreach email templates, and a free-tool toolbox.
+The full chapter is "Link-building strategy" in the repo doc [`docs/seo.md`](https://github.com/HaydenGuo/GameWikiSoleTemplate/blob/main/docs/seo.md) — including a priority-ranked list of nine channels (Reddit / Steam / Discord / link exchanges / resource pages / broken-link swaps and more), step-by-step instructions for each, outreach email templates, and a free-tool toolbox.
 
 ## The 2026 rule changes: dead-tricks list
 
@@ -100,7 +100,7 @@ The full chapter is "Link-building strategy" in the repo doc [`docs/seo.md`](htt
 - **AI Overviews citation preferences**: direct-answer blocks (summary), structured data (tables / stat cards), fresh content — exactly what the template ships plus this chapter's checklist. Just follow it.
 - **Image-search entry = your cover image**: Google now prefers og:image when picking images, i.e. every article's cover. The cover went from decoration to a traffic entrance — worth two extra minutes to pick a good one.
 
-The full timeline (9 entries, with official links) lives in the repo doc [`docs/seo.md`](https://github.com/PNGTRID/AnvilWiki/blob/main/docs/seo.md) under "Google 官方规范更新记录 (2026)" — dig in there if you want the sources.
+The full timeline (9 entries, with official links) lives in the repo doc [`docs/seo.md`](https://github.com/HaydenGuo/GameWikiSoleTemplate/blob/main/docs/seo.md) under "Google 官方规范更新记录 (2026)" — dig in there if you want the sources.
 
 ## If you get stuck
 
@@ -117,4 +117,4 @@ The full timeline (9 entries, with official links) lives in the repo doc [`docs/
 
 ## After this chapter
 
-The Learning Manual now closes its full loop: pick a game → build the site → produce pages → get indexed → monetize → stay fresh → templatize → batch → **rank and get cited**. SEO is slow work: finish the checklist, then trust chapter 8's weekly rhythm and 4-12 weeks of patience. For technical depth, see the repo doc [`docs/seo.md`](https://github.com/PNGTRID/AnvilWiki/blob/main/docs/seo.md) (configuration reference + the 2026 official-update log); to automate the weekly data review, see the [Development Manual's AI ops chapter](/landing/docs/ai-ops).
+The Learning Manual now closes its full loop: pick a game → build the site → produce pages → get indexed → monetize → stay fresh → templatize → batch → **rank and get cited**. SEO is slow work: finish the checklist, then trust chapter 8's weekly rhythm and 4-12 weeks of patience. For technical depth, see the repo doc [`docs/seo.md`](https://github.com/HaydenGuo/GameWikiSoleTemplate/blob/main/docs/seo.md) (configuration reference + the 2026 official-update log); to automate the weekly data review, see the [Development Manual's AI ops chapter](/landing/docs/ai-ops).

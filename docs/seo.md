@@ -1,6 +1,6 @@
 # SEO 工程化
 
-> AnvilWiki 的 SEO 设计原则：**填好内容，SEO 标签由构建流程自动生成**。
+> GameWikiSoleTemplate 的 SEO 设计原则：**填好内容，SEO 标签由构建流程自动生成**。
 >
 > 文章写好 frontmatter，首页改好 en.json，构建时自动产出 title / 结构化数据 / sitemap / 多语言 alternate 链接。
 
@@ -196,7 +196,7 @@
 
 ## AI 搜索时代：让内容被 AI Overviews / ChatGPT 引用
 
-2025-2026 年 Google AI Overviews 导致出版商搜索流量普遍下降（问答型查询首当其冲——而游戏 wiki 的"怎么打 X""最新 codes"正是问答型）。AnvilWiki 内置了应对这套打法的基础设施，你写作时按下面的规则做即可最大化被引用概率。
+2025-2026 年 Google AI Overviews 导致出版商搜索流量普遍下降（问答型查询首当其冲——而游戏 wiki 的"怎么打 X""最新 codes"正是问答型）。GameWikiSoleTemplate 内置了应对这套打法的基础设施，你写作时按下面的规则做即可最大化被引用概率。
 
 ### 模板已内置的部分（自动生效）
 

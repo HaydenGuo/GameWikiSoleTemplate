@@ -3,7 +3,7 @@
   "site": {
     "name": "Anvil Quest Preview Guides Wiki",
     "shortName": "AQG Wiki",
-    "description": "Preview of the AnvilWiki guides homepage preset.",
+    "description": "Preview of the GameWikiSoleTemplate guides homepage preset.",
     "tagline": "Guides-first preview",
     "legalNotice": "Fan-made preview site."
   },
@@ -190,7 +190,7 @@
   "home": {
     "meta": {
       "title": "Anvil Quest Preview Guides Wiki — Guides, Bosses & Progression",
-      "description": "Preview of the AnvilWiki guides homepage preset."
+      "description": "Preview of the GameWikiSoleTemplate guides homepage preset."
     },
     "updates": {
       "title": "Recent updates"
@@ -323,9 +323,9 @@
           "label": "Experienced player",
           "directions": [
             {
-              "title": "Optimize your build",
-              "question": "Which gear combination gives the best results for my playstyle?",
-              "href": "/guides/weapon-tier-list"
+              "title": "Review upgrade options",
+              "question": "Which crafting path fits my current materials?",
+              "href": "/guides/forging-guide"
             },
             {
               "title": "Farm more efficiently",

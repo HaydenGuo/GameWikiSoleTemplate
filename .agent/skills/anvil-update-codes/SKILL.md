@@ -3,7 +3,7 @@ name: anvil-update-codes
 description: 更新游戏的兑换码页面——用户给一批新码(或来源链接/截图内容),自动更新 codes 文章的 CodeBlock 列表、过期分区、日期与 gameVersion。触发词:更新 codes / 新兑换码 / codes 过期了 / update codes。
 ---
 
-# AnvilWiki 兑换码更新
+# GameWikiSoleTemplate 兑换码更新
 
 codes 页是游戏 wiki 流量最高、时效性最强的页面。更新它的唯一原则:**只信用户给的数据,绝不编造或"推测"兑换码**——一个失效码直接损害站点信任。
 

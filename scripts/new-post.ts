@@ -61,7 +61,7 @@ async function main() {
   const locales = readLocales();
   const categories = readCategories();
 
-  console.log('\n📝 AnvilWiki — new article scaffold\n');
+  console.log('\n📝 GameWikiSoleTemplate — new article scaffold\n');
 
   const locale =
     (await rl.ask(`Locale [${locales.join('/')}], default "en": `)).trim() || 'en';

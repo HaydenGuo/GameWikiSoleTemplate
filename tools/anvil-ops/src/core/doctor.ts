@@ -68,7 +68,7 @@ export async function runDoctor(opts: { cwd: string; deps?: DoctorDeps }): Promi
     }
   } catch (e) {
     const err = e instanceof OpsError ? e : new OpsError(String(e), '');
-    checks.push({ name: 'site-config', ok: false, detail: err.message, fix: err.fix || 'Run anvil-ops inside your AnvilWiki fork.' });
+    checks.push({ name: 'site-config', ok: false, detail: err.message, fix: err.fix || 'Run anvil-ops inside your GameWikiSoleTemplate fork.' });
   }
 
   // 2. gh

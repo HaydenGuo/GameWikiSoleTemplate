@@ -1,4 +1,4 @@
-# 开发指导(给 AnvilWiki 本身写代码)
+# 开发指导(给 GameWikiSoleTemplate 本身写代码)
 
 > 面向模板贡献者和维护者。fork 用户改配置/写内容请看 [apply-template.md](apply-template.md) 和 [content-format.md](content-format.md)。
 > 硬约束(Agent 自动加载)在仓库根 [AGENTS.md](../AGENTS.md),本文解释**为什么**以及**怎么扩展**。

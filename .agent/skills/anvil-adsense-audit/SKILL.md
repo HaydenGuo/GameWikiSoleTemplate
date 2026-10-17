@@ -3,7 +3,7 @@ name: anvil-adsense-audit
 description: AdSense 申请前全站体检——按 Google 官方政策(计划政策/发布商政策/内容质量/抓取可达/隐私合规)逐项审计站点是否达到申请标准,模板已解决的项直接给证据,fork 用户侧的项逐项判定,输出 Pass/Fail/Unknown/N/A 完整表格 + Blocker/High/Medium 分级裁决。触发词:adsense 审计 / 能不能申请 adsense / 被拒了帮我看下 / 申请前自查 / adsense audit / 过审。
 ---
 
-# AnvilWiki AdSense 申请前体检
+# GameWikiSoleTemplate AdSense 申请前体检
 
 回答一个问题:**这个站现在交申请,是过、是拒、还是白交?** 不凭感觉,逐项体检后给裁决。
 
@@ -98,4 +98,4 @@ description: AdSense 申请前全站体检——按 Google 官方政策(计划�
 
 ## 致谢
 
-本技能的审计框架(逐项四态判定 + Blocker 分级 + 完整性门)受 [yantoumu/adsense-site-auditor-skill](https://github.com/yantoumu/adsense-site-auditor-skill) 启发(未复制其文本);全部政策依据来自 Google 公开文档,清单本身为 AnvilWiki 模板特化重写——模板已解决项预填证据,审计火力集中在 fork 用户侧。
+本技能的审计框架(逐项四态判定 + Blocker 分级 + 完整性门)受 [yantoumu/adsense-site-auditor-skill](https://github.com/yantoumu/adsense-site-auditor-skill) 启发(未复制其文本);全部政策依据来自 Google 公开文档,清单本身为 GameWikiSoleTemplate 模板特化重写——模板已解决项预填证据,审计火力集中在 fork 用户侧。

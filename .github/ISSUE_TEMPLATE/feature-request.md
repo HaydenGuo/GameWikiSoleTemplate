@@ -7,7 +7,7 @@ labels: enhancement
 
 ## What problem does this solve?
 
-<!-- Describe the use case. What are you trying to do that AnvilWiki doesn't support today? -->
+<!-- Describe the use case. What are you trying to do that GameWikiSoleTemplate doesn't support today? -->
 
 ## Proposed solution
 

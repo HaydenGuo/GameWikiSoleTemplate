@@ -19,7 +19,7 @@ const pkg = JSON.parse(readFileSync(fileURLToPath(new URL('../../package.json', 
 };
 
 const program = new Command();
-program.name('anvil-ops').description('Ops toolkit for AnvilWiki fork sites').version(pkg.version);
+program.name('anvil-ops').description('Ops toolkit for GameWikiSoleTemplate fork sites').version(pkg.version);
 
 // Multi-site flags are declared both here (before the subcommand) and on each
 // supporting subcommand (after it), so `anvil-ops --site x doctor` and

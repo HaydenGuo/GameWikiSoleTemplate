@@ -2,7 +2,7 @@
 
 > 本仓库在一个源码树中维护通用运行时、站点配置和示例内容。`apply-template` 更新站点配置、正文、素材和语言；通用组件改动应同步更新测试与 starter baseline。
 
-> 把 AnvilWiki 从 demo 站（虚构游戏 "Anvil Quest"）换成你的目标游戏站点。
+> 把 GameWikiSoleTemplate 从 demo 站（虚构游戏 "Anvil Quest"）换成你的目标游戏站点。
 >
 > 本文档按**文件**组织——你要改什么，就查对应文件的章节。不规定操作顺序，你想先改哪个都行。
 >
@@ -35,7 +35,7 @@
 | 通道 | 怎么触发 | 特点 |
 |---|---|---|
 | `pnpm apply-template`（本地 CLI） | 终端交互式，自己点确认 | 会改游戏名/主题/语言/栏目；删除前逐项确认 |
-| Actions → **Initialize AnvilWiki** workflow | fork 仓库里点 Run workflow | 只做安全项（wrangler 重置 + 删 landing + 清 demo），**开 PR 前先跑 `pnpm build` 验证**再交给你审 |
+| Actions → **Initialize GameWikiSoleTemplate** workflow | fork 仓库里点 Run workflow | 只做安全项（wrangler 重置 + 删 landing + 清 demo），**开 PR 前先跑 `pnpm build` 验证**再交给你审 |
 
 **删除清单（两个通道一致，改动必须同步 `scripts/apply-template.ts` 与 `.github/workflows/setup.yml`）：**
 
@@ -44,12 +44,12 @@
 | demo 文章 | `src/content/wiki/*/*/*.mdx` 全部（目录结构保留） | CLI 清空后**每个所选栏目自动补 1 篇英文脚手架**，保证 build 不空转；同时自动填充所选栏目的 `nav.<key>` 标签与 `overview.<key>` 条目（英文默认值，供你翻译/改写——不填的话 fork 第一次 `pnpm check-config` 就是红的） |
 | 空栏目目录 | 清空后仍为空、且不在所选栏目里的内容目录 | 未选栏目的空目录是「不可达分类」（template-audit 会拦），一并剪掉 |
 | demo 配图 | **全部按文件名删**（整目录 rm -rf 已废除）：所有示例图现在位于 `src/assets/articles/`；清单见 `scripts/lib/apply-rewrites.ts` 的 `DEMO_ARTICLE_IMAGES`（`tests/apply-template.test.ts` 钉住与 setup.yml 的同步） | 按名删除而非通配——`src/assets/articles/` 正是内容规范让你放**自己**文章图的地方，你的图绝不会被误删 |
-| 项目官网 | `src/components/landing/`、`src/config/landing.ts`、`src/pages/landing*`（含站内文档中心 /landing/docs）、`src/pages/zh/landing*`（中文官网）、`public/images/showcase/`、`public/images/wechat-qr.jpg` | fork 站不需要 AnvilWiki 项目自述页；`docs/handbook/` **markdown 源保留**当参考文档，只删路由 |
+| 项目官网 | `src/components/landing/`、`src/config/landing.ts`、`src/pages/landing*`（含站内文档中心 /landing/docs）、`src/pages/zh/landing*`（中文官网）、`public/images/showcase/`、`public/images/wechat-qr.jpg` | fork 站不需要 GameWikiSoleTemplate 项目自述页；`docs/handbook/` **markdown 源保留**当参考文档，只删路由 |
 | 官网回链 | `src/config/project.ts` 的 `landingLinkEnabled` 翻为 `false` | 页面 header 的"返回官网"按钮随删随关 |
 | demo 凭据 | `wrangler.toml` `[vars]` 重置：`SITE_URL` 换成你的域名，Giscus/Sponsor/CF Analytics 全部清空，AdSense 等可选槽留注释位 | 不重置的话，你站的评论区会指回官方仓库的 Discussions |
 | demo 作者 | `src/config/authors.ts` 里 `// DEMO` 标记的作者条目 | 否则 Person JSON-LD 会引用虚构作者 |
 
-**保留不删（有意设计）**：AI 品牌图标源文件、favicon/hero 图等资产。初始化命令不会把 AnvilWiki 图标误当作新游戏图标；完成配置后，先按品牌图标工作流生成新源图，再运行 `pnpm gen-assets --force`。首页 Hero 图仍需按站点自行替换；`docs/handbook/` 手册源码保留。
+**保留不删（有意设计）**：AI 品牌图标源文件、favicon/hero 图等资产。初始化命令不会把 GameWikiSoleTemplate 图标误当作新游戏图标；完成配置后，先按品牌图标工作流生成新源图，再运行 `pnpm gen-assets --force`。首页 Hero 图仍需按站点自行替换；`docs/handbook/` 手册源码保留。
 
 **⚠️ 语言 JSON 分三类处理（重跑安全，按内容判定不只按文件名）**：未选择的语言里——① **demo 自带且仍是 demo 内容的**（`ja.json` 等，`site.name` 仍是 demo 站名）会被**直接删除**：它们装载着完整的 demo 游戏翻译，留着是身份泄漏，且 `pnpm check-config` 会对「locale 文件存在但不在 routing.ts」报错，fork 第一天 CI 就是红的；② **demo 文件名但内容已换成你游戏的**（比如上一轮运行选了 ja、这一轮没选）——内容判定发现 `site.name` 已不是 demo 站名，**只警告、绝不删除**；③ **你自己创建的** locale 文件（`pnpm new-locale` 加的等）同样**只警告、绝不删除**——重跑不能毁掉你的翻译工作。②③ 看到「Kept N locale file(s)」警告后自行决定删除或把该语言加进所选列表，处理前 `pnpm check-config` 会一直是红的。
 
@@ -70,7 +70,7 @@ export const site = {
   name: 'Anvil Quest Wiki',          // → 改成 "{你的游戏名} Wiki"
   shortName: 'AQW',                  // → 缩写
   description: '...',                // → 含游戏名 + 核心关键词
-  domain: 'anvilwiki.pages.dev',     // → 你的域名（不带 https://）
+  domain: 'your-game-wiki.example', // → 你的域名（不带 https://）
   enableDropdownNavigation: false,   // → true: 一级分类显示文章下拉；false: 仅显示一级链接
   tagline: '...',                    // → 副标题
   legalNotice: '...',                // → 法律声明
@@ -197,7 +197,7 @@ grep -rn "#[0-9a-fA-F]\{6\}" src/components/  # 确认组件里无硬编码 hex
 
 **文件**：`src/i18n/routing.ts` + `src/i18n/ui.ts`
 
-AnvilWiki 支持 as-needed 前缀策略：英文（默认）无 URL 前缀，其他语言带前缀（`/ja/...`、`/ru/...`）。
+GameWikiSoleTemplate 支持 as-needed 前缀策略：英文（默认）无 URL 前缀，其他语言带前缀（`/ja/...`、`/ru/...`）。
 
 ### routing.ts
 
@@ -290,7 +290,7 @@ echo '{}' > src/locales/ru.json
 
 **首页视频**：在 `home.hero.videoId` 填入 11 位 YouTube ID 后，首页会显示缩略图和播放按钮；用户点击后才加载隐私增强模式 iframe。留空则不渲染视频区域。缩略图不可用时会退化为 YouTube 外链。
 
-**favicon / Hero 图生成**：每个新站先按 [品牌图标工作流](./brand-mark-workflow.md)，结合游戏题材、经核对的代表意象和站点主题色生成专属图形，保存为 `src/assets/branding/brand-mark.png`。必须是正方形、至少 512×512、无文字/首字母/水印，并在 16×16 与 32×32 预览中仍能辨认。再运行 `pnpm gen-assets --force`；模板会从唯一源图生成 Header 图、ICO、PNG、Apple 和 Android/PWA 图标及首页分享大图。不要沿用 AnvilWiki 的示例图标，也不要用“主题色背景 + 游戏首字母”作为生产图标。
+**favicon / Hero 图生成**：每个新站先按 [品牌图标工作流](./brand-mark-workflow.md)，结合游戏题材、经核对的代表意象和站点主题色生成专属图形，保存为 `src/assets/branding/brand-mark.png`。必须是正方形、至少 512×512、无文字/首字母/水印，并在 16×16 与 32×32 预览中仍能辨认。再运行 `pnpm gen-assets --force`；模板会从唯一源图生成 Header 图、ICO、PNG、Apple 和 Android/PWA 图标及首页分享大图。不要沿用 GameWikiSoleTemplate 的示例图标，也不要用“主题色背景 + 游戏首字母”作为生产图标。
 
 ---
 

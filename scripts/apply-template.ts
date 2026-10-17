@@ -487,7 +487,7 @@ rendered from the frontmatter title), and start each section with a direct
 /**
  * Files/dirs that make up the project landing page (/landing) and its in-site
  * docs center (/landing/docs + /zh/landing/docs).
- * Fork users don't need these routes — they are about the AnvilWiki project
+ * Fork users don't need these routes — they are about the GameWikiSoleTemplate project
  * itself, not their game wiki. The CLI removes them automatically.
  *
  * NOTE: docs/handbook/ (the handbook markdown SOURCE) is deliberately NOT in
@@ -545,7 +545,7 @@ function removeLandingPage(): number {
 
 async function main() {
   console.log(
-    `\n🎨 AnvilWiki apply-template CLI — base config (metadata, theme, nav, locales)${DRY_RUN ? ' [DRY RUN]' : ''}\n`,
+    `\n🎨 GameWikiSoleTemplate apply-template CLI — base config (metadata, theme, nav, locales)${DRY_RUN ? ' [DRY RUN]' : ''}\n`,
   );
 
   const rl = createLinePrompt();
@@ -557,7 +557,7 @@ async function main() {
   const gameName = await ask(rl, 'Full game name', 'Anvil Quest');
   const shortNameDefault = gameName.split(' ').map((w) => w[0]).join('').slice(0, 4).toUpperCase() + ' Wiki';
   const shortName = await ask(rl, 'Short name (PWA / mobile)', shortNameDefault);
-  const domain = await ask(rl, 'Domain (no protocol)', 'anvilwiki.pages.dev');
+  const domain = await ask(rl, 'Domain (no protocol)', 'your-game-wiki.example');
   const tagline = await ask(rl, 'Hero tagline', `Your home for everything ${gameName}`);
   const description = await ask(
     rl,
@@ -654,7 +654,7 @@ async function main() {
     console.log('\n' + '━'.repeat(60));
     console.log('🌐  PROJECT LANDING PAGE');
     console.log('━'.repeat(60));
-    console.log('   /landing is a marketing page for the AnvilWiki project itself.');
+    console.log('   /landing is a marketing page for the GameWikiSoleTemplate project itself.');
     console.log('   Your game wiki does not need it. Removing it keeps your repo clean.');
     clearLanding = await askBool(rl, 'Remove the project landing page (/landing)?', true);
   }
