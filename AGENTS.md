@@ -35,6 +35,15 @@ When two classes must ship together because one cannot work or be reviewed witho
 
 At the start of the task, record the intended paths. Before committing, inspect the changed-path list and diff, explain any scope additions, and keep unrelated pre-existing work out of the commit. Do not stage the whole working tree when unrelated or unreviewed changes are present.
 
+### Versioning and releases
+
+- Every non-draft PR intended for `main` must increase the root `package.json` version and add a matching dated section to `CHANGELOG.md`, regardless of whether the change is code, content, configuration, or documentation.
+- Use SemVer: patch for compatible fixes and small presentation/content changes, minor for backward-compatible capabilities, and major for breaking contracts or migrations.
+- Draft PRs may defer versioning. Add the version and changelog entry before marking a PR ready for review; the `Release policy` workflow checks both against the PR base.
+- Merging is the release boundary. A closed or unmerged PR does not create a formal version or release. After a versioned change reaches `main`, the `Release policy` workflow creates the matching `vX.Y.Z` GitHub Release from the changelog entry.
+- Keep version, changelog, and product changes in the same PR. Do not create a release tag manually or before the merge.
+- Configure the `Release policy / release-policy` check as a required status check for the `main` branch so the policy cannot be bypassed by merging a failing PR.
+
 ## Source organization
 
 Keep the three layers separate:
@@ -97,7 +106,7 @@ Before creating or editing an article:
 
 ## Game brand mark
 
-When initializing a new game site, create a game-specific mark using the workflow in `docs/brand-mark-workflow.md`. Ground the motif in the game's official/store materials and the target site's theme; do not carry over the AnvilWiki mark, invent game lore, or substitute a letter tile. Inspect the result at 16×16 and 32×32 before running `pnpm gen-assets --force`. The generated header, favicon, and mobile icons must all derive from `src/assets/branding/brand-mark.png`.
+When initializing a new game site, create a game-specific mark using the workflow in `docs/brand-mark-workflow.md`. Ground the motif in the game's official/store materials and the target site's theme; do not carry over the GameWikiSoleTemplate mark, invent game lore, or substitute a letter tile. Inspect the result at 16×16 and 32×32 before running `pnpm gen-assets --force`. The generated header, favicon, and mobile icons must all derive from `src/assets/branding/brand-mark.png`.
 
 ## Template initializer
 

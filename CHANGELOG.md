@@ -2,6 +2,14 @@
 
 This changelog tracks releases of the standalone `GameWikiSoleTemplate` repository. Earlier AnvilWiki product versions in `docs/PRD.md` are retained as pre-standalone project history and are not tags/releases of this repository.
 
+## [1.0.2] - 2026-10-17
+
+- Define the release boundary at merge to `main`; unmerged pull requests do not consume a formal version.
+- Require each mergeable pull request to include a SemVer bump and matching changelog entry.
+- Automate the PR version gate and create a GitHub Release after the versioned change reaches `main`.
+
+规定每个进入 main 的变更都升版并记录；未合并的 PR 不发布正式版本，合并后自动创建 GitHub Release。
+
 ## [1.0.1] - 2026-10-17
 
 - Remove automatically generated tag archive pages and their navigation links to avoid thin pages when tags are used by only one article.
