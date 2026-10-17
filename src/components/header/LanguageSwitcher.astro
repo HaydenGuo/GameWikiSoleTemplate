@@ -39,7 +39,7 @@ const switchLocales = availableLocales ?? locales;
             loc === locale && 'font-semibold text-nav',
           ]}
         >
-          {LOCALE_LABELS[loc]}
+          {loc === 'en' ? 'EN' : LOCALE_LABELS[loc]}
         </a>
       ))
     }
