@@ -6,6 +6,20 @@ const root = resolve(import.meta.dirname, '..');
 const read = (relativePath: string) => readFileSync(resolve(root, relativePath), 'utf8');
 
 describe('generic article widget contract', () => {
+  it('renders reusable Stage 4 audit identifiers and meaningful MDX regions', () => {
+    const schema = read('src/content.config.ts');
+    const article = read('src/components/article/ArticlePage.astro');
+    const region = read('src/components/mdx/AuditRegion.astro');
+    const docs = read('docs/content-format.md');
+
+    expect(schema).toContain('auditPageId: z.string()');
+    expect(article).toContain('data-page-id={entry.data.auditPageId ?? entry.id}');
+    expect(region).toContain('data-question-id={id}');
+    expect(region).toContain('data-answer-obligation-id={id}');
+    expect(region).toContain('data-visual-target-id={id}');
+    expect(docs).toContain('AuditRegion');
+  });
+
   it('ships the reusable widget components without fork identity', () => {
     const componentPaths = [
       'src/components/mdx/ItemInlineIcon.astro',

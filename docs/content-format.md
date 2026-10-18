@@ -49,6 +49,7 @@ noindex: false
 | `draft`        | boolean  | 可选 | 默认 `false`                         | 草稿：`pnpm dev` 可预览，生产构建完全排除（页面/列表/RSS/sitemap） |
 | `gameVersion`  | string   | 可选 | ≤ 20 字符                            | 适用的游戏版本号（如 `v2.5`），文章头渲染成徽章——快速迭代游戏的时效性/E-E-A-T 信号 |
 | `noindex`      | boolean  | 可选 | 默认 `false`                         | 设为 `true` 禁止搜索引擎索引此页         |
+| `auditPageId` | string   | 可选 | 1-120 字符                             | 稳定的页面验收 ID；缺省时使用文章集合 ID   |
 | `summary`      | string   | ✅   | ≤ 400 字符（40–60 词直答）           | 固定 Quick Answer 组件的可填写内容       |
 | `author`       | string   | 可选 | 缺省用 `site.defaultAuthor`           | 作者署名（E-E-A-T）                       |
 | `boss`         | object   | 可选 | hp/weakness/resistant/location/recommendedLevel | 结构化 Boss 数据卡（正文前渲染）   |
@@ -96,6 +97,7 @@ import GuideFlow from '~/components/mdx/GuideFlow.astro';
 import frostpikeImage from '~/assets/articles/weapon-frostpike.png';
 import DecisionFilter from '~/components/mdx/DecisionFilter.astro';
 import TaskPlanner from '~/components/mdx/TaskPlanner.astro';
+import AuditRegion from '~/components/mdx/AuditRegion.astro';
 
 <CodeBlock code="FORGE-2026" label="+500 Gold · expires Aug 31" />
 
@@ -130,6 +132,25 @@ import TaskPlanner from '~/components/mdx/TaskPlanner.astro';
     },
   ]}
 />
+```
+
+## 为验收标注正文区域
+
+页面会自动输出 `data-page-id`：优先使用 frontmatter 的 `auditPageId`，缺省则使用稳定的文章集合 ID。需要外部验收器定位具体答案时，可用 `AuditRegion` 包住对应的可见正文。区域必须包含真实答案，不能只放空标记。
+
+```mdx
+<AuditRegion kind="question" id="Q-ROUTE-CHOICE">
+## Which route should I take?
+Use the northern route when the gate is open.
+</AuditRegion>
+
+<AuditRegion kind="answer-obligation" id="AO-NORTHERN-ROUTE">
+The northern route starts at the broken bridge and ends at the upper courtyard.
+</AuditRegion>
+
+<AuditRegion kind="visual-target" id="VISUAL-MAP">
+![Northern route map](/images/routes/northern-route.webp)
+</AuditRegion>
 ```
 
 复杂组件也可以直接在 MDX 中调用（示例数据可替换为当前文章内容）：
@@ -175,6 +196,7 @@ import TaskPlanner from '~/components/mdx/TaskPlanner.astro';
 - **TaskPlanner** — 在多个方案之间切换、逐项勾选并复制清单；步骤和方案写入 frontmatter `taskPlanner`，界面文案由 locale 提供。
 - **ArticleFieldNote** — 文章前置的重点提示卡，可使用图标、图片和最多 5 个 chips。
 - **ArticleReadinessDashboard** — 用 `ready/check/missing` 三态展示文章或任务准备度；至少提供 3 个检查项，状态文案由 locale 提供。
+- **AuditRegion** — 在可见正文段落上标注 question、answer obligation 或 visual target ID，供运行时验收和内容审计使用。
 
 文章级小组件示例（写入 frontmatter 后会自动出现在 FAQ 与正文之间）：
 

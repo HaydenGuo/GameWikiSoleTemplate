@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.2](https://github.com/HaydenGuo/GameWikiSoleTemplate/compare/v2.0.1...v2.0.2) - 2026-10-18
+
+- Add reusable article page, question, answer-obligation, and visual-target markers for Stage 4 runtime audits.
+- Verify that audit markers enclose visible content in the real initializer E2E.
+
+为文章页和正文区域增加可复用的验收标记，并在真实 initializer E2E 中检查标记包含可见内容。
+
 ## [2.0.1](https://github.com/HaydenGuo/GameWikiSoleTemplate/compare/v2.0.0...v2.0.1) - 2026-10-18
 
 - Validate that each non-draft pull request increases the template version and records matching release notes.

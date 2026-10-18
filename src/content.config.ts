@@ -46,6 +46,8 @@ const wiki = defineCollection({
       /** Search-intent terms used for the article keywords meta tag and content planning. */
       keywords: z.array(z.string().min(1).max(80)).max(8).default([]),
       noindex: z.boolean().default(false),
+      /** Optional stable page identifier for external QA and content-audit tooling. */
+      auditPageId: z.string().min(1).max(120).optional(),
       /**
        * Draft articles: visible in `pnpm dev`, excluded from the production
        * build (pages, lists, recent, related, hreflang, sitemap).

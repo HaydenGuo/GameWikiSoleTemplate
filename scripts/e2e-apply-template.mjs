@@ -235,9 +235,56 @@ if (!/My Game Wiki/.test(readFileSync(join(scratch, 'src/locales/ja.json'), 'utf
 rmSync(join(scratch, 'src/locales/ko.json'));
 rmSync(join(scratch, 'src/locales/ja.json'));
 
+// Write a small consumer article to exercise audit markers in generated HTML.
+step('Write audit-marker fixture article');
+const auditFixture = `---
+title: 'Audit marker fixture'
+description: 'A focused fixture article for checking generated page, question, and answer markers.'
+category: 'guides'
+date: 2026-10-18
+summary: 'This fixture confirms that external acceptance metadata is present in generated article HTML.'
+auditPageId: 'STAGE4-PAGE-01'
+---
+
+import AuditRegion from '~/components/mdx/AuditRegion.astro';
+
+![Guide card](/images/home/guide-card.svg)
+
+<AuditRegion kind="question" id="STAGE4-Q-01">
+
+## Which route reaches the courtyard?
+
+Take the northern route from the broken bridge to reach the upper courtyard.
+
+</AuditRegion>
+
+<AuditRegion kind="answer-obligation" id="STAGE4-AO-01">
+
+The northern route starts at the broken bridge and reaches the upper courtyard.
+
+</AuditRegion>
+`;
+const auditFixturePath = join(scratch, 'src/content/wiki/en/guides/template-audit-markers.mdx');
+writeFileSync(auditFixturePath, auditFixture, 'utf8');
+
 // 5. The fork's first build must succeed.
 step("pnpm build (the fork's first build must succeed)");
 execSync('pnpm build', { cwd: scratch, stdio: 'inherit', shell: win });
+
+const auditHtml = readFileSync(join(scratch, 'dist/guides/template-audit-markers/index.html'), 'utf8');
+for (const [label, marker] of [
+  ['page ID', 'data-page-id="STAGE4-PAGE-01"'],
+  ['question ID', 'data-question-id="STAGE4-Q-01"'],
+  ['answer-obligation ID', 'data-answer-obligation-id="STAGE4-AO-01"'],
+]) {
+  if (!auditHtml.includes(marker)) fail(`Generated article is missing ${label}: ${marker}`);
+}
+if (!/data-question-id="STAGE4-Q-01"[\s\S]*?northern route/i.test(auditHtml)) {
+  fail('Question marker does not enclose visible answer text');
+}
+if (!/data-answer-obligation-id="STAGE4-AO-01"[\s\S]*?broken bridge/i.test(auditHtml)) {
+  fail('Answer-obligation marker does not enclose visible answer text');
+}
 
 // 5.5 The fork's first check-config run must be green — a fresh fork with a
 // red consistency gate is a day-one trap (empty nav broke this in v2.6.0).
