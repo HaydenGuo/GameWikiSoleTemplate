@@ -43,12 +43,13 @@ if (!isNewer) {
 }
 
 const changelog = readFileSync('CHANGELOG.md', 'utf8');
-const headingPrefix = `## [${currentVersion}] - `;
+const headingPrefix = `## [${currentVersion}]`;
 const headingLine = changelog
   .split(/\r?\n/)
   .find((line) => line.startsWith(headingPrefix));
 const headingMatch =
-  headingLine && /^## \[\d+\.\d+\.\d+\] - (\d{4}-\d{2}-\d{2})$/.exec(headingLine);
+  headingLine &&
+  /^## \[\d+\.\d+\.\d+\](?:\([^)]+\))? - (\d{4}-\d{2}-\d{2})$/.exec(headingLine);
 if (!headingMatch) {
   console.error(
     `::error::CHANGELOG.md must contain a dated heading for version ${currentVersion}.`,

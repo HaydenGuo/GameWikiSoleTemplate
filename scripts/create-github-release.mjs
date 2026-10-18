@@ -10,12 +10,13 @@ if (!repository || !token || !targetCommit) {
 
 const version = JSON.parse(readFileSync('package.json', 'utf8')).version;
 const changelog = readFileSync('CHANGELOG.md', 'utf8');
-const headingPrefix = `## [${version}] - `;
+const headingPrefix = `## [${version}]`;
 const headingLine = changelog
   .split(/\r?\n/)
   .find((line) => line.startsWith(headingPrefix));
 const headingMatch =
-  headingLine && /^## \[\d+\.\d+\.\d+\] - \d{4}-\d{2}-\d{2}$/.exec(headingLine);
+  headingLine &&
+  /^## \[\d+\.\d+\.\d+\](?:\([^)]+\))? - \d{4}-\d{2}-\d{2}$/.exec(headingLine);
 if (!headingMatch) {
   console.error(`No dated changelog section found for ${version}.`);
   process.exit(1);
