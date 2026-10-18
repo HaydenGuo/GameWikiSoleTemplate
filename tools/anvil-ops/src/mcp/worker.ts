@@ -19,7 +19,7 @@ try {
     const result = await submit({ cwd: msg.cwd, title: msg.title, base: msg.base });
     post({
       ok: true,
-      text: `# PR opened\n\n- Branch: ${result.branch}\n- Pull request: ${result.prUrl}\n\nMerge after review; Cloudflare Pages deploys automatically.`,
+      text: `# PR opened\n\n- Branch: ${result.branch}\n- Pull request: ${result.prUrl}\n\nMerge after review; Vercel deploys the connected branch automatically.`,
     });
   }
 } catch (e) {

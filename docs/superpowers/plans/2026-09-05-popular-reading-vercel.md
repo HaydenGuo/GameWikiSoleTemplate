@@ -1,10 +1,8 @@
 # Historical: Vercel Popular Reading Implementation Plan
 
-> Superseded. The active template architecture is Cloudflare Pages static by default with optional same-origin Pages Functions + D1. This file is retained only as an implementation history and is not an operating instruction.
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Replace the template's optional Cloudflare D1 Popular feature with Vercel Functions backed by Neon Postgres, without changing article pages or the homepage fallback experience.
 
 **Architecture:** Keep the browser contract unchanged: article pages POST a canonical article path to `/api/article-view`, and the homepage GETs `/api/popular`. Move the shared validation and SQL into a provider-neutral library, expose it through Vercel `api/` functions, and use a Neon Postgres adapter configured by `DATABASE_URL`.
 
@@ -24,7 +22,6 @@
 - [x] Implement the provider-neutral `PopularDatabase` interface plus `recordArticleView` and `getPopularArticles` in `src/lib/popular-handlers.ts`.
 - [x] Re-run the test and verify it passes.
 
-### Task 2: Replace Cloudflare entry points with Vercel Functions
 
 **Files:**
 - Create: `api/article-view.ts`
@@ -51,7 +48,6 @@
 
 - [x] Convert SQL to Postgres syntax.
 - [x] Document Neon Marketplace provisioning, a separate database per game site, `DATABASE_URL` in Vercel environment variables, and database migration execution.
-- [x] Remove D1/Pages instructions while keeping static fallback and privacy behavior documented. Keep `wrangler.toml` only for the template's unrelated optional Cloudflare analytics path; it no longer configures Popular.
 
 ### Task 4: Verify the template
 

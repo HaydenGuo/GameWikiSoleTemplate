@@ -15,7 +15,7 @@
 | [README](../README.md) | 项目是什么 + 5 分钟跑起来 | 所有人 |
 | [apply-template.md](apply-template.md) | 了解底层配置字段与手动操作 | fork 用户 |
 | [art-typography.md](art-typography.md) | 按游戏气质选择全站标题字样式 | fork 用户 / 设计者 |
-| [deployment.md](deployment.md) | 部署到 Cloudflare Pages(含 wrangler.toml 大坑 + 数据复盘 + Clarity) | fork 用户 |
+| [deployment.md](deployment.md) | GitHub → Vercel 部署、域名、环境变量与 Neon API | fork 用户 |
 | [ads.md](ads.md) | 广告合规检查、广告位配置与平台官方规则入口 | 开始接入广告的站长 |
 | [content-format.md](content-format.md) | 怎么写文章(frontmatter 字段表 + 组件用法) | 内容作者 |
 | [seo.md](seo.md) | SEO 工程化 + 外链实操(九渠道逐步教程) + 2026 Google 官方更新记录 | 内容作者 / 好奇的人 |
@@ -46,7 +46,7 @@
 3. apply-template.md      ← 了解底层配置字段与手动操作
 4. requirements/ 两张表    ← 产页前备素材:事实来源表 + 对标参考表
    + game-selection.md 首日 10 页 ← 用 AI 直接产页(README「用 AI 直接生成内容」章节)
-5. deployment.md          ← 部署上线(⚠️ 必读 wrangler.toml 警告);上线 3-7 天做数据复盘
+5. deployment.md          ← GitHub → Vercel 部署上线;上线 3-7 天做数据复盘
 6. ads.md                 ← 排名稳定了再开广告;AdSense 收款/Adsterra 接入/平台怎么升级(含游戏垂直)
 7. staying-up-to-date.md  ← 上线后回来看:如何跟上游、如何保持新鲜
 ```
@@ -87,7 +87,7 @@
 ├─ 想系统挖词/候选池不够大 ──────────→ sourcing.md
 ├─ 选好了游戏,产页前要备素材 ────────→ requirements/(事实来源 + 对标参考)
 ├─ 刚 fork,要换成我的游戏 ───────────→ apply-template.md
-├─ 要部署 / 部署后 env 不生效 ───────→ deployment.md(wrangler.toml 警告)
+├─ 要部署 / 部署后 env 不生效 ───────→ deployment.md(Vercel 项目环境变量)
 ├─ 上线了,数据复盘/看热力图 ─────────→ deployment.md(数据复盘 + Clarity 两节)
 ├─ 什么时候开广告 / 钱怎么收 / 接哪家平台 → ads.md(含游戏垂直网络)
 ├─ 要写/更新文章 ────────────────────→ content-format.md 或直接对 AI 说

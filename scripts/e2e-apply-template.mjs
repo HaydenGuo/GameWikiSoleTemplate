@@ -97,7 +97,7 @@ step(`apply-template real mode (preset=${preset})`);
 const answers = [
   'Test Game', // Full game name
   '', // Short name (default)
-  'testgame.pages.dev', // Domain
+  'testgame.vercel.app', // Domain
   '', // Tagline
   '', // Description
   '', // Legal notice
@@ -166,11 +166,11 @@ const checks = [
     return ['bosses', 'guides', 'codes'].every((k) => typeof zh.nav?.[k] === 'string');
   })()],
   ['site.description makes no community/update promise it cannot keep', !/by the community|updated daily|tested daily/i.test(en.site?.description ?? '')],
-  ['wrangler.toml has exactly one [vars] section (line-anchored rewrite)', (readFileSync(join(scratch, 'wrangler.toml'), 'utf8').match(/^\[vars\]/gm) || []).length === 1],
-  ['wrangler.toml carries no demo Giscus VALUES', !readFileSync(join(scratch, 'wrangler.toml'), 'utf8').includes('PUBLIC_GISCUS_REPO = "PNGTRID')],
-  ['wrangler.toml demo-intro warning block removed', !readFileSync(join(scratch, 'wrangler.toml'), 'utf8').includes('FORKERS READ THIS FIRST')],
+  ['.env.example has the selected site URL', readFileSync(join(scratch, '.env.example'), 'utf8').includes('SITE_URL=https://testgame.vercel.app')],
+  ['.env.example leaves optional Popular integration disabled', readFileSync(join(scratch, '.env.example'), 'utf8').includes('PUBLIC_POPULAR_ENABLED=false')],
+  ['default environment file contains no demo Giscus configuration', !readFileSync(join(scratch, '.env.example'), 'utf8').includes('PNGTRID')],
+  ['environment example leaves GA disabled', readFileSync(join(scratch, '.env.example'), 'utf8').includes('PUBLIC_GA_ID=')],
   ['generic homepage analytics helper ships with the fork', existsSync(join(scratch, 'src/lib/homepage-analytics.ts'))],
-  ['default wrangler config leaves GA disabled', readFileSync(join(scratch, 'wrangler.toml'), 'utf8').includes('#PUBLIC_GA_ID = ""')],
 ];
 for (const [name, ok] of checks) {
   console.log(`  ${ok ? '✅' : '❌'} ${name}`);
@@ -182,7 +182,7 @@ if (failed) process.exit(1);
 // unchosen locale — a re-run destroyed locales the user had added). Run 1
 // must have removed the demo's unchosen ja.json; a user-created ko.json must
 // survive run 2 with a loud warning. removeLandingPage/clearDemoContent/
-// wrangler rewrite are all idempotent, so run 2 must exit 0 and complete.
+// environment example rewrite is idempotent, so run 2 must exit 0 and complete.
 if (existsSync(join(scratch, 'src/locales/ja.json'))) {
   fail('demo ja.json still present — unchosen demo locale was not removed on run 1');
 }

@@ -4,7 +4,7 @@ export interface MetricsFlags {
   cwd?: string;
   days: number;
   format: 'table' | 'json' | 'md';
-  source?: 'gsc' | 'cf' | 'all';
+  source?: 'gsc' | 'all';
 }
 
 export async function metricsCommand(flags: MetricsFlags): Promise<number> {

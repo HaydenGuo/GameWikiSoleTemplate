@@ -6,7 +6,6 @@
 
 **Architecture:** Start with the current GameWikiTemplate `main` snapshot. Place Core runtime source in the existing local `src` directories, migrate package self-imports to the local `~` alias, reconcile overlapping scripts, and make all dev/build/validation flows operate on this repository alone.
 
-**Tech Stack:** Astro 5, TypeScript, MDX, pnpm 11.1.1, Vitest, ESLint, Pagefind, Cloudflare Pages build tooling.
 
 **Spec:** `docs/superpowers/specs/2026-10-17-gamewiki-sole-template-design.md`
 

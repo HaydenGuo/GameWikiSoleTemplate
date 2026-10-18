@@ -1,31 +1,26 @@
-# Popular / Most Read
+# Popular and Most Read
 
-The homepage can show the three published articles with the most page views over the last seven UTC days. It counts page views, not unique people: every valid article load increments that article's daily counter. The site stores only a canonical article path and UTC date; it does not store IP addresses, accounts, reading text, or browser identifiers.
+Popular / Most Read is optional. With `PUBLIC_POPULAR_ENABLED=false` or unset, article pages do not send view requests and the homepage does not call the Popular API. It renders the newest published article links as a static fallback.
 
-## Default: static and self-contained
+## Enable it
 
-The default build keeps Popular disabled with `PUBLIC_POPULAR_ENABLED = "false"`. Article pages do not send a view request and the homepage does not call an API. It renders the newest published article links as a truthful local fallback, so a normal Cloudflare Pages static deployment has no database, function, or server setup.
+1. Create a Neon Postgres database for this site.
+2. Run `migrations/0001_article_views_daily.sql` in the Neon SQL Editor.
+3. Add `DATABASE_URL` to the Vercel project environment. Keep this value server-side and do not expose it with a `PUBLIC_` prefix.
+4. Set `PUBLIC_POPULAR_ENABLED=true` for the environments where the feature should be active, then redeploy.
+5. Verify `POST /api/article-view` and `GET /api/popular?days=7&limit=3`.
 
-Only the build-generated allow-list of published article paths can be counted when the optional feature is enabled. Drafts, future-dated posts, home pages, category pages, tags, unknown slugs, and external URLs are rejected.
+Vercel Functions expose the API routes from the root `api/` directory. The write endpoint accepts only canonical paths from the generated published-article allow-list. It records one daily count per article. The read endpoint returns counts for a bounded 1–30 day window and filters out paths no longer in the published allow-list.
 
-## Optional: Cloudflare Pages Functions + D1
+When `DATABASE_URL` is missing or the database cannot be reached, the API returns `503`; the page keeps its static fallback. Do not report database-backed rankings as available until the deployed endpoints have been checked.
 
-Enable this only when the site needs a rolling Most Read list:
+## Local verification
 
-1. Create a Cloudflare D1 database for this game site and run `migrations/0001_article_views_daily.sql` against it.
-2. Add the `POPULAR_DB` binding in `wrangler.toml` (or the equivalent Pages project binding). Keep the binding name exactly `POPULAR_DB`.
-3. Set `PUBLIC_POPULAR_ENABLED = "true"` in the Pages build environment, then redeploy. The static pages and the optional functions are served from the same hostname.
-4. Add a Cloudflare rate-limit rule for `POST /api/article-view`; 60 requests per minute per IP is a practical starting point. This is an abuse-control layer, not identity tracking.
-
-Without the D1 binding, the functions return `503` and the page keeps its static fallback. The function also checks the request method, same-origin `Origin` header, and generated article allow-list before writing.
-
-## Verification after deployment
-
-Use a published article path:
+Use `pnpm dev:vercel` to run Vercel's local development server. Configure a development-only `DATABASE_URL` in `.env.local` when verifying database writes. Do not use production credentials in local files.
 
 ```powershell
 Invoke-WebRequest https://your-domain.wiki/api/article-view -Method Post -ContentType 'application/json' -Body '{"slug":"/guides/beginner-guide/"}'
 Invoke-RestMethod 'https://your-domain.wiki/api/popular?days=7&limit=3'
 ```
 
-With the feature enabled and D1 bound, the first command returns HTTP 204. Repeating it raises the page-view total again. The second returns only allowed, published article paths ordered by recent seven-day views. With the default build flag, these requests are intentionally not emitted by the browser.
+The view endpoint returns `204` for a valid published article path; the ranking endpoint returns an array of `{ "slug": "...", "views": 1 }` items.

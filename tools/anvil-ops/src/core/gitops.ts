@@ -71,7 +71,7 @@ export async function submit(opts: { cwd: string; title?: string; base?: string;
   // 4. open PR via gh
   const body =
     validation.map((v) => `## ${v.name} ${v.ok ? 'PASS' : 'FAIL'}\n${v.summary}`).join('\n\n') +
-    '\n\n---\nSubmitted via `anvil-ops submit`. Merge after review; Cloudflare Pages deploys automatically.';
+    '\n\n---\nSubmitted via `anvil-ops submit`. Merge after review; Vercel deploys the connected branch automatically.';
   const pr = run('gh', ['pr', 'create', '--title', title, '--base', opts.base ?? 'main', '--body', body], { cwd: opts.cwd });
   if (pr.status !== 0) {
     throw new OpsError(

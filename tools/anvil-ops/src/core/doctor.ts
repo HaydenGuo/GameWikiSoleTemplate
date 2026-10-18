@@ -3,7 +3,6 @@ import { loadOpsEnv } from './env.js';
 import { loadSiteConfig } from './site.js';
 import { createGscClient } from './providers/gsc.js';
 import type { GscClient } from './providers/gsc.js';
-import { queryCloudflare } from './providers/cloudflare.js';
 import { OpsError } from './errors.js';
 
 export interface DoctorCheck {
@@ -20,7 +19,6 @@ export interface DoctorReport {
 export interface DoctorDeps {
   ghVersion?: () => { ok: boolean; detail: string; fix?: string };
   gscClient?: GscClient;
-  cfQuery?: typeof queryCloudflare;
 }
 
 function defaultGhVersion(): { ok: boolean; detail: string; fix?: string } {
@@ -39,7 +37,6 @@ export async function runDoctor(opts: { cwd: string; deps?: DoctorDeps }): Promi
 
   // 1. site config
   let siteUrl: string | undefined;
-  let beacon: string | undefined;
   // .env lives at the DISCOVERED repo root (site.root), not the cwd — running
   // doctor from a subdirectory must not falsely report "not configured"
   // (metrics/insights already resolve against site.root).
@@ -48,22 +45,19 @@ export async function runDoctor(opts: { cwd: string; deps?: DoctorDeps }): Promi
     const site = loadSiteConfig(opts.cwd);
     siteRoot = site.root;
     siteUrl = site.siteUrl;
-    beacon = site.cfBeaconToken;
     if (!site.siteUrl) {
       checks.push({
         name: 'site-config',
         ok: false,
         detail: `config found (${site.source}) but SITE_URL is not set`,
         fix:
-          site.source === 'wrangler.toml'
-            ? 'Set SITE_URL = "https://your-domain" under [vars] in wrangler.toml (must include https://).'
-            : 'Add SITE_URL=https://your-domain to the .env file (your setup has no wrangler.toml — settings live in the Cloudflare dashboard, which anvil-ops cannot read).',
+          'Add SITE_URL=https://your-domain to the .env file.',
       });
     } else {
       checks.push({
         name: 'site-config',
         ok: true,
-        detail: `repo root ${site.root}; SITE_URL=${site.siteUrl} (from ${site.source}); beacon=${site.cfBeaconToken ? 'set' : 'not set'}`,
+        detail: `repo root ${site.root}; SITE_URL=${site.siteUrl} (from ${site.source})`,
       });
     }
   } catch (e) {
@@ -105,44 +99,11 @@ export async function runDoctor(opts: { cwd: string; deps?: DoctorDeps }): Promi
     checks.push({
       name: 'gsc-config',
       ok: true,
-      detail: 'GSC not configured — metrics will run CF-only (env-gated, not an error)',
+      detail: 'GSC not configured — metrics are unavailable until credentials are added (not an error)',
     });
   }
   for (const p of env.problems) {
     checks.push({ name: 'gsc-config', ok: false, detail: p, fix: 'Fix the value in .env, then re-run `anvil-ops doctor`.' });
-  }
-
-  // 4. cf
-  if (env.cfApiToken && env.cfAccountId && beacon) {
-    checks.push({ name: 'cf-config', ok: true, detail: `token + account + beacon tag ${beacon}` });
-    const q = deps.cfQuery ?? queryCloudflare;
-    try {
-      await q({ apiToken: env.cfApiToken, accountId: env.cfAccountId, siteTag: beacon, days: 1 });
-      checks.push({ name: 'cf-access', ok: true, detail: 'GraphQL probe succeeded' });
-    } catch (e) {
-      const msg = e instanceof OpsError
-        ? `${e.message} ${e.fix}`
-        : e instanceof Error
-          ? e.message || e.name
-          : String(e) || 'unknown error';
-      checks.push({
-        name: 'cf-access',
-        ok: false,
-        detail: msg,
-        fix: 'Create a token with Account > Analytics > Read (https://dash.cloudflare.com/profile/api-tokens) and set CF_API_TOKEN.',
-      });
-    }
-  } else {
-    const missing = [
-      env.cfApiToken ? null : 'CF_API_TOKEN',
-      env.cfAccountId ? null : 'CF_ACCOUNT_ID',
-      beacon ? null : 'PUBLIC_CF_BEACON_TOKEN',
-    ].filter(Boolean);
-    checks.push({
-      name: 'cf-config',
-      ok: true,
-      detail: `CF Analytics not configured (missing: ${missing.join(', ')}) — metrics will run GSC-only (env-gated, not an error)`,
-    });
   }
 
   return { checks };

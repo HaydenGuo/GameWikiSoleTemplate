@@ -22,7 +22,7 @@
 | `content/<locale>/<type>/*.mdx`       | `src/content/wiki/<locale>/<type>/*.mdx`                 | 移到 wiki/ 下                         |
 | `export const metadata = {...}`       | YAML frontmatter `---\n...\n---`                         | **必须转换**                          |
 | `src/middleware.ts`                   | 不需要                                                   | Astro 的 i18n 路由内置                |
-| `netlify.toml`                        | 不需要                                                   | Cloudflare Pages 零配置               |
+| `netlify.toml`                        | 不需要                                                   | Vercel 项目设置负责构建与部署          |
 
 ---
 
@@ -73,7 +73,7 @@ date: 2026-08-11
 ### 4. 部署
 
 **Next.js**：需要额外适配器
-**GameWikiSoleTemplate**：`pnpm build` → `dist/` → Cloudflare 直连，零配置
+**GameWikiSoleTemplate**：`pnpm build` → `dist/` → 连接 GitHub 仓库部署到 Vercel
 
 ---
 
@@ -120,7 +120,7 @@ pnpm dev    # 逐页访问确认正常
 
 ### Step 5 — 部署
 
-按 [部署指南](./deployment.md) 部署到 Cloudflare Pages。
+按[部署指南](./deployment.md)连接 GitHub 仓库并部署到 Vercel。
 
 ---
 
@@ -138,7 +138,7 @@ pnpm dev    # 逐页访问确认正常
 | **6. 语言配置** | `routing.ts` locales 数组复制；`ui.ts` import + 注册 | 10 分钟 |
 | **7. 删除不再需要的文件** | `middleware.ts` / `netlify.toml` / `next.config` / `next-on-pages` 等 Next.js 专属文件 | 5 分钟 |
 | **8. 构建验证** | `pnpm build` + `pnpm check-sitemap` 修复格式错误 | 15-30 分钟 |
-| **9. 部署** | Cloudflare Pages 连仓库（比 Netlify 更快） | 10 分钟 |
+| **9. 部署** | Vercel 导入 GitHub 仓库 | 10 分钟 |
 | **总计** | | **1.5-2.5 小时** |
 
 ### 迁移 vs 重做的选择
@@ -146,7 +146,7 @@ pnpm dev    # 逐页访问确认正常
 | 场景 | 建议 | 理由 |
 |---|---|---|
 | 站点流量 < 100GB/月、跑得好 | 不迁移 | 迁移成本 2 小时 > 节省的带宽费 |
-| 做新站 | 直接用 GameWikiSoleTemplate | 0 迁移成本，从 Day 1 享受 Cloudflare 无限带宽 |
+| 做新站 | 直接用 GameWikiSoleTemplate | 0 迁移成本，使用 GitHub → Vercel 部署流程 |
 | 站点爆量（>100GB/月） | 迁移 | 一次 2 小时投入，永久省带宽费 |
 | 有大量 React 交互组件 | 评估后再定 | 需把交互重写为纯 Astro 或引入 React island |
 

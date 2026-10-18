@@ -11,7 +11,6 @@
     "migrations/**",
     "tests/**",
     "docs/template-baseline.json",
-    "wrangler.toml",
     "package.json",
     "pnpm-lock.yaml"
   ],
@@ -28,11 +27,6 @@
     "owner": "your-account",
     "repo": "your-game-wiki",
     "defaultBranch": "main"
-  },
-  "cloudflare": {
-    "enabled": true,
-    "enableDnsUpdate": false,
-    "provider": "your-registrar"
   },
   "analytics": {
     "enablePropertySetup": false,

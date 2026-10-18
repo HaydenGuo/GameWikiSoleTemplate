@@ -872,7 +872,7 @@ const exploreModules = configuredExploreModules.map((module: any) =>
 
 {popularRuntimeEnabled && (
   <script is:inline define:vars={{ articleIndex }}>
-    // This request is emitted only when Cloudflare Pages Functions + D1 are
+    // This request is emitted only when the Vercel Popular API is
     // explicitly enabled. Static deployments keep their build-time links.
     const index = articleIndex;
     const items = Array.from(document.querySelectorAll('[data-popular-item]'));

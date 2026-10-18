@@ -12,7 +12,6 @@ The snapshot retains the complete source and operational surface needed to creat
 - `.agent/skills/` for article creation, batch drafts, code updates, freshness review, and AdSense review.
 - `.github/`, `scripts/`, and `tests/` for deterministic quality gates and template automation.
 - `docs/`, `requirements/`, and root configuration files for template setup, content contracts, deployment, and developer guidance.
-- `tools/anvil-ops/` for the optional multi-site GSC and Cloudflare operations package.
 
 ## Excluded Runtime Surface
 

@@ -27,7 +27,6 @@
 | 7 | VideoObject JSON-LD | `lib/seo.ts` 加 builder,文章页由 `videos` frontmatter 生成 | Code |
 | 8 | 404 页增强 | Pagefind 搜索框 + 热门文章/分类入口 | Code |
 | 9 | 赞助/打赏 | `.github/FUNDING.yml` + env 门控 `SponsorCard.astro`(`PUBLIC_SPONSOR_URL`/`PUBLIC_SPONSOR_IMAGE_URL` 空 = 不渲染) | Code+Config |
-| 10 | wrangler 引导闭环 | apply-template CLI 增加一步:提示写入 `[vars]` 或选择删除 wrangler.toml;README Deploy 按钮与 Pages 文档流程对齐 | Config+scripts |
 
 配套:README/CHANGELOG/docs(content-format 补 Callout/Accordion/gameVersion/draft 章节)、tests 补 ads/sponsor 门控回归测试、demo 内容补 tags 与 gameVersion 示例。
 
@@ -40,10 +39,8 @@
 | # | 功能 | 内容 | 涉及层 |
 |---|------|------|--------|
 | 1 | 翻译覆盖率检查 | `pnpm check-i18n`:各 locale 相对 en 的文章缺失清单 + `src/locales/*.json` key diff + frontmatter 漂移;接入 CI | Code |
-| 2 | GitHub Actions 一键初始化 | fork 后跑一次 setup workflow:写 SITE_URL、处理 wrangler.toml、可选清 demo 内容 | Config |
 | 3 | apply-template 内容层自动化 | demo 内容清理 + 骨架文生成,消除 fork 后最大手动删改面积 | scripts+Content |
 | 4 | 死链/内链检查 | check-sitemap 扩展:MDX 正文相对链接 ↔ 实际条目 slug 对账 | Code |
-| 5 | Cloudflare Web Analytics | `PUBLIC_CF_BEACON_TOKEN` 门控(BaseLayout),零脚本损耗的 GA 替代 | Code+Config |
 | 6 | fork 同步上游指南 | docs/staying-up-to-date.md + 版本策略说明(SemVer、config 层兼容承诺) | docs |
 | 7 | README 获客强化 | CompareTable 进 README、仓库 topics、英文 FAQ、demo 内容加密(1-2 篇 tier-list 范式) | Content |
 | 8 | 真实用户 Showcase | "用了模板?提 PR 加到 showcase"区块,被动征集不运营 | landing |

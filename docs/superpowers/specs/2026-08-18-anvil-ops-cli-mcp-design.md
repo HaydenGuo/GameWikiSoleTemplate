@@ -10,10 +10,8 @@ AnvilWiki 模板(v1.14.1)已解决「建站」:fork → apply-template → 部�
 
 本包补上「上线之后」的一环:fork 用户在自己的 fork 仓库里,通过 AI agent(ZCode / Claude / 任意 MCP 客户端或 CLI 用户)自动化运营网站——
 
-- **看数据**:拉取 Google Search Console 与 Cloudflare Web Analytics;
 - **给洞察**:数据 → 优先级行动清单(SEO 优化建议);
 - **产内容**:配合 `.agent/skills/` 产页 SOP,产出 MDX;
-- **上线**:校验 → 分支 → commit → push → 开 PR(CI 门控全绿后人工合并,Cloudflare 自动部署)。
 
 定位边界:只依赖「AnvilWiki 结构的仓库 + Node ≥22 + gh CLI」,不侵入模板代码,不改模板运行时(保持纯静态、零 JS 框架、Lighthouse 4×100 契约)。
 
@@ -22,10 +20,8 @@ AnvilWiki 模板(v1.14.1)已解决「建站」:fork → apply-template → 部�
 | # | 决策点 | 结论 | 理由 |
 |---|--------|------|------|
 | 1 | 交付形态 | 独立 npm 包(npx 直跑)+ MCP server,共享 core | fork 用户零安装成本;MCP 一行接入;与模板解耦、独立 semver |
-| 2 | 首版数据源 | GSC + Cloudflare Web Analytics | GSC 是 SEO 闭环核心数据;CF Analytics 模板默认已开、自家 API 接入成本低;AdSense API 门槛高推迟 |
 | 3 | GSC 认证 | service account JSON(无头、无刷新令牌)+ CF API token,存本地 `.env` | 调用方是 AI agent,OAuth 浏览器流程与 token 刷新对无头场景是灾难 |
 | 4 | 写操作边界 | 写文件 → 本地校验 → 建分支 → push → 开 PR,不碰 main | 人工把关 + 可回滚;与既定 v2.0「PR 门控 CI 内容管道」方向一致 |
-| 5 | 仓库结构 | 本仓库子目录 `tools/anvil-ops/`,单包双 bin | 单仓开发、dogfood(对着 anvilwiki.pages.dev 真数据测)、文档互引零成本;fork 多带一份纯源码目录,不参与 astro build,零影响 |
 
 ## 3. 架构
 
@@ -33,10 +29,8 @@ AnvilWiki 模板(v1.14.1)已解决「建站」:fork → apply-template → 部�
 tools/anvil-ops/
 ├── src/
 │   ├── core/              # 唯一业务逻辑层,不知道 CLI/MCP 存在
-│   │   ├── site.ts        # 站点发现:定位仓库根、读 wrangler.toml [vars]、解析 SITE_URL / PUBLIC_CF_BEACON_TOKEN
 │   │   ├── providers/     # 纯数据拉取层,互不依赖
 │   │   │   ├── gsc.ts     # service account JWT(google-auth-library)→ Search Analytics API searchanalytics.query(page/query 维度)
-│   │   │   └── cloudflare.ts # GraphQL API api.cloudflare.com/client/v4/graphql(token 只需 Account.Analytics:Read)
 │   │   ├── content.ts     # 校验编排:child process 调 pnpm check-content / check-i18n / build(不重实现模板校验,单一真相源在模板)
 │   │   ├── gitops.ts      # branch / commit / push / gh pr create(复用 gh CLI,不自己管 GitHub token)
 │   │   └── insights.ts    # 规则引擎:providers 数据 → 优先级行动清单(纯函数)
@@ -99,11 +93,8 @@ bin 入口:
 ```
 # .env(gitignored;.env.example 提供注释模板)
 GSC_SERVICE_ACCOUNT_JSON=   # 以 { 开头 = 内联 JSON 字符串;否则 = 文件路径
-CF_API_TOKEN=               # 权限:Account.Analytics:Read
-CF_ACCOUNT_ID=              # 可选;缺省时 doctor 给出获取指引
 ```
 
-- site tag(`PUBLIC_CF_BEACON_TOKEN`)从 `wrangler.toml [vars]` 读取——模板已接线,用户零额外配置;
 - GSC 未配 → metrics 只出 CF 部分,insights 跑降级规则;CF 未配 → 只出 GSC;全未配 → doctor 逐项给修复指引;
 - GitHub 操作复用 `gh` CLI(模板 workflow 已要求用户安装),包不接管 token;无 gh 时 submit 给出安装指引;
 - 包内不硬编码任何 key/域名(与模板工程约束 8/9 一致)。
@@ -117,9 +108,7 @@ CF_ACCOUNT_ID=              # 可选;缺省时 doctor 给出获取指引
 
 ## 9. 测试策略
 
-- **单元**:providers 用录制的 API fixture(GSC JSON、CF GraphQL 响应)mock 测;insights 规则纯函数直测;site.ts 用临时目录 fixture(wrangler.toml 各种形态)测;
 - **集成**:gitops + content 编排在临时 git 仓库中测(init → 改动 → submit dry-run);
-- **dogfood 端到端**:本仓库 demo 站 anvilwiki.pages.dev(CF Analytics 真实开启)+ 测试 GSC 资源,验收 metrics/insights 真数据;
 - MCP 层:用 MCP SDK 的 in-memory client 测 tools 注册与调用。
 
 ## 10. 构建顺序(4 个子项目,各自 spec→plan→实现)

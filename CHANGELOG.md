@@ -1,11 +1,13 @@
 # Changelog
 
-## [1.1.4](https://github.com/HaydenGuo/GameWikiSoleTemplate/compare/v1.1.3...v1.1.4) - 2026-10-18
+## [2.0.0](https://github.com/HaydenGuo/GameWikiSoleTemplate/compare/v1.1.4...v2.0.0) - 2026-10-18
 
-- Add a Wrangler Pages local preview that runs Pages Functions and checks dynamic API health and upstream freshness.
-- Keep local preview credentials isolated by disabling automatic `.env` loading.
+- Make Vercel the default hosting platform for the Astro template.
+- Move game-deals, article-view, and popular APIs to Vercel Functions.
+- Remove non-Vercel deployment configuration and optional third-party analytics integrations.
+- Update initialization, local development, privacy, and deployment guidance for Vercel.
 
-新增 Wrangler Pages 本地预览入口，运行 Pages Functions 并检查动态 API 与上游数据新鲜度；关闭 `.env` 自动加载，避免本地预览误用其他项目凭证。
+将 Astro 模板的默认托管平台切换为 Vercel；三个同源 API 迁移至 Vercel Functions；移除非 Vercel 部署配置和额外分析集成；同步更新初始化、本地开发、隐私及部署说明。
 
 ## [1.1.3](https://github.com/HaydenGuo/GameWikiSoleTemplate/compare/v1.1.2...v1.1.3) - 2026-10-18
 

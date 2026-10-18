@@ -219,11 +219,7 @@ const lastmodMap = buildLastmodMap(noindexPaths, localeCoverage, categoryCoverag
 export default defineConfig({
   site: siteOrigin,
   output: 'static',
-  // Cloudflare Pages serves directory builds at /path/ — with 'never' every
-  // canonical/sitemap/internal link said /path, so each page 308'd once and
-  // Google's self-described signals were all off by a hop (three-site
-  // production lesson; the terminal fix is 'always' everywhere, NOT a
-  // _redirects reverse-301 which loops on CF).
+  // Canonical URLs match the directory index output directly.
   trailingSlash: 'always',
   image: {
     // Emit explicit width/height on responsive <Image> output to prevent CLS.

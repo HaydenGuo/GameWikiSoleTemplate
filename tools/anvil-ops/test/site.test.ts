@@ -1,76 +1,29 @@
-import { copyFileSync, mkdirSync, mkdtempSync, writeFileSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { loadSiteConfig } from '../src/core/site.js';
 
-function tmpDir(): string {
-  return mkdtempSync(join(tmpdir(), 'ops-site-'));
-}
+function tmpDir(): string { return mkdtempSync(join(tmpdir(), 'ops-site-')); }
 
 describe('loadSiteConfig', () => {
-  it('reads [vars] from wrangler.toml in the given dir and strips trailing slash', () => {
+  it('reads SITE_URL from .env and strips trailing slash', () => {
     const dir = tmpDir();
-    copyFileSync('test/fixtures/wrangler-full.toml', join(dir, 'wrangler.toml'));
-    const cfg = loadSiteConfig(dir);
-    expect(cfg.root).toBe(dir);
-    expect(cfg.siteUrl).toBe('https://wiki.example.com');
-    expect(cfg.cfBeaconToken).toBe('beacon123');
+    writeFileSync(join(dir, '.env'), 'SITE_URL=https://wiki.example.com/\n');
+    const config = loadSiteConfig(dir);
+    expect(config.root).toBe(dir);
+    expect(config.siteUrl).toBe('https://wiki.example.com');
   });
 
-  it('walks up parent dirs to find wrangler.toml', () => {
+  it('walks up parent directories to discover .env', () => {
     const dir = tmpDir();
-    copyFileSync('test/fixtures/wrangler-minimal.toml', join(dir, 'wrangler.toml'));
+    writeFileSync(join(dir, '.env'), 'SITE_URL=https://wiki.example.com\n');
     const nested = join(dir, 'a', 'b');
     mkdirSync(nested, { recursive: true });
-    const cfg = loadSiteConfig(nested);
-    expect(cfg.root).toBe(dir);
-    expect(cfg.siteUrl).toBeUndefined();
-    expect(cfg.cfBeaconToken).toBeUndefined();
+    expect(loadSiteConfig(nested).root).toBe(dir);
   });
 
-  it('empty beacon token string = undefined (env-gated)', () => {
-    const dir = tmpDir();
-    writeFileSync(
-      join(dir, 'wrangler.toml'),
-      '[vars]\nSITE_URL = "https://x.com"\nPUBLIC_CF_BEACON_TOKEN = ""\n',
-    );
-    const cfg = loadSiteConfig(dir);
-    expect(cfg.cfBeaconToken).toBeUndefined();
-  });
-
-  it('no wrangler.toml anywhere = OpsError with fix guidance', () => {
-    const dir = tmpDir();
-    expect(() => loadSiteConfig(dir)).toThrow(/wrangler\.toml/);
-  });
-
-  it('falls back to .env when wrangler.toml was deleted (learn-manual setup)', () => {
-    const dir = tmpDir();
-    writeFileSync(join(dir, '.env'), 'SITE_URL=https://env-mode.com/\nPUBLIC_CF_BEACON_TOKEN=envtag\nCF_API_TOKEN=x\n');
-    const cfg = loadSiteConfig(dir);
-    expect(cfg.source).toBe('.env');
-    expect(cfg.root).toBe(dir);
-    expect(cfg.siteUrl).toBe('https://env-mode.com');
-    expect(cfg.cfBeaconToken).toBe('envtag');
-  });
-
-  it('neither wrangler.toml nor .env = OpsError naming both options', () => {
-    const dir = tmpDir();
-    try {
-      loadSiteConfig(dir);
-      expect.unreachable('should have thrown');
-    } catch (e) {
-      expect((e as Error).message).toMatch(/wrangler\.toml/);
-      expect((e as Error).message).toMatch(/\.env/);
-    }
-  });
-
-  it('wrangler.toml takes precedence over .env when both exist', () => {
-    const dir = tmpDir();
-    copyFileSync('test/fixtures/wrangler-full.toml', join(dir, 'wrangler.toml'));
-    writeFileSync(join(dir, '.env'), 'SITE_URL=https://should-not-win.com\n');
-    const cfg = loadSiteConfig(dir);
-    expect(cfg.source).toBe('wrangler.toml');
-    expect(cfg.siteUrl).toBe('https://wiki.example.com');
+  it('requires a site URL', () => {
+    expect(() => loadSiteConfig(tmpDir())).toThrow(/SITE_URL/);
   });
 });

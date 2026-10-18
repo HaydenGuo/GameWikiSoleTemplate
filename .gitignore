@@ -35,8 +35,8 @@ src/assets/covers/.gen-covers-manifest.json
 # ZCode agent workspace
 .zcode/
 
-# Cloudflare
-.wrangler/
+# Local Vercel tooling
+.vercel/
 
 # Playwright MCP
 .playwright-mcp/
@@ -52,5 +52,5 @@ src/assets/covers/.gen-covers-manifest.json
 *.key
 seo-reports/
 
-.vercel
 .env*
+!.env.example

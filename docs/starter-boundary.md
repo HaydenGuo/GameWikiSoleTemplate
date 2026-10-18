@@ -7,7 +7,7 @@ GameWikiSoleTemplate keeps reusable runtime, starter configuration, example cont
 | Area | Location | Purpose |
 |---|---|---|
 | Runtime | `src/components/`, `src/pages/`, `src/lib/`, `src/i18n/`, `src/styles/` | Generic reusable UI, routes, helpers, locale routing, and styles |
-| Configuration | `src/config/`, `src/locales/`, `astro.config.ts`, `wrangler.toml` | Starter defaults and per-site settings |
+| Configuration | `src/config/`, `src/locales/`, `astro.config.ts`, `.env.example` | Starter defaults and per-site settings |
 | Content | `src/content/`, `src/assets/`, `public/` | Example articles and site assets |
 | Operations | `scripts/`, `.github/`, `docs/` | Initialization, validation, CI, and user guidance |
 

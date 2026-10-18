@@ -61,7 +61,7 @@ pnpm dev
 |---|---|---|
 | Full game name | Your game's full English name, e.g. `Blade Ball` | Used in the site title and search results |
 | Short name | Just press Enter (auto-abbreviates) | The short name shown on phones |
-| Domain | Your domain; if you don't have one, enter `your-username.pages.dev` (e.g. `xiaoming.pages.dev` — this address doesn't exist yet; it's auto-created after deploy) | Tells the site "which is my official address"; change it back once you buy a domain |
+| Domain | Your domain; if you don't have one, use the Vercel project domain after the first deployment | Tells the site "which is my official address"; update it after connecting a custom domain |
 | Hero tagline | A one-sentence hook, e.g. `Your home for everything Blade Ball` | The line under the homepage headline |
 | Site description | A 40 to 165 character site intro that includes the game name | The description Google shows in search results |
 | Legal notice | Just press Enter (default) | Disclaimer: unofficial, not affiliated with the game maker |
@@ -113,7 +113,7 @@ When you've seen enough, `Control + C` to stop it.
 
 - Commands: `pnpm check-config` shows ✅, and `pnpm build` finishes with no red error on the last line
 - Pages: on localhost:4321, the game name, theme color, categories, and **tab icon** are all yours
-- ☐ You remember what you entered for Domain (a pages.dev placeholder for now is fine; come back and change it after you buy a domain)
+- ☐ You remember your configured Vercel project domain (update it after connecting a custom domain)
 
 ## Next step
 

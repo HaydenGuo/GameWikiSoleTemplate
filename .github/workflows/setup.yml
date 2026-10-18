@@ -2,7 +2,7 @@
 #
 # Run this ONCE from your fork's Actions tab ("Initialize GameWikiSoleTemplate" → Run workflow).
 # Safe-to-automate, non-interactive steps only:
-#   1. Reset wrangler.toml [vars] to your domain (SITE_URL) + clear demo Giscus values
+#   1. Create a Vercel .env.example with your domain + blank optional integrations
 #   2. Remove the project landing page (fork users don't need it)
 #   3. Optionally clear the demo game content (default: yes)
 #   4. Open a PR with the changes for you to review
@@ -10,7 +10,7 @@
 # What this does NOT do (run `pnpm apply-template` locally for these):
 #   game name / theme color / locales / homepage copy — see docs/apply-template.md.
 #
-# After merging: connect the repo to Cloudflare Pages (docs/deployment.md).
+# After merging: import the repository into Vercel (docs/deployment.md).
 
 name: Initialize GameWikiSoleTemplate
 
@@ -37,55 +37,28 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
-      - name: Reset wrangler.toml [vars]
+      - name: Create Vercel environment example
         env:
           RAW_SITE_URL: ${{ inputs.site_url }}
         run: |
-          python3 - <<'EOF'
+          python3 - <<'PY'
           import os, re
-          # Normalize: strip any protocol/host casing issues, force https://.
-          # Astro's `site` config REQUIRES a valid URL — a bare domain would
-          # crash the build only at deploy time, so fix it here.
           raw = os.environ['RAW_SITE_URL'].strip().rstrip('/')
-          url = re.sub(r'^https?://', '', raw)
-          url = f'https://{url}'
-          p = 'wrangler.toml'
-          s = open(p).read()
-          new_vars = '''[vars]
-          # Site (must include https:// protocol — Astro validates this as a URL)
-          SITE_URL = "__SITE_URL__"
-          # Giscus comments — blank = disabled until you fill your own values.
-          PUBLIC_GISCUS_REPO = ""
-          PUBLIC_GISCUS_REPO_ID = ""
-          PUBLIC_GISCUS_CATEGORY = ""
-          PUBLIC_GISCUS_CATEGORY_ID = ""
-          PUBLIC_GISCUS_MAPPING = "pathname"
-          # Sponsor card — blank = disabled.
-          PUBLIC_SPONSOR_URL = ""
-          PUBLIC_SPONSOR_IMAGE_URL = ""
-          # Cloudflare Web Analytics — blank = disabled.
-          PUBLIC_CF_BEACON_TOKEN = ""
-          # Optional slots (empty = disabled) — fill HERE, not the dashboard:
-          #PUBLIC_ADSENSE_CLIENT = ""
-          #PUBLIC_ADSENSE_SLOT_STICKY = ""
-          #PUBLIC_ADSENSE_SLOT_SIDEBAR = ""
-          #PUBLIC_ADSENSE_SLOT_INCONTENT = ""
-          #PUBLIC_GA_ID = ""
-          #PUBLIC_GSC_VERIFICATION = ""'''
-          new_vars = new_vars.replace('__SITE_URL__', url)
-          s2, n = re.subn(r'\[vars\][\s\S]*?(?=\n*\[|\s*$)', new_vars, s)
-          if n == 0:
-              # [vars] is a structural invariant of the template — a silent
-              # no-op rewrite here would leave the fork on demo values with
-              # a misleading success status.
-              raise SystemExit('❌ wrangler.toml [vars] rewrite matched nothing — template drift?')
-          open(p, 'w').write(s2)
-          EOF
-
-      - name: Read normalized SITE_URL
-        id: vars
-        run: echo "site_url=$(grep -m1 '^SITE_URL = ' wrangler.toml | sed 's/^SITE_URL = \"\(.*\)\"$/\1/')" >> "$GITHUB_OUTPUT"
-
+          url = 'https://' + re.sub(r'^https?://', '', raw)
+          lines = [
+              '# Copy to .env.local for local Vercel development; set the same values in Vercel project settings.',
+              f'SITE_URL={url}',
+              'PUBLIC_POPULAR_ENABLED=false',
+              'DATABASE_URL=',
+              'PUBLIC_GISCUS_REPO=', 'PUBLIC_GISCUS_REPO_ID=', 'PUBLIC_GISCUS_CATEGORY=',
+              'PUBLIC_GISCUS_CATEGORY_ID=', 'PUBLIC_GISCUS_MAPPING=pathname',
+              'PUBLIC_SPONSOR_URL=', 'PUBLIC_SPONSOR_IMAGE_URL=', 'PUBLIC_ADSENSE_CLIENT=',
+              'PUBLIC_ADSENSE_SLOT_STICKY=', 'PUBLIC_ADSENSE_SLOT_SIDEBAR=',
+              'PUBLIC_ADSENSE_SLOT_INCONTENT=', 'PUBLIC_GA_ID=', 'PUBLIC_GSC_VERIFICATION=', '',
+          ]
+          open('.env.example', 'w', encoding='utf-8').write('\n'.join(lines))
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as out:
+              out.write(f'site_url={url}\n')
       - name: Remove project landing page
         run: |
           # Keep in sync with LANDING_PATHS in scripts/apply-template.ts —
@@ -143,7 +116,7 @@ jobs:
       # itself must prove the tree still builds before handing it to the
       # user. Catches file-list drift in the steps above, broken imports,
       # and schema violations; without this, a drift bug would only surface
-      # on the fork's first Cloudflare Pages build.
+      # on the fork's first Vercel deployment.
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -165,14 +138,14 @@ jobs:
           if git diff --cached --quiet; then
             echo "Nothing to commit — template already initialized."
           else
-            git commit -m "chore(init): apply template defaults (wrangler vars, remove landing)"
+            git commit -m "chore(init): apply template defaults (Vercel env, remove landing)"
           fi
           # The shallow checkout has no remote-tracking ref for the branch, so
           # --force-with-lease alone rejects idempotent re-runs ("stale info").
           git fetch origin chore/init-from-template || true
           git push --force-with-lease origin chore/init-from-template
           gh pr create --title "Initialize GameWikiSoleTemplate for your game" \
-            --body "Automated by the Initialize GameWikiSoleTemplate workflow. wrangler.toml [vars] reset to ${SITE_URL_INPUT} (demo Giscus cleared); project landing page removed. Next: run pnpm apply-template locally for game name / theme / locales, then connect Cloudflare Pages (docs/deployment.md)." \
+            --body "Automated by the Initialize GameWikiSoleTemplate workflow. .env.example set to ${SITE_URL_INPUT} (optional integrations cleared); project landing page removed. Next: run pnpm apply-template locally for game name / theme / locales, then import the repository into Vercel (docs/deployment.md)." \
             || echo "PR already exists — leaving the existing one open."
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -54,7 +54,7 @@ export function sitesAddCommand(opts: { name: string; path: string; url?: string
   if (!existsSync(path)) {
     throw new OpsError(
       `Path does not exist: ${path}`,
-      'Register an existing checkout of the site repo (the directory with wrangler.toml / .env).',
+      'Register an existing checkout of the site repo (the directory with its .env file).',
     );
   }
   const registryPath = sitesRegistryPath();

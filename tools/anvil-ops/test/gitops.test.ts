@@ -28,7 +28,7 @@ const ok = { status: 0, stdout: '', stderr: '' };
 
 function tmpRepo(): string {
   const dir = mkdtempSync(join(tmpdir(), 'ops-gitops-unit-'));
-  writeFileSync(join(dir, 'wrangler.toml'), '[vars]\nSITE_URL = "https://x.com"\n');
+  writeFileSync(join(dir, '.env'), 'SITE_URL=https://x.com\n');
   return dir;
 }
 
@@ -77,7 +77,7 @@ describe('submit integration (real git, local bare origin)', () => {
     execSync(`git -C "${work}" config user.email t@t.t`);
     execSync(`git -C "${work}" config user.name t`);
     execSync(`git -C "${work}" remote add origin "${origin}"`);
-    writeFileSync(join(work, 'wrangler.toml'), '[vars]\nSITE_URL = "https://x.com"\n');
+  writeFileSync(join(work, '.env'), 'SITE_URL=https://x.com\n');
     execSync(`git -C "${work}" add -A`);
     execSync(`git -C "${work}" commit -q -m init`);
 

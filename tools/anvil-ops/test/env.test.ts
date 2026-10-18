@@ -19,11 +19,9 @@ describe('loadOpsEnv', () => {
   it('parses file-path style GSC_SERVICE_ACCOUNT_JSON', () => {
     const dir = mkdtempSync(join(tmpdir(), 'ops-env-'));
     writeFileSync(join(dir, 'sa.json'), SA);
-    writeFileSync(join(dir, '.env'), `GSC_SERVICE_ACCOUNT_JSON=sa.json\nCF_API_TOKEN=tok\nCF_ACCOUNT_ID=acc\n`);
+    writeFileSync(join(dir, '.env'), `GSC_SERVICE_ACCOUNT_JSON=sa.json\n`);
     const r = loadOpsEnv(dir);
     expect(r.gscServiceAccount?.clientEmail).toBe('sa@project.iam.gserviceaccount.com');
-    expect(r.cfApiToken).toBe('tok');
-    expect(r.cfAccountId).toBe('acc');
     expect(r.problems).toEqual([]);
   });
 
@@ -37,7 +35,6 @@ describe('loadOpsEnv', () => {
   it('empty env = all features disabled, no problems', () => {
     const r = loadOpsEnv(tmpWith(''));
     expect(r.gscServiceAccount).toBeUndefined();
-    expect(r.cfApiToken).toBeUndefined();
     expect(r.problems).toEqual([]);
   });
 
