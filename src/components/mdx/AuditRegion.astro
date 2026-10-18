@@ -1,0 +1,13 @@
+---
+interface Props {
+  kind: 'question' | 'answer-obligation' | 'visual-target';
+  id: string;
+}
+
+const { kind, id } = Astro.props;
+if (!id.trim()) throw new Error('AuditRegion requires a non-empty id.');
+---
+
+{kind === 'question' && <div data-question-id={id}><slot /></div>}
+{kind === 'answer-obligation' && <div data-answer-obligation-id={id}><slot /></div>}
+{kind === 'visual-target' && <div data-visual-target-id={id}><slot /></div>}
