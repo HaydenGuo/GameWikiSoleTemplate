@@ -12,6 +12,14 @@ const previousPackage = JSON.parse(
   execFileSync('git', ['show', `${baseSha}:package.json`], { encoding: 'utf8' }),
 );
 const previousVersion = previousPackage.version;
+const landing = readFileSync('src/config/landing.ts', 'utf8');
+const projectVersion = /export const PROJECT_VERSION = ['"]([^'"]+)['"]/.exec(landing)?.[1];
+if (projectVersion !== currentVersion) {
+  console.error(
+    `::error::src/config/landing.ts PROJECT_VERSION ("${projectVersion ?? 'missing'}") must match package.json version "${currentVersion}".`,
+  );
+  process.exit(1);
+}
 const parseVersion = (value) => {
   const match = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/.exec(value ?? '');
   return match ? match.slice(1).map(Number) : null;
