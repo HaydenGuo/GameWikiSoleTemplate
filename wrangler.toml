@@ -1,8 +1,8 @@
 # Cloudflare Pages configuration for local preview with Wrangler.
 #
 # Usage:
-#   pnpm build
-#   npx wrangler pages dev dist
+#   pnpm dev:pages
+#   pnpm check:pages-runtime  # from another terminal
 #
 # This file is optional — Cloudflare Pages auto-detects Astro when you
 # connect your GitHub repo via the dashboard. Use this only for local

@@ -27,6 +27,14 @@ Content 层 src/content, src/locales/<loc>.json 的 home 数据 — fork 用户�
 | workflow YAML/脚本 | YAML 解析或对应脚本检查 |
 | 文档/纯格式 | `git diff --check`；无需为了文档改动重跑站点构建 |
 
+### 本地运行模式
+
+- `pnpm dev --host 127.0.0.1 --port 4323` 用于快速开发 Astro 页面、样式和内容；它不会运行 Cloudflare Pages Functions。
+- `pnpm dev:pages` 会先构建，再用 Wrangler 在 `http://127.0.0.1:4322` 同时运行静态产物和 `functions/`。需要验证动态 API、缓存或 Pages 运行时行为时使用它。
+- `pnpm check:pages-runtime` 在另一个终端检查首页和 `/api/game-deals` 的 HTTP 状态与 JSON 结构；上游数据的新鲜度会单独报告，不会把“HTTP 200”当作数据新鲜的证明。
+- 预览入口会关闭 Wrangler 对 `.env` 文件的自动加载，避免无意注入工作区其他项目的变量。可选 D1 等绑定必须按本地 Wrangler 配置单独提供。不要将生产凭证复制进仓库；只在确实需要验证依赖凭证的路径时使用本地忽略文件，并在验证后清理。
+- `python -m http.server 4331` 只适用于已经构建好的纯静态页面，不运行 Pages Functions。
+
 模板派生站点的模板文件删除另需 `template-baseline:check`；实际项目发布另需 `check-publish-scope`。这两项只在对应场景运行，不作为每次模板 PR 的通用门槛。
 
 ## 2. 常见扩展模式

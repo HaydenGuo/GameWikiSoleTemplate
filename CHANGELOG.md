@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.4](https://github.com/HaydenGuo/GameWikiSoleTemplate/compare/v1.1.3...v1.1.4) - 2026-10-18
+
+- Add a Wrangler Pages local preview that runs Pages Functions and checks dynamic API health and upstream freshness.
+- Keep local preview credentials isolated by disabling automatic `.env` loading.
+
+新增 Wrangler Pages 本地预览入口，运行 Pages Functions 并检查动态 API 与上游数据新鲜度；关闭 `.env` 自动加载，避免本地预览误用其他项目凭证。
+
 ## [1.1.3](https://github.com/HaydenGuo/GameWikiSoleTemplate/compare/v1.1.2...v1.1.3) - 2026-10-18
 
 - Limit Quick Start to at most four content categories shown in the primary navigation, excluding utility routes.

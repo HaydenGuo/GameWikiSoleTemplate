@@ -24,6 +24,8 @@ pnpm install
 pnpm dev
 ```
 
+`pnpm dev` runs Astro's development server for layout and content work. To test Cloudflare Pages Functions and APIs locally, run `pnpm dev:pages`; it builds the site, starts Wrangler on `http://127.0.0.1:4322`, and serves both the built site and Functions. The launcher disables automatic `.env` loading; configure only the local bindings you intend to test. In another terminal, run `pnpm check:pages-runtime` to check the homepage and the `/api/game-deals` response. Optional Cloudflare bindings such as D1 still need local binding configuration; never copy production secrets into the repository.
+
 要用具体游戏配置替换演示内容，请运行：
 
 ```powershell
@@ -69,6 +71,8 @@ Requirements: Node.js 22 or later and pnpm.
 pnpm install
 pnpm dev
 ```
+
+`pnpm dev` runs Astro's development server for layout and content work. To test Cloudflare Pages Functions and APIs locally, run `pnpm dev:pages`; it builds the site, starts Wrangler on `http://127.0.0.1:4322`, and serves both the built site and Functions. The launcher disables automatic `.env` loading; configure only the local bindings you intend to test. In another terminal, run `pnpm check:pages-runtime` to check the homepage and the `/api/game-deals` response. Optional Cloudflare bindings such as D1 still need local binding configuration; never copy production secrets into the repository.
 
 Run `pnpm apply-template` to replace the demo site with a game's configuration. See [docs/deployment.md](docs/deployment.md) for Cloudflare Pages setup, [docs/apply-template.md](docs/apply-template.md) for the initializer, and [docs/content-format.md](docs/content-format.md) for article authoring. The documentation index is [docs/README.md](docs/README.md).
 

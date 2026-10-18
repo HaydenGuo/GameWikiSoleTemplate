@@ -143,6 +143,10 @@ Report pre-existing failures separately from failures introduced by the current 
 ## Local development and dependency recovery
 
 - Use `pnpm dev --host 127.0.0.1 --port 4323` for the Astro development server.
+- Use `pnpm dev:pages` when validating Cloudflare Pages Functions or dynamic APIs; it builds the site and starts Wrangler on `127.0.0.1:4322`. In another terminal, `pnpm check:pages-runtime` checks the homepage and API response shape and reports upstream staleness separately.
+- The Pages preview launcher disables automatic `.env` loading to avoid injecting unrelated workstation credentials. Supply only intentionally configured local bindings.
+- Astro dev and static HTTP preview do not run Pages Functions. Do not treat either as evidence that a dynamic API works.
+- Optional D1 or other bindings require explicit local Wrangler binding configuration. Never copy production credentials into tracked files or expose them in command output.
 - Use `python -m http.server 4331` from `dist/` only for checking an already-built static site.
 - A static preview does not prove that the Astro development server or full build is healthy.
 - Do not run multiple `pnpm install`, `pnpm dev`, or `pnpm build` processes against this template at the same time.
