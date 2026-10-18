@@ -63,7 +63,6 @@ Copy-Item -LiteralPath (Join-Path $source 'pnpm-workspace.yaml') -Destination $t
 Copy-Item -LiteralPath (Join-Path $source 'tailwind.config.mjs') -Destination $target
 Copy-Item -LiteralPath (Join-Path $source 'tsconfig.json') -Destination $target
 Copy-Item -LiteralPath (Join-Path $source 'vitest.config.ts') -Destination $target
-Copy-Item -LiteralPath (Join-Path $source 'wrangler.toml') -Destination $target
 ```
 
 - [ ] **Step 3: Confirm the copied template contains its required entry surfaces**

@@ -54,19 +54,15 @@ import { describe, expect, it } from 'vitest';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
 import { buildServer } from '../src/mcp/server.js';
-import type { queryCloudflare } from '../src/core/providers/cloudflare.js';
 
 function tmpSite(): string {
   const dir = mkdtempSync(join(tmpdir(), 'ops-mcp-'));
-  writeFileSync(join(dir, 'wrangler.toml'), '[vars]\nSITE_URL = "https://wiki.example.com"\nPUBLIC_CF_BEACON_TOKEN = "tag1"\n');
-  writeFileSync(join(dir, '.env'), 'CF_API_TOKEN=t\nCF_ACCOUNT_ID=a\n');
   return dir;
 }
 
 const fakeCf = (async () => ({
   totals: { visits: 7 },
   pages: [{ page: 'https://wiki.example.com/', visits: 7 }],
-})) as unknown as typeof queryCloudflare;
 
 async function connect(cwd: string) {
   const server = buildServer({ cwd, cfQuery: fakeCf });
@@ -102,7 +98,6 @@ describe('anvil-ops MCP server', () => {
 
   it('metrics with no source configured = isError with fix', async () => {
     const dir = mkdtempSync(join(tmpdir(), 'ops-mcp-'));
-    writeFileSync(join(dir, 'wrangler.toml'), '[vars]\nSITE_URL = "https://x.com"\n');
     const client = await connect(dir);
     const res = await client.callTool({ name: 'metrics', arguments: {} });
     expect(res.isError).toBe(true);
@@ -131,7 +126,6 @@ import type { GscClient, GscClientFactoryAlias } from '../core/mcp-types.js'; //
 interface BuildServerOpts {
   cwd: string;
   gscClientFactory?: (o: { credential: { clientEmail: string; privateKey: string }; siteUrl: string }) => GscClient;
-  cfQuery?: typeof import('../core/providers/cloudflare.js').queryCloudflare;
 }
 
 function errText(e: unknown): string {
@@ -146,7 +140,6 @@ export function buildServer(opts: BuildServerOpts): McpServer {
     {
       title: 'anvil-ops doctor',
       description:
-        'Health check for AnvilWiki site ops: wrangler.toml site config, gh CLI, GSC service account, CF Web Analytics token. Run this FIRST in any ops session before other anvil-ops tools.',
       inputSchema: {},
     },
     async () => {
@@ -164,7 +157,6 @@ export function buildServer(opts: BuildServerOpts): McpServer {
     {
       title: 'anvil-ops metrics',
       description:
-        'Pull site traffic metrics: Google Search Console (clicks/impressions/CTR/position by page and query) + Cloudflare Web Analytics (visits by page). Requires .env credentials; run doctor first if unset.',
       inputSchema: {
         days: z.number().int().min(1).max(365).default(28).describe('lookback window in days'),
         source: z.enum(['gsc', 'cf', 'all']).default('all').describe('limit to one source'),

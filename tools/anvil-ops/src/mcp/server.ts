@@ -11,15 +11,12 @@ import { OpsError } from '../core/errors.js';
 import { resolveEffectiveRoot } from '../core/sites.js';
 import { canOffload, offload } from './offload.js';
 import type { GscClient } from '../core/providers/gsc.js';
-import type { queryCloudflare, fetchAiReferrals } from '../core/providers/cloudflare.js';
 
 export interface BuildServerOpts {
   cwd: string;
   /** Path override for the multi-site registry (tests point this at a tmp file). */
   sitesRegistryPath?: string;
   gscClientFactory?: (o: { credential: { clientEmail: string; privateKey: string }; siteUrl: string }) => GscClient;
-  cfQuery?: typeof queryCloudflare;
-  aiReferralsQuery?: typeof fetchAiReferrals;
   run?: RunFn;
 }
 
@@ -51,7 +48,7 @@ export function buildServer(opts: BuildServerOpts): McpServer {
     {
       title: 'anvil-ops doctor',
       description:
-        'Health check for GameWikiSoleTemplate site ops: wrangler.toml site config, gh CLI, GSC service account, CF Web Analytics token. Run this FIRST in any ops session before other anvil-ops tools.',
+        'Health check for GameWikiSoleTemplate site ops: .env site config, gh CLI, and GSC service account. Run this FIRST in any ops session before other anvil-ops tools.',
       inputSchema: {
         site: siteParam,
       },
@@ -71,10 +68,10 @@ export function buildServer(opts: BuildServerOpts): McpServer {
     {
       title: 'anvil-ops metrics',
       description:
-        'Pull site traffic metrics: Google Search Console (clicks/impressions/CTR/position by page and query) + Cloudflare Web Analytics (visits by page) + AI referrals by host (chatgpt.com, perplexity.ai, ...). Requires .env credentials; run doctor first if unset.',
+        'Pull Google Search Console metrics (clicks/impressions/CTR/position by page and query). Requires .env credentials; run doctor first if unset.',
       inputSchema: {
         days: z.number().int().min(1).max(365).default(28).describe('lookback window in days'),
-        source: z.enum(['gsc', 'cf', 'all']).default('all').describe('limit to one source'),
+        source: z.enum(['gsc', 'all']).default('all').describe('limit to one source'),
         site: siteParam,
       },
     },
@@ -85,8 +82,6 @@ export function buildServer(opts: BuildServerOpts): McpServer {
           days: days ?? 28,
           source: source ?? 'all',
           gscClientFactory: opts.gscClientFactory,
-          cfQuery: opts.cfQuery,
-          aiReferralsQuery: opts.aiReferralsQuery,
         });
         return { content: [{ type: 'text', text: formatMetrics(report, 'md') }] };
       } catch (e) {
@@ -130,7 +125,7 @@ export function buildServer(opts: BuildServerOpts): McpServer {
     {
       title: 'anvil-ops insights',
       description:
-        'Data-driven SEO action list from GSC + Cloudflare metrics plus stale-codes detection and an experimental AI Overviews page probe: low-CTR rewrites, rank 5-15 deepening, zero-impression checks, traffic-mix analysis, stale codes pages. Metrics degrade gracefully if credentials are unset (run doctor first).',
+        'Data-driven SEO action list from GSC plus stale-codes detection and an experimental AI Overviews page probe: low-CTR rewrites, rank 5-15 deepening, zero-impression checks, and stale codes pages. Metrics degrade gracefully if credentials are unset (run doctor first).',
       inputSchema: {
         days: z.number().int().min(1).max(365).default(28).describe('metrics lookback window in days'),
         site: siteParam,
@@ -143,8 +138,6 @@ export function buildServer(opts: BuildServerOpts): McpServer {
           days: days ?? 28,
           run: opts.run,
           gscClientFactory: opts.gscClientFactory,
-          cfQuery: opts.cfQuery,
-          aiReferralsQuery: opts.aiReferralsQuery,
         });
         return { content: [{ type: 'text', text: formatInsights(report.list, report.degraded, report.aio) }] };
       } catch (e) {
@@ -179,7 +172,7 @@ export function buildServer(opts: BuildServerOpts): McpServer {
         }
         const result = await submit({ cwd, title, base, run: opts.run });
         return {
-          content: [{ type: 'text', text: `# PR opened\n\n- Branch: ${result.branch}\n- Pull request: ${result.prUrl}\n\nMerge after review; Cloudflare Pages deploys automatically.` }],
+          content: [{ type: 'text', text: `# PR opened\n\n- Branch: ${result.branch}\n- Pull request: ${result.prUrl}\n\nMerge after review; Vercel deploys the connected branch automatically.` }],
         };
       } catch (e) {
         return { isError: true, content: [{ type: 'text', text: errText(e) }] };

@@ -1,6 +1,0 @@
-name = "gamewiki-sole-template"
-compatibility_date = "2026-01-01"
-
-[vars]
-SITE_URL = "https://wiki.example.com/"
-PUBLIC_CF_BEACON_TOKEN = "beacon123"

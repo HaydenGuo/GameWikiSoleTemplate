@@ -25,7 +25,7 @@ If your repository is already on GitHub, push the reviewed changes to its produc
 5. Set `SITE_URL` to the deployment's canonical HTTPS URL in the Vercel project environment.
 6. Deploy. Pull requests and branches get preview deployments; the production branch gets the production deployment.
 
-Vercel detects the static Astro site and the root `api/` Functions. No Cloudflare Pages setup or Wrangler config is part of the deployment path.
+Vercel detects the static Astro site and the root `api/` Functions.
 
 ## Step 3: Bind your custom domain
 

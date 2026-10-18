@@ -166,10 +166,9 @@ const checks = [
     return ['bosses', 'guides', 'codes'].every((k) => typeof zh.nav?.[k] === 'string');
   })()],
   ['site.description makes no community/update promise it cannot keep', !/by the community|updated daily|tested daily/i.test(en.site?.description ?? '')],
-  ['.env.example has the selected site URL', readFileSync(join(scratch, '.env.example'), 'utf8').includes('SITE_URL=https://emberfang.wiki')],
+  ['.env.example has the selected site URL', readFileSync(join(scratch, '.env.example'), 'utf8').includes('SITE_URL=https://testgame.vercel.app')],
   ['.env.example leaves optional Popular integration disabled', readFileSync(join(scratch, '.env.example'), 'utf8').includes('PUBLIC_POPULAR_ENABLED=false')],
   ['default environment file contains no demo Giscus configuration', !readFileSync(join(scratch, '.env.example'), 'utf8').includes('PNGTRID')],
-  ['no Wrangler configuration is generated for the Vercel fork', !existsSync(join(scratch, 'wrangler.toml'))],
   ['environment example leaves GA disabled', readFileSync(join(scratch, '.env.example'), 'utf8').includes('PUBLIC_GA_ID=')],
   ['generic homepage analytics helper ships with the fork', existsSync(join(scratch, 'src/lib/homepage-analytics.ts'))],
 ];

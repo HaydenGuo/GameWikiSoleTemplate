@@ -1,54 +1,13 @@
 {
   "schema_version": 1,
-  "created_at": "2026-10-18T00:46:34.896Z",
-  "source_template": "GameWikiSoleTemplate-merge",
-  "allowed_deletions": [
-    {
-      "path": "src/components/article/TagListPage.astro",
-      "reason": "移除自动生成的单标签聚合页，避免新增文章制造单篇薄内容页面"
-    },
-    {
-      "path": "src/components/article/TagsIndexPage.astro",
-      "reason": "移除已无用途的标签索引页面"
-    },
-    {
-      "path": "src/pages/[locale]/tags/**",
-      "reason": "移除所有非默认语言的自动标签归档路由"
-    },
-    {
-      "path": "src/pages/tags/**",
-      "reason": "移除默认语言的自动标签归档路由"
-    },
-    {
-      "path": "functions/**",
-      "reason": "Vercel 迁移：移除 Cloudflare Pages Functions，运行时统一由根目录 api/ Vercel Functions 承担"
-    },
-    {
-      "path": "wrangler.toml",
-      "reason": "Vercel 迁移：移除 Wrangler 部署与环境配置"
-    },
-    {
-      "path": "functions/**",
-      "reason": "Vercel 迁移：移除 Cloudflare Pages Functions，运行时统一由根目录 api/ Vercel Functions 承担"
-    },
-    {
-      "path": "wrangler.toml",
-      "reason": "Vercel 迁移：移除 Wrangler 部署与环境配置"
-    },
-    {
-      "path": "functions/**",
-      "reason": "Vercel 迁移：移除 Cloudflare Pages Functions，运行时统一由根目录 api/ Vercel Functions 承担"
-    },
-    {
-      "path": "wrangler.toml",
-      "reason": "Vercel 迁移：移除 Wrangler 部署与环境配置"
-    }
-  ],
+  "created_at": "2026-10-18T01:03:19.983Z",
+  "source_template": "GameWikiSoleTemplate-vercel",
+  "allowed_deletions": [],
   "files": [
     {
       "path": ".agent/skills/anvil-adsense-audit/SKILL.md",
-      "bytes": 8275,
-      "sha256": "826d1e92567c1edb2d14bc09057496a255014f7e24f6ae1d05123324db317f16"
+      "bytes": 8253,
+      "sha256": "7479385e5a3d83ccad7bd40904ef671c8c2237e55724dc30ecb39e4d5b2dd186"
     },
     {
       "path": ".agent/skills/anvil-batch-articles/SKILL.md",
@@ -72,8 +31,8 @@
     },
     {
       "path": ".agents/skills/neon-postgres/SKILL.md",
-      "bytes": 16545,
-      "sha256": "84de1bb89fc9844c751ad733719e688d38d808be9657a96d30798ea15040ac3e"
+      "bytes": 16481,
+      "sha256": "22cfc419774c93f797dd24c09f2ce5b0fde2676081e1ed492fece483d90553d0"
     },
     {
       "path": ".agents/skills/neon-postgres/references/full-text-search.md",
@@ -167,8 +126,8 @@
     },
     {
       "path": ".gitignore",
-      "bytes": 807,
-      "sha256": "92d82f28ed18dec138c0f68239694987ebe0fa48bc72a1135442fd56567a06dc"
+      "bytes": 799,
+      "sha256": "0f10b6a9ac4a69f6204880a69e70abaac51de97ff31786a6558fc1eadd627c0b"
     },
     {
       "path": ".nvmrc",
@@ -186,19 +145,14 @@
       "sha256": "e99fc30d4ddcd41e28b3fb9db713c93b642b2df836f0e9b01fc71feea7d8dec8"
     },
     {
-      "path": ".vercel/dev/schedules/c5e50670-2ac7-4c67-bdf4-8edf71240e94.json",
-      "bytes": 188,
-      "sha256": "940f2e82a9ac7ec9a1ebe5afbe1125a35e93d04398fb58c3708b0432ecd7604b"
-    },
-    {
       "path": "AGENTS.md",
-      "bytes": 13550,
-      "sha256": "334db64f22b13c6c26a8f25d7cdd7dc172def5ed25da130acdf2b18ed4e04184"
+      "bytes": 13985,
+      "sha256": "6c05ebb0e59163cb109a8853aa5635a810741afdd06658212614696edfbfb948"
     },
     {
       "path": "CHANGELOG.md",
-      "bytes": 3666,
-      "sha256": "e874d6ce1ced6f747b34f69a6bfea3e631704d68819ef598b8be2fab5f571643"
+      "bytes": 3697,
+      "sha256": "a0510efd882140fba21e4e7ab0591652a7f145a0c7fd036bf4aaccd8fbd75c7c"
     },
     {
       "path": "LICENSE",
@@ -207,8 +161,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 2932,
-      "sha256": "790e91124fd9ce6b643953e28590e26774378234c177282ed9b6ad54a1afb508"
+      "bytes": 3167,
+      "sha256": "46a2d12d12e28310b648e524dbd7ceb41273a1b7f5b4fbd663a570b65e05ed68"
     },
     {
       "path": "api/article-view.ts",
@@ -227,13 +181,13 @@
     },
     {
       "path": "astro.config.ts",
-      "bytes": 12284,
-      "sha256": "8b4480ccf6a96d16bc72c5b5c3d4f160689213f8774bed9eb529a390e061a146"
+      "bytes": 12001,
+      "sha256": "4c987616d81ca871b3ce0761998ad58ea3d4b57c0ef8f7b8e4206df042c631e1"
     },
     {
       "path": "docs/PRD.md",
-      "bytes": 108223,
-      "sha256": "e5ff0d751346c427cbb36e52f30383e6f7e1452de66b9b9fe8d803e07479a0ac"
+      "bytes": 2234,
+      "sha256": "3977cc6b67f4a3e44d3df32324d5519bace0c5c87a7412bce15e10f51fdc79d5"
     },
     {
       "path": "docs/README.md",
@@ -277,13 +231,13 @@
     },
     {
       "path": "docs/deployment.md",
-      "bytes": 5060,
-      "sha256": "9eaa4a7148b84ceff0ecf863a5b60a23486b98dd799c581e60abc8b1e19b5b03"
+      "bytes": 4892,
+      "sha256": "2a0af3191e0022ad335a17643b2c77def5ff793d236310bd1cabcedc72d90231"
     },
     {
       "path": "docs/development.md",
-      "bytes": 6952,
-      "sha256": "87a4263403bc8de6fef72957c23be18fee29f28c0b3fa4ce136b0233467cde65"
+      "bytes": 7472,
+      "sha256": "936a6218ffe284485d1b1f19f15d2fe7d3454e7f7c198142be5117936d13363c"
     },
     {
       "path": "docs/game-selection.md",
@@ -292,8 +246,8 @@
     },
     {
       "path": "docs/handbook/en/ai-ops.md",
-      "bytes": 10858,
-      "sha256": "d614d9ff5dc7acab5ab536e8d71ae47b53a676fc0410bd2ad9a989e2964fa60b"
+      "bytes": 2508,
+      "sha256": "09fdac5c3ba8f5d1723dc34822a8a06a5f647c4db5eb44bef18100f1a57fb4ae"
     },
     {
       "path": "docs/handbook/en/architecture.md",
@@ -352,8 +306,8 @@
     },
     {
       "path": "docs/handbook/en/put-site-online.md",
-      "bytes": 3324,
-      "sha256": "7af976281d8df06bb49be7ac68eb7b5821be3ae09f46d1aa9ba497b92ac67bb5"
+      "bytes": 3247,
+      "sha256": "c8d3b3cf474bf631a55672f017e7d3d7129660246848d1a87a007a796357eb3b"
     },
     {
       "path": "docs/handbook/en/seo-traffic.md",
@@ -392,8 +346,8 @@
     },
     {
       "path": "docs/multi-site.md",
-      "bytes": 3521,
-      "sha256": "b59de89b6eb70ea61910b3ca2b9e667332c98ef453fe4748ef4f7e6ddc750cde"
+      "bytes": 1188,
+      "sha256": "00afa8c864d4ca6c1aff689fc9e34de9645b2b97f4628654ad7b3f8de5d137f6"
     },
     {
       "path": "docs/popular-reading.md",
@@ -432,18 +386,18 @@
     },
     {
       "path": "docs/superpowers/ROADMAP-v1.5-v1.6.md",
-      "bytes": 4241,
-      "sha256": "8147ccf3486d9885f88c425a2d3469e76efa50ca9454729cbdddf2ffcfa7f31e"
+      "bytes": 3850,
+      "sha256": "e2be9174745072c370c2d0a8ed054e293ff7ac3f0aab8dc6cea2e88eb5f8b8f3"
     },
     {
       "path": "docs/superpowers/plans/2026-08-18-anvil-ops-p1-core-cli.md",
-      "bytes": 60744,
-      "sha256": "dae409712cafbcf2e3c638f309076efe36031b55d9b44b5b105bcd954e038479"
+      "bytes": 633,
+      "sha256": "3b725803937ca44fe814bbe539cd02e036a1d67615aaf831b0a66293bdac1e29"
     },
     {
       "path": "docs/superpowers/plans/2026-08-18-anvil-ops-p2-mcp.md",
-      "bytes": 10812,
-      "sha256": "64d0d626a372e5f7b607319c870c6d016785e98a6c41e62a9e9143b940998cff"
+      "bytes": 10187,
+      "sha256": "ed31b157ef9eb5aaf34ed095e6564a6503f15f65752eaf204f894dd6fd643403"
     },
     {
       "path": "docs/superpowers/plans/2026-08-18-anvil-ops-p3-insights-submit.md",
@@ -452,8 +406,8 @@
     },
     {
       "path": "docs/superpowers/plans/2026-09-03-anvilwiki-template-snapshot.md",
-      "bytes": 6523,
-      "sha256": "7fef0c9f18496b46865ce5191c68e2a9eca254e371ab25d49c88bd71d59eab13"
+      "bytes": 6575,
+      "sha256": "cc899024e05c7511e3eeb5ead5355c36c5a0ca7511fab647cedbbf889ff1e9e9"
     },
     {
       "path": "docs/superpowers/plans/2026-09-04-privacy-advertising-compliance.md",
@@ -466,14 +420,14 @@
       "sha256": "242bb2474ce4cea99b2b1986de8854c4d07de4df014545bfeb97935c745de5f0"
     },
     {
-      "path": "docs/superpowers/plans/2026-09-05-popular-reading-d1.md",
-      "bytes": 2829,
-      "sha256": "bcdebe49112107fb15bbfcbad7dee81e996e0663e01a270a765403c1e3cf1313"
+      "path": "docs/superpowers/plans/2026-09-05-popular-reading-history.md",
+      "bytes": 366,
+      "sha256": "50cc4534c23bfce1d0ffe5c98425315de6ac95088415ea369a3f23c240cc2b35"
     },
     {
       "path": "docs/superpowers/plans/2026-09-05-popular-reading-vercel.md",
-      "bytes": 3719,
-      "sha256": "25ab15822c92ebff02ed31239d44d63c57343ddd5501d971faa36c012faf74ac"
+      "bytes": 3079,
+      "sha256": "408da5c3eb25afe23c9f9dd77c01be8c845e91fc4c1969c1f5fe8571c69d1124"
     },
     {
       "path": "docs/superpowers/plans/2026-09-05-source-policy.md",
@@ -482,38 +436,38 @@
     },
     {
       "path": "docs/superpowers/plans/2026-09-13-homepage-analytics.md",
-      "bytes": 6017,
-      "sha256": "d749ee0f550b2e55f5f208a56c973cf746aa7d41d3d41ccf708d1a389be1c36a"
+      "bytes": 5866,
+      "sha256": "d11e7ec9e0138e39d8061e72667e43b64432ef5172e0885218a89f87a14dddf4"
     },
     {
       "path": "docs/superpowers/plans/2026-10-17-gamewiki-sole-template.md",
-      "bytes": 16263,
-      "sha256": "c2959f828a629e3ba51e571f193b78f1ee6bd61f988cc7953a001439f9e24e55"
+      "bytes": 16387,
+      "sha256": "1443eaf943fb9739060fe126b2589df8f817fef3a387d3f452867985eba57a5b"
     },
     {
       "path": "docs/superpowers/plans/2026-10-18-template-vercel-migration.md",
-      "bytes": 4700,
-      "sha256": "8542db0cf0cbb1313a34c259c9c113460b5500f0c6deca8277291f89caf4fc7f"
+      "bytes": 4409,
+      "sha256": "a8f5b820bbe16c9ace22d6157042f8297fafff247a5e713cc6c13bc39a6b0850"
     },
     {
       "path": "docs/superpowers/specs/2026-08-18-anvil-ops-cli-mcp-design.md",
-      "bytes": 9573,
-      "sha256": "a738caac54e6cfb6fe5de6301cf190a82da6013beb9345edb7d4168cffc0d32f"
+      "bytes": 8259,
+      "sha256": "45a0ed5b96f751fae45b5f9af54f4516b60c5d83fb01149104b04054e296a6c9"
     },
     {
       "path": "docs/superpowers/specs/2026-08-22-v2.0-content-os-design.md",
-      "bytes": 3703,
-      "sha256": "11c63a86162f1c617766f3f141d0952384ad4c4da27ed4351d68069219c0a646"
+      "bytes": 3455,
+      "sha256": "17231e3a7802d9530bfea1e0c7e208bfe368ae6ac52ca69ff91d8a17072010c7"
     },
     {
       "path": "docs/superpowers/specs/2026-08-29-retro-hardening-batch.md",
-      "bytes": 7350,
-      "sha256": "14baac9739ca8b563f6887bcb7604004e2da1f12bdb57e531456e32b2db5bc9f"
+      "bytes": 7064,
+      "sha256": "b921d8149000772349084bc356d4e2cdeb07dcc644849b690ab1f7343bff8904"
     },
     {
       "path": "docs/superpowers/specs/2026-09-03-anvilwiki-template-snapshot-design.md",
-      "bytes": 1937,
-      "sha256": "01eaf00d9d25a24b1544a487a43ca0fb6917df4cee6bbfc7b4c0089c0f18a040"
+      "bytes": 1880,
+      "sha256": "c44485c9bb05192f115e5b6c0ff5fe0225bf1c6f3c85dac1e08de4f2fb5d2d8a"
     },
     {
       "path": "docs/superpowers/specs/2026-09-13-homepage-analytics-design.md",
@@ -542,8 +496,8 @@
     },
     {
       "path": "eslint.config.js",
-      "bytes": 1217,
-      "sha256": "642dc7b241e48e4d9a7bce6de9cb2da8c3ebe241f610e1dbefeaf362570e13a2"
+      "bytes": 1231,
+      "sha256": "da05fd80786f8006174c03b7e0cb07b2bc24d717082ba9da038a61cced5f8298"
     },
     {
       "path": "migrations/0001_article_views_daily.sql",
@@ -577,8 +531,8 @@
     },
     {
       "path": "public/_headers",
-      "bytes": 972,
-      "sha256": "bd14cdab0d9d5c0f1e5df368e129232ff6d230045506ea98b982d50118cb0cea"
+      "bytes": 878,
+      "sha256": "1b6d8e0c02ac24000d7760a862f4e72e85932cc89b0f2c12e04aad684415c1a9"
     },
     {
       "path": "public/ads.txt",
@@ -797,8 +751,8 @@
     },
     {
       "path": "scripts/e2e-apply-template.mjs",
-      "bytes": 12712,
-      "sha256": "04f69271f8d6e3a8571d7be3cf720b329e98521718bc712fc3ba6a4cb84eb3f3"
+      "bytes": 12606,
+      "sha256": "d6effec8eb94dc8d45b690fb1bf183fb911ed15c29e2f75f5b656472123c4e11"
     },
     {
       "path": "scripts/fonts/Lato-Bold.ttf",
@@ -867,13 +821,13 @@
     },
     {
       "path": "scripts/template-baseline.ts",
-      "bytes": 9156,
-      "sha256": "ec021b1559f21a5246afd48e3627748cf192402021fefe2db9a234917d43018f"
+      "bytes": 9154,
+      "sha256": "fe6be96ed7e9b6cc26c0014cc5f2f6736de0c7d710e8336241cc29e6a651c063"
     },
     {
       "path": "site.publish.example.json",
-      "bytes": 1038,
-      "sha256": "7c5461b2e29db8b3e57d80c5e67a869a8a08608504c1f108486525ae8298fb4b"
+      "bytes": 910,
+      "sha256": "4909b612874a1d2472ba677211eb73b8407902e85c59f36966f7ac7e1a26a36a"
     },
     {
       "path": "skills-lock.json",
@@ -1147,8 +1101,8 @@
     },
     {
       "path": "src/components/layout/LegalContent.astro",
-      "bytes": 9262,
-      "sha256": "9fc53445761f7fb0246d7a8db3a2b929cb33c38989d32c95d9b83e8c3d2e0799"
+      "bytes": 9276,
+      "sha256": "a0ed1f0fb8a4d8ce16932cf53b8b5c1f52f497941817fa186427b48bead79e40"
     },
     {
       "path": "src/components/layout/LegalPage.astro",
@@ -1262,8 +1216,8 @@
     },
     {
       "path": "src/config/landing.ts",
-      "bytes": 46348,
-      "sha256": "f4554c5965296e36d27143526de228a8aec2d1f9a79b314a2aa3eb0da0cf7dc4"
+      "bytes": 45782,
+      "sha256": "fde8425e2fe1aef8cf5f8f4e849223630dc3ac7cac4f133148c6269de76f850d"
     },
     {
       "path": "src/config/navigation.ts",
@@ -1572,8 +1526,8 @@
     },
     {
       "path": "tests/apply-template.test.ts",
-      "bytes": 18632,
-      "sha256": "0abd085aeac49e255296ab368c383080a00e2b5cbfbac797f53762c010e61c6a"
+      "bytes": 18536,
+      "sha256": "02488a6567b6464f588784f82849961c377bd01c08135c69ab58a8d69bfc1d1e"
     },
     {
       "path": "tests/article-gallery-removal.test.ts",
@@ -1707,8 +1661,8 @@
     },
     {
       "path": "tools/anvil-ops/README.md",
-      "bytes": 6187,
-      "sha256": "de957efce7a0320b4d84245e230c84bb8eb15babc26fb6164efec5b22cd23b1a"
+      "bytes": 1178,
+      "sha256": "b1545700bd6022dec25c6c4a07ecedf8d1c4e171026027469d6460ef528b34f2"
     },
     {
       "path": "tools/anvil-ops/package.json",
@@ -1727,8 +1681,8 @@
     },
     {
       "path": "tools/anvil-ops/src/bin/cli.ts",
-      "bytes": 9867,
-      "sha256": "c12244ae3e389429f0ffc236c915ff45f86a6bf3485e7485fa4289a350efcce5"
+      "bytes": 9807,
+      "sha256": "d1d5dfd7cc3a4e6171b9ab5eec076d544355400551c7146a7331e63a8c3a9e2f"
     },
     {
       "path": "tools/anvil-ops/src/bin/mcp.ts",
@@ -1752,18 +1706,18 @@
     },
     {
       "path": "tools/anvil-ops/src/cli/commands/insights.ts",
-      "bytes": 1042,
-      "sha256": "4117ffdcea7074e3c4d4f7875070f4a1a6d29231869230cdac5dc9e61c65bb1a"
+      "bytes": 731,
+      "sha256": "2808479728b206dd190345c8ea5b9f469dd4fc5b7da146766464a27f5269a403"
     },
     {
       "path": "tools/anvil-ops/src/cli/commands/metrics.ts",
-      "bytes": 490,
-      "sha256": "5a8aa420fc5186d353d245aefd3426c040bdb20526e7db6d3d0f7e98722de6ee"
+      "bytes": 483,
+      "sha256": "d12ff15ad545f9aaf228faa1973538599c343385e56cae587afac7977f819497"
     },
     {
       "path": "tools/anvil-ops/src/cli/commands/sites.ts",
-      "bytes": 3544,
-      "sha256": "8ece00778c63f591a09e1c7e79572b7d9baf489c7e48ec3826c04373a46eb8ca"
+      "bytes": 3537,
+      "sha256": "070c30efaec7c92b5c01be4f03aa7f298c270f3c77c72c42510f88650ece9975"
     },
     {
       "path": "tools/anvil-ops/src/cli/commands/submit.ts",
@@ -1797,13 +1751,13 @@
     },
     {
       "path": "tools/anvil-ops/src/core/doctor.ts",
-      "bytes": 6118,
-      "sha256": "eacacdc36c6a89a82d411c641685a6df7e31625c7a2e7fab4348ab0e7294f364"
+      "bytes": 4414,
+      "sha256": "b1f2a24e9457f37b10bfacb0d7d986d5c1c51ec70378a84997cfa0872b6fa8da"
     },
     {
       "path": "tools/anvil-ops/src/core/env.ts",
-      "bytes": 2473,
-      "sha256": "03d4842d0c97a19287c40199ea5facf956ce958f7924a38cd4f5d514a24fbcb6"
+      "bytes": 2275,
+      "sha256": "972eeeffd887e802aff26454d9aed4014561a4239399608d10986517f0e3ede1"
     },
     {
       "path": "tools/anvil-ops/src/core/errors.ts",
@@ -1812,23 +1766,18 @@
     },
     {
       "path": "tools/anvil-ops/src/core/gitops.ts",
-      "bytes": 3946,
-      "sha256": "f9f21c4c670f0f8684aa709db845c8676373d409abf355b3a6c972186988e322"
+      "bytes": 3957,
+      "sha256": "186218ebcd5aa5afac9121db050e69eda8537b6aaba70e5b880b699144e2e311"
     },
     {
       "path": "tools/anvil-ops/src/core/insights.ts",
-      "bytes": 9272,
-      "sha256": "7106b213d8ba6541d902d86ba652cf90e4a9fb6670a031bccbff3f393378caf2"
+      "bytes": 7928,
+      "sha256": "73efef4f13d03f4a68eb42995a01d18f3cbb00385f5dedce1e8a2b4c293ac0b7"
     },
     {
       "path": "tools/anvil-ops/src/core/metrics.ts",
-      "bytes": 6842,
-      "sha256": "a03aa51d6b5014a1f88c394a712c85276ff668da4fa984c820317006bdd7120d"
-    },
-    {
-      "path": "tools/anvil-ops/src/core/providers/cloudflare.ts",
-      "bytes": 7355,
-      "sha256": "5a5109373b58c4658a394ed038db60430f51b0962cc4ebe6c338aa950eb092bb"
+      "bytes": 3869,
+      "sha256": "ae58dc7d0e045edfe275934bdb8c7fd55f32542d534dd03452edeec4c5fd3b46"
     },
     {
       "path": "tools/anvil-ops/src/core/providers/gsc.ts",
@@ -1837,13 +1786,13 @@
     },
     {
       "path": "tools/anvil-ops/src/core/site.ts",
-      "bytes": 2596,
-      "sha256": "2ce3e2365f190cf47c0b539c1d32960a09aaef63283850d510907cbd3903f015"
+      "bytes": 1051,
+      "sha256": "145e7e405ab2121f8f53325802c171586107088fdd196bd497e604082ba1994b"
     },
     {
       "path": "tools/anvil-ops/src/core/sites.ts",
-      "bytes": 7163,
-      "sha256": "1bbeb20083f91ee32f021049753dd10faf0f9b55a194c2b974db508e78d558a2"
+      "bytes": 7307,
+      "sha256": "5b21078a70308847ebd9ed3c6e3c22d76782616f8ed30e2ebdbb001a0d6eb771"
     },
     {
       "path": "tools/anvil-ops/src/mcp/offload.ts",
@@ -1852,23 +1801,18 @@
     },
     {
       "path": "tools/anvil-ops/src/mcp/server.ts",
-      "bytes": 8036,
-      "sha256": "1023cf5c870c3b75e2468cc2f2abe7b7a7944ecbb7e152e967ad3e1e2d8278a1"
+      "bytes": 7518,
+      "sha256": "5246931dc6ebf0791e0fc72013071595a01bef09421a9e629292ee90e69ce1c4"
     },
     {
       "path": "tools/anvil-ops/src/mcp/worker.ts",
-      "bytes": 995,
-      "sha256": "df4c2f7517030f1a6f8a862f9c5196d62834026cf09970268aacdc5584cac1e5"
-    },
-    {
-      "path": "tools/anvil-ops/test/ai-referrals.test.ts",
-      "bytes": 5223,
-      "sha256": "9020ffbf261d634782aa6c94f1ff74ca8d350fb3de800e22d7a086fbef3ac3ab"
+      "bytes": 1006,
+      "sha256": "5cbbbdb5aa53867f9d7573238f55186e2f2343d75e2dcc13d0b879c9ec4053c0"
     },
     {
       "path": "tools/anvil-ops/test/aio-csv.test.ts",
-      "bytes": 3058,
-      "sha256": "ded967d18d2beabb9ff9ffe1d72514fb743cd5f147e686e893f23cd17e22e743"
+      "bytes": 3107,
+      "sha256": "0688f81a5f70c6809b2970d30139c6792a332bcd500dcf0f170bde585b0b719f"
     },
     {
       "path": "tools/anvil-ops/test/audit.test.ts",
@@ -1881,29 +1825,24 @@
       "sha256": "d9a54095502024017b47c050ef75e9cb73e2544739b279f64d1d42e0d342f7b8"
     },
     {
-      "path": "tools/anvil-ops/test/cloudflare.test.ts",
-      "bytes": 2066,
-      "sha256": "a36b05adc207340ca7341db482cd0dea1f38662b299af4b35ed0c0255af82f0c"
-    },
-    {
       "path": "tools/anvil-ops/test/content.test.ts",
       "bytes": 2138,
       "sha256": "a13085e630ecfb4e69196cd8ef2e616874e7a9f0b235a4f93c8ea6cf1208e8d8"
     },
     {
       "path": "tools/anvil-ops/test/doctor.test.ts",
-      "bytes": 3217,
-      "sha256": "dba3d28239b63a8ee2f869fbd988a5f4227fa224358523a47caddbfb7cdeccd1"
+      "bytes": 1740,
+      "sha256": "35051a6df3b30cc8c32bbf7a9c4088c2aeae35ffb342ca38a0178ea2edb9afe0"
     },
     {
       "path": "tools/anvil-ops/test/effective-root.test.ts",
-      "bytes": 2161,
-      "sha256": "eb25d63c6ee769420d52ca0c3479010a785e03a7daca9721fc82e79e71f4f1e4"
+      "bytes": 1322,
+      "sha256": "70deb198dc97792b31b8fb64e7b3722e9bcd13664a14fa23405f63c6c2a9d83e"
     },
     {
       "path": "tools/anvil-ops/test/env.test.ts",
-      "bytes": 2583,
-      "sha256": "3c4319914443c1b4b7647a2f6dc1a249f96e6797c2f5ac81792ecee4cf5eb12a"
+      "bytes": 2427,
+      "sha256": "1b3de72a74225b20b518977e20d3e62a9f8d24f70b6291143793dfcd32905990"
     },
     {
       "path": "tools/anvil-ops/test/fixtures/cf-response.json",
@@ -1916,19 +1855,9 @@
       "sha256": "3e255787b3dfe78fc02cbba8624e37a2389d7407d0776a5af4854f0a7ee343c0"
     },
     {
-      "path": "tools/anvil-ops/test/fixtures/wrangler-full.toml",
-      "bytes": 150,
-      "sha256": "3c4c4af0e0e07620bac31686d86902fd8244a857066fe505f5af87e8107b8d7c"
-    },
-    {
-      "path": "tools/anvil-ops/test/fixtures/wrangler-minimal.toml",
-      "bytes": 66,
-      "sha256": "bc4b0468187019cafb73211ff0e5aafdaf5b242589a01b8e5cdc7f28de9d9d71"
-    },
-    {
       "path": "tools/anvil-ops/test/gitops.test.ts",
-      "bytes": 4181,
-      "sha256": "ad0de2b5c766c5082773f43c30a8f8792b9cefbf958db606166b6c58d884299e"
+      "bytes": 4137,
+      "sha256": "6dd16cb5b647e7c01f23633772a38587a3ada988654867c5bdc6417fb3d88c2b"
     },
     {
       "path": "tools/anvil-ops/test/gsc-aio.test.ts",
@@ -1942,18 +1871,18 @@
     },
     {
       "path": "tools/anvil-ops/test/insights.test.ts",
-      "bytes": 4638,
-      "sha256": "2f47fac638e43b74839fd020c2d28ef0b4ac22ed43ac80a8f0806bee09c54cbe"
+      "bytes": 3971,
+      "sha256": "0986e2620159d027218d6bf10e1df6dff5c05c8c15bfc6589668cc24112b045d"
     },
     {
       "path": "tools/anvil-ops/test/mcp.test.ts",
-      "bytes": 7495,
-      "sha256": "a81ad0b92c49e9d92b6a047c929a007b62632812a8d62295c396bef26758f9fa"
+      "bytes": 6566,
+      "sha256": "9998e0ccd7bbf80a243f0422c08711649db4ad30f946a51a7f811c7f4a82d9e9"
     },
     {
       "path": "tools/anvil-ops/test/metrics.test.ts",
-      "bytes": 4575,
-      "sha256": "30ff23ec5ae52a2888d116bcdeb66652ea41df516fb832970ecf3cf42e6b5257"
+      "bytes": 1878,
+      "sha256": "96fc364e70df5304996a5269224c3350ffff2096e2c2a1a21e010cf23ce355e7"
     },
     {
       "path": "tools/anvil-ops/test/run-all.test.ts",
@@ -1962,13 +1891,13 @@
     },
     {
       "path": "tools/anvil-ops/test/site.test.ts",
-      "bytes": 2849,
-      "sha256": "28e2c6562dd763605c6a2e371baebf74ae27e48f2d39786ce14a1f58514748ab"
+      "bytes": 1080,
+      "sha256": "889a79c01e109ab0a445d3f7d9e43b69605def3e2ba0770975c1b823ccfa40a4"
     },
     {
       "path": "tools/anvil-ops/test/sites.test.ts",
-      "bytes": 6155,
-      "sha256": "0d23416b5512ebfe70fb6e8f8848a1f69bceeecb8d38801e604d888f3faaecbb"
+      "bytes": 6186,
+      "sha256": "7bf42b8f7db9ee40d3d45ebeb583b9b97b1b473f385a665ff6636e02bbae0529"
     },
     {
       "path": "tools/anvil-ops/test/smoke.test.ts",

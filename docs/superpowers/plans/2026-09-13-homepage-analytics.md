@@ -6,7 +6,6 @@
 
 **Architecture:** Keep the existing `PUBLIC_GA_ID` environment gate and Consent loader. Expose a narrow global readiness contract from `BaseLayout.astro`, send one standardized `homepage_nav_click` event through a small helper, and use data attributes plus one delegated listener in `HomePage.astro`. Existing `QuickStart.astro` and `ExploreModules.astro` markers are reused.
 
-**Tech Stack:** Astro 5, TypeScript, vanilla browser events, Vitest, pnpm, Cloudflare Pages environment variables.
 
 ---
 
@@ -83,7 +82,6 @@ Expected: tests pass; typecheck reports zero errors and only any pre-existing As
 
 - [ ] **Step 1: Add static initializer safeguards**
 
-Assert the generic source and `wrangler.toml` keep `PUBLIC_GA_ID` empty by default, and no test fixture or generated output contains a site-specific identity.
 
 - [ ] **Step 2: Extend real-mode E2E output checks**
 

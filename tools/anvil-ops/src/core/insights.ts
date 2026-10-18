@@ -4,7 +4,6 @@ import type { GscCredential } from './env.js';
 import { loadSiteConfig } from './site.js';
 import { createGscClient } from './providers/gsc.js';
 import type { GscClient, GscQueryResult, AioProbeResult } from './providers/gsc.js';
-import type { CfQueryResult, queryCloudflare } from './providers/cloudflare.js';
 import { OpsError } from './errors.js';
 import { defaultRun, type RunFn } from './content.js';
 
@@ -15,8 +14,6 @@ export const THRESHOLDS = {
   rankImpr: 100,
   rankMin: 5,
   rankMax: 15,
-  cfTopVisits: 50,
-  cfClickRatio: 20, // clicks < visits / ratio = "low clicks despite traffic"
 };
 
 export interface Insight {
@@ -30,7 +27,6 @@ export interface Insight {
 
 export interface InsightsInput {
   gsc?: GscQueryResult;
-  cf?: CfQueryResult;
   staleCodesPages?: string[];
 }
 
@@ -110,25 +106,6 @@ export function buildInsights(input: InsightsInput): Insight[] {
     }
   }
 
-  // Rule 4: traffic mix — CF visits high, GSC clicks low
-  if (input.cf && input.gsc) {
-    for (const p of input.cf.pages) {
-      if (p.visits < THRESHOLDS.cfTopVisits) continue;
-      const gscAgg = byPage.get(p.page) ?? byPage.get(p.page.replace(/\/$/, '')) ?? byPage.get(p.page + '/');
-      const clicks = gscAgg?.clicks ?? 0;
-      if (clicks < p.visits / THRESHOLDS.cfClickRatio) {
-        out.push({
-          rule: 'traffic-mix',
-          severity: 'medium',
-          finding: `${p.page} gets ${p.visits} visits but only ${clicks} search clicks — traffic is mostly social/direct`,
-          evidence: `cf_visits=${p.visits} gsc_clicks=${clicks}`,
-          action: 'Either lean into the winning channel for this page, or improve its search alignment to capture the demand it proves.',
-          docs: 'docs/seo.md',
-        });
-      }
-    }
-  }
-
   // Rule 5: stale codes pages
   for (const file of input.staleCodesPages ?? []) {
     out.push({
@@ -154,7 +131,7 @@ export function parseStaleCodes(stdout: string): string[] {
   return out;
 }
 
-export function formatInsights(list: Insight[], degraded: ('gsc' | 'cf')[], aio?: AioProbeResult): string {
+export function formatInsights(list: Insight[], degraded: ('gsc')[], aio?: AioProbeResult): string {
   const lines = ['# Insights'];
   if (list.length === 0) {
     lines.push('', 'No actionable insights found for the current window.');
@@ -183,7 +160,7 @@ export function formatInsights(list: Insight[], degraded: ('gsc' | 'cf')[], aio?
 
 export interface InsightsReport {
   list: Insight[];
-  degraded: ('gsc' | 'cf')[];
+  degraded: ('gsc')[];
   aio?: AioProbeResult;
 }
 
@@ -193,30 +170,24 @@ export async function collectInsights(opts: {
   days: number;
   run?: RunFn;
   gscClientFactory?: (o: { credential: GscCredential; siteUrl: string }) => GscClient;
-  cfQuery?: typeof queryCloudflare;
-  aiReferralsQuery?: Parameters<typeof collectMetrics>[0]['aiReferralsQuery'];
 }): Promise<InsightsReport> {
   const site = loadSiteConfig(opts.cwd);
   const run = opts.run ?? defaultRun;
 
   // metrics are optional here: with no source at all we still surface rule 5
   let gsc: GscQueryResult | undefined;
-  let cf: CfQueryResult | undefined;
-  let degraded: ('gsc' | 'cf')[] = [];
+  let degraded: ('gsc')[] = [];
   try {
     const metrics = await collectMetrics({
       cwd: site.root,
       days: opts.days,
       gscClientFactory: opts.gscClientFactory,
-      cfQuery: opts.cfQuery,
-      aiReferralsQuery: opts.aiReferralsQuery,
     });
     gsc = metrics.gsc;
-    cf = metrics.cf;
     degraded = metrics.degraded;
   } catch (e) {
     if (e instanceof OpsError && /No analytics source/.test(e.message)) {
-      degraded = ['gsc', 'cf'];
+      degraded = ['gsc'];
     } else {
       throw e;
     }
@@ -246,5 +217,5 @@ export async function collectInsights(opts: {
   const staleRun = run('pnpm', ['refresh-audit'], { cwd: site.root });
   const stale = staleRun.status === 0 ? parseStaleCodes(staleRun.stdout) : [];
 
-  return { list: buildInsights({ gsc, cf, staleCodesPages: stale }), degraded, aio };
+  return { list: buildInsights({ gsc, staleCodesPages: stale }), degraded, aio };
 }

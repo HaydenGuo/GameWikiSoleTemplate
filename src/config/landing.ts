@@ -224,18 +224,6 @@ export const COMMUNITY_SITES: {
     descriptionZh: 'Roblox 热门游戏 Steal an Egg 的 wiki——宠物、蛋、兑换码与玩法攻略。',
   },
   {
-    name: 'Jujutsu Shenanigans Player Guide',
-    url: 'https://jjs-player-guide.pages.dev/',
-    game: 'Jujutsu Shenanigans',
-    image: '/images/showcase/sites/jjs-player-guide.png',
-    imageAltEn: 'Screenshot of the Jujutsu Shenanigans Player Guide homepage',
-    imageAltZh: 'Jujutsu Shenanigans Player Guide 首页截图',
-    descriptionEn:
-      'A trilingual Roblox player wiki for Jujutsu Shenanigans — character routes, Black Flash, maps, codes, and patch notes.',
-    descriptionZh:
-      'Jujutsu Shenanigans 的中英日三语 Roblox 玩家 wiki——角色路线、Black Flash、地图、兑换码与版本更新。',
-  },
-  {
     name: 'Mortal Shell II Wiki',
     url: 'https://mortalshell2.space/',
     game: 'Mortal Shell II',
@@ -266,7 +254,7 @@ const en: LandingContent = {
   description:
     'An open-source Astro starter for game wikis, with configurable content, search, localization, and an optional AI-assisted writing workflow.',
   announcement: {
-    text: `v${PROJECT_VERSION} moves the template runtime to Vercel Functions and optional Neon Postgres.`,
+    text: `v${PROJECT_VERSION} moves the template runtime to Vercel Functions, optional Neon Postgres, and a single hosting path.`,
     href: RELEASES,
   },
   hero: {
@@ -708,7 +696,7 @@ const zh: LandingContent = {
   description:
     '开源 Astro 游戏 Wiki starter，提供结构化内容、站内搜索、多语言路由和可选的 AI 辅助写作工作流。',
   announcement: {
-    text: `v${PROJECT_VERSION} 将模板运行时迁移至 Vercel Functions，热门阅读改用可选 Neon Postgres。`,
+    text: `v${PROJECT_VERSION} 将模板运行时迁移至 Vercel Functions，热门阅读改用可选 Neon Postgres，并统一为单一部署路径。`,
     href: RELEASES,
   },
   hero: {

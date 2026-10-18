@@ -18,7 +18,6 @@ Copy `.env.example` to `.env.local` for local development. For deployed environm
 | `PUBLIC_GISCUS_REPO`, `PUBLIC_GISCUS_REPO_ID`, `PUBLIC_GISCUS_CATEGORY`, `PUBLIC_GISCUS_CATEGORY_ID` | Giscus comments; all required | Disabled |
 | `PUBLIC_ADSENSE_CLIENT`, `PUBLIC_ADSENSE_SLOT_*` | Google AdSense placements | Disabled |
 | `PUBLIC_GA_ID` | Google Analytics; loaded after consent | Disabled |
-| `PUBLIC_CF_BEACON_TOKEN` | Optional cookieless Cloudflare Web Analytics; unrelated to Vercel hosting | Disabled |
 | `PUBLIC_GSC_VERIFICATION` | Search Console HTML meta verification | Disabled |
 | `PUBLIC_SPONSOR_URL`, `PUBLIC_SPONSOR_IMAGE_URL` | Optional sponsor card | Disabled |
 | `PUBLIC_POPULAR_ENABLED` | Enables article-view and Popular API requests | `false` |

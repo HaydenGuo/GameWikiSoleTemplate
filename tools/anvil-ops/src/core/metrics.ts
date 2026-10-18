@@ -4,18 +4,13 @@ import { OpsError } from './errors.js';
 import { loadSiteConfig } from './site.js';
 import { createGscClient } from './providers/gsc.js';
 import type { GscClient, GscQueryResult } from './providers/gsc.js';
-import { queryCloudflare, fetchAiReferrals, AI_REFERRER_HOSTS } from './providers/cloudflare.js';
-import type { CfQueryResult, AiReferralsResult } from './providers/cloudflare.js';
-
-export type MetricsSource = 'gsc' | 'cf' | 'all';
+export type MetricsSource = 'gsc' | 'all';
 
 export interface MetricsReport {
   days: number;
   siteUrl?: string;
   gsc?: GscQueryResult;
-  cf?: CfQueryResult;
-  aiReferrals?: AiReferralsResult;
-  degraded: ('gsc' | 'cf')[];
+  degraded: ('gsc')[];
   notes: string[];
 }
 
@@ -28,28 +23,22 @@ export async function collectMetrics(opts: {
   days: number;
   source?: MetricsSource;
   gscClientFactory?: (o: { credential: GscCredential; siteUrl: string }) => GscClient;
-  cfQuery?: typeof queryCloudflare;
-  aiReferralsQuery?: typeof fetchAiReferrals;
 }): Promise<MetricsReport> {
   const site = loadSiteConfig(opts.cwd);
   const env = loadOpsEnv(site.root);
   const wanted = opts.source ?? 'all';
-  const degraded: ('gsc' | 'cf')[] = [];
+  const degraded: ('gsc')[] = [];
 
-  const gscReady = wanted !== 'cf' && env.gscServiceAccount && site.siteUrl;
-  const cfReady = wanted !== 'gsc' && env.cfApiToken && env.cfAccountId && site.cfBeaconToken;
-  if (!gscReady && !cfReady) {
+  const gscReady = wanted === 'all' || wanted === 'gsc' ? env.gscServiceAccount && site.siteUrl : false;
+  if (!gscReady) {
     throw new OpsError(
       'No analytics source is configured.',
-      'Set GSC_SERVICE_ACCOUNT_JSON and/or CF_API_TOKEN + CF_ACCOUNT_ID in .env (site tag comes from wrangler.toml). Run `anvil-ops doctor` for a guided check.',
+      'Set GSC_SERVICE_ACCOUNT_JSON in the local .env file and ensure SITE_URL is configured. Run `anvil-ops doctor` for a guided check.',
     );
   }
 
   const report: MetricsReport = { days: opts.days, siteUrl: site.siteUrl, degraded, notes: [...env.problems] };
 
-  // Sources degrade independently: a failing GSC must not hide a healthy CF
-  // half of the same report (only when ALL configured sources fail do we
-  // throw — never show an empty report as if it were complete).
   const failures: string[] = [];
 
   if (gscReady) {
@@ -64,44 +53,10 @@ export async function collectMetrics(opts: {
       failures.push(`gsc: ${e instanceof Error ? e.message : String(e)}`);
       degraded.push('gsc');
     }
-  } else if (wanted !== 'cf') {
+  } else {
     degraded.push('gsc');
   }
-
-  if (cfReady) {
-    const q = opts.cfQuery ?? queryCloudflare;
-    try {
-      report.cf = await q({
-        apiToken: env.cfApiToken!,
-        accountId: env.cfAccountId!,
-        siteTag: site.cfBeaconToken!,
-        days: opts.days,
-      });
-      if (report.cf.pages.length >= 100) {
-        report.notes.push('CF top pages capped at the 100-row query limit — pages beyond the cap are excluded.');
-      }
-      // AI referrals ride the same CF credentials but must never fail the whole
-      // metrics pull — degrade to a note instead.
-      const ai = opts.aiReferralsQuery ?? fetchAiReferrals;
-      try {
-        report.aiReferrals = await ai({
-          apiToken: env.cfApiToken,
-          accountId: env.cfAccountId,
-          siteTag: site.cfBeaconToken,
-          days: opts.days,
-        });
-      } catch (e) {
-        report.notes.push(`AI referrals unavailable: ${e instanceof Error ? e.message : String(e)}`);
-      }
-    } catch (e) {
-      failures.push(`cf: ${e instanceof Error ? e.message : String(e)}`);
-      degraded.push('cf');
-    }
-  } else if (wanted !== 'gsc') {
-    degraded.push('cf');
-  }
-
-  if (!report.gsc && !report.cf && failures.length > 0) {
+  if (!report.gsc && failures.length > 0) {
     throw new OpsError(
       `All configured analytics sources failed:\n  ${failures.join('\n  ')}`,
       'Run `anvil-ops doctor` to check credentials, then retry. A partial report is never shown as complete.',
@@ -141,33 +96,6 @@ export function formatMetrics(report: MetricsReport, format: 'table' | 'json' | 
           pad((r.ctr * 100).toFixed(1) + '%', 7),
           r.position.toFixed(1),
         ].join(' '),
-      );
-    }
-    lines.push('');
-  }
-  if (report.cf) {
-    lines.push(format === 'md' ? '## Cloudflare Web Analytics' : 'Cloudflare Web Analytics');
-    lines.push(`visits=${report.cf.totals.visits}`);
-    lines.push('');
-    lines.push([pad('page', 60), 'visits'].join(' '));
-    for (const p of report.cf.pages.slice(0, 20)) {
-      lines.push([pad(p.page.slice(0, 59), 60), p.visits].join(' '));
-    }
-    lines.push('');
-  }
-  if (report.aiReferrals?.available) {
-    lines.push(format === 'md' ? '## AI referrals' : `AI referrals (last ${report.days} days)`);
-    if (report.aiReferrals.rows.length === 0) {
-      lines.push(`No AI referrer traffic in this window (watching: ${AI_REFERRER_HOSTS.join(', ')}).`);
-    } else {
-      lines.push('');
-      lines.push([pad('host', 28), pad('requests', 10), 'pageviews'].join(' '));
-      for (const r of report.aiReferrals.rows) {
-        lines.push([pad(r.host, 28), pad(String(r.requests), 10), String(r.pageviews)].join(' '));
-      }
-      lines.push('');
-      lines.push(
-        `total requests=${report.aiReferrals.totals.requests} pageviews=${report.aiReferrals.totals.pageviews}`,
       );
     }
     lines.push('');

@@ -63,7 +63,6 @@ Recommendations:
 
 - Drizzle as ORM (see https://neon.com/docs/guides/drizzle.md)
 - On Vercel, use `node-postgres` (`npm install pg`) with Vercel Fluid compute and `import { attachDatabasePool } from "@vercel/functions";`
-- On Cloudflare, use `node-postgres` with Cloudflare Hyperdrive
 - On Neon Functions, use `node-postgres`, as the functions are long-running and reuse the pool across requests.
 - Use the `@neondatabase/serverless` driver for serverless and edge environments (for example, when using Netlify) — HTTP transport for one-shot queries, WebSocket for transaction support. Link: https://neon.com/docs/serverless/serverless-driver.md
 

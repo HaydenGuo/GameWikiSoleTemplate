@@ -117,7 +117,9 @@ export function saveSitesRegistry(registry: SitesRegistry, path?: string): void 
   const doc: Record<string, unknown> = {};
   if (registry.defaultSite) doc.defaultSite = registry.defaultSite;
   const sites = registry.sites.map((s) => {
-    const entry: Record<string, string> = { name: s.name, path: s.path };
+    // Forward slashes are valid on Windows and avoid TOML interpreting a
+    // drive path's backslashes as string escape sequences.
+    const entry: Record<string, string> = { name: s.name, path: s.path.replaceAll('\\', '/') };
     if (s.siteUrl) entry.siteUrl = s.siteUrl;
     return entry;
   });
@@ -160,8 +162,8 @@ export function resolveEffectiveRoot(opts: { site?: string; cwd: string; registr
     loadSiteConfig(opts.cwd);
     return opts.cwd;
   } catch (e) {
-    // Only "no site config found" may fall through to defaultSite. A CORRUPT
-    // wrangler.toml (TOML parse error) must surface — silently redirecting a
+    // Only "no site config found" may fall through to defaultSite. A malformed
+    // site configuration must surface — silently redirecting a
     // write command like submit_pr to another registered site's repo is the
     // worst possible interpretation of "cwd has no config".
     if (e instanceof OpsError) {

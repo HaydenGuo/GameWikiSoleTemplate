@@ -28,13 +28,13 @@ description: AdSense 申请前全站体检——按 Google 官方政策(计划�
 | Lighthouse 4×100(速度/体验基线) | 模板开箱契约 |
 | 内链尾斜杠 + 语言前缀规范 | `pnpm check-content` 规则 5/6 |
 
-**⚠️ 模板已知缺口(体检时主动提)**:模板不带 `public/robots.txt`——Cloudflare Pages 默认对 Googlebot 放行,这本身不是问题;但**如果用户自己加过 robots.txt,必须确认没挡 `Mediapartners-Google` 和 `AdsBot-Google`**,挡了 = 广告抓取失败,典型 Fail 项。
+**⚠️ 模板已知缺口(体检时主动提)**:模板不带 `public/robots.txt`。如果用户自行添加了该文件，必须确认没有拦截 `Mediapartners-Google` 和 `AdsBot-Google`，否则广告抓取会失败。
 
 ## 用户侧清单(体检重点,逐项判定)
 
 ### A. 资格与所有权
 
-- **AD-01 自有域名**:是自定义域名,还是 `*.pages.dev`?(后者基本过不了审,见手册第 5 章)
+- **AD-01 自有域名**:是否使用自定义域名？免费托管平台提供的共享子域名通常不适合作为 AdSense 申请域名，按手册第 5 章核实。
 - **AD-02 所有权信号**:站点能验证所有权(GSC / DNS / meta),站点上能看出「谁在运营」(关于页/联系页有真实内容,不是模板占位)。
 
 ### B. 内容质量(最高频拒因)

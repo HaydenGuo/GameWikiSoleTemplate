@@ -9,8 +9,6 @@ export interface GscCredential {
 
 export interface OpsEnv {
   gscServiceAccount?: GscCredential;
-  cfApiToken?: string;
-  cfAccountId?: string;
 }
 
 export interface OpsEnvResolution extends OpsEnv {
@@ -73,7 +71,5 @@ export function loadOpsEnv(cwd: string): OpsEnvResolution {
     }
   }
 
-  if (parsed['CF_API_TOKEN']) result.cfApiToken = parsed['CF_API_TOKEN'];
-  if (parsed['CF_ACCOUNT_ID']) result.cfAccountId = parsed['CF_ACCOUNT_ID'];
   return result;
 }

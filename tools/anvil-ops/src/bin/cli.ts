@@ -69,7 +69,7 @@ function resolveTarget(cmdOpts: SiteFlags): Target {
 
 program
   .command('doctor')
-  .description('Check site config, env credentials, gh, GSC and CF access')
+  .description('Check site config, env credentials, gh, and GSC access')
   .option(...SITE_OPTION)
   .option(...ALL_OPTION)
   .action(async (opts: SiteFlags) => {
@@ -82,10 +82,10 @@ program
 
 program
   .command('metrics')
-  .description('Pull GSC + Cloudflare Web Analytics metrics')
+  .description('Pull Google Search Console metrics')
   .option('--days <n>', 'lookback window in days', '28')
   .option('--format <fmt>', 'output format: table | json | md', 'table')
-  .option('--source <s>', 'limit to gsc | cf | all', 'all')
+  .option('--source <s>', 'limit to gsc | all', 'all')
   .option('--import-aio <csv>', 'offline: parse a GSC "Search Generative AI performance report" CSV export instead of pulling APIs')
   .option('--save', 'with --import-aio: archive the CSV into <site>/ops/ai-visibility/')
   .option(...SITE_OPTION)
@@ -96,8 +96,8 @@ program
       process.exitCode = 1;
       return;
     }
-    if (!['gsc', 'cf', 'all'].includes(opts.source)) {
-      process.stderr.write(`Invalid --source "${opts.source}". Use gsc, cf or all.\n`);
+    if (!['gsc', 'all'].includes(opts.source)) {
+      process.stderr.write(`Invalid --source "${opts.source}". Use gsc or all.\n`);
       process.exitCode = 1;
       return;
     }
@@ -134,14 +134,14 @@ program
               cwd: s.path,
               days,
               format: opts.format as 'table' | 'json' | 'md',
-              source: opts.source as 'gsc' | 'cf' | 'all',
+              source: opts.source as 'gsc' | 'all',
             }),
           )
         : await metricsCommand({
             cwd: target.cwd,
             days,
             format: opts.format as 'table' | 'json' | 'md',
-            source: opts.source as 'gsc' | 'cf' | 'all',
+            source: opts.source as 'gsc' | 'all',
           });
   });
 
@@ -160,7 +160,7 @@ program
 
 program
   .command('insights')
-  .description('Data-driven action list: GSC x CF rules + stale codes pages + AI Overviews probe (experimental)')
+  .description('Data-driven action list: GSC rules + stale codes pages + AI Overviews probe (experimental)')
   .option('--days <n>', 'metrics lookback window in days', '28')
   .option(...SITE_OPTION)
   .option(...ALL_OPTION)
@@ -212,7 +212,7 @@ sites
 sites
   .command('add <name> <path>')
   .description('Register a site (path is resolved to absolute and must exist)')
-  .option('--url <siteUrl>', 'optional siteUrl override (skips wrangler.toml/.env SITE_URL)')
+  .option('--url <siteUrl>', 'optional siteUrl override (skips .env SITE_URL)')
   .action((name: string, path: string, opts: { url?: string }) => {
     rejectSiteFlagsFor('sites add');
     process.exitCode = sitesAddCommand({ name, path, url: opts.url });

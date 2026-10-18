@@ -1,6 +1,6 @@
 # Deploy to Vercel
 
-GameWikiSoleTemplate uses a static-first Astro build, Vercel Functions for the optional same-origin APIs, and Neon Postgres for optional Popular / Most Read statistics. The standard path is GitHub → Vercel. Hosting does not require a Cloudflare account or Wrangler setup; Cloudflare Web Analytics remains an optional, independent analytics integration.
+GameWikiSoleTemplate uses a static-first Astro build, Vercel Functions for the optional same-origin APIs, and Neon Postgres for optional Popular / Most Read statistics. The standard path is GitHub → Vercel.
 
 ## Before you deploy
 
@@ -19,8 +19,6 @@ Keep one writable checkout for each site. Preview deployments are tied to GitHub
 4. Use the repository's pinned package manager. The build command is `pnpm build`; Astro writes the static site to `dist/`. The root `api/` directory is deployed as Vercel Functions alongside the static output.
 5. Add the environment variables below to the Vercel project. Set `SITE_URL` to the canonical HTTPS URL for the deployment.
 6. Deploy. Vercel creates preview deployments for branches and pull requests and a production deployment from the configured production branch.
-
-Do not change the Vercel build command to a Cloudflare or Wrangler command. Do not add `wrangler.toml` to a fork.
 
 ## Custom domain
 
@@ -46,7 +44,6 @@ Copy `.env.example` to `.env.local` for local use, then set the same values in V
 | `PUBLIC_SPONSOR_URL`, `PUBLIC_SPONSOR_IMAGE_URL` | No | Optional sponsor card. |
 | `PUBLIC_ADSENSE_CLIENT`, `PUBLIC_ADSENSE_SLOT_*` | No | Optional AdSense client and placements. |
 | `PUBLIC_GA_ID` | No | Optional Google Analytics measurement ID; loaded after consent. |
-| `PUBLIC_CF_BEACON_TOKEN` | No | Optional cookieless Cloudflare Web Analytics beacon; independent from hosting. |
 | `PUBLIC_GSC_VERIFICATION` | No | Google Search Console meta verification value. |
 
 ## Optional Popular / Most Read database

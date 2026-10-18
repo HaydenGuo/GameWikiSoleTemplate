@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { buildInsights, formatInsights, parseStaleCodes, THRESHOLDS } from '../src/core/insights.js';
 import type { GscQueryResult } from '../src/core/providers/gsc.js';
-import type { CfQueryResult } from '../src/core/providers/cloudflare.js';
 
 const gsc = (rows: GscQueryResult['rows']): GscQueryResult => ({
   rows,
@@ -50,23 +49,6 @@ describe('buildInsights rules', () => {
     expect(z[0].docs).toMatch(/seo/);
   });
 
-  it('rule traffic-mix: cf page with visits>=50 but low gsc clicks triggers', () => {
-    const cf: CfQueryResult = {
-      totals: { visits: 500 },
-      pages: [
-        { page: 'https://x.com/a', visits: 200 },
-        { page: 'https://x.com/tiny', visits: 10 },
-      ],
-    };
-    const r = buildInsights({
-      cf,
-      gsc: gsc([{ page: 'https://x.com/a', query: 'q', clicks: 2, impressions: 50, ctr: 0.04, position: 20 }]),
-    });
-    const tm = r.filter((i) => i.rule === 'traffic-mix');
-    expect(tm).toHaveLength(1);
-    expect(tm[0].finding).toContain('https://x.com/a');
-  });
-
   it('rule stale-codes: each stale page becomes an insight', () => {
     const r = buildInsights({ staleCodesPages: ['src/content/wiki/en/codes/main.mdx'] });
     const st = r.filter((i) => i.rule === 'stale-codes');
@@ -86,9 +68,9 @@ describe('formatInsights', () => {
       staleCodesPages: ['a.mdx'],
       gsc: gsc([{ page: 'https://x.com/a', query: 'q', clicks: 0, impressions: 300, ctr: 0.001, position: 12 }]),
     });
-    const md = formatInsights(list, ['cf']);
+    const md = formatInsights(list, ['gsc']);
     expect(md).toContain('# Insights');
-    expect(md).toContain('cf');
+    expect(md).toContain('gsc');
     const lowCtrIdx = md.indexOf('low-ctr');
     const staleIdx = md.indexOf('stale-codes');
     expect(lowCtrIdx).toBeGreaterThan(-1);

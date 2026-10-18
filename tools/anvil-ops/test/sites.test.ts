@@ -1,6 +1,6 @@
 import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
 import { homedir, tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { join, resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import {
   loadSitesRegistry,
@@ -18,7 +18,7 @@ function tmpRegistryFile(): string {
 
 function tmpSiteDir(): string {
   const dir = mkdtempSync(join(tmpdir(), 'ops-sites-repo-'));
-  writeFileSync(join(dir, 'wrangler.toml'), '[vars]\nSITE_URL = "https://s.example.com"\n');
+  writeFileSync(join(dir, '.env'), 'SITE_URL=https://s.example.com\n');
   return dir;
 }
 
@@ -142,7 +142,7 @@ describe('resolveEffectiveRoot', () => {
     const registered = tmpSiteDir();
     saveSitesRegistry({ defaultSite: 'main-wiki', sites: [{ name: 'main-wiki', path: registered }] }, p);
     const empty = mkdtempSync(join(tmpdir(), 'ops-sites-empty-'));
-    expect(resolveEffectiveRoot({ cwd: empty, registryPath: p })).toBe(registered);
+    expect(resolveEffectiveRoot({ cwd: empty, registryPath: p })).toBe(resolve(registered).replaceAll('\\', '/'));
   });
 
   it('returns cwd untouched when no site, no config and no defaultSite', () => {
@@ -153,7 +153,7 @@ describe('resolveEffectiveRoot', () => {
 
 describe('sitesRegistryPath', () => {
   it('honors XDG_CONFIG_HOME when absolute', () => {
-    expect(sitesRegistryPath({ XDG_CONFIG_HOME: '/xdg' })).toBe('/xdg/anvil-ops/sites.toml');
+    expect(sitesRegistryPath({ XDG_CONFIG_HOME: '/xdg' })).toBe(join('/xdg', 'anvil-ops', 'sites.toml'));
   });
 
   it('ignores relative XDG_CONFIG_HOME and falls back to ~/.config', () => {

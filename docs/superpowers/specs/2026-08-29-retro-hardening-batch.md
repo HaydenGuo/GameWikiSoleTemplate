@@ -2,7 +2,6 @@
 
 **来源**：飞书《游戏 Wiki 站踩坑复盘：Steal An Egg / No Man's Sky / Aniimo》（2026-08-18，48 类问题）对照 v2.3.1 全量审计，盘出 17 项仍存缺口。本批落地其中 16 项（1 项复核后裁定不动）。
 
-**审计结论摘要**：复盘 48 条中大部分模板已闭环（sitemap lastmod 真值、og:image 尺寸策略、幽灵路由门禁、wrangler.toml 域名门禁、双 H1 lint、hreflang 真实覆盖、E-E-A-T 作者体系、refresh-audit 等）。本批只处理「三站用真实事故换来的教训、模板层仍然敞开」的部分。
 
 ## 批次与决策记录
 

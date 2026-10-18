@@ -5,28 +5,15 @@ import { describe, expect, it } from 'vitest';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
 import { buildServer } from '../src/mcp/server.js';
-import type { queryCloudflare, fetchAiReferrals } from '../src/core/providers/cloudflare.js';
 
 function tmpSite(): string {
   const dir = mkdtempSync(join(tmpdir(), 'ops-mcp-'));
-  writeFileSync(join(dir, 'wrangler.toml'), '[vars]\nSITE_URL = "https://wiki.example.com"\nPUBLIC_CF_BEACON_TOKEN = "tag1"\n');
-  writeFileSync(join(dir, '.env'), 'CF_API_TOKEN=t\nCF_ACCOUNT_ID=a\n');
+  writeFileSync(join(dir, '.env'), 'SITE_URL=https://wiki.example.com\n');
   return dir;
 }
 
-const fakeCf = (async () => ({
-  totals: { visits: 7 },
-  pages: [{ page: 'https://wiki.example.com/', visits: 7 }],
-})) as unknown as typeof queryCloudflare;
-
-const fakeAi = (async () => ({
-  available: true,
-  rows: [],
-  totals: { requests: 0, pageviews: 0 },
-})) as unknown as typeof fetchAiReferrals;
-
 async function connect(cwd: string) {
-  const server = buildServer({ cwd, cfQuery: fakeCf, aiReferralsQuery: fakeAi });
+  const server = buildServer({ cwd });
   const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
   await server.connect(serverTransport);
   const client = new Client({ name: 'test', version: '0.0.0' });
@@ -50,16 +37,9 @@ describe('anvil-ops MCP server', () => {
     expect(res.isError).toBeFalsy();
   });
 
-  it('metrics tool returns markdown with cf data', async () => {
-    const client = await connect(tmpSite());
-    const res = await client.callTool({ name: 'metrics', arguments: { days: 7 } });
-    const text = (res.content as { type: string; text: string }[])[0].text;
-    expect(text).toContain('visits=7');
-  });
-
   it('metrics with no source configured = isError with fix', async () => {
     const dir = mkdtempSync(join(tmpdir(), 'ops-mcp-'));
-    writeFileSync(join(dir, 'wrangler.toml'), '[vars]\nSITE_URL = "https://x.com"\n');
+    writeFileSync(join(dir, '.env'), 'SITE_URL=https://x.com\n');
     const client = await connect(dir);
     const res = await client.callTool({ name: 'metrics', arguments: {} });
     expect(res.isError).toBe(true);
@@ -79,7 +59,7 @@ describe('anvil-ops MCP server', () => {
       return { status: 0, stdout: '', stderr: '' };
     }) as never;
     const dir = mkdtempSync(join(tmpdir(), 'ops-mcp-'));
-    writeFileSync(join(dir, 'wrangler.toml'), '[vars]\nSITE_URL = "https://x.com"\n');
+    writeFileSync(join(dir, '.env'), 'SITE_URL=https://x.com\n');
     const server = buildServer({ cwd: dir, run });
     const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
     await server.connect(serverTransport);
@@ -108,11 +88,11 @@ describe('MCP site resolution (multi-site registry)', () => {
     const emptyDir = join(base, 'no-site');
     mkdirSync(siteDir, { recursive: true });
     mkdirSync(emptyDir, { recursive: true });
-    writeFileSync(join(siteDir, 'wrangler.toml'), '[vars]\nSITE_URL = "https://registry-site.com"\n');
+    writeFileSync(join(siteDir, '.env'), 'SITE_URL=https://registry-site.com\n');
     const registryPath = join(base, 'sites.toml');
     writeFileSync(
       registryPath,
-      `defaultSite = "main-wiki"\n\n[[sites]]\nname = "main-wiki"\npath = "${siteDir}"\n`,
+      `defaultSite = "main-wiki"\n\n[[sites]]\nname = "main-wiki"\npath = "${siteDir.replaceAll('\\', '/')}"\n`,
     );
     return { registryPath, siteDir, emptyDir };
   }

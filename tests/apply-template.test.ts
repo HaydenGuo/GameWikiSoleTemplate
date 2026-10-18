@@ -116,12 +116,9 @@ describe('rewriteEnvExample', () => {
   test('sets the selected site URL and keeps optional integrations disabled', () => {
     const example = rewriteEnvExample(makeInput());
     expect(example).toContain('SITE_URL=https://testgame.vercel.app');
-    expect(example).toContain('PUBLIC_CF_BEACON_TOKEN=');
     expect(example).toContain('PUBLIC_POPULAR_ENABLED=false');
     expect(example).toContain('DATABASE_URL=');
     expect(example).toContain('PUBLIC_GISCUS_REPO=');
-    expect(example).not.toContain('wrangler');
-    expect(example).not.toContain('Cloudflare');
   });
 });
 describe('rewriteLocaleJson (P3: no unchosen-category leak, re-run labels kept)', () => {
