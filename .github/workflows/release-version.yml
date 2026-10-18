@@ -1,0 +1,56 @@
+name: Release policy
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+  push:
+    branches: [main]
+    paths:
+      - package.json
+      - CHANGELOG.md
+      - scripts/check-release-policy.mjs
+      - scripts/create-github-release.mjs
+      - .github/workflows/release-version.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-policy-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  pull-request-policy:
+    if: github.event_name == 'pull_request' && github.event.pull_request.draft == false
+    name: release-policy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Check version and changelog against PR base
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: node scripts/check-release-policy.mjs "$BASE_SHA"
+
+  publish-release:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify merged version against previous main
+        env:
+          BASE_SHA: ${{ github.event.before }}
+        run: node scripts/check-release-policy.mjs "$BASE_SHA"
+
+      - name: Create GitHub Release for the merged version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/create-github-release.mjs
