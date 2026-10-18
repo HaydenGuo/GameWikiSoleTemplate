@@ -279,10 +279,10 @@ for (const [label, marker] of [
 ]) {
   if (!auditHtml.includes(marker)) fail(`Generated article is missing ${label}: ${marker}`);
 }
-if (!/data-question-id="STAGE4-Q-01"[\\s\\S]*?northern route/i.test(auditHtml)) {
+if (!/data-question-id="STAGE4-Q-01"[\s\S]*?northern route/i.test(auditHtml)) {
   fail('Question marker does not enclose visible answer text');
 }
-if (!/data-answer-obligation-id="STAGE4-AO-01"[\\s\\S]*?broken bridge/i.test(auditHtml)) {
+if (!/data-answer-obligation-id="STAGE4-AO-01"[\s\S]*?broken bridge/i.test(auditHtml)) {
   fail('Answer-obligation marker does not enclose visible answer text');
 }
 
