@@ -14,12 +14,13 @@ for review:
    - `PATCH` for compatible fixes and small presentation or content changes.
    - `MINOR` for backward-compatible capabilities.
    - `MAJOR` for breaking contracts, configuration, or migration requirements.
-2. Add `## [X.Y.Z] - YYYY-MM-DD` at the top of `CHANGELOG.md`, with concise
+2. Set `PROJECT_VERSION` in `src/config/landing.ts` to the same value as
+   `package.json`.
+3. Add `## [X.Y.Z] - YYYY-MM-DD` at the top of `CHANGELOG.md`, with concise
    English release notes and a Chinese summary.
-3. Run the applicable quality checks and review the complete PR diff.
-4. Confirm the `release-policy` check passes. It verifies that the PR version is
-   newer than the target branch version and that the changelog has a non-empty entry for
-   that exact version.
+4. Run the applicable quality checks and review the complete PR diff.
+5. Confirm the `release-policy` check passes. It verifies the synchronized
+   project version, SemVer increase, and a dated, non-empty changelog entry.
 
 Every change entering `main` gets a version, including documentation, content,
 configuration, and workflow changes. Several related commits in one PR still
@@ -32,7 +33,7 @@ matching changelog entry and creates a GitHub Release tagged `vX.Y.Z` at the
 merged commit. If the workflow fails, fix the release job and rerun it; do not
 create a tag pointing at an unmerged commit.
 
-The repository administrator should configure `Release policy / release-policy`
-as a required status check for the `main` branch so the policy cannot be bypassed
-by merging a failing PR. Creating a workflow check does not enforce it until the
-repository branch rule is enabled.
+The `Protect main - release policy` ruleset is active on the default branch. It
+requires pull requests and the `Release policy / release-policy` status check,
+with no bypass actors. Keep the workflow's required check name stable; changing
+the check name requires updating the ruleset as well.
