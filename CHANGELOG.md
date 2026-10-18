@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.1](https://github.com/HaydenGuo/GameWikiSoleTemplate/compare/v2.0.0...v2.0.1) - 2026-10-18
+
+- Validate that each non-draft pull request increases the template version and records matching release notes.
+- Create the matching GitHub Release automatically after a versioned change reaches main.
+
+为每个非草稿 PR 校验模板版本递增及对应更新记录；版本化变更合入 main 后自动创建匹配的 GitHub Release。
+
 ## [2.0.0](https://github.com/HaydenGuo/GameWikiSoleTemplate/compare/v1.1.4...v2.0.0) - 2026-10-18
 
 - Make Vercel the default hosting platform for the Astro template.
