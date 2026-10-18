@@ -37,6 +37,7 @@ import sharp from 'sharp';
 import subsetFont from 'subset-font';
 import { site } from '~/config/site';
 import { hslToHex, hasCjk, parseBrandHsl, stableHash, stripEmoji, subsetText } from '~/lib/brand-utils';
+import { createNormalizedBrandMark, resizeBrandMark } from './lib/brand-mark';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const PUBLIC = join(root, 'public');
@@ -166,13 +167,7 @@ async function main() {
 
   // 1. Normalize the AI-created mark once. Trim excess transparent canvas,
   //    then restore a 6.25% safe margin so the silhouette survives masking.
-  const normalizedMark = await sharp(BRAND_SOURCE)
-    .ensureAlpha()
-    .trim({ background: { r: 0, g: 0, b: 0, alpha: 0 } })
-    .resize(448, 448, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
-    .extend({ top: 32, bottom: 32, left: 32, right: 32, background: { r: 0, g: 0, b: 0, alpha: 0 } })
-    .png()
-    .toBuffer();
+  const normalizedMark = await createNormalizedBrandMark(BRAND_SOURCE);
   const markHash = cacheKey('brand-mark', readFileSync(BRAND_SOURCE).toString('base64'));
 
   // 2. favicon.svg — stable URL with the AI-created PNG mark as its image.
@@ -201,12 +196,11 @@ async function main() {
       ['android-chrome-512x512.png', 512],
     ];
     for (const [name, size] of sizes) {
-      const buf =
-        size === 512 ? png512 : await sharp(png512).resize(size, size, { fit: 'contain' }).png().toBuffer();
+      const buf = await resizeBrandMark(png512, size);
       writeFileSync(join(PUBLIC, name), buf);
       console.log(`  ✅ public/${name} (${size}×${size})`);
     }
-    writeFileSync(join(PUBLIC, 'favicon.ico'), pngToIco(await sharp(png512).resize(32, 32).png().toBuffer()));
+    writeFileSync(join(PUBLIC, 'favicon.ico'), pngToIco(await resizeBrandMark(png512, 32)));
     console.log('  ✅ public/favicon.ico (32×32 ICO)');
     manifest['favicon-png'] = pngHash;
   }

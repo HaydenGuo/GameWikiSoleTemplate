@@ -24,9 +24,12 @@ Run:
 
 ```powershell
 pnpm gen-assets --force
+pnpm check-config
 ```
 
 The generator derives `public/brand-mark-512.png`, browser/search favicons, Apple and Android/PWA icons, and the homepage share image from the source mark. It does not invent artwork from the game name; artwork generation and size inspection are required before this step.
+
+`pnpm check-config` compares the generated header, PNG, and ICO icon pixels with the normalized source mark. If the source changed but generation was skipped, the check fails with a `pnpm gen-assets --force` instruction.
 
 Open `public/favicon-16x16.png`, `public/favicon-32x32.png`, and `public/favicon-48x48.png`. If the motif collapses or loses contrast at small sizes, simplify/regenerate the source and rerun the command. Do not deploy until the header image and favicon outputs are from the selected mark.
 

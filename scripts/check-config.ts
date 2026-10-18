@@ -32,6 +32,7 @@
 
 import * as fs from 'node:fs';
 import * as path from 'node:path';
+import { createNormalizedBrandMark, hasSameImagePixels, resizeBrandMark } from './lib/brand-mark';
 
 const ROOT = process.cwd();
 const read = (p: string) => fs.readFileSync(path.resolve(ROOT, p), 'utf8');
@@ -215,14 +216,29 @@ if (!sourceMark) {
 } else {
   console.log(`  ✅ square source mark ${sourceMark.width}×${sourceMark.height}`);
 }
+const pngSignature = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
+const sourceMarkPixels = sourceMark ? await createNormalizedBrandMark(sourceMarkPath) : null;
 for (const [file, expectedSize] of [
   ['public/brand-mark-512.png', 512],
+  ['public/favicon-16x16.png', 16],
+  ['public/favicon-32x32.png', 32],
   ['public/favicon-48x48.png', 48],
+  ['public/apple-touch-icon.png', 180],
+  ['public/android-chrome-192x192.png', 192],
+  ['public/android-chrome-512x512.png', 512],
 ] as const) {
-  const dimensions = readPngDimensions(path.resolve(ROOT, file));
+  const outputPath = path.resolve(ROOT, file);
+  const dimensions = readPngDimensions(outputPath);
   if (!dimensions || dimensions.width !== expectedSize || dimensions.height !== expectedSize) {
     err(`${file} must be a valid ${expectedSize}×${expectedSize} PNG; run pnpm gen-assets --force`);
+  } else if (sourceMarkPixels && !(await hasSameImagePixels(outputPath, await resizeBrandMark(sourceMarkPixels, expectedSize)))) {
+    err(`${file} does not match src/assets/branding/brand-mark.png; run pnpm gen-assets --force`);
   }
+}
+const faviconSvgPath = path.resolve(ROOT, 'public/favicon.svg');
+const faviconSvg = fs.existsSync(faviconSvgPath) ? fs.readFileSync(faviconSvgPath, 'utf8') : '';
+if (!/<image\s+href="\/brand-mark-512\.png"/.test(faviconSvg)) {
+  err('public/favicon.svg must reference /brand-mark-512.png; run pnpm gen-assets --force');
 }
 const icoPath = path.resolve(ROOT, 'public/favicon.ico');
 const ico = fs.existsSync(icoPath) ? fs.readFileSync(icoPath) : Buffer.alloc(0);
@@ -239,7 +255,14 @@ const hasValidEmbeddedImage = icoImageOffset >= 22
 if (!hasValidIcoHeader || !hasValidEmbeddedImage) {
   err('public/favicon.ico is missing or invalid; run pnpm gen-assets --force');
 } else {
-  console.log('  ✅ PNG and ICO favicon outputs are present');
+  const icoPng = ico.subarray(icoImageOffset, icoImageOffset + icoImageLength);
+  const expected32 = sourceMarkPixels ? await resizeBrandMark(sourceMarkPixels, 32) : null;
+  if (!icoPng.subarray(0, 8).equals(pngSignature)
+    || (expected32 && !(await hasSameImagePixels(icoPng, expected32)))) {
+    err('public/favicon.ico does not match src/assets/branding/brand-mark.png; run pnpm gen-assets --force');
+  } else {
+    console.log('  ✅ PNG and ICO outputs match the single source mark');
+  }
 }
 
 // --- Check 7: deployment domain gate (wrangler.toml ↔ site.ts) -------------
