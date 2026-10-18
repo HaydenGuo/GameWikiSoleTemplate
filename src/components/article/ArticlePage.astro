@@ -199,7 +199,7 @@ const jsonLd = [
       </div>
     </aside>
 
-    <article class="w-full min-w-0">
+    <article class="w-full min-w-0" data-page-id={entry.data.auditPageId ?? entry.id}>
       {/* Breadcrumb */}
       <nav class="text-sm text-muted-foreground" aria-label={shared.breadcrumbAria ?? 'Breadcrumb'}>
         <a href={homeUrl(locale)} class="hover:text-nav">{nav.home}</a>
