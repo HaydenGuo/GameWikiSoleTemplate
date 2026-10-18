@@ -1,8 +1,9 @@
 # Release process
 
-The root `package.json` version and `CHANGELOG.md` are the version record for
-the standalone template. A formal release exists only after its PR is merged to
-`main` and the post-merge workflow creates the matching GitHub Release.
+The root `package.json`, `src/config/landing.ts` (`PROJECT_VERSION`), and
+`CHANGELOG.md` are synchronized version sources for the standalone template. A
+formal release exists only after its PR is merged to `main` and the post-merge
+workflow creates the matching GitHub Release.
 
 ## Before a pull request is ready
 
