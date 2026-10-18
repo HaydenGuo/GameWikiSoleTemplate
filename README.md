@@ -9,7 +9,7 @@
 ```text
 GameWikiSoleTemplate
 ├── 通用运行时：src/components、src/pages、src/lib、src/i18n、src/styles
-├── Starter 配置：src/config、src/locales、wrangler.toml
+├── Starter 配置：src/config、src/locales、.env.example
 └── 示例内容：src/content、src/assets、public
 ```
 
@@ -24,7 +24,7 @@ pnpm install
 pnpm dev
 ```
 
-`pnpm dev` runs Astro's development server for layout and content work. To test Cloudflare Pages Functions and APIs locally, run `pnpm dev:pages`; it builds the site, starts Wrangler on `http://127.0.0.1:4322`, and serves both the built site and Functions. The launcher disables automatic `.env` loading; configure only the local bindings you intend to test. In another terminal, run `pnpm check:pages-runtime` to check the homepage and the `/api/game-deals` response. Optional Cloudflare bindings such as D1 still need local binding configuration; never copy production secrets into the repository.
+`pnpm dev` runs Astro's development server for layout and content work. Use `pnpm dev:vercel` to exercise root `api/` Functions alongside the pages without linking a Vercel project. Do not copy production secrets into the repository.
 
 要用具体游戏配置替换演示内容，请运行：
 
@@ -32,7 +32,7 @@ pnpm dev
 pnpm apply-template
 ```
 
-Cloudflare Pages 部署说明见 [docs/deployment.md](docs/deployment.md)；模板初始化说明见 [docs/apply-template.md](docs/apply-template.md)；撰写文章前请阅读 [docs/content-format.md](docs/content-format.md)。仓库文档索引见 [docs/README.md](docs/README.md)。
+GitHub → Vercel 部署说明见 [docs/deployment.md](docs/deployment.md)；模板初始化说明见 [docs/apply-template.md](docs/apply-template.md)；撰写文章前请阅读 [docs/content-format.md](docs/content-format.md)。仓库文档索引见 [docs/README.md](docs/README.md)。
 
 可按游戏气质选择四种全站标题字样式，见 [docs/art-typography.md](docs/art-typography.md)。
 
@@ -57,7 +57,7 @@ This starter keeps its reusable runtime and site template in one repository.
 ```text
 GameWikiSoleTemplate
 ├── Reusable runtime: src/components, src/pages, src/lib, src/i18n, src/styles
-├── Starter configuration: src/config, src/locales, wrangler.toml
+├── Starter configuration: src/config, src/locales, .env.example
 └── Example content: src/content, src/assets, public
 ```
 
@@ -72,9 +72,7 @@ pnpm install
 pnpm dev
 ```
 
-`pnpm dev` runs Astro's development server for layout and content work. To test Cloudflare Pages Functions and APIs locally, run `pnpm dev:pages`; it builds the site, starts Wrangler on `http://127.0.0.1:4322`, and serves both the built site and Functions. The launcher disables automatic `.env` loading; configure only the local bindings you intend to test. In another terminal, run `pnpm check:pages-runtime` to check the homepage and the `/api/game-deals` response. Optional Cloudflare bindings such as D1 still need local binding configuration; never copy production secrets into the repository.
-
-Run `pnpm apply-template` to replace the demo site with a game's configuration. See [docs/deployment.md](docs/deployment.md) for Cloudflare Pages setup, [docs/apply-template.md](docs/apply-template.md) for the initializer, and [docs/content-format.md](docs/content-format.md) for article authoring. The documentation index is [docs/README.md](docs/README.md).
+Run `pnpm apply-template` to replace the demo site with a game's configuration. See [docs/deployment.md](docs/deployment.md) for GitHub → Vercel setup, [docs/apply-template.md](docs/apply-template.md) for the initializer, and [docs/content-format.md](docs/content-format.md) for article authoring. The documentation index is [docs/README.md](docs/README.md).
 
 ## Contributing
 

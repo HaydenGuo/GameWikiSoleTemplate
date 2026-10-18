@@ -16,9 +16,9 @@ anvil-ops --all audit                  # 全站巡检(逐站报告 + 汇总)
 anvil-ops sites add/list/remove        # 管理注册表
 ```
 
-三条设计决定(同类工具 Vercel/Netlify/Wrangler 的共识做法):
+三条设计决定(同类部署与运维工具的通用做法):
 
-1. **默认行为不变**:在某个站点仓库目录里运行,自动发现该站的 `wrangler.toml`/`.env`——零注册、零心智负担。注册表只是「跨站批操作」的索引层。
+1. **默认行为不变**:在某个站点仓库目录里运行,自动发现该站的 `.env`——零注册、零心智负担。注册表只是「跨站批操作」的索引层。
 2. **凭据永不进注册表**:GSC/CF 凭据始终在各站点仓库的 `.env` 里,注册表只存别名、路径、可选的 siteUrl 覆盖。
 3. **`submit` 不支持 `--all`**:批量提交内容是危险操作,提交永远显式指定单站。
 
@@ -54,4 +54,4 @@ MCP 侧:5 个工具(doctor/metrics/audit/insights/submit_pr)都接受可选 `sit
 
 ## 新站的正确打开方式
 
-第二个站依然是「复制仓库 + `pnpm template-audit` 健康检查 + `pnpm apply-template` 重 branding」(学习手册第 9 章),然后 `anvil-ops sites add` 把它纳入统一运营。多站没有魔法:**每个站仍是独立的 git 仓库 + 独立的 Cloudflare Pages 项目**,统一的只是观测层。
+第二个站依然是「复制仓库 + `pnpm template-audit` 健康检查 + `pnpm apply-template` 重 branding」(学习手册第 9 章),然后 `anvil-ops sites add` 把它纳入统一运营。多站没有魔法:**每个站仍是独立的 Git 仓库 + 独立的 Vercel 项目**,统一的只是观测层。

@@ -186,7 +186,7 @@
 
 1. 打开 https://search.google.com/search-console
 2. 添加资源 → 选"网域"方式 → DNS 验证
-3. 在 Cloudflare 加 TXT 记录 → 验证所有权
+3. 在当前域名 DNS 服务商添加 Google 提供的 TXT 记录 → 验证所有权
 4. 提交 `sitemap-index.xml`（注意是 sitemap-index.xml，不是 sitemap.xml）
 5. 等 24-48 小时看收录
 

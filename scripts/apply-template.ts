@@ -42,7 +42,7 @@ import {
   isDemoLocaleContent,
   rewriteLocaleJson,
   rewriteSiteTs as rewriteSiteTsBlock,
-  rewriteWranglerVars,
+  rewriteEnvExample,
   slugify,
   inferNavigationProfile,
   mergeNavigationItems,
@@ -706,7 +706,7 @@ async function main() {
   console.log('     - src/i18n/ui.ts');
   console.log(`     - src/locales/{${uniqueLocales.join(',')}}.json`);
   console.log('     - public/manifest.json');
-  console.log('     - wrangler.toml ([vars] reset to your domain, demo Giscus cleared)');
+  console.log('     - .env.example (Vercel build variables reset to your domain; demo Giscus cleared)');
 
   if (!DRY_RUN) {
     const proceed = await askBool(rl, '\nProceed with these changes?', false);
@@ -786,13 +786,8 @@ async function main() {
   write('public/manifest.json', rewriteManifest(skinInput));
   console.log('   ✅ public/manifest.json');
 
-  const wrangler = fs.existsSync(path.resolve(ROOT, 'wrangler.toml'))
-    ? rewriteWranglerVars(skinInput, read('wrangler.toml'))
-    : null;
-  if (wrangler !== null) {
-    write('wrangler.toml', wrangler);
-    console.log('   ✅ wrangler.toml ([vars] reset — demo Giscus config cleared)');
-  }
+  write('.env.example', rewriteEnvExample(skinInput));
+  console.log('   ✅ .env.example (Vercel environment template)');
 
   // Reset the demo author registry so fork sites don't inherit demo authors.
   const authorsPath = 'src/config/authors.ts';

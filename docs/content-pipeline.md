@@ -17,7 +17,7 @@ auto-content workflow
 GitHub draft PR(固定分支 chore/auto-content,幂等)
       │  人工审查:填入真实游戏数据(.agent/skills/anvil-batch-articles 提示词)
       ▼
-merge → Cloudflare Pages 自动部署
+merge → Vercel 自动部署
 ```
 
 ## 安全契约(为什么敢让机器开 PR)

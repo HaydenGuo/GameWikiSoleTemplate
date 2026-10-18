@@ -163,4 +163,4 @@ Field-tested conclusion: **too many pages in the first version dilutes quality a
 
 ## Next step
 
-All the content lives on your computer — but players and Google still can't see you. Next chapter: move the site onto Cloudflare's free shelf. [Go to Chapter 5 · Take Your Site Live](/landing/docs/put-site-online)
+All the content lives on your computer — but players and Google still can't see you. Next chapter: deploy from GitHub to Vercel. [Go to Chapter 5 · Take Your Site Live](/landing/docs/put-site-online)

@@ -18,7 +18,7 @@ The repo's Actions page holds a few automated pipelines, some red, some green �
 |---|---|---|
 | **CI** | Every push / PR | Eight gates: lint → typecheck → test → check-config → build → check-content → check-links → check-i18n — one red gate and the merge is blocked |
 | **Content freshness audit** | Every Monday (scheduled) | Runs the freshness audit; stale pages automatically open reminder issues. **On by default only in the official GameWikiSoleTemplate repo** (a fork stays quiet, sparing you a pile of reminders); to enable it on your own site, have AI delete the `if: github.repository ==` line in the file. It **only reminds, never edits content** — the risk of automation touching content is uncontrollable |
-| **Initialize GameWikiSoleTemplate** | Manual trigger | Post-fork cleanup: resets wrangler.toml variables, removes the project landing page, optionally clears demo content. **It does not swap the game name / theme color / languages** — those still require a local `pnpm apply-template` run |
+| **Initialize GameWikiSoleTemplate** | Manual trigger | Post-fork cleanup: prepares `.env.example`, removes the project landing page, optionally clears demo content. **It does not swap the game name / theme color / languages** — those still require a local `pnpm apply-template` run |
 
 ## Security baseline (built in; don't dismantle it while customizing)
 
@@ -31,7 +31,7 @@ The repo's Actions page holds a few automated pipelines, some red, some green �
 
 - Zero JS framework: no React/Vue-style runtimes; interactivity uses native browser abilities (collapsible blocks, dialogs) plus a tiny amount of vanilla script.
 - Images go through the template's image pipeline (auto-compressed to WebP, auto-fitted for phones).
-- To verify scores after a change: `pnpm build && npx wrangler pages dev dist`, then run the browser's Lighthouse panel.
+- To verify scores after a change: `pnpm build && pnpm preview`, then run the browser's Lighthouse panel. Use `pnpm dev` when you need local Vercel Functions as well.
 
 ## If you get stuck
 

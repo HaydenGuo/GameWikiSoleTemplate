@@ -13,8 +13,8 @@
  *   5. Every article must contain at least one local body image. The first
  *      body image is the cover; there is no frontmatter cover fallback.
  *   6. Internal MD page links must end with "/" (site is trailingSlash:'always';
- *      Cloudflare serves /path/, a bare /path costs a 308 and misaligns
- *      canonical). Asset paths and anchors are exempt.
+ *      a bare /path can redirect and misalign canonical URLs). Asset paths and
+ *      anchors are exempt.
  *   7. Non-default-locale bodies: internal links MUST carry the locale prefix
  *      (`/ja/bosses/x`) — a bare `/bosses/x` silently lands on the English
  *      page (Aniimo shipped 177 such links before noticing).

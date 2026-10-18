@@ -25,7 +25,7 @@ const IGNORED_DIRECTORY_NAMES = new Set([
   'dist',
   'node_modules',
   'tmp-preview',
-  '.wrangler',
+  '.vercel',
   'coverage',
 ]);
 

@@ -3,8 +3,8 @@
  *
  * Extracted (verbatim where possible) so vitest can test them without
  * importing the interactive CLI: rewriteSiteTs (site.ts object literal),
- * rewriteLocaleJson (locale JSON shapes), rewriteWranglerVars (wrangler.toml
- * [vars] reset), the demo asset inventories shared with the "Clear demo
+ * rewriteLocaleJson (locale JSON shapes), rewriteEnvExample (Vercel env
+ * template), the demo asset inventories shared with the "Clear demo
  * content" step in .github/workflows/setup.yml, and the content-aware demo
  * locale check. No fs/path access — callers own all IO.
  */
@@ -456,70 +456,28 @@ export function rewriteLocaleJson(input: SkinInput, _locale: string, existing?: 
 }
 
 
-/**
- * Reset wrangler.toml [vars] for the forker's own site.
- *
- * Why: when wrangler.toml exists it is the SOLE source of truth for the
- * Cloudflare Pages project env (dashboard UI is ignored). The shipped file
- * carries the DEMO site's Giscus config — an unedited fork would silently
- * point its comment section at the original repo's GitHub Discussions.
- * We rewrite SITE_URL to the forker's domain and blank the Giscus values.
- */
-export function rewriteWranglerVars(input: SkinInput, src: string): string | null {
-  const filePath = 'wrangler.toml';
-  // TOML basic strings: escape backslash first, then the double quote.
-  const tomlStr = (s: string) => s.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
-  const newVars = `[vars]
-# Site (must include https:// protocol — Astro validates this as a URL)
-SITE_URL = "https://${tomlStr(input.domain)}"
-# Giscus comments — blank = comments disabled until you fill your own values.
-# See docs/comments.md for how to get these from giscus.app.
-PUBLIC_GISCUS_REPO = ""
-PUBLIC_GISCUS_REPO_ID = ""
-PUBLIC_GISCUS_CATEGORY = ""
-PUBLIC_GISCUS_CATEGORY_ID = ""
-PUBLIC_GISCUS_MAPPING = "pathname"
-# Sponsor card — blank = disabled. Fill PUBLIC_SPONSOR_URL to enable.
-PUBLIC_SPONSOR_URL = ""
-PUBLIC_SPONSOR_IMAGE_URL = ""
-# Cloudflare Web Analytics — blank = disabled.
-PUBLIC_CF_BEACON_TOKEN = ""
-# Optional slots (empty = disabled) — fill HERE, not the dashboard:
-#PUBLIC_ADSENSE_CLIENT = ""
-#PUBLIC_ADSENSE_SLOT_STICKY = ""
-#PUBLIC_ADSENSE_SLOT_SIDEBAR = ""
-#PUBLIC_ADSENSE_SLOT_INCONTENT = ""
-#PUBLIC_GA_ID = ""
-#PUBLIC_GSC_VERIFICATION = ""`;
-  // Anchor [vars] at LINE START (the demo file's intro comment contains the
-  // literal text "[vars]" mid-line — an unanchored match rewrote the comment
-  // and left the real demo Giscus section below). Two JS regex traps here:
-  // no `m` flag (with it, `$` means line-end, not file-end) and no `\Z`
-  // (JS treats that as the literal character "Z" — the match silently fails
-  // and the file ships unrewritten).
-  // Tolerate CRLF working trees: .gitattributes forces LF at checkout, but a
-  // fork user's editor may still convert the file before they run the CLI —
-  // a bare `\n` after `[vars]` would silently fail on `\r\n` and leave the
-  // demo Giscus values in place.
-  const varsRe = /(^|\n)\[vars\]\r?\n[\s\S]*?(?=\r?\n\[|$)/;
-  if (!varsRe.test(src)) {
-    console.warn(`⚠️ Could not find [vars] section in ${filePath} — edit it manually.`);
-    return null;
-  }
-  // Remove the demo-intro warning block: after the [vars] rewrite it would
-  // claim "this file contains the DEMO SITE config" about values that are
-  // now the forker's own — a stale, misleading comment. Anchors are ASCII:
-  // the ⚠️ emoji is a multi-codepoint sequence that silently fails `⚠️+`.
-  // The inserted block adopts the file's own EOL so the section is not left
-  // with mixed line endings.
-  const eol = /(^|\n)\[vars\]\r\n/.test(src) ? '\r\n' : '\n';
-  const newVarsBlock = eol === '\r\n' ? newVars.replace(/\n/g, '\r\n') : newVars;
-  const out = src.replace(varsRe, (_match, pre) => `${pre}${newVarsBlock}${eol}`);
-  const demoIntroRe = /# .*FORKERS READ THIS FIRST[\s\S]*?# .*END FORKER WARNING.*\n?/;
-  return demoIntroRe.test(out) ? out.replace(demoIntroRe, '') : out;
+/** Build the public environment-variable example for an initialized fork. */
+export function rewriteEnvExample(input: SkinInput): string {
+  return `# Copy to .env.local for local Vercel development; set the same values in Vercel project settings.
+SITE_URL=https://${input.domain}
+PUBLIC_POPULAR_ENABLED=false
+DATABASE_URL=
+PUBLIC_GISCUS_REPO=
+PUBLIC_GISCUS_REPO_ID=
+PUBLIC_GISCUS_CATEGORY=
+PUBLIC_GISCUS_CATEGORY_ID=
+PUBLIC_GISCUS_MAPPING=pathname
+PUBLIC_SPONSOR_URL=
+PUBLIC_SPONSOR_IMAGE_URL=
+PUBLIC_ADSENSE_CLIENT=
+PUBLIC_ADSENSE_SLOT_STICKY=
+PUBLIC_ADSENSE_SLOT_SIDEBAR=
+PUBLIC_ADSENSE_SLOT_INCONTENT=
+PUBLIC_GA_ID=
+PUBLIC_CF_BEACON_TOKEN=
+PUBLIC_GSC_VERIFICATION=
+`;
 }
-
-
 /**
  * Demo artwork inventory — all article art lives in src/assets/articles.
  * Delete by name only, never by wildcard or whole directory, so a re-run

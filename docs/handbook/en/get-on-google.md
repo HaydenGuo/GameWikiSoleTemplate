@@ -26,7 +26,7 @@ Last chapter your site went live and the whole world can reach it. But Google do
 ### Step 1: Register with Google Search Console (GSC)
 
 **What to do**: get the "business registration" Google issues you.
-**How to do it**: open [search.google.com/search-console](https://search.google.com/search-console) → log into your Google account → **Add property**. Choose the **URL prefix** type, enter your `https://project-name.pages.dev` (or your domain), pick the **HTML tag** verification method, and Google hands you a snippet of code — you don't paste it yourself; take the string of letters inside the tag's `content="..."` and put it into an environment variable: name `PUBLIC_GSC_VERIFICATION`, value that string of letters. **Where the variable goes depends on your path**: if you deleted `wrangler.toml` (chapter 5), add it under Cloudflare → Settings → Variables and Secrets; if you kept `wrangler.toml`, put it in its `[vars]` section (while that file exists, dashboard settings are ignored — see the dev manual's feature-toggle chapter). Save and redeploy, then go back to GSC and click "Verify".
+**How to do it**: open [search.google.com/search-console](https://search.google.com/search-console) → log into your Google account → **Add property**. Choose the **URL prefix** type, enter your Vercel preview/production URL (or your custom domain), pick the **HTML tag** verification method, and Google hands you a snippet of code — take the string inside `content="..."` and add it as `PUBLIC_GSC_VERIFICATION` in the Vercel project's Environment Variables. Redeploy, then go back to GSC and click "Verify".
 **You'll see**: GSC shows "Ownership verified".
 **Confirm it worked**: the left sidebar of GSC opens pages like "Performance".
 
@@ -43,7 +43,7 @@ Last chapter your site went live and the whole world can reach it. But Google do
 **How to do it**: in the inspection box at the top of GSC, paste your codes page's full URL and press Enter → click **Request indexing**. Run the most important 5 to 10 URLs through one by one (codes page first).
 **You'll see**: each URL shows "Indexing requested".
 
-Two more things happen automatically — no action from you: **once you buy your own domain and put it on Cloudflare**, Cloudflare notifies Bing and other search engines for you (a feature called Crawler Hints — an automatic nudge to Bing; plain pages.dev addresses don't get it, which is fine since Google is the main engine), and your `/llms.txt` page tells AI engines like ChatGPT what content you have.
+Your `/llms.txt` page tells AI engines like ChatGPT what content you have. Search engine notification features depend on the domain provider and should be configured there if needed.
 
 ### Step 4: Push your whole site with IndexNow
 
@@ -66,7 +66,7 @@ All three run clean — every URL returns 200 (opens fine) and no internal link 
 
 ## If you get stuck
 
-- **"GSC verification fails"**: confirm the `PUBLIC_GSC_VERIFICATION` value is the string inside the tag's content quotes (no quotes), that you really redeployed after saving, and that the variable went to the right place (dashboard Variables if you deleted wrangler.toml, the file's `[vars]` otherwise — see Step 1).
+- **"GSC verification fails"**: confirm the `PUBLIC_GSC_VERIFICATION` value is the string inside the tag's content quotes (no quotes), that you redeployed after saving, and that the variable is set for the Vercel environment serving the domain.
 - **"Sitemap submission says couldn't fetch"**: wait a few hours and retry (Google's crawling lags); also confirm `https://your-domain/sitemap-index.xml` opens.
 - **"Discovered URLs still 0 after days"**: wait a few more days and click Request indexing a few more rounds; indexing has its own pace, and Chapter 8's weekly routine keeps nudging it.
 - **GSC's "Page indexing" report, four statuses at a glance**: "Indexed" = done, leave it alone; "Discovered – currently not indexed" = Google knows about the URL but hasn't crawled it yet — wait, or nudge it again with IndexNow / Request indexing; "Crawled – currently not indexed" = Google looked and judged the content thin or duplicate — go rework the page instead of pushing it over and over; "Excluded" = dropped for reasons like noindex, duplicate, or redirect — open each row, read the reason, and confirm it's something you set on purpose.

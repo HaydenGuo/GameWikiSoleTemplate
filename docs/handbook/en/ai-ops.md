@@ -1,10 +1,10 @@
 ---
 title: "Dev 7 · Put an AI on Ops Duty: anvilwiki-ops and MCP"
-description: "Hand your AI assistant the whole ops loop: health checks, real GSC and Cloudflare data, prioritized actions, and PR-gated publishing — never a push to main."
+description: "Hand your AI assistant the whole ops loop: health checks, real GSC data, prioritized actions, and PR-gated publishing — never a push to main."
 manual: dev
 order: 7
 icon: lucide:bot
-tldr: "anvilwiki-ops is the template's companion ops toolkit (an npm package, no install needed with npx). doctor gives a guided health check; after you put a GSC service account and CF token in .env, metrics pulls real traffic and insights returns evidence-backed actions; with MCP registered, Claude/ZCode can pull data, edit content, and open PRs for you — every write goes through a PR with a human in the loop."
+tldr: "anvilwiki-ops is an optional companion ops toolkit (an npm package, no install needed with npx). doctor gives a guided health check; after you configure supported data credentials, metrics pulls real traffic and insights returns evidence-backed actions; with MCP registered, Claude/ZCode can pull data, edit content, and open PRs for you — every write goes through a PR with a human in the loop."
 updated: 2026-08-22
 ---
 
@@ -27,13 +27,13 @@ Two terms, defined once:
 npx anvilwiki-ops doctor
 ```
 
-**What you'll see**: a one-line-per-item list — `site-config` (reads SITE_URL from wrangler.toml), `gh` (is the GitHub CLI installed), `gsc-config` / `cf-config` (are data credentials set). Unset items don't count as failures; the tool notes that metrics will run in degraded mode.
+**What you'll see**: a one-line-per-item list — `site-config` (reads SITE_URL from your environment), `gh` (is the GitHub CLI installed), and provider credential checks. Unset items don't count as failures; the tool notes that metrics will run in degraded mode.
 
 **Confirm you did it right**: the report ends with `All checks passed.`, or you know exactly which item is unset and accept not using it for now.
 
 ## Step 2: Wire up the two data sources (GSC 5 min, CF 2 min)
 
-**What you do**: let the tool read your real traffic. Google Search Console (GSC) provides queries and rankings; Cloudflare Web Analytics (already beaconed by the template) provides visits.
+**What you do**: let the tool read your real traffic. Google Search Console (GSC) provides queries and rankings; configure any supported web analytics source separately.
 
 **One concept first (30 seconds)**: GSC data is private — its API only accepts authorized identities. Robots are authorized via a "service account", which is **not an email address**: it cannot receive mail, has no password, and cannot log in. It is just a Google-generated robot ID that happens to look like `xxx@project.iam.gserviceaccount.com` (a naming convention). Its credential is a JSON key file. What follows is: build a robot, then grant it read access to your data.
 
@@ -45,7 +45,7 @@ npx anvilwiki-ops doctor
 4. **Wire the key**: create a `.env` file at the repo root (already gitignored, never committed) with one line:
    `GSC_SERVICE_ACCOUNT_JSON=path/to/the/key/file`
 
-CF (once): Cloudflare dashboard → My Profile → API Tokens → Create Token with permission **Account → Analytics → Read**; add two more lines to `.env`: `CF_API_TOKEN=token` and `CF_ACCOUNT_ID=account-id`.
+CF (optional, once): Cloudflare Web Analytics is a separate analytics integration, not the hosting platform. If you enabled its beacon by setting `PUBLIC_CF_BEACON_TOKEN` in Vercel, create a Cloudflare API token with **Account → Analytics → Read** permission and add `CF_API_TOKEN=token` and `CF_ACCOUNT_ID=account-id` to the local ops `.env`.
 
 **What you'll see**: run doctor again — `gsc-config` and `gsc-access` both turn green.
 
@@ -101,7 +101,7 @@ npx anvilwiki-ops --site forge-wiki metrics
 
 Credentials never go in the registry — each site's `.env` stays in its own repo; the registry only stores names and paths. `--all` works on the read commands (doctor / metrics / audit / insights); `submit` stays single-site on purpose: bulk-publishing is too dangerous to batch.
 
-The `metrics` report now also ends with an **AI referrals** section — visits coming from chatgpt.com, perplexity.ai, gemini.google.com, claude.ai and friends (via your Cloudflare token). GSC has no API for its generative-AI report, so `insights` also probes AI Overviews pages (experimental) and `metrics --import-aio <csv>` ingests the GSC UI's CSV export. Treat the numbers as a trend, not a census — AI browsers often strip referrers.
+When Cloudflare Web Analytics is enabled separately, the `metrics` report can also include an **AI referrals** section — visits coming from chatgpt.com, perplexity.ai, gemini.google.com, claude.ai and friends. GSC has no API for its generative-AI report, so `insights` also probes AI Overviews pages (experimental) and `metrics --import-aio <csv>` ingests the GSC UI's CSV export. Treat the numbers as a trend, not a census — AI browsers often strip referrers.
 
 ## v2.0: batch drafts straight to a PR (content pipeline)
 
@@ -116,7 +116,7 @@ The tool's write path is exactly one: **validate (check-content + check-i18n + f
 - `gsc-access` FAIL: the property wasn't shared with the service account email (Step 2, sub-step 3).
 - `Cloudflare API returned 401/403`: wrong token permissions — recreate with Account → Analytics → Read.
 - `gh CLI not found`: install the GitHub CLI (needed by submit): https://cli.github.com/
-- `No site config found` / site-config FAIL: your repo deleted `wrangler.toml` (the learning manual's recommended setup — settings live in the Cloudflare dashboard). Fix: add `SITE_URL=https://your-domain` to the `.env` at the repo root (plus `PUBLIC_CF_BEACON_TOKEN` if you want CF data). Do **not** recreate wrangler.toml for this — the moment that file returns, every variable you configured in the dashboard stops working.
+- `No site config found` / site-config FAIL: set `SITE_URL=https://your-domain` in the repo's local `.env`; configure the production value in Vercel Project Settings. For the separate Cloudflare Analytics provider, the ops tool's API credentials belong in its local `.env`.
 - `No uncommitted changes to submit`: the worktree is clean — the AI hasn't written anything yet; have it produce content first.
 - `npx anvilwiki-ops` can't find the package: you need 0.1.0 or later (ships with template v1.15; v2.0 ships 1.0.0 with multi-site + AI referrals).
 - Pipeline opens no PR: Settings → Actions → General → enable "Allow GitHub Actions to create and approve pull requests".

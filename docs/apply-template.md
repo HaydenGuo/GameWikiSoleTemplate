@@ -22,7 +22,7 @@
 | AI 品牌图标源文件 | `src/assets/branding/brand-mark.png` |
 | favicon / Hero 图 / PWA 生成产物 | [public/](#6-静态资源) |
 | 文章内容 | [src/content/wiki/](#7-mdx-文章) |
-| 广告 key | Cloudflare 环境变量 `PUBLIC_ADSENSE_*`（参考 [Google AdSense](https://adsense.google.com/)） |
+| 广告 key | Vercel 项目环境变量 `PUBLIC_ADSENSE_*`（参考 [Google AdSense](https://adsense.google.com/)） |
 
 > 想自动化基础配置？运行 `pnpm apply-template`，它会交互式引导你完成 site.ts / navigation.ts / globals.css / routing.ts / locales 的修改。脚本化/CI 场景用 `pnpm apply-template --answers answers.json` 非交互驱动（与交互同一问答路径，答案缺失或多余都会响亮报告）。
 
@@ -35,7 +35,7 @@
 | 通道 | 怎么触发 | 特点 |
 |---|---|---|
 | `pnpm apply-template`（本地 CLI） | 终端交互式，自己点确认 | 会改游戏名/主题/语言/栏目；删除前逐项确认 |
-| Actions → **Initialize GameWikiSoleTemplate** workflow | fork 仓库里点 Run workflow | 只做安全项（wrangler 重置 + 删 landing + 清 demo），**开 PR 前先跑 `pnpm build` 验证**再交给你审 |
+| Actions → **Initialize GameWikiSoleTemplate** workflow | fork 仓库里点 Run workflow | 只做安全项（生成 `.env.example` + 删 landing + 清 demo），**开 PR 前先跑 `pnpm build` 验证**再交给你审 |
 
 **删除清单（两个通道一致，改动必须同步 `scripts/apply-template.ts` 与 `.github/workflows/setup.yml`）：**
 
@@ -46,7 +46,7 @@
 | demo 配图 | **全部按文件名删**（整目录 rm -rf 已废除）：所有示例图现在位于 `src/assets/articles/`；清单见 `scripts/lib/apply-rewrites.ts` 的 `DEMO_ARTICLE_IMAGES`（`tests/apply-template.test.ts` 钉住与 setup.yml 的同步） | 按名删除而非通配——`src/assets/articles/` 正是内容规范让你放**自己**文章图的地方，你的图绝不会被误删 |
 | 项目官网 | `src/components/landing/`、`src/config/landing.ts`、`src/pages/landing*`（含站内文档中心 /landing/docs）、`src/pages/zh/landing*`（中文官网）、`public/images/showcase/`、`public/images/wechat-qr.jpg` | fork 站不需要 GameWikiSoleTemplate 项目自述页；`docs/handbook/` **markdown 源保留**当参考文档，只删路由 |
 | 官网回链 | `src/config/project.ts` 的 `landingLinkEnabled` 翻为 `false` | 页面 header 的"返回官网"按钮随删随关 |
-| demo 凭据 | `wrangler.toml` `[vars]` 重置：`SITE_URL` 换成你的域名，Giscus/Sponsor/CF Analytics 全部清空，AdSense 等可选槽留注释位 | 不重置的话，你站的评论区会指回官方仓库的 Discussions |
+| demo 环境变量 | `.env.example` 重置：`SITE_URL` 换成你的域名，Giscus/Sponsor 等可选集成都清空 | 不重置的话，你站的评论区会指回官方仓库的 Discussions |
 | demo 作者 | `src/config/authors.ts` 里 `// DEMO` 标记的作者条目 | 否则 Person JSON-LD 会引用虚构作者 |
 
 **保留不删（有意设计）**：AI 品牌图标源文件、favicon/hero 图等资产。初始化命令不会把 GameWikiSoleTemplate 图标误当作新游戏图标；完成配置后，先按品牌图标工作流生成新源图，再运行 `pnpm gen-assets --force`。首页 Hero 图仍需按站点自行替换；`docs/handbook/` 手册源码保留。
@@ -334,7 +334,7 @@ tags: ["boss", "guide"]
 □ hero 图是真实图片（非占位）
 □ 所有 MDX frontmatter 通过 Zod schema（pnpm build 不报错）
 □ sitemap URL 全部返回 200（pnpm check-sitemap）
-□ SITE_URL 环境变量已配（含 https:// 协议，改 wrangler.toml 或 dashboard —— 注意 wrangler.toml 存在时会接管 dashboard，见 [deployment.md](./deployment.md)）
+□ Vercel 项目环境变量 `SITE_URL` 已配置（含 https:// 协议，见 [deployment.md](./deployment.md)）
 ```
 
 ---
@@ -349,7 +349,7 @@ tags: ["boss", "guide"]
 pnpm template-audit
 ```
 
-它会从三层分离的角度打分（如「模板健康度：8/10」）：代码层有没有混进游戏专属字符串（❌ 必须修——那是框架层的违约）、配置层还绑着旧游戏多少、内容层有没有 draft 遗留、demo 图片资产和 `wrangler.toml` demo 值清干净没有。❌ 清零、⚠️ 逐条决定去留之后，这个仓库才是一个干净的模板。
+它会从三层分离的角度打分（如「模板健康度：8/10」）：代码层有没有混进游戏专属字符串（❌ 必须修——那是框架层的违约）、配置层还绑着旧游戏多少、内容层有没有 draft 遗留、demo 图片资产和 `.env.example` demo 值清干净没有。❌ 清零、⚠️ 逐条决定去留之后，这个仓库才是一个干净的模板。
 
 **2. 沉淀换皮清单**：把「复制新站时必改哪些文件、必换哪些目录」写成 `docs/rebrand-checklist.md`（第 9 章有一段现成提示词可以生成初稿）。半年后复制第五个站时，照单执行，不用回忆任何细节。
 
@@ -359,7 +359,7 @@ pnpm template-audit
 
 ## 下一步
 
-- [部署指南](./deployment.md)：部署到 Cloudflare Pages
+- [部署指南](./deployment.md)：部署到 Vercel
 - [内容格式](./content-format.md)：MDX 文章怎么写
 - [SEO 说明](./seo.md)：SEO 工程化细节
 - 回到 [README](../README.md)

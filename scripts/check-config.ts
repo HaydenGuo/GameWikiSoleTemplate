@@ -19,11 +19,10 @@
  *        every locales/<loc>.json home.explore.modules[].displayType
  *      must be one of the 6 supported values.
  *   4. Overview labels: en.json overview.<key> exists for every nav key.
- *   5. Deployment domain gate (the wrangler.toml trap, caught in real use):
- *        effective SITE_URL host (env override > wrangler.toml [vars])
- *      must equal src/config/site.ts `domain`. When wrangler.toml exists it
- *      is the SOLE source of Pages env — a leftover demo SITE_URL silently
- *      points every canonical/sitemap at the wrong site.
+ *   5. Deployment domain gate:
+ *        SITE_URL from the build environment
+ *      must equal src/config/site.ts `domain`; local builds use the configured
+ *      domain as a fallback and Vercel production builds set SITE_URL explicitly.
  *
  * Exits 1 on any error, 0 when clean. Style matches check-sitemap.ts.
  *
@@ -242,26 +241,22 @@ if (!hasValidIcoHeader || !hasValidEmbeddedImage) {
   console.log('  ✅ PNG and ICO favicon outputs are present');
 }
 
-// --- Check 7: deployment domain gate (wrangler.toml ↔ site.ts) -------------
-console.log('\n7. Deployment domain (wrangler.toml SITE_URL ↔ site.ts domain)');
+// --- Check 7: deployment domain gate (SITE_URL ↔ site.ts) ------------------
+console.log('\n7. Deployment domain (SITE_URL ↔ site.ts domain)');
 const siteSrc = read('src/config/site.ts');
 const domain = siteSrc.match(/^\s*domain:\s*'([^']+)'/m)?.[1];
-let effectiveUrl = process.env.SITE_URL ?? '';
-let urlSource = 'env SITE_URL';
-if (!effectiveUrl && fs.existsSync(path.resolve(ROOT, 'wrangler.toml'))) {
-  effectiveUrl = read('wrangler.toml').match(/^SITE_URL\s*=\s*"([^"]+)"/m)?.[1] ?? '';
-  urlSource = 'wrangler.toml [vars]';
-}
+const effectiveUrl = process.env.SITE_URL ?? `https://${domain ?? ''}`;
+const urlSource = process.env.SITE_URL ? 'env SITE_URL' : 'src/config/site.ts domain fallback';
 if (!domain) {
   err('could not parse `domain` in src/config/site.ts');
 } else if (!effectiveUrl) {
-  err(`no SITE_URL found (env or wrangler.toml) — canonical/sitemap would fall back to https://${domain}`);
+  err(`no SITE_URL found and src/config/site.ts has no domain — canonical/sitemap URL cannot be resolved`);
 } else {
   try {
     const host = new URL(effectiveUrl).host;
     if (host !== domain) {
       err(
-        `${urlSource} SITE_URL host "${host}" ≠ site.ts domain "${domain}" — every canonical/og:url/sitemap URL would point at the wrong site. Fix wrangler.toml [vars] (or delete the file, see docs/deployment.md).`,
+        `${urlSource} host "${host}" ≠ site.ts domain "${domain}" — every canonical/og:url/sitemap URL would point at the wrong site. Fix SITE_URL in the Vercel project or local environment.`,
       );
     } else {
       console.log(`  ✅ ${urlSource} → ${effectiveUrl} matches site.ts domain`);

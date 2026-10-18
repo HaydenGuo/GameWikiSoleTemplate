@@ -1,103 +1,50 @@
 ---
-title: "Chapter 5 · Take Your Site Live: Onto the Free Shelf"
-description: "Push the site to GitHub, connect Cloudflare's free shelf for a global URL, handle the beginner trap (which settings win), and buy-and-bind a domain. All free."
+title: "Chapter 5 · Put Your Site Online with GitHub and Vercel"
+description: "Connect the site repository to Vercel, configure its build and environment, and bind a custom domain using the records Vercel provides."
 manual: learn
 order: 5
-icon: lucide:cloud
-tldr: "Shelving takes three steps: git push sends files to GitHub; Cloudflare Pages connects to the repo in a few clicks and hands you a free URL in two or three minutes; then delete wrangler.toml (settings have two registries — while the file exists, web settings are ignored; beginners delete the file, then use only the web UI). Finally, a full domain-buying side quest — required before AdSense money."
-updated: 2026-08-17
+icon: lucide:cloud-upload
+tldr: "Push the site to GitHub, import that repository into Vercel, and deploy. Add any custom domain in Vercel, publish the exact DNS records it shows at your authoritative DNS provider, then verify the canonical URL and sitemap."
+updated: 2026-10-18
 ---
 
-## Where you are, and what this chapter solves
+## What this chapter does
 
-Your 10 pages sit on your computer — but players can't reach them. It's like a book fresh from the print shop that hasn't been placed on any store shelf.
+Your site is ready in the repository; now make it reachable on the public web. The publishing route is GitHub → Vercel. Astro generates static pages, and the root `api/` directory supplies optional same-origin Vercel Functions.
 
-This chapter puts the book on the shelf: first onto GitHub, then onto Cloudflare's free shelf (no money down, effectively unlimited bandwidth), and you come away with a URL the whole world can open.
+## Step 1: Push the repository to GitHub
 
-## What you'll have when this chapter is done
+If your repository is already on GitHub, push the reviewed changes to its production branch. Otherwise, create a GitHub repository and push the site there. Keep `.env.local`, database connection strings, and other credentials out of Git.
 
-- A URL anyone in the world can open (a free domain first; swap in your own later)
-- The site's "settings registry" straightened out, so turning on ads later won't trip you up
+## Step 2: Import it into Vercel
 
-## A few words to know
+1. In Vercel, choose **Add New → Project** and import the GitHub repository.
+2. Select the production branch, usually `main`, and keep the repository root as the project root.
+3. Use the Astro framework preset and the pinned package manager from `package.json`.
+4. Confirm the build command is `pnpm build` and the static output is `dist/`.
+5. Set `SITE_URL` to the deployment's canonical HTTPS URL in the Vercel project environment.
+6. Deploy. Pull requests and branches get preview deployments; the production branch gets the production deployment.
 
-- **Deploy**: putting your site files onto a server everyone can reach. What we use here is Cloudflare Pages — free.
-- **Domain**: the site's street address, like `yourgame-wiki.com`. Use the free address first; switch to a real one before you earn.
+Vercel detects the static Astro site and the root `api/` Functions. No Cloudflare Pages setup or Wrangler config is part of the deployment path.
 
-### Step 1: Push the files to GitHub
+## Step 3: Bind your custom domain
 
-**What to do**: for Cloudflare to reach the site files on your computer, they must first live on GitHub.
-**How to do it**: in the terminal (inside the GameWikiSoleTemplate folder), enter in order:
+1. Add the domain in the Vercel project under **Settings → Domains**.
+2. Copy the exact DNS records Vercel requests. Add them at the DNS provider currently authoritative for your domain; this may differ from the registrar where you bought it.
+3. Preserve existing mail, ownership-verification, and other records. Do not change nameservers as part of adding one website record.
+4. Wait until Vercel reports the domain as valid and its TLS certificate as ready.
+5. Set production `SITE_URL` to the canonical HTTPS domain and redeploy.
 
-```bash
-git add .
-git commit -m "My game wiki, first version"
-git push
-```
+Use the records shown for this Vercel project. DNS targets can vary by domain and account; examples from another project are not authoritative.
 
-**You'll see**: the first push pops up a GitHub login window; log into your account, then the terminal shows upload progress.
-**Confirm it worked**: refresh your GitHub repo page and you can see folders like `docs` and `src`.
+## Step 4: Verify the live site
 
-### Step 2: Connect the Cloudflare shelf
+- Open the canonical homepage and a representative article.
+- Check the canonical URL and redirect behavior for the root and `www` host.
+- Open `/robots.txt` and `/sitemap-index.xml`.
+- Check `/api/game-deals` and any other API enabled in your site configuration.
+- Confirm Vercel shows the deployment as Ready and that it was built from the intended GitHub commit.
 
-**What to do**: tell Cloudflare "my repo is here; every time I update, reshelve automatically".
-**How to do it**:
+## Optional Popular / Most Read
 
-1. Register / log in at [dash.cloudflare.com](https://dash.cloudflare.com) (free).
-2. On the left, pick **Workers & Pages** → **Create** → **Pages** → **Connect to Git**.
-3. Authorize GitHub, select your GameWikiSoleTemplate repo, click **Begin setup**.
-4. Copy the build settings as-is:
-
-| What it asks | What you enter |
-|---|---|
-| Project name | Anything, e.g. your game's name (it becomes part of the URL) |
-| Production branch | `main` |
-| Framework preset | Astro (usually auto-detected) |
-| Build command | `pnpm build` |
-| Build output directory | `dist` |
-
-5. In the **Environment variables** area, add one variable: name `NODE_VERSION`, value `22`.
-6. Click **Save and Deploy**.
-
-**You'll see**: the build progress runs 2 to 3 minutes and ends with a `https://project-name.pages.dev` URL.
-**Confirm it worked**: open that URL and see your game site — from this moment on, the whole world can reach it.
-
-### Step 3: Handle the big beginner trap (which settings win)
-
-**What to do**: delete a file called `wrangler.toml`. The reason in one sentence: the site's settings have two registries — this file in the repo, and the settings pages in the Cloudflare web UI. **While the file exists, the web settings are all ignored.** Beginners simply delete the file and use only the web UI from then on — clean, no traps.
-**How to do it**: in the terminal, type:
-
-```bash
-git rm wrangler.toml
-git commit -m "remove wrangler.toml"
-git push
-```
-
-**You'll see**: `wrangler.toml` disappears from the GitHub repo's file list, and Cloudflare redeploys automatically once.
-**Confirm it worked**: Cloudflare → your project → **Settings** → **Variables and Secrets** shows `NODE_VERSION = 22` (added in Step 2; it only truly takes effect now that the file is gone). From now on, every variable for ads or analytics gets added on this page.
-
-> Advanced note: keeping the file and recording settings in the repo works too, but then `NODE_VERSION = "22"` and every other variable must live in the file's `[vars]` section, and the web settings are still ignored — details in the developer manual's feature-toggles chapter. Beginners, don't touch it; just delete the file.
-
-### Step 4: Buy your own domain (skippable for now, needed before earning)
-
-**What to do**: swap `project-name.pages.dev` for your own street address. **AdSense review basically requires a domain you own**, so you must buy one before earning (a few dozen dollars a year).
-**How to do it**: search for a `.com` / `.wiki` domain at [Cloudflare Registrar](https://www.cloudflare.com/products/registrar/) (sells at cost, no markup) or a registrar like [Porkbun](https://porkbun.com) and buy it; then Cloudflare Pages → your project → **Custom domains** → Set up, and follow the prompts to point the domain over (with DNS on Cloudflare, it's next-next-next the whole way).
-**You'll see**: within minutes (a few hours at most), your domain opens your site.
-**Confirm it worked**: once your domain opens the site, change both the Domain in the Chapter 3 config and Cloudflare's `SITE_URL` variable to this domain (must start with `https://`, no exceptions), and redeploy.
-
-## If you get stuck
-
-- **"The Cloudflare build failed"**: open that deployment and read the last log line. Nine times out of ten it's one of two things: an environment variable misconfigured (back to Step 2, check NODE_VERSION), or `SITE_URL` missing the `https://`.
-- **"I changed settings in the Cloudflare web UI but nothing happened"**: recall Step 3 — did you delete `wrangler.toml`? While it exists, the web settings are ignored.
-- **"The domain opens but the styling is broken / images are gone"**: nine times out of ten `SITE_URL` still isn't the new domain. Change it to `https://your-domain` and redeploy.
-- **"I closed the login window the first git push showed"**: push again — it pops up again.
-
-## ✅ Acceptance criteria (all must hold)
-
-- Your URL opens on phone data (no WiFi needed), pages rendering normally
-- `wrangler.toml` is deleted, and every setting from now on goes into the Cloudflare web UI
-- ☐ If you have a domain: `SITE_URL` has been changed to `https://your-domain`
-
-## Next step
-
-The site is live, but Google doesn't know you exist — the next chapter gets it to start indexing you, which is where traffic begins. [Go to Chapter 6 · Get Google to Know You](/landing/docs/get-on-google)
+To enable database-backed article views, create a Neon database, run `migrations/0001_article_views_daily.sql`, and configure `DATABASE_URL` plus `PUBLIC_POPULAR_ENABLED=true` in Vercel. See [Popular and Most Read](../../popular-reading.md) for the full setup. The feature is optional; static article links remain available if it is disabled or the database is unavailable.

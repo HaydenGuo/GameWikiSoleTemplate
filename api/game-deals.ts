@@ -375,28 +375,13 @@ async function buildPayload(appId: number, gameTitle: string): Promise<any> {
   };
 }
 
-export const onRequestGet = async ({ request }: { request: Request }): Promise<Response> => {
+export async function GET(request: Request): Promise<Response> {
   const url = new URL(request.url);
   const rawAppId = (url.searchParams.get('appid') ?? '').trim();
   const appId = Number(rawAppId);
   const gameTitle = (url.searchParams.get('title') ?? '').trim().slice(0, 120);
   const hasAppId = rawAppId.length > 0;
   if (hasAppId && (!Number.isSafeInteger(appId) || appId <= 0 || !gameTitle)) return json({ error: 'A valid Steam appid and game title are required.' }, 400);
-  const cacheStorage = (globalThis as typeof globalThis & {
-    caches?: CacheStorage & { default?: Cache };
-  }).caches;
-  const cache = cacheStorage?.default;
-  const cacheKey = new Request(new URL(`/api/game-deals?appid=${hasAppId ? appId : 'popular'}&title=${encodeURIComponent(gameTitle)}&region=US&schema=2`, request.url));
-  const forceRefresh = url.searchParams.get('refresh') === '1';
-  if (cache && !forceRefresh) {
-    const cached = await cache.match(cacheKey);
-    if (cached) return cached;
-  }
-
   const payload = hasAppId ? await buildPayload(appId, gameTitle) : await buildPopularPayload();
-  const response = json(payload, 200, true);
-  if (cache) {
-    try { await cache.put(cacheKey, response.clone()); } catch { /* Fresh response remains usable without edge caching. */ }
-  }
-  return response;
-};
+  return json(payload, 200, url.searchParams.get('refresh') !== '1');
+}

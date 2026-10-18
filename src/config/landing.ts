@@ -11,7 +11,7 @@
  */
 
 /** Keep in sync with package.json "version" (used by the announcement bar). */
-export const PROJECT_VERSION = '1.1.4';
+export const PROJECT_VERSION = '2.0.0';
 
 export type LandingLocale = 'en' | 'zh';
 
@@ -266,11 +266,11 @@ const en: LandingContent = {
   description:
     'An open-source Astro starter for game wikis, with configurable content, search, localization, and an optional AI-assisted writing workflow.',
   announcement: {
-    text: `v${PROJECT_VERSION} adds a local Cloudflare Pages runtime and API freshness checks for development previews.`,
+    text: `v${PROJECT_VERSION} moves the template runtime to Vercel Functions and optional Neon Postgres.`,
     href: RELEASES,
   },
   hero: {
-    badge: 'Open Source · MIT · Cloudflare Pages',
+    badge: 'Open Source · MIT · Vercel',
     title: 'Turn a trending game into a traffic site — in 24 hours, not weeks',
     subtitle:
       'An Astro game wiki starter with structured content, search, localization, and an optional AI-assisted writing workflow that lives alongside your site source.',
@@ -385,7 +385,7 @@ pnpm install && pnpm dev`,
       },
       {
         name: 'GameWikiSoleTemplate',
-        text: 'Static publishing template — you and your AI agent write MDX in git, deploy free on Cloudflare Pages, keep 100% of ad revenue.',
+        text: 'Static publishing template — you and your AI agent write MDX in git, deploy on Vercel, and keep 100% of ad revenue.',
       },
     ],
     table: {
@@ -403,7 +403,7 @@ pnpm install && pnpm dev`,
         },
         {
           label: 'Server cost',
-          values: ['Free — Cloudflare Pages', 'Free (platform-hosted)', 'Your own VPS + database'],
+          values: ['Vercel free tier (usage limits apply)', 'Free (platform-hosted)', 'Your own VPS + database'],
         },
         {
           label: 'Ad revenue',
@@ -574,7 +574,7 @@ pnpm install && pnpm dev`,
       {
         title: 'Make it yours',
         description:
-          'One interactive CLI swaps game identity, theme color, locales and nav — and resets demo values (incl. wrangler.toml).',
+          'One interactive CLI swaps game identity, theme color, locales and nav — and resets demo values (including environment examples).',
         command: 'pnpm apply-template',
         linkLabel: 'Ch.3 · Apply the template',
         href: '/landing/docs/launch-your-site/',
@@ -648,7 +648,7 @@ pnpm install && pnpm dev`,
         { label: 'Install the 6 tools', time: '30 min', href: '/landing/docs/install-tools/' },
         { label: 'Turn the template into your site', time: '30 min', href: '/landing/docs/launch-your-site/' },
         { label: 'Write the first 10 pages with AI', time: '1 day', href: '/landing/docs/first-10-pages/' },
-        { label: 'Put the site online (free hosting)', time: '15 min', href: '/landing/docs/put-site-online/' },
+        { label: 'Put the site online with Vercel', time: '15 min', href: '/landing/docs/put-site-online/' },
         { label: 'Register with Google (GSC + sitemap)', time: '20 min', href: '/landing/docs/get-on-google/' },
         { label: 'Buy and connect a domain', time: '30 min', href: '/landing/docs/put-site-online/' },
         { label: 'Turn on ads (AdSense)', time: 'review: days', href: '/landing/docs/enable-ads/' },
@@ -661,7 +661,7 @@ pnpm install && pnpm dev`,
   },
   finalCta: {
     title: 'Ready to launch your game wiki?',
-    subtitle: 'Fork, configure, deploy — all in 30 minutes, completely free.',
+    subtitle: 'Fork, configure, deploy — get your site online with GitHub and Vercel.',
     primaryCta: { label: 'Fork on GitHub', href: FORK_URL },
     secondaryCta: { label: 'Open the docs center', href: '/landing/docs/' },
   },
@@ -679,7 +679,7 @@ pnpm install && pnpm dev`,
   footer: {
     tagline: 'Open-source game wiki site template. Free, fast, beginner-friendly.',
     license: 'MIT License',
-    madeWith: 'Built with Astro · Deployed on Cloudflare Pages',
+    madeWith: 'Built with Astro · Deployed on Vercel',
     author: 'Open-sourced by 袁锐钦 (Yuan Ruiqin), lead of the PNGTRIBE team',
     creditsLabel: 'Credits:',
     credits: [
@@ -708,11 +708,11 @@ const zh: LandingContent = {
   description:
     '开源 Astro 游戏 Wiki starter，提供结构化内容、站内搜索、多语言路由和可选的 AI 辅助写作工作流。',
   announcement: {
-    text: `v${PROJECT_VERSION} 增加 Cloudflare Pages 本地运行预览与 API 数据新鲜度检查。`,
+    text: `v${PROJECT_VERSION} 将模板运行时迁移至 Vercel Functions，热门阅读改用可选 Neon Postgres。`,
     href: RELEASES,
   },
   hero: {
-    badge: '开源 · MIT 协议 · Cloudflare Pages',
+    badge: '开源 · MIT 协议 · Vercel',
     title: '把一个爆发期游戏,24 小时变成你的流量站',
     subtitle:
       '基于 Astro 的游戏 Wiki starter，支持结构化文章、站内搜索、多语言路由，以及与源码一同维护的 AI 辅助写作工作流。',
@@ -842,7 +842,7 @@ pnpm install && pnpm dev`,
         },
         {
           label: '服务器成本',
-          values: ['免费——Cloudflare Pages', '免费(平台托管)', '自付 VPS + 数据库'],
+          values: ['Vercel 免费层（受用量限制）', '免费(平台托管)', '自付 VPS + 数据库'],
         },
         {
           label: '广告收入',
@@ -983,7 +983,7 @@ pnpm install && pnpm dev`,
       {
         title: '换成你的游戏',
         description:
-          '一条交互式 CLI 替换游戏信息、主题色、多语言与导航,并重置 demo 配置(含 wrangler.toml)。',
+          '一条交互式 CLI 替换游戏信息、主题色、多语言与导航,并重置 demo 环境变量示例。',
         command: 'pnpm apply-template',
         linkLabel: '第 3 章·换皮命令',
         href: '/zh/landing/docs/launch-your-site/',
@@ -999,9 +999,9 @@ pnpm install && pnpm dev`,
       {
         title: '免费部署上线',
         description:
-          '推到 GitHub、连接 Cloudflare Pages——自动识别 Astro 构建,免费无限带宽 + 全球 CDN。',
+          '推到 GitHub、连接 Vercel——自动识别 Astro 构建，并部署静态页面与 API Functions。',
         command: 'pnpm build && git push',
-        linkLabel: '第 5 章·免费上线',
+        linkLabel: '第 5 章·部署上线',
         href: '/zh/landing/docs/put-site-online/',
       },
       {
@@ -1070,7 +1070,7 @@ pnpm install && pnpm dev`,
   },
   finalCta: {
     title: '准备好上线你的游戏 wiki 了吗?',
-    subtitle: 'Fork、配置、部署——30 分钟搞定,完全免费。',
+    subtitle: 'Fork、配置、部署——用 GitHub 和 Vercel 把站点部署上线。',
     primaryCta: { label: 'Fork 开始建站', href: FORK_URL },
     secondaryCta: { label: '打开文档中心', href: '/zh/landing/docs/' },
   },
@@ -1088,7 +1088,7 @@ pnpm install && pnpm dev`,
   footer: {
     tagline: '开源游戏 wiki 站点模板。免费、快速、新手友好。',
     license: 'MIT 协议',
-    madeWith: '基于 Astro 构建 · 部署于 Cloudflare Pages',
+    madeWith: '基于 Astro 构建 · 部署于 Vercel',
     author: '由 PNG 部落团队主理人 袁锐钦 开源',
     creditsLabel: '致谢:',
     credits: [

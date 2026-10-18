@@ -15,7 +15,7 @@
  *   3. Content-layer state  — article count per category (empty categories
  *                             surfaced), leftover draft:true files.
  *   4. Reskin leftovers     — demo artwork files, demo article content,
- *                             demo wrangler.toml [vars].
+ *                             demo .env.example values.
  *
  * Output: ✅ pass / ⚠️ attention / ❌ violation per item + a one-line health
  * score ("模板健康度 N/10"). Exit 1 only on ❌ violations (things that mean
@@ -40,7 +40,7 @@ const REL = (p: string) => path.relative(ROOT, p);
 // Demo markers — KEEP IN SYNC with scripts/apply-template.ts
 // (DEMO_ARTICLE_IMAGES/clearDemoAssets) and setup.yml.
 // ---------------------------------------------------------------------------
-const DEMO_DOMAINS = ['your-game-wiki.example', 'anvilwiki.pages.dev'];
+const DEMO_DOMAINS = ['your-game-wiki.example', 'your-project.vercel.app'];
 const DEMO_GAME_NAME = 'Anvil Quest';
 /** Demo-game identifiers that must never appear in RENDERED code-layer output. */
 const DEMO_CODE_STRINGS = ['anvil quest', 'anvilquest', 'emberfang', 'stormcaller'];
@@ -277,7 +277,7 @@ check(() => {
 // ---------------------------------------------------------------------------
 // 4. Reskin leftovers
 // ---------------------------------------------------------------------------
-console.log('\n4. 换皮残留（demo 图片资产 + wrangler.toml demo 值）');
+console.log('\n4. 换皮残留（demo 图片资产 + Vercel env example 值）');
 
 check(() => {
   const found: string[] = [];
@@ -317,36 +317,20 @@ check(() => {
 });
 
 check(() => {
-  if (!exists('wrangler.toml')) {
-    ok('no wrangler.toml (env managed in the Cloudflare dashboard)');
+  if (!exists('.env.example')) {
+    warn('missing .env.example — see docs/deployment.md');
     return;
   }
-  const siteUrl = read('wrangler.toml').match(/^SITE_URL\s*=\s*"([^"]+)"/m)?.[1];
-  if (!siteUrl) {
-    warn('wrangler.toml has no SITE_URL in [vars] — see docs/deployment.md');
-  } else if (DEMO_DOMAINS.some((domain) => siteUrl === `https://${domain}`)) {
-    warn(`wrangler.toml SITE_URL is still a template placeholder ("${siteUrl}") — while this file exists it OVERRIDES the dashboard; a fork must edit [vars] or delete the file.`);
+  const src = read('.env.example');
+  const siteUrl = src.match(/^SITE_URL=(.+)$/m)?.[1]?.trim();
+  if (!siteUrl || DEMO_DOMAINS.some((domain) => siteUrl === `https://${domain}`)) {
+    warn('.env.example SITE_URL is still a template placeholder — replace it before deployment.');
   } else {
-    if (/^https:\/\/localhost(?::\d+)?$/i.test(siteUrl)) {
-      warn(`wrangler.toml SITE_URL "${siteUrl}" is local-preview only — replace it before any production deploy.`);
-    } else {
-      ok(`wrangler.toml SITE_URL "${siteUrl}" is not the demo domain`);
-    }
+    ok('.env.example SITE_URL is not the demo domain');
   }
-});
-
-check(() => {
-  if (!exists('wrangler.toml')) {
-    ok('no wrangler.toml (nothing to check)');
-    return;
-  }
-  const src = read('wrangler.toml');
-  const hit = DEMO_GISCUS_MARKERS.find((m) => src.includes(m));
-  if (hit) {
-    warn(`wrangler.toml still points comments at a template Giscus configuration ("${hit}") — configure your own discussion repository before enabling comments.`);
-  } else {
-    ok('wrangler.toml has no demo Giscus config');
-  }
+  const hit = DEMO_GISCUS_MARKERS.find((marker) => src.includes(marker));
+  if (hit) warn(`.env.example still contains demo Giscus configuration ("${hit}")`);
+  else ok('.env.example contains no demo Giscus values');
 });
 
 // ---------------------------------------------------------------------------

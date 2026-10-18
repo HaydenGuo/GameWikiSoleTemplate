@@ -1,8 +1,0 @@
-import { allowedArticleSlugs } from '../../src/generated/allowed-article-slugs.js';
-import { articleView } from '../lib/popular.js';
-
-export const onRequestPost: PagesFunction = (context) => articleView(context, allowedArticleSlugs);
-
-interface PagesFunction {
-  (context: { request: Request; env: { POPULAR_DB?: import('../lib/popular.js').D1Database } }): Promise<Response>;
-}

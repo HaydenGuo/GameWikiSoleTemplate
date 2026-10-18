@@ -43,7 +43,7 @@ This chapter fixes exactly that: **turn "polishing my first site" into "polishin
 pnpm template-audit
 ```
 
-**You'll see**: four groups of checks — ① code-layer purity (framework code must carry zero game-specific strings); ② config-layer completeness (domain, game name, the 3-place category rule); ③ content-layer replaceability (article count per category, leftover drafts); ④ rebrand leftovers (demo artwork, demo article content, demo values in wrangler.toml). The last line is the score, e.g. "template health: 8/11".
+**You'll see**: four groups of checks — ① code-layer purity (framework code must carry zero game-specific strings); ② config-layer completeness (domain, game name, the 3-place category rule); ③ content-layer replaceability (article count per category, leftover drafts); ④ rebrand leftovers (demo artwork, demo article content, demo values in `.env.example`). The last line is the score, e.g. "template health: 8/11".
 **Confirm it worked**: zero ❌. ⚠️ are nudges, not errors — on your first site they mean "handle before copying, or consciously skip".
 
 ## Step 2: Fix (❌ to zero, ⚠️ case by case)
@@ -65,7 +65,7 @@ Once the health score is acceptable, write down "everything a new copy must chan
 Based on the current repo, generate a "rebrand checklist" document (read-only, output as markdown):
 1. Config layer, file by file: list fields carrying game info — site.ts / navigation.ts / globals.css theme / routing.ts / src/locales/*.json / manifest.json — each with "what to change it to when copying"
 2. Content layer: list directories that must be fully replaced — src/content/wiki/, src/assets/covers/, public/images/
-3. wrangler.toml [vars]: list must-change keys (SITE_URL, PUBLIC_GISCUS_*), and remind: while this file exists, Cloudflare dashboard env vars are IGNORED
+3. `.env.example`: list environment keys that must be set in Vercel Project Settings (SITE_URL, PUBLIC_GISCUS_*)
 4. Separately list "private assets": custom changes I made for this game (if any are found)
 Save as docs/rebrand-checklist.md.
 ```
@@ -74,18 +74,18 @@ Why it matters: when you copy site #5 half a year from now, you execute the chec
 
 ## Copying site #2: the 30-minute standard flow
 
-1. **Copy the repo** (5 min): duplicate your repo on GitHub (or "use this template"), connect the new repo to a new Cloudflare Pages project.
+1. **Copy the repo** (5 min): duplicate your repo on GitHub (or "use this template"), import the new repo into Vercel.
 2. **Swap the config layer** (10 min): run `pnpm apply-template` in the new repo — it walks you through site name, domain, theme color, locales, categories, and clears old content.
 3. **Swap the content layer** (10 min): produce the first batch of articles with the Chapter 4 routine; to fill pages in bulk, go straight to Chapter 10.
 4. **Verify and launch** (5 min): `pnpm build` green → deploy → add the new site to Google Search Console (back to Chapter 6).
 
-> ⚠️ The wrangler.toml trap (from Chapter 5, most easily hit when copying): while this file exists it **overrides** the Cloudflare dashboard's environment variables. After copying, either edit its `[vars]` or delete the file and use the dashboard — skip this and the new site silently uses the old site's domain and comments.
+> Environment values in `.env.example` are placeholders. Set the real values in the matching Vercel environment before deploying; do not commit private values in `.env`.
 
 ## If you get stuck
 
 - **"template-audit shows a pile of ⚠️"**: warnings aren't errors. For each, ask "do I want this carried into the next site?" Fix if yes, leave if no.
 - **"build fails after apply-template"**: nine times out of ten it's the category 3-place rule — run `pnpm check-config` to pinpoint it.
-- **"Site #2's comments show site #1's discussions"**: the Giscus config wasn't swapped — check the four `PUBLIC_GISCUS_*` values in `wrangler.toml`.
+- **"Site #2's comments show site #1's discussions"**: the Giscus config wasn't swapped — check the four `PUBLIC_GISCUS_*` values in Vercel Project Settings.
 
 ## ✅ Acceptance (all must hold)
 

@@ -2,7 +2,7 @@
 
 ## Project purpose
 
-GameWikiSoleTemplate is a single-source Astro 5 game-wiki starter for static deployment to Cloudflare Pages. Runtime, configuration, content examples, validation, search, optional ads, and the `apply-template` initializer live in this repository.
+GameWikiSoleTemplate is a single-source Astro 5 game-wiki starter for GitHub-connected Vercel deployment. Astro builds static pages; root `api/` files are Vercel Functions, and optional Popular data uses Neon Postgres.
 
 The template must remain generic. A fork supplies the game identity, content, images, video IDs, categories, translations, and deployment values through configuration and content files.
 
@@ -11,7 +11,7 @@ The template must remain generic. A fork supplies the game identity, content, im
 - `docs/PRD.md` — architecture, data models, module boundaries, and roadmap.
 - `README.md` — user-facing setup path.
 - `docs/content-format.md` — article frontmatter, body, links, and media rules.
-- `docs/deployment.md` — Cloudflare Pages and environment-variable rules.
+- `docs/deployment.md` — GitHub → Vercel, Functions, environment variables, and Neon setup.
 - `docs/template-preservation.md` — fork-time preservation contract and baseline check.
 - The nearest existing component or article of the same type.
 
@@ -70,7 +70,7 @@ Content    src/content, src/locales                  articles and translated UI 
 9. Use `lucide:` icons through `astro-icon`; do not use emoji as UI icons.
 10. Use `SITE_URL` for the site URL. It must include `https://`.
 11. Use environment variables for ads and comments. Empty values must disable rendering; never commit credentials or demo secrets.
-12. When `wrangler.toml` exists, its `[vars]` section is the Cloudflare Pages environment-variable source of truth. Keep it aligned with deployment docs.
+12. Keep `.env.example`, Vercel environment-variable guidance, and `scripts/lib/apply-rewrites.ts::rewriteEnvExample` aligned. Never commit `.env.local` or provider credentials.
 13. The homepage visual baseline includes the animated Hero backdrop, optional lazy YouTube facade, image-led Quick Start cards, and image-led Explore modules. Keep these capabilities generic and driven by locale/config data.
 
 ### Homepage YouTube demo
@@ -143,10 +143,9 @@ Report pre-existing failures separately from failures introduced by the current 
 ## Local development and dependency recovery
 
 - Use `pnpm dev --host 127.0.0.1 --port 4323` for the Astro development server.
-- Use `pnpm dev:pages` when validating Cloudflare Pages Functions or dynamic APIs; it builds the site and starts Wrangler on `127.0.0.1:4322`. In another terminal, `pnpm check:pages-runtime` checks the homepage and API response shape and reports upstream staleness separately.
-- The Pages preview launcher disables automatic `.env` loading to avoid injecting unrelated workstation credentials. Supply only intentionally configured local bindings.
-- Astro dev and static HTTP preview do not run Pages Functions. Do not treat either as evidence that a dynamic API works.
-- Optional D1 or other bindings require explicit local Wrangler binding configuration. Never copy production credentials into tracked files or expose them in command output.
+- Use `pnpm dev:vercel` when validating Vercel Functions with the local pages. It runs Vercel CLI in unlinked local mode and avoids pulling project environment values.
+- Astro dev and static HTTP preview do not run Vercel Functions. Do not treat either as evidence that a dynamic API works.
+- Configure only intentionally local environment values. Never copy production credentials into tracked files or expose them in command output.
 - Use `python -m http.server 4331` from `dist/` only for checking an already-built static site.
 - A static preview does not prove that the Astro development server or full build is healthy.
 - Do not run multiple `pnpm install`, `pnpm dev`, or `pnpm build` processes against this template at the same time.
@@ -160,7 +159,7 @@ Report pre-existing failures separately from failures introduced by the current 
 
 ## Deployment and external effects
 
-- Default deployment target is Cloudflare Pages with `pnpm build` producing `dist/`.
+- Default deployment target is Vercel connected to GitHub; `pnpm build` produces static `dist/` assets and root `api/` files deploy as Vercel Functions.
 - Do not deploy, submit indexing URLs, change production settings, publish content, or send external messages without explicit user authorization.
 - Before changing license, framework runtime, deployment target, or demo-game identity, confirm with the user and update the PRD/decision record.
 - Keep secrets, tokens, service-account files, and local credentials out of the repository and command output.

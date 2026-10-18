@@ -67,9 +67,9 @@ When done, run pnpm check-content && pnpm build; only all-green counts as comple
 
 ### Action 3: Read the data, pick next week's topics (5 minutes)
 
-`git push` (Cloudflare reshelves automatically) → open GSC's "Performance" page and see which terms brought clicks these past days → pick 1 to 2 rising terms and write matching new pages next week with the Chapter 4 routine.
+`git push` (Vercel builds and deploys automatically) → open GSC's "Performance" page and see which terms brought clicks these past days → pick 1 to 2 rising terms and write matching new pages next week with the Chapter 4 routine.
 
-Don't eyeball the data — judge it against four pass lines (sources: GSC "Performance"; pages-per-visit from Cloudflare Web Analytics or GA4):
+Don't eyeball the data — judge it against four pass lines (sources: GSC "Performance"; pages-per-visit from your configured analytics provider such as GA4):
 
 | Metric | Pass line / target | If it fails |
 |---|---|---|
@@ -115,7 +115,7 @@ Then spend 10 more minutes on the AdSense report: which page types have the high
 
 ```text
 Run an SEO health check on this site — read-only, change nothing:
-1. SITE_URL (wrangler.toml [vars] or .env) contains https:// and is the real domain
+1. SITE_URL (Vercel environment or local `.env`) contains https:// and is the real domain
 2. Every article: title ≤80, description 40–165, summary a direct answer (list the violations)
 3. og:image/twitter:image use absolute paths
 4. Is noindex misused anywhere

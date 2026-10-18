@@ -23,9 +23,7 @@ GameWikiSoleTemplate 内置可选的评论系统，基于 [Giscus](https://giscu
    - `data-category-id` → `PUBLIC_GISCUS_CATEGORY_ID`
    - `mapping` → `PUBLIC_GISCUS_MAPPING`（默认 `pathname`，通常不用改）
 4. 把这 5 个值填到 `.env`（参考 `.env.example`）—— 本地开发用
-5. **生产部署**：把这 5 个值配到 Cloudflare。⚠️ 本仓库根目录有 `wrangler.toml`，它一旦存在就会**接管 env 配置，dashboard 的 Environment variables 会被忽略**。两个选择：
-   - **删掉 `wrangler.toml`**（`git rm wrangler.toml && git commit`），然后在 Cloudflare dashboard 的 Settings → Environment variables 配 5 个变量
-   - **或改 `wrangler.toml` 的 `[vars]`**，把 `PUBLIC_GISCUS_*` 5 个值改成你的
+5. **生产部署**：在 Vercel 项目的 Settings → Environment Variables 中配置这 5 个值，然后重新部署。
 6. `pnpm dev`，访问任意文章页，评论区出现在正文下方
 
 ## 验证
@@ -59,7 +57,7 @@ GameWikiSoleTemplate 内置可选的评论系统，基于 [Giscus](https://giscu
 - giscus app 是否安装到该仓库？
 - 4 个必填字段是否都填了？（任一为空 = 组件不渲染）
 - `data-category-id` 是否对？（不是 category 名字，是那串 `DIC_...` 开头的 ID）
-- **🚨 配了 env 但构建时读不到？** 检查仓库根目录有没有 `wrangler.toml`。有的话它接管 env，dashboard 配的会被忽略。要么删 `wrangler.toml`，要么改它的 `[vars]` 段。详见 [docs/deployment.md](./deployment.md)。
+- **配了 env 但构建时读不到？** 确认变量已配置到当前 Vercel 项目和 Production/Preview 环境，并在保存后重新部署。详见 [docs/deployment.md](./deployment.md)。
 
 **登录后页面卡住？** 确认你没有用 ad-blocker 拦截 `giscus.app` 域名。某些隐私扩展（uBlock Origin、Privacy Badger）会误拦 Giscus 的 OAuth 回调。
 

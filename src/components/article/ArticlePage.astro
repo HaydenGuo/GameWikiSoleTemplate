@@ -586,7 +586,7 @@ const jsonLd = [
 
 {popularRuntimeEnabled && (
   <script is:inline define:vars={{ articleViewSlug }}>
-    // Cloudflare Pages Functions + D1 are opt-in; static deployments emit no
+    // Vercel Functions + Neon are opt-in; static deployments emit no
     // request to a non-existent API endpoint.
     void fetch('/api/article-view', {
       method: 'POST',

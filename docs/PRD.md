@@ -1,5 +1,7 @@
 # AnvilWiki 产品需求文档（PRD）
 
+> **当前维护说明（2026-10-18）**：本文以下版本与架构内容是历史设计记录，仍保留作项目演进背景，不再是当前部署或运维指引。当前模板使用 GitHub → Vercel，Astro 静态输出与根目录 `api/` Functions；可选 Popular 使用 Neon Postgres。请以 [部署指南](deployment.md)、[Popular 阅读统计](popular-reading.md) 和 [README](../README.md) 为准。Cloudflare Pages、Wrangler 与 D1 的旧步骤均已废止。
+
 > **版本**：v1.0
 > **日期**：2026-08-12
 > **状态**：已发布（demo 站 anvilwiki.pages.dev 上线，Lighthouse 全 100，CI 全绿）
@@ -181,7 +183,7 @@ Cloudflare 同时提供 Pages（静态托管）和 Workers（边缘计算）两�
 | 可选 Popular / Most Read | 可选 | ✅ Pages Functions + D1 |
 | 未来迁移到 Workers（若需要 SSR/API） | 可选 | ✅ 可平滑迁移 |
 
-**决策**：默认 Pages（新手友好、静态站原生适配）。Popular / Most Read 只在明确配置 `PUBLIC_POPULAR_ENABLED=true` 和 `POPULAR_DB` 时启用；否则构建产物不包含任何 Popular API 请求。
+**决策（2026-10-18）**：默认通过 GitHub 集成部署至 Vercel。Astro 输出静态页面，根目录 `api/` 提供同源 Vercel Functions。Popular / Most Read 只在明确配置 `PUBLIC_POPULAR_ENABLED=true` 和 `DATABASE_URL` 时启用 Neon Postgres；否则构建产物不包含 Popular API 请求并保留静态 fallback。
 
 #### ADR-004：内容管道 = 确定性生成 + PR 门控，LLM 永不进 CI（v2.0）
 

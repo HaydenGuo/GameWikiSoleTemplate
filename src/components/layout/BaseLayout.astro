@@ -270,10 +270,7 @@ const privacyLabel = footerStrings.privacyPolicy ?? 'Privacy Policy';
       </script>
     )}
 
-    {/*
-      Cloudflare Web Analytics (optional) — cookieless, so unlike GA/AdSense
-      it needs no consent gate. Empty token = nothing injected, zero JS.
-    */}
+    {/* Optional cookieless analytics; independent from the hosting provider. */}
     {cfBeaconToken && (
       <script
         is:inline

@@ -36,8 +36,8 @@ runs:
         # FORKS: set a repository variable SITE_URL (Settings → Secrets and
         # variables → Actions → Variables) to your domain — otherwise CI
         # falls back to the demo domain and the built canonical/sitemap
-        # point at the wrong site (production builds use wrangler.toml,
-        # which this does not affect).
+        # point at the wrong site. Production environment variables are set
+        # in Vercel; this value only scopes the GitHub Actions build.
         SITE_URL: ${{ inputs.site-url }}
 
     - name: Content lint (structure/link/source policy)

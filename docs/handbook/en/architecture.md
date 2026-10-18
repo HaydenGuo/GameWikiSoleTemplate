@@ -42,7 +42,7 @@ What do you want to change?
 ├─ Language list → three places must match (see below)
 ├─ Article content → .mdx under src/content/wiki/<locale>/<category>/
 ├─ New components / new pages → Code layer; weigh the upgrade cost before touching
-└─ Ads / comments / analytics toggles → Cloudflare dashboard variables or wrangler.toml (pick one; see the integrations chapter)
+└─ Ads / comments / analytics toggles → Vercel Project Settings → Environment Variables (see the integrations chapter)
 ```
 
 Two "three-place consistency" iron rules (both checked automatically by `pnpm check-config`):

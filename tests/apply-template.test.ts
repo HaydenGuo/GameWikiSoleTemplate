@@ -4,8 +4,7 @@
  * pnpm test:e2e, which drives it for real).
  *
  * Covers the fork-safety bug classes the 2026-09-01 audit turned up:
- *   - wrangler.toml [vars] rewrite must survive CRLF working trees (P4: the
- *     LF-only regex silently skipped the rewrite and left demo Giscus values)
+ *   - Vercel environment example keeps the chosen domain and optional services disabled
  *   - locale rewrites must not leak unchosen demo categories into nav, and
  *     must not reset labels a user already translated on a re-run (P3/P1)
  *   - the demo asset inventories must stay in sync with setup.yml's
@@ -27,7 +26,7 @@ import {
   isDemoLocaleContent,
   rewriteLocaleJson,
   rewriteSiteTs,
-  rewriteWranglerVars,
+  rewriteEnvExample,
   type SkinInput,
 } from '../scripts/lib/apply-rewrites';
 
@@ -43,7 +42,7 @@ function makeInput(overrides: Partial<SkinInput> = {}): SkinInput {
   return {
     gameName: 'Test Game',
     shortName: 'TG',
-    domain: 'testgame.pages.dev',
+    domain: 'testgame.vercel.app',
     tagline: 'Forge your knowledge',
     description: 'Complete Test Game wiki with guides, codes, and tier lists. Every page carries a verified date.',
     legalNotice: 'Fan-made, not affiliated with the developer.',
@@ -113,54 +112,18 @@ describe('single-game navigation profiles', () => {
   });
 });
 
-const LF_WRANGLER = [
-  '# GameWikiSoleTemplate wrangler.toml — this file mentions [vars] in a comment, which',
-  '# must NOT be mistaken for the real section (line-start anchoring).',
-  'name = "gamewiki-sole-template"',
-  'compatibility_date = "2025-01-01"',
-  '',
-  '[vars]',
-  'SITE_URL = "https://your-game-wiki.example"',
-  'PUBLIC_GISCUS_REPO = "HaydenGuo/GameWikiSoleTemplate"',
-  'PUBLIC_GISCUS_REPO_ID = "R_demo"',
-  'PUBLIC_GISCUS_MAPPING = "pathname"',
-  '',
-  '[env.preview]',
-  'name = "preview"',
-  '',
-].join('\n');
-
-const CRLF_WRANGLER = LF_WRANGLER.replace(/\n/g, '\r\n');
-
-describe('rewriteWranglerVars (P4: line-anchored + CRLF-tolerant)', () => {
-  test('LF file: rewrites values, keeps the next section, ignores comment mentions', () => {
-    const out = rewriteWranglerVars(makeInput(), LF_WRANGLER);
-    expect(out).not.toBeNull();
-    expect(out).toContain('SITE_URL = "https://testgame.pages.dev"');
-    expect(out).toContain('PUBLIC_GISCUS_REPO = ""');
-    expect(out).not.toContain('PNGTRID');
-    expect((out!.match(/^\[vars\]/gm) || []).length).toBe(1);
-    expect(out).toContain('[env.preview]');
-    expect(out).toContain('# must NOT be mistaken for the real section');
-    // LF in, LF out — no CRLF sneaks into the inserted block.
-    expect(out).not.toContain('\r');
-  });
-
-  test('CRLF file: still matches, and the inserted block adopts CRLF (P4)', () => {
-    const out = rewriteWranglerVars(makeInput(), CRLF_WRANGLER);
-    expect(out).not.toBeNull();
-    expect(out).toContain('SITE_URL = "https://testgame.pages.dev"\r\n');
-    expect(out).toContain('PUBLIC_GISCUS_REPO = ""\r\n');
-    expect((out!.match(/^\[vars\]/gm) || []).length).toBe(1);
-    expect(out).toContain('[env.preview]');
-    expect(out).not.toContain('PNGTRID');
-  });
-
-  test('no [vars] section → null (caller keeps the file and warns)', () => {
-    expect(rewriteWranglerVars(makeInput(), 'name = "x"\n')).toBeNull();
+describe('rewriteEnvExample', () => {
+  test('sets the selected site URL and keeps optional integrations disabled', () => {
+    const example = rewriteEnvExample(makeInput());
+    expect(example).toContain('SITE_URL=https://testgame.vercel.app');
+    expect(example).toContain('PUBLIC_CF_BEACON_TOKEN=');
+    expect(example).toContain('PUBLIC_POPULAR_ENABLED=false');
+    expect(example).toContain('DATABASE_URL=');
+    expect(example).toContain('PUBLIC_GISCUS_REPO=');
+    expect(example).not.toContain('wrangler');
+    expect(example).not.toContain('Cloudflare');
   });
 });
-
 describe('rewriteLocaleJson (P3: no unchosen-category leak, re-run labels kept)', () => {
   test('retains labels and overview data for configured utility navigation', () => {
     const input = makeInput({ utilityNavigationItems: [{ key: 'deals', path: '/deals', icon: 'tag' }] });
