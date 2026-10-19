@@ -297,9 +297,9 @@ describe('rewriteSiteTs (quote/backslash-safe, $-expansion-proof site.ts rewriti
   });
 
   test('rewrites the selected Steam app identity and leaves it disabled when omitted', () => {
-    const configured = rewriteSiteTs(SITE_TS, makeInput({ steamAppId: 4954910, steamGameTitle: 'Scam With Your Friends' }));
-    expect(configured).toContain('steamAppId: 4954910,');
-    expect(configured).toContain("steamGameTitle: 'Scam With Your Friends'");
+    const configured = rewriteSiteTs(SITE_TS, makeInput({ steamAppId: 12345, steamGameTitle: 'Test Game' }));
+    expect(configured).toContain('steamAppId: 12345,');
+    expect(configured).toContain("steamGameTitle: 'Test Game'");
     const disabled = rewriteSiteTs(SITE_TS, makeInput());
     expect(disabled).toContain('steamAppId: undefined,');
     expect(disabled).toContain('steamGameTitle: undefined,');
