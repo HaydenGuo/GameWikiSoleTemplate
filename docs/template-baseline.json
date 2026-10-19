@@ -151,8 +151,8 @@
     },
     {
       "path": "CHANGELOG.md",
-      "bytes": 5874,
-      "sha256": "06f1201870a28e7c33e4a98ad6940002f40c2c4e829911d445b5f4fb368041a5"
+      "bytes": 5875,
+      "sha256": "a1699a55f7941aa4ed3cc788952f13f84687a05737a3bc1e8078e535c7c33ce9"
     },
     {
       "path": "LICENSE",
@@ -171,8 +171,8 @@
     },
     {
       "path": "api/game-deals.ts",
-      "bytes": 22124,
-      "sha256": "6eefb6604b80153e0400bcb5921f18587b4f5271be23417aab14c80cca35189b"
+      "bytes": 22132,
+      "sha256": "e423dae7a01b4ff23a4e2924a412e5cbd5ff375d23ffcd202ecc2112bfde3b88"
     },
     {
       "path": "api/popular.ts",
@@ -751,8 +751,8 @@
     },
     {
       "path": "scripts/e2e-apply-template.mjs",
-      "bytes": 16619,
-      "sha256": "fadd5d03c30ca8b128016bfb58e84ff6f4fad311daed2f41ac26504d1b0b4622"
+      "bytes": 16618,
+      "sha256": "9f61bee5065db1eb24d9cdddfae970a23b1f27eba4b9e12ef75dbc772cbec7ba"
     },
     {
       "path": "scripts/fonts/Lato-Bold.ttf",
