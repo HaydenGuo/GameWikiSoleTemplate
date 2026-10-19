@@ -118,6 +118,8 @@ describe('rewriteEnvExample', () => {
     expect(example).toContain('SITE_URL=https://testgame.vercel.app');
     expect(example).toContain('PUBLIC_POPULAR_ENABLED=false');
     expect(example).toContain('DATABASE_URL=');
+    expect(example).toContain('UPSTASH_REDIS_REST_URL=');
+    expect(example).toContain('UPSTASH_REDIS_REST_TOKEN=');
     expect(example).toContain('PUBLIC_GISCUS_REPO=');
   });
 });
