@@ -91,8 +91,8 @@ step('pnpm install in scratch copy');
 execSync('pnpm install --prefer-offline', { cwd: scratch, stdio: 'inherit', shell: win });
 
 // 3. Drive the CLI via --answers (non-interactive, same ask/askBool path):
-//    Setup prompts include a target Steam App ID and optional exact store title.
-//    categories / clear-content / preset / proceed.
+//    Setup includes the target Steam App ID and exact title, then exercises
+//    locales, categories, content cleanup, preset, and landing removal.
 step(`apply-template real mode (preset=${preset})`);
 const answers = [
   'Test Game', // Full game name
