@@ -391,7 +391,7 @@ const exploreModules = configuredExploreModules.map((module: any) =>
   </section>
 
   <div class="mx-auto w-full max-w-[90rem] px-4 py-6 sm:py-8">
-    <div class="game-art-hero-copy text-foreground" data-home-steam-app-id={site.game.steamAppId ?? ''} data-home-steam-game={site.game.steamGameTitle ?? site.game.name} data-home-steam-copy={JSON.stringify(steamStats)}>
+    <div class="game-art-hero-copy text-foreground" data-home-steam-app-id={site.game.steamAppId ?? ''} data-home-steam-copy={JSON.stringify(steamStats)}>
       <dl class="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6" aria-live="polite" aria-busy={site.game.steamAppId ? 'true' : 'false'}>
         {[
           ['rank', steamStats.rank],
@@ -625,7 +625,6 @@ const exploreModules = configuredExploreModules.map((module: any) =>
   if (statsRoot) {
     const labels = JSON.parse(statsRoot.dataset.homeSteamCopy || '{}');
     const appId = statsRoot.dataset.homeSteamAppId || '';
-    const game = statsRoot.dataset.homeSteamGame || '';
     const value = (key, text) => {
       const target = statsRoot.querySelector(`[data-home-steam-value="${key}"]`);
       if (target) target.textContent = text;
