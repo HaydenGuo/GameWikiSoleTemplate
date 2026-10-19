@@ -512,7 +512,7 @@ export async function GET(request: Request): Promise<Response> {
   if (hasAppId && (!configuredAppId || appId !== configuredAppId)) {
     return json({ error: 'Configure this site\'s Steam appid before requesting game data.' }, 400);
   }
-  if (hasAppId && (url.searchParams.size !== 1 || rawAppId !== String(appId))) return redirectToCanonical(request, appId);
+  if (hasAppId && (url.searchParams.size !== 1 || url.searchParams.getAll('appid').length !== 1 || rawAppId !== String(appId))) return redirectToCanonical(request, appId);
   if (!hasAppId && url.searchParams.size > 0) return redirectToCanonical(request);
 
   const key = hasAppId ? 'appid:' + appId + ':' + REGION : 'popular:' + REGION;
