@@ -107,6 +107,8 @@ const answers = [
   '', // Developer
   '', // Genre
   '', // Release date
+  '123456', // Steam App ID
+  'Test Game', // Steam store title
   'en,zh', // Locales
   'bosses,guides,codes', // Categories
   'y', // Clear demo content? YES
@@ -142,11 +144,19 @@ if (/left over/.test(cli.stdout)) {
 
 // 4. Assert the output shape — the exact fields the home components render.
 step('Assert output shape');
+const generatedSiteConfig = readFileSync(join(scratch, 'src/config/site.ts'), 'utf8');
+const generatedHomeSource = readFileSync(join(scratch, 'src/components/home/HomePage.astro'), 'utf8');
+const generatedDealsSource = readFileSync(join(scratch, 'src/components/deals/DealsPage.astro'), 'utf8');
 for (const p of ['src/config/landing.ts', 'src/components/landing', 'src/pages/landing', 'src/pages/zh/landing']) {
   if (existsSync(join(scratch, p))) fail(`landing path still present after removal: ${p}`);
 }
 const en = JSON.parse(readFileSync(join(scratch, 'src/locales/en.json'), 'utf8'));
 const checks = [
+  ['setup stores the selected Steam App ID in site config', /steamAppId:\\s*123456/.test(generatedSiteConfig)],
+  ['setup stores the selected Steam store title in site config', /steamGameTitle:\\s*'Test Game'/.test(generatedSiteConfig)],
+  ['homepage keeps live stats on the same-origin API without forcing no-cache', generatedHomeSource.includes('/api/game-deals?appid=') && !generatedHomeSource.includes("cache: 'no-cache'")],
+  ['Deals keeps refreshes on the canonical cached API URL', generatedDealsSource.includes('/api/game-deals?appid=') && !generatedDealsSource.includes('refresh=1') && !generatedDealsSource.includes("cache: 'no-cache'")],
+  ['initializer retains the Vercel handler and shared-cache lock', existsSync(join(scratch, 'api/game-deals.ts')) && readFileSync(join(scratch, 'api/game-deals.ts'), 'utf8').includes('REFRESH_LOCK_TTL')],
   ['home.meta.title is a string', typeof en.home?.meta?.title === 'string'],
   ['home.meta.description is a string', typeof en.home?.meta?.description === 'string'],
   ['hero.ctaPrimary is a string (components render it as link text)', typeof en.home?.hero?.ctaPrimary === 'string'],
