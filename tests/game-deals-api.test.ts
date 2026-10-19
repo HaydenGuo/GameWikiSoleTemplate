@@ -71,7 +71,7 @@ describe('Vercel game-deals Function', () => {
           result = 'OK';
         }
       } else if (name === 'EVAL') {
-        values.delete(String(command[4]));
+        values.delete(String(command[3]));
         result = 1;
       }
       return new Response(JSON.stringify({ result }), {
