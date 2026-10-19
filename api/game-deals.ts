@@ -101,7 +101,7 @@ export async function withSharedCache<T extends SharedPayload>(
       hasUsableSources(fresh) ? SHARED_CACHE_TTL : 60,
     ]).catch(() => undefined);
     return fresh;
-  } catch (error) {
+  } catch {
     if (cached) return cached as T;
     throw error;
   } finally {
