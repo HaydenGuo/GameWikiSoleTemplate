@@ -30,6 +30,11 @@
       "sha256": "10f2163739cdf5829864d896345ed3a40f5198e10a4e550484317a808de12c14"
     },
     {
+      "path": ".agents/skills/neon-postgres/SKILL.md",
+      "bytes": 16481,
+      "sha256": "22cfc419774c93f797dd24c09f2ce5b0fde2676081e1ed492fece483d90553d0"
+    },
+    {
       "path": ".agents/skills/neon-postgres/references/full-text-search.md",
       "bytes": 3901,
       "sha256": "025d4380ccfe8e2c745687d82ed6182d501d5678a3941112f37f58bac38e7db4"
@@ -45,19 +50,14 @@
       "sha256": "4d7c14f1940033e2c379be62f00ef5ba5e17878a44bc11957a5176f91c2aa0ac"
     },
     {
-      "path": ".agents/skills/neon-postgres/SKILL.md",
-      "bytes": 16481,
-      "sha256": "22cfc419774c93f797dd24c09f2ce5b0fde2676081e1ed492fece483d90553d0"
+      "path": ".agents/skills/neon/SKILL.md",
+      "bytes": 32773,
+      "sha256": "a6c2f2ca27a3bf6059ef852427dbd89d37080cc4a7424b464041f30ed9e3155d"
     },
     {
       "path": ".agents/skills/neon/references/claimable-neon.md",
       "bytes": 7788,
       "sha256": "5d220f032995a44dbd618b807a0c6a6814d1e69ea32014285c62ddd23cfaeefd"
-    },
-    {
-      "path": ".agents/skills/neon/SKILL.md",
-      "bytes": 32773,
-      "sha256": "a6c2f2ca27a3bf6059ef852427dbd89d37080cc4a7424b464041f30ed9e3155d"
     },
     {
       "path": ".env.example",
@@ -68,11 +68,6 @@
       "path": ".gitattributes",
       "bytes": 455,
       "sha256": "b64b3a1ec7a95fc50b69fc57cf8b8dea9e5efc96e030e7b892c2a99b548d335b"
-    },
-    {
-      "path": ".github/actions/gates/action.yml",
-      "bytes": 1668,
-      "sha256": "a144513fddf74daf6b9312a2feded362e4f1e490c94b1cadb7849e129175b450"
     },
     {
       "path": ".github/FUNDING.yml",
@@ -93,6 +88,11 @@
       "path": ".github/PULL_REQUEST_TEMPLATE.md",
       "bytes": 2014,
       "sha256": "edc6725a2de5ebd54db6915c1b0d080788ed593f30caa94222d9597e7413c45d"
+    },
+    {
+      "path": ".github/actions/gates/action.yml",
+      "bytes": 1668,
+      "sha256": "a144513fddf74daf6b9312a2feded362e4f1e490c94b1cadb7849e129175b450"
     },
     {
       "path": ".github/workflows/auto-content.yml",
@@ -150,6 +150,21 @@
       "sha256": "6c05ebb0e59163cb109a8853aa5635a810741afdd06658212614696edfbfb948"
     },
     {
+      "path": "CHANGELOG.md",
+      "bytes": 5067,
+      "sha256": "d3ac1661a3049d682710831edd4e006b78aa3cc14859d75445cd9331836f465a"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 1079,
+      "sha256": "66a7943308a74e32788b272b1d30faa5b87f250d1750f7a901765cad79b1f9ae"
+    },
+    {
+      "path": "README.md",
+      "bytes": 3167,
+      "sha256": "46a2d12d12e28310b648e524dbd7ceb41273a1b7f5b4fbd663a570b65e05ed68"
+    },
+    {
       "path": "api/article-view.ts",
       "bytes": 368,
       "sha256": "d79ca740e217d41edf841acf5a18eafa573677cdaac04bc4db2a101920946478"
@@ -170,9 +185,14 @@
       "sha256": "4c987616d81ca871b3ce0761998ad58ea3d4b57c0ef8f7b8e4206df042c631e1"
     },
     {
-      "path": "CHANGELOG.md",
-      "bytes": 5067,
-      "sha256": "d3ac1661a3049d682710831edd4e006b78aa3cc14859d75445cd9331836f465a"
+      "path": "docs/PRD.md",
+      "bytes": 2535,
+      "sha256": "6f94396bb53cd901b29f99518b412b85ba0c6bb3e29f6f5e7704c912e79158d3"
+    },
+    {
+      "path": "docs/README.md",
+      "bytes": 8435,
+      "sha256": "bbcb4e747d8065bcd58e1cddd2d89343e9873bdbac068041e01fd9faced68a66"
     },
     {
       "path": "docs/ads.md",
@@ -335,16 +355,6 @@
       "sha256": "5b8160b493fdde1590980e3462f4ff10fac07b945e9a60491c8d0a0d96afa105"
     },
     {
-      "path": "docs/PRD.md",
-      "bytes": 2535,
-      "sha256": "6f94396bb53cd901b29f99518b412b85ba0c6bb3e29f6f5e7704c912e79158d3"
-    },
-    {
-      "path": "docs/README.md",
-      "bytes": 8435,
-      "sha256": "bbcb4e747d8065bcd58e1cddd2d89343e9873bdbac068041e01fd9faced68a66"
-    },
-    {
       "path": "docs/roadmap.md",
       "bytes": 1844,
       "sha256": "e23a9fba0a89eafb31a95e2251e722eafb471b5ff5ff2b27407a43c870e3db04"
@@ -373,6 +383,11 @@
       "path": "docs/staying-up-to-date.md",
       "bytes": 3803,
       "sha256": "b07c2471a58b18889d09b207b71a0f48abf8ab42685517b84895fcbaca2b0d9d"
+    },
+    {
+      "path": "docs/superpowers/ROADMAP-v1.5-v1.6.md",
+      "bytes": 3850,
+      "sha256": "e2be9174745072c370c2d0a8ed054e293ff7ac3f0aab8dc6cea2e88eb5f8b8f3"
     },
     {
       "path": "docs/superpowers/plans/2026-08-18-anvil-ops-p1-core-cli.md",
@@ -435,11 +450,6 @@
       "sha256": "a8f5b820bbe16c9ace22d6157042f8297fafff247a5e713cc6c13bc39a6b0850"
     },
     {
-      "path": "docs/superpowers/ROADMAP-v1.5-v1.6.md",
-      "bytes": 3850,
-      "sha256": "e2be9174745072c370c2d0a8ed054e293ff7ac3f0aab8dc6cea2e88eb5f8b8f3"
-    },
-    {
       "path": "docs/superpowers/specs/2026-08-18-anvil-ops-cli-mcp-design.md",
       "bytes": 8259,
       "sha256": "45a0ed5b96f751fae45b5f9af54f4516b60c5d83fb01149104b04054e296a6c9"
@@ -488,11 +498,6 @@
       "path": "eslint.config.js",
       "bytes": 1231,
       "sha256": "da05fd80786f8006174c03b7e0cb07b2bc24d717082ba9da038a61cced5f8298"
-    },
-    {
-      "path": "LICENSE",
-      "bytes": 1079,
-      "sha256": "66a7943308a74e32788b272b1d30faa5b87f250d1750f7a901765cad79b1f9ae"
     },
     {
       "path": "migrations/0001_article_views_daily.sql",
@@ -680,12 +685,7 @@
       "sha256": "28617933056da141f7cbd443fe205c12dad5469a453c288ecadb5aaa5f246410"
     },
     {
-      "path": "README.md",
-      "bytes": 3167,
-      "sha256": "46a2d12d12e28310b648e524dbd7ceb41273a1b7f5b4fbd663a570b65e05ed68"
-    },
-    {
-      "path": "requirements/00浜嬪疄鏉ユ簮.md",
+      "path": "requirements/00事实来源.md",
       "bytes": 3953,
       "sha256": "29585e6bf1286ddb6a359671f55b1ad699a041ee1525e5f0e0b7578acebf28aa"
     },
@@ -695,7 +695,7 @@
       "sha256": "b6b5acd4cbca0c9329bfab0bbc53854cce717da9352d7b1e6d40e49e0e909aa0"
     },
     {
-      "path": "requirements/00事实来源.md",
+      "path": "requirements/00浜嬪疄鏉ユ簮.md",
       "bytes": 3953,
       "sha256": "29585e6bf1286ddb6a359671f55b1ad699a041ee1525e5f0e0b7578acebf28aa"
     },
@@ -1040,6 +1040,26 @@
       "sha256": "b1d9345778e664bff9654305733119023e7228e0dcdd206ecd034122aa8c5f94"
     },
     {
+      "path": "src/components/home/PlayerDecisionGuide.astro",
+      "bytes": 3520,
+      "sha256": "c46371a39733ad54c9c33a8ade8a482ddf35068548446c8131362542dd1e7535"
+    },
+    {
+      "path": "src/components/home/QuickStart.astro",
+      "bytes": 4430,
+      "sha256": "d7b26a4b21c22675a57f0b1698054bf7fcded6ac6a34ba938b3e9e4954574d0a"
+    },
+    {
+      "path": "src/components/home/TrendingNow.astro",
+      "bytes": 1928,
+      "sha256": "ae739a41a49b398e781dff4bf5207865ffbdd8043189fd8ef880ffb422b98654"
+    },
+    {
+      "path": "src/components/home/VideoSection.astro",
+      "bytes": 833,
+      "sha256": "ef6d7bd30e231545206fe5cbb0213f3ee8ff06d8ddd74ca575f54b48e985ed96"
+    },
+    {
       "path": "src/components/home/modules/CardList.astro",
       "bytes": 684,
       "sha256": "4a455aff190524850b1e440095b5433b0e7b11439b4f825502f11102de6be70e"
@@ -1068,26 +1088,6 @@
       "path": "src/components/home/modules/VideoGrid.astro",
       "bytes": 3191,
       "sha256": "d5ffdb65976d3e103f933099971182ed2d41b05194f10199fdfed89383827c32"
-    },
-    {
-      "path": "src/components/home/PlayerDecisionGuide.astro",
-      "bytes": 3520,
-      "sha256": "c46371a39733ad54c9c33a8ade8a482ddf35068548446c8131362542dd1e7535"
-    },
-    {
-      "path": "src/components/home/QuickStart.astro",
-      "bytes": 4430,
-      "sha256": "d7b26a4b21c22675a57f0b1698054bf7fcded6ac6a34ba938b3e9e4954574d0a"
-    },
-    {
-      "path": "src/components/home/TrendingNow.astro",
-      "bytes": 1928,
-      "sha256": "ae739a41a49b398e781dff4bf5207865ffbdd8043189fd8ef880ffb422b98654"
-    },
-    {
-      "path": "src/components/home/VideoSection.astro",
-      "bytes": 833,
-      "sha256": "ef6d7bd30e231545206fe5cbb0213f3ee8ff06d8ddd74ca575f54b48e985ed96"
     },
     {
       "path": "src/components/layout/BaseLayout.astro",
@@ -1217,7 +1217,7 @@
     {
       "path": "src/config/landing.ts",
       "bytes": 45768,
-      "sha256": "9c59c9d22895145d6e540b3692cb9420a71b17c30b8d2478b6b91b91c16385de"
+      "sha256": "e7ff97563a4e2b09beee42d713cb34affa97314884c370664352b9a1d00ee2ba"
     },
     {
       "path": "src/config/navigation.ts",
@@ -1405,6 +1405,11 @@
       "sha256": "43e57725bf7e52d5b7e0f7f9cc4751c46c31eda7f112896726711647cd4aae96"
     },
     {
+      "path": "src/pages/404.astro",
+      "bytes": 2640,
+      "sha256": "f819cbd21add2259adff469205608003060692518dbfc5f35eb9a1ae5926c73f"
+    },
+    {
       "path": "src/pages/[...slug].astro",
       "bytes": 4191,
       "sha256": "d7243f946fa186065fb697f7f8b75121af2080e30a6d8751604d79e6b094e19b"
@@ -1433,11 +1438,6 @@
       "path": "src/pages/[locale]/recent.astro",
       "bytes": 750,
       "sha256": "aa6cadfe0e59e9c49b90bd2936395364108f1ca44b8bdcec317afad6355f37ed"
-    },
-    {
-      "path": "src/pages/404.astro",
-      "bytes": 2640,
-      "sha256": "f819cbd21add2259adff469205608003060692518dbfc5f35eb9a1ae5926c73f"
     },
     {
       "path": "src/pages/about.astro",
@@ -1665,6 +1665,11 @@
       "sha256": "66a7943308a74e32788b272b1d30faa5b87f250d1750f7a901765cad79b1f9ae"
     },
     {
+      "path": "tools/anvil-ops/README.md",
+      "bytes": 1178,
+      "sha256": "b1545700bd6022dec25c6c4a07ecedf8d1c4e171026027469d6460ef528b34f2"
+    },
+    {
       "path": "tools/anvil-ops/package.json",
       "bytes": 1103,
       "sha256": "8e8dcf76cbb36837773aeedf14e9eb84e5fe672c68953253488699f1ed577224"
@@ -1678,11 +1683,6 @@
       "path": "tools/anvil-ops/pnpm-workspace.yaml",
       "bytes": 232,
       "sha256": "025a0fe0c8bd393500d437fdb9d347f7be339de077b9459e6e26905c9c25424b"
-    },
-    {
-      "path": "tools/anvil-ops/README.md",
-      "bytes": 1178,
-      "sha256": "b1545700bd6022dec25c6c4a07ecedf8d1c4e171026027469d6460ef528b34f2"
     },
     {
       "path": "tools/anvil-ops/src/bin/cli.ts",
