@@ -11,7 +11,7 @@
  */
 
 /** Keep in sync with package.json "version" (used by the announcement bar). */
-export const PROJECT_VERSION = '2.0.2';
+export const PROJECT_VERSION = '2.0.3';
 
 export type LandingLocale = 'en' | 'zh';
 
@@ -254,7 +254,7 @@ const en: LandingContent = {
   description:
     'An open-source Astro starter for game wikis, with configurable content, search, localization, and an optional AI-assisted writing workflow.',
   announcement: {
-    text: `v${PROJECT_VERSION} moves the template runtime to Vercel Functions, optional Neon Postgres, and a single hosting path.`,
+    text: `v${PROJECT_VERSION} adds regression checks that keep game-deals requests on the same-origin Vercel Function in generated forks.`,
     href: RELEASES,
   },
   hero: {
@@ -696,7 +696,7 @@ const zh: LandingContent = {
   description:
     '开源 Astro 游戏 Wiki starter，提供结构化内容、站内搜索、多语言路由和可选的 AI 辅助写作工作流。',
   announcement: {
-    text: `v${PROJECT_VERSION} 将模板运行时迁移至 Vercel Functions，热门阅读改用可选 Neon Postgres，并统一为单一部署路径。`,
+    text: `v${PROJECT_VERSION} 增加回归检查，确保生成的站点通过同源 Vercel Function 请求游戏优惠数据。`,
     href: RELEASES,
   },
   hero: {

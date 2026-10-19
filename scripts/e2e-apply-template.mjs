@@ -267,6 +267,22 @@ The northern route starts at the broken bridge and reaches the upper courtyard.
 const auditFixturePath = join(scratch, 'src/content/wiki/en/guides/template-audit-markers.mdx');
 writeFileSync(auditFixturePath, auditFixture, 'utf8');
 
+// The Vercel Function and its same-origin callers must survive initialization.
+step('Assert same-origin Vercel game-deals API contract');
+const gameDealsApiPath = join(scratch, 'api/game-deals.ts');
+if (!existsSync(gameDealsApiPath)) fail('Generated fork is missing the root Vercel Function api/game-deals.ts');
+else if (!readFileSync(gameDealsApiPath, 'utf8').includes('export async function GET(')) {
+  fail('Generated api/game-deals.ts does not export the Vercel GET handler');
+}
+const generatedHomeSource = readFileSync(join(scratch, 'src/components/home/HomePage.astro'), 'utf8');
+if (!generatedHomeSource.includes('fetch(`/api/game-deals?appid=')) {
+  fail('Generated homepage does not call the same-origin /api/game-deals route');
+}
+const generatedDealsSource = readFileSync(join(scratch, 'src/components/deals/DealsPage.astro'), 'utf8');
+if (!generatedDealsSource.includes('`/api/game-deals?appid=')) {
+  fail('Generated Deals page does not call the same-origin /api/game-deals route');
+}
+
 // 5. The fork's first build must succeed.
 step("pnpm build (the fork's first build must succeed)");
 execSync('pnpm build', { cwd: scratch, stdio: 'inherit', shell: win });
