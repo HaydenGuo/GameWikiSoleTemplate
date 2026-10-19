@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.3](https://github.com/HaydenGuo/GameWikiSoleTemplate/compare/v2.0.2...v2.0.3) - 2026-10-20
+
+- Lock game-deals callers to the same-origin `/api/game-deals` route and verify the root Vercel Function survives template initialization.
+- Add a focused handler test for request validation without upstream network access.
+
+确保 game-deals 调用固定使用同源 `/api/game-deals`，并验证模板初始化后根目录 Vercel Function 仍存在；增加不访问上游网络的请求校验测试。
+
 ## [2.0.2](https://github.com/HaydenGuo/GameWikiSoleTemplate/compare/v2.0.1...v2.0.2) - 2026-10-18
 
 - Add reusable article page, question, answer-obligation, and visual-target markers for Stage 4 runtime audits.
