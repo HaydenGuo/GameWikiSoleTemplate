@@ -51,6 +51,11 @@ function isFresh(payload: SharedPayload): boolean {
   return Number.isFinite(checkedAt) && Date.now() - checkedAt < CACHE_FRESH_MS;
 }
 
+function hasUsableSources(payload: SharedPayload): boolean {
+  const sources = (payload as { sources?: Record<string, unknown> }).sources;
+  return !sources || Object.values(sources).some((value) => value === true);
+}
+
 /**
  * Optional Upstash Redis cache provides a cross-instance refresh lock and
  * stale-on-refresh behavior. Without it, Vercel's shared CDN cache remains the
@@ -87,12 +92,13 @@ export async function withSharedCache<T extends SharedPayload>(
 
   try {
     const fresh = await producer();
+    if (!hasUsableSources(fresh) && cached) return cached as T;
     await redisCommand(config, [
       'SET',
       cacheKey,
       JSON.stringify(fresh),
       'EX',
-      SHARED_CACHE_TTL,
+      hasUsableSources(fresh) ? SHARED_CACHE_TTL : 60,
     ]).catch(() => undefined);
     return fresh;
   } catch (error) {
@@ -124,13 +130,13 @@ type Offer = {
   verifiedAt: string;
 };
 
-function json(body: unknown, status = 200, cache = false): Response {
+function json(body: unknown, status = 200, cache = false, cacheSeconds = ONE_HOUR): Response {
   return new Response(JSON.stringify(body), {
     status,
     headers: {
       'content-type': 'application/json; charset=utf-8',
       'cache-control': cache
-        ? `public, max-age=0, s-maxage=${ONE_HOUR}, stale-while-revalidate=300, stale-if-error=86400`
+        ? `public, max-age=0, s-maxage=${cacheSeconds}, stale-while-revalidate=300, stale-if-error=86400`
         : 'no-store',
     },
   });
@@ -506,7 +512,7 @@ export async function GET(request: Request): Promise<Response> {
   if (hasAppId && (!configuredAppId || appId !== configuredAppId)) {
     return json({ error: 'Configure this site\'s Steam appid before requesting game data.' }, 400);
   }
-  if (hasAppId && url.searchParams.size !== 1) return redirectToCanonical(request, appId);
+  if (hasAppId && (url.searchParams.size !== 1 || rawAppId !== String(appId))) return redirectToCanonical(request, appId);
   if (!hasAppId && url.searchParams.size > 0) return redirectToCanonical(request);
 
   const key = hasAppId ? 'appid:' + appId + ':' + REGION : 'popular:' + REGION;
@@ -524,7 +530,7 @@ export async function GET(request: Request): Promise<Response> {
         },
       });
     }
-    return json(payload, 200, true);
+    return json(payload, 200, true, hasUsableSources(payload) ? ONE_HOUR : 60);
   } catch {
     return json({ error: 'Game data is temporarily unavailable.' }, 503, false);
   }
