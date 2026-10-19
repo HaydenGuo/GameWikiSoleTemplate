@@ -84,6 +84,8 @@ export const site = {
   },
   game: {
     name: 'Anvil Quest',             // → 游戏名
+    steamAppId: 123456,              // → 可选；Steam App ID，未设置时关闭实时玩家数据与优惠
+    steamGameTitle: 'Anvil Quest',   // → Steam 商店中的精确标题，用于优惠搜索
     platform: 'Steam',              // → Roblox / Steam / PS5 等
     developer: '...',               // → 开发商
     genre: 'Action RPG',            // → 游戏类型
@@ -100,6 +102,7 @@ export const site = {
 - 普通 `direct_pages` 一级导航不配置二级菜单，因此只渲染为一级链接，不显示下拉三角。页面顺序和归属应来自上一阶段的导航规划。
 - `domain` 不带 `https://` 协议前缀（协议由 `SITE_URL` 环境变量统一管理）
 - 社交链接没有的留 `undefined`，不要删字段
+- 初始化器会询问 Steam App ID 和商店精确标题；没有 App ID 时留空，避免误请求模板演示游戏。
 
 ---
 
