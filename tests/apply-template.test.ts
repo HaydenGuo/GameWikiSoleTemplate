@@ -296,6 +296,15 @@ describe('rewriteSiteTs (quote/backslash-safe, $-expansion-proof site.ts rewriti
     expect(out).toContain("name: 'Assassin\\'s Creed Shadows Wiki'");
   });
 
+  test('rewrites the selected Steam app identity and leaves it disabled when omitted', () => {
+    const configured = rewriteSiteTs(SITE_TS, makeInput({ steamAppId: 4954910, steamGameTitle: 'Scam With Your Friends' }));
+    expect(configured).toContain('steamAppId: 4954910,');
+    expect(configured).toContain("steamGameTitle: 'Scam With Your Friends'");
+    const disabled = rewriteSiteTs(SITE_TS, makeInput());
+    expect(disabled).toContain('steamAppId: undefined,');
+    expect(disabled).toContain('steamGameTitle: undefined,');
+  });
+
   test('initialized sites explicitly start with empty trusted-source allowlists', () => {
     const out = rewriteSiteTs(SITE_TS, makeInput());
     expect(out).toContain('trustedStorePages: [],');
