@@ -153,7 +153,7 @@ for (const p of ['src/config/landing.ts', 'src/components/landing', 'src/pages/l
 const en = JSON.parse(readFileSync(join(scratch, 'src/locales/en.json'), 'utf8'));
 const checks = [
   ['setup stores the selected Steam App ID in site config', /steamAppId:\s*123456/.test(generatedSiteConfig)],
-  ['setup stores the selected Steam store title in site config', /steamGameTitle:\\s*'Test Game'/.test(generatedSiteConfig)],
+  ['setup stores the selected Steam store title in site config', /steamGameTitle:\s*'Test Game'/.test(generatedSiteConfig)],
   ['homepage keeps live stats on the same-origin API without forcing no-cache', generatedHomeSource.includes('/api/game-deals?appid=') && !generatedHomeSource.includes("cache: 'no-cache'")],
   ['Deals keeps refreshes on the canonical cached API URL', generatedDealsSource.includes('/api/game-deals?appid=') && !generatedDealsSource.includes('refresh=1') && !generatedDealsSource.includes("cache: 'no-cache'")],
   ['initializer retains the Vercel handler and shared-cache lock', existsSync(join(scratch, 'api/game-deals.ts')) && readFileSync(join(scratch, 'api/game-deals.ts'), 'utf8').includes('REFRESH_LOCK_TTL')],
