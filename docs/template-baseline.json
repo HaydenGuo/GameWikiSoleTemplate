@@ -171,8 +171,8 @@
     },
     {
       "path": "api/game-deals.ts",
-      "bytes": 21665,
-      "sha256": "0222b679407996e8806066d60a4a1a54fc48ba6f0ea161cfb5fcee38f1fc1142"
+      "bytes": 22124,
+      "sha256": "6eefb6604b80153e0400bcb5921f18587b4f5271be23417aab14c80cca35189b"
     },
     {
       "path": "api/popular.ts",
@@ -751,8 +751,8 @@
     },
     {
       "path": "scripts/e2e-apply-template.mjs",
-      "bytes": 16591,
-      "sha256": "cf18c4d69239cd5c0a756f5ee7f23570fe04af516c96dd592350bdf2a6758608"
+      "bytes": 16619,
+      "sha256": "fadd5d03c30ca8b128016bfb58e84ff6f4fad311daed2f41ac26504d1b0b4622"
     },
     {
       "path": "scripts/fonts/Lato-Bold.ttf",
@@ -776,8 +776,8 @@
     },
     {
       "path": "scripts/lib/apply-rewrites.ts",
-      "bytes": 20238,
-      "sha256": "f57e71559ce2df17cf8b92ee4c9e584b6409fc93f4423b186d2afa329c91e7b6"
+      "bytes": 20356,
+      "sha256": "7751dae8bcf6925c029fd637fdd46aa0c37a06a14e8a00cd21187abe7ae27c9f"
     },
     {
       "path": "scripts/lib/popular-manifest.ts",
@@ -991,8 +991,8 @@
     },
     {
       "path": "src/components/deals/DealsPage.astro",
-      "bytes": 15092,
-      "sha256": "37fde479bfa92c2deca623e67ae82306c551c8f2a2b3ff3fb366043802e4d804"
+      "bytes": 14983,
+      "sha256": "78ed5f30d6aec396f2f6b02b957d9bb72c73e046e557f7541e8efe296a555478"
     },
     {
       "path": "src/components/footer/SiteFooter.astro",
@@ -1036,8 +1036,8 @@
     },
     {
       "path": "src/components/home/HomePage.astro",
-      "bytes": 39151,
-      "sha256": "e5a8946d6612837aa819123e74f09248ec12fbbf9c836c5e51240a3102b60d20"
+      "bytes": 39029,
+      "sha256": "46b49242762c8c5f369faa69324d06918ea9143015dc294ecceacd099eb0711f"
     },
     {
       "path": "src/components/home/PlayerDecisionGuide.astro",
@@ -1526,8 +1526,8 @@
     },
     {
       "path": "tests/apply-template.test.ts",
-      "bytes": 19047,
-      "sha256": "2a5627a54cb78683815af40a3b6e383fe7026eda5b3122107523a9187d73b62e"
+      "bytes": 19165,
+      "sha256": "d1751222244ee04b9d3e6f6f9aa7bfbb739157ffec74e721f740b73b05676026"
     },
     {
       "path": "tests/article-gallery-removal.test.ts",
