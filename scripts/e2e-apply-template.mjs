@@ -284,11 +284,11 @@ if (!existsSync(gameDealsApiPath)) fail('Generated fork is missing the root Verc
 else if (!readFileSync(gameDealsApiPath, 'utf8').includes('export async function GET(')) {
   fail('Generated api/game-deals.ts does not export the Vercel GET handler');
 }
-const generatedHomeSource = readFileSync(join(scratch, 'src/components/home/HomePage.astro'), 'utf8');
+
 if (!generatedHomeSource.includes('fetch(`/api/game-deals?appid=')) {
   fail('Generated homepage does not call the same-origin /api/game-deals route');
 }
-const generatedDealsSource = readFileSync(join(scratch, 'src/components/deals/DealsPage.astro'), 'utf8');
+
 if (!generatedDealsSource.includes('`/api/game-deals?appid=')) {
   fail('Generated Deals page does not call the same-origin /api/game-deals route');
 }
