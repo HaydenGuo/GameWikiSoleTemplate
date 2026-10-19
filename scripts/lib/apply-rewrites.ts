@@ -22,6 +22,8 @@ export function slugify(s: string): string {
 
 export interface SkinInput {
   gameName: string;
+  steamAppId?: number;
+  steamGameTitle?: string;
   shortName: string;
   domain: string;
   tagline: string;
@@ -352,6 +354,8 @@ export function rewriteSiteTs(src: string, input: SkinInput): string | null {
   trustedMaterialPages: [],
   game: {
     name: '${esc(input.gameName)}',
+    steamAppId: ${input.steamAppId ?? 'undefined'},
+    steamGameTitle: ${input.steamGameTitle ? `'${esc(input.steamGameTitle)}'` : 'undefined'},
     platform: '${esc(input.platform)}',
     developer: '${esc(input.developer)}',
     genre: '${esc(input.genre)}',
