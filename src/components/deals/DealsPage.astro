@@ -84,7 +84,7 @@ const steamUrl = steamAppId ? `https://store.steampowered.com/app/${steamAppId}/
   const page = document.querySelector<HTMLElement>('[data-deals-copy]');
   const appId = page?.dataset.steamAppId || '';
   const gameName = page?.dataset.gameName || '';
-  const endpoint = `/api/game-deals?appid=${encodeURIComponent(appId)}&title=${encodeURIComponent(gameName)}`;
+  const endpoint = `/api/game-deals?appid=${encodeURIComponent(appId)}`;
   const hour = 60 * 60 * 1000;
   const refreshCooldown = 60 * 1000;
   const refreshKey = `deals-manual-refresh:${appId}`;
@@ -123,8 +123,7 @@ const steamUrl = steamAppId ? `https://store.steampowered.com/app/${steamAppId}/
     if (updated) updated.textContent = copy.checkingData;
 
     try {
-      const requestUrl = force ? `${endpoint}&refresh=1&t=${Date.now()}` : endpoint;
-      const response = await fetch(requestUrl, { headers: { accept: 'application/json' }, cache: 'no-cache' });
+      const response = await fetch(endpoint, { headers: { accept: 'application/json' } });
       if (!response.ok) throw new Error(`Request failed (${response.status})`);
       const data = await response.json();
       const checkedAtMs = Date.parse(data.checkedAt || '');
@@ -238,7 +237,7 @@ const steamUrl = steamAppId ? `https://store.steampowered.com/app/${steamAppId}/
       void loadDeals(true);
     });
     void loadDeals();
-    window.setInterval(() => void loadDeals(), 60 * 1000);
+    window.setInterval(() => void loadDeals(), hour);
     window.setInterval(updateRefreshButton, 1000);
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible' && Date.now() - lastLoadedAt >= hour) void loadDeals();
