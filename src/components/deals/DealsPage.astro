@@ -11,7 +11,7 @@ interface Props {
   steamGameTitle?: string;
 }
 
-const { locale, gameName, steamAppId, steamGameTitle } = Astro.props;
+const { locale, gameName, steamAppId } = Astro.props;
 const copy = (getUi(locale) as unknown as Record<string, any>).dealsPage;
 const title = copy.metaTitle || `${gameName} ${copy.titleSuffix}`;
 const description = copy.metaDescription;
