@@ -637,7 +637,7 @@ const exploreModules = configuredExploreModules.map((module: any) =>
       statsRoot.querySelector('dl')?.setAttribute('aria-busy', 'false');
     };
     if (appId) {
-      fetch(`/api/game-deals?appid=${encodeURIComponent(appId)}&title=${encodeURIComponent(game)}`, { headers: { accept: 'application/json' }, cache: 'no-cache' })
+      fetch(`/api/game-deals?appid=${encodeURIComponent(appId)}&title=${encodeURIComponent(game)}`, { headers: { accept: 'application/json' } })
         .then((response) => { if (!response.ok) throw new Error('Steam data unavailable'); return response.json(); })
         .then((data) => {
           const steam = data.steam;
