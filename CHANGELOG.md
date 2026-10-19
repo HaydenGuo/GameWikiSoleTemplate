@@ -7,6 +7,7 @@
 - Stop homepage and Deals clients from bypassing caches; add generated-fork and concurrency regression coverage.
 
 初始化时询问目标游戏的 Steam App ID 和商店精确标题；未填写时不保留模板演示游戏 ID。规范同源 API 地址，复用 Vercel CDN 缓存，并支持 Upstash Redis 共享缓存和原子刷新锁；移除页面的缓存绕过请求并增加回归检查。
+
 ## [2.0.3](https://github.com/HaydenGuo/GameWikiSoleTemplate/compare/v2.0.2...v2.0.3) - 2026-10-20
 
 - Lock game-deals callers to the same-origin `/api/game-deals` route and verify the root Vercel Function survives template initialization.
