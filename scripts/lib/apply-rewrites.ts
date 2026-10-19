@@ -466,6 +466,9 @@ export function rewriteEnvExample(input: SkinInput): string {
 SITE_URL=https://${input.domain}
 PUBLIC_POPULAR_ENABLED=false
 DATABASE_URL=
+# Optional shared game-deals cache and cross-instance refresh lock.
+UPSTASH_REDIS_REST_URL=
+UPSTASH_REDIS_REST_TOKEN=
 PUBLIC_GISCUS_REPO=
 PUBLIC_GISCUS_REPO_ID=
 PUBLIC_GISCUS_CATEGORY=
