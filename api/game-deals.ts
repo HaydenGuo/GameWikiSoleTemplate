@@ -12,7 +12,7 @@ const REFRESH_LOCK_TTL = 45;
 const REDIS_WAIT_MS = 10_000;
 const REDIS_POLL_MS = 200;
 
-type SharedPayload = { checkedAt?: string; [key: string]: unknown };
+type SharedPayload = { checkedAt?: string };
 
 function redisConfig(): { url: string; token: string } | null {
   const url = process.env.UPSTASH_REDIS_REST_URL?.trim();
