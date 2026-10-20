@@ -118,6 +118,8 @@ describe('rewriteEnvExample', () => {
     expect(example).toContain('SITE_URL=https://testgame.vercel.app');
     expect(example).toContain('PUBLIC_POPULAR_ENABLED=false');
     expect(example).toContain('DATABASE_URL=');
+    expect(example).toContain('UPSTASH_REDIS_REST_URL=');
+    expect(example).toContain('UPSTASH_REDIS_REST_TOKEN=');
     expect(example).toContain('PUBLIC_GISCUS_REPO=');
   });
 });
@@ -294,6 +296,15 @@ describe('rewriteSiteTs (quote/backslash-safe, $-expansion-proof site.ts rewriti
   test("an apostrophe in the game name cannot break the string literal", () => {
     const out = rewriteSiteTs(SITE_TS, makeInput({ gameName: "Assassin's Creed Shadows" }));
     expect(out).toContain("name: 'Assassin\\'s Creed Shadows Wiki'");
+  });
+
+  test('rewrites the selected Steam app identity and leaves it disabled when omitted', () => {
+    const configured = rewriteSiteTs(SITE_TS, makeInput({ steamAppId: 12345, steamGameTitle: 'Test Game' }));
+    expect(configured).toContain('steamAppId: 12345,');
+    expect(configured).toContain("steamGameTitle: 'Test Game'");
+    const disabled = rewriteSiteTs(SITE_TS, makeInput());
+    expect(disabled).toContain('steamAppId: undefined,');
+    expect(disabled).toContain('steamGameTitle: undefined,');
   });
 
   test('initialized sites explicitly start with empty trusted-source allowlists', () => {

@@ -40,11 +40,16 @@ Copy `.env.example` to `.env.local` for local use, then set the same values in V
 | `SITE_URL` | Yes | Canonical HTTPS origin used by sitemap and metadata. |
 | `PUBLIC_POPULAR_ENABLED` | No | Set to `true` to enable article-view requests and Popular API requests. Defaults to `false`. |
 | `DATABASE_URL` | Only for Popular | Neon Postgres connection string. Keep it server-side; do not prefix it with `PUBLIC_`. |
+| `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` | Optional for shared game-deals caching | Upstash Redis REST endpoint and server-side token. Set both in Vercel to enable shared payload storage and an atomic refresh lock across function instances. |
 | `PUBLIC_GISCUS_REPO`, `PUBLIC_GISCUS_REPO_ID`, `PUBLIC_GISCUS_CATEGORY`, `PUBLIC_GISCUS_CATEGORY_ID` | No | Enable Giscus comments when all values are configured. |
 | `PUBLIC_SPONSOR_URL`, `PUBLIC_SPONSOR_IMAGE_URL` | No | Optional sponsor card. |
 | `PUBLIC_ADSENSE_CLIENT`, `PUBLIC_ADSENSE_SLOT_*` | No | Optional AdSense client and placements. |
 | `PUBLIC_GA_ID` | No | Optional Google Analytics measurement ID; loaded after consent. |
 | `PUBLIC_GSC_VERIFICATION` | No | Google Search Console meta verification value. |
+
+## Optional shared Game Deals cache
+
+The `/api/game-deals` Function caches responses at Vercel's CDN for one hour. To also share cached payloads and prevent simultaneous cold-cache or refresh requests from multiple function instances from calling Steam and offer providers independently, connect an Upstash Redis database and set `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` in Vercel. Keep both values server-side and out of `PUBLIC_` variables. The cache serves fresh data for one hour, retains stale data for up to six hours while one request refreshes it, and returns stale data to concurrent visitors during that refresh. Without these variables, the site continues to use the shared Vercel CDN response cache.
 
 ## Optional Popular / Most Read database
 

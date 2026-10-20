@@ -23,12 +23,13 @@ GameWikiSoleTemplate is an open-source Astro template for building multilingual 
 6. Server-side credentials must stay out of browser bundles and tracked example values.
 7. Deployment guidance must describe the GitHub-to-Vercel workflow and current environment variables.
 8. Template changes must update the version, announcement, changelog, baseline, and release records together.
-9. Game-deals callers use the same-origin `/api/game-deals` route, implemented by the root `api/game-deals.ts` Vercel Function.
+9. Game-deals callers use the same-origin `/api/game-deals` route and the site's configured Steam App ID; the handler canonicalizes cache keys, uses Vercel CDN caching, and supports an optional shared Redis cache with an atomic refresh lock.
 
 ## Acceptance checks
 
 - Lint, typecheck, configuration, content, production build, internal-link, and template-baseline checks pass.
 - The initializer produces a working fork with no template-only identity or unsupported hosting configuration.
 - Optional API failures preserve static content and provide a truthful unavailable state.
-- The initializer's generated fork retains `api/game-deals.ts`; homepage and Deals callers target `/api/game-deals`, and the handler contract is covered by automated tests.
+- The initializer captures the target game's optional Steam App ID and exact store title, and removes the demo game's ID from generated forks when left blank.
+- The initializer's generated fork retains `api/game-deals.ts`; homepage and Deals callers target one canonical `/api/game-deals?appid=…` URL without request-level cache bypass, and the handler contract plus shared refresh lock are covered by automated tests.
 - The deployed project is connected to the intended GitHub repository and its Vercel preview succeeds before merge.

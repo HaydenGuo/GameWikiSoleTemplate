@@ -587,6 +587,15 @@ async function main() {
   const navigationProfile = inferNavigationProfile(genre);
   console.log(`   → Navigation profile: ${navigationProfile} (edit src/config/site.ts after initialization if needed)`);
   const releaseDate = await ask(rl, 'Release date (ISO, optional)', '');
+  const steamAppIdInput = await ask(rl, 'Steam App ID (optional; leave blank to disable live Steam stats and deals)', '');
+  const steamAppId = steamAppIdInput ? Number(steamAppIdInput) : undefined;
+  if (steamAppIdInput && (!Number.isSafeInteger(steamAppId) || Number(steamAppId) <= 0)) {
+    console.error('❌ Steam App ID must be a positive whole number.');
+    process.exit(1);
+  }
+  const steamGameTitle = steamAppId
+    ? await ask(rl, 'Steam store title (exact title used for deal lookups)', gameName)
+    : undefined;
 
   console.log('\n' + '━'.repeat(60));
   console.log('Locales (comma-separated, first = default)');
@@ -662,6 +671,8 @@ async function main() {
   // --- Summarize planned changes -----------------------------------------
   const skinInput: SkinInput = {
     gameName,
+    steamAppId,
+    steamGameTitle,
     shortName,
     domain,
     tagline,
@@ -690,6 +701,7 @@ async function main() {
   console.log(`📋 Planned changes${DRY_RUN ? ' (DRY RUN — nothing will be written)' : ''}`);
   console.log('━'.repeat(60));
   console.log(`   Game:        ${gameName}`);
+  console.log(`   Steam App:   ${steamAppId ? steamAppId + ' — ' + (steamGameTitle ?? gameName) : '(not configured; live stats and deals disabled)'}`);
   console.log(`   Short name:  ${shortName}`);
   console.log(`   Domain:      ${domain}`);
   console.log(`   Theme:       ${themeHex} → HSL(${preview.h}, ${preview.s}%, ${preview.l}%)`);

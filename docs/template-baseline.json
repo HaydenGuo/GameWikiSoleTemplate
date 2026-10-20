@@ -61,8 +61,8 @@
     },
     {
       "path": ".env.example",
-      "bytes": 503,
-      "sha256": "c731a31281b7def9f1e54841c628606768dd48a442e777beb1a0ae861b2299ae"
+      "bytes": 629,
+      "sha256": "af5de08e4ba3416da027108033708fbbf26ec8aae3d7fcc901d17cc1c5853dcb"
     },
     {
       "path": ".gitattributes",
@@ -151,8 +151,8 @@
     },
     {
       "path": "CHANGELOG.md",
-      "bytes": 5067,
-      "sha256": "d3ac1661a3049d682710831edd4e006b78aa3cc14859d75445cd9331836f465a"
+      "bytes": 5875,
+      "sha256": "173c4effbb93f4f3718f5e4afc05f5ce7dea02e08f5516df28615d7b7d3595bc"
     },
     {
       "path": "LICENSE",
@@ -171,8 +171,8 @@
     },
     {
       "path": "api/game-deals.ts",
-      "bytes": 16957,
-      "sha256": "fbc147bb21737bd40e387e8e9c617532c8a103e59b7229d89da6c7086c86846c"
+      "bytes": 22132,
+      "sha256": "6b630ffa1095c05697a2cba0fd4c211b86be0d49ca3f130592cb5426f4b20460"
     },
     {
       "path": "api/popular.ts",
@@ -186,8 +186,8 @@
     },
     {
       "path": "docs/PRD.md",
-      "bytes": 2535,
-      "sha256": "6f94396bb53cd901b29f99518b412b85ba0c6bb3e29f6f5e7704c912e79158d3"
+      "bytes": 2897,
+      "sha256": "c9f6146e296139195e7a636817a717f058a3cb238e7e9f643a5ee42549126b1f"
     },
     {
       "path": "docs/README.md",
@@ -201,8 +201,8 @@
     },
     {
       "path": "docs/apply-template.md",
-      "bytes": 21727,
-      "sha256": "7ebcf926a57496150cfef68f46a77b9d40cb3a242c8e5856bba50086efe37fb7"
+      "bytes": 22061,
+      "sha256": "7d7f22e4c8bf7aa9fcc1a43ab54e02f4ef518979d0d5bf37d3feb4bcc3c6f914"
     },
     {
       "path": "docs/art-typography.md",
@@ -231,8 +231,8 @@
     },
     {
       "path": "docs/deployment.md",
-      "bytes": 4892,
-      "sha256": "2a0af3191e0022ad335a17643b2c77def5ff793d236310bd1cabcedc72d90231"
+      "bytes": 5877,
+      "sha256": "5f17c7df8e3d23e43d951b2cc603f6059978dcd3a399d9b3b442d2020d106116"
     },
     {
       "path": "docs/development.md",
@@ -507,7 +507,7 @@
     {
       "path": "package.json",
       "bytes": 3251,
-      "sha256": "77d952a528942931c6f00c3c5fe709fca40bcc0d7bb108de3909d4b37f374846"
+      "sha256": "91d1f34f6e0813af036c70d1621fae62a2de981ff96d8f505b01e9f911d5c369"
     },
     {
       "path": "pnpm-lock.yaml",
@@ -706,8 +706,8 @@
     },
     {
       "path": "scripts/apply-template.ts",
-      "bytes": 36795,
-      "sha256": "90c270e7a49e893fe2b3a0e2656e60c5393f737f1a681acb5a9853e605f6dba1"
+      "bytes": 37512,
+      "sha256": "ddf6a4afc0b394e8b736978c64822868bce8c74ab133dac56133779521bd04fe"
     },
     {
       "path": "scripts/bulk-new-posts.ts",
@@ -751,8 +751,8 @@
     },
     {
       "path": "scripts/e2e-apply-template.mjs",
-      "bytes": 15378,
-      "sha256": "9b46eda298557f32fbeff17a147940f36b7d71e2e61379694b1c61313cc7ca6b"
+      "bytes": 16411,
+      "sha256": "ba70f98dcec0e2f6f3608a34e5cd03bb1f698cb0472f5a696226f69279374529"
     },
     {
       "path": "scripts/fonts/Lato-Bold.ttf",
@@ -776,8 +776,8 @@
     },
     {
       "path": "scripts/lib/apply-rewrites.ts",
-      "bytes": 20042,
-      "sha256": "598987cf2984ba3b20ea3f08b252c7ff7d76d9236b8a0a8e3013eae79655a839"
+      "bytes": 20356,
+      "sha256": "526a0b66d7ebcb27d6fcc3b63489a3d1fea72574bfd822422e8e8418f0328918"
     },
     {
       "path": "scripts/lib/popular-manifest.ts",
@@ -991,8 +991,8 @@
     },
     {
       "path": "src/components/deals/DealsPage.astro",
-      "bytes": 15241,
-      "sha256": "865b9ef84a2b4ff0eac1a55b24a91a70f3f583752c630cb7ea5a25bd5e9e3be1"
+      "bytes": 14983,
+      "sha256": "b3f130c52845fb00b50bd06a1b8dfd258b995e6738d8a1d9c4b12928353080f4"
     },
     {
       "path": "src/components/footer/SiteFooter.astro",
@@ -1036,8 +1036,8 @@
     },
     {
       "path": "src/components/home/HomePage.astro",
-      "bytes": 39204,
-      "sha256": "b1d9345778e664bff9654305733119023e7228e0dcdd206ecd034122aa8c5f94"
+      "bytes": 39029,
+      "sha256": "bd80f81f715cfecdade6da1b5fff0770acfd35f10c545c12cff4256f1acc7e0f"
     },
     {
       "path": "src/components/home/PlayerDecisionGuide.astro",
@@ -1216,8 +1216,8 @@
     },
     {
       "path": "src/config/landing.ts",
-      "bytes": 45768,
-      "sha256": "e7ff97563a4e2b09beee42d713cb34affa97314884c370664352b9a1d00ee2ba"
+      "bytes": 45754,
+      "sha256": "f2e1ecd8c5f95b705be2c8c8d22a9fda72f3866a4f76cc772d40c34eb67e39a7"
     },
     {
       "path": "src/config/navigation.ts",
@@ -1526,8 +1526,8 @@
     },
     {
       "path": "tests/apply-template.test.ts",
-      "bytes": 18536,
-      "sha256": "02488a6567b6464f588784f82849961c377bd01c08135c69ab58a8d69bfc1d1e"
+      "bytes": 19165,
+      "sha256": "840d0c8b95139779a7cb00aafd462b0bd2794b65a959964f0358ddfc6ef0b8e4"
     },
     {
       "path": "tests/article-gallery-removal.test.ts",
@@ -1571,8 +1571,8 @@
     },
     {
       "path": "tests/game-deals-api.test.ts",
-      "bytes": 607,
-      "sha256": "837b4a1241029ca490f430e364d340bc17f4373502271d0c4156080a40b35e41"
+      "bytes": 3459,
+      "sha256": "05472a85d3a4d4ee92b25545d0c09014613179656f31a163e4b86876ce4c8a4e"
     },
     {
       "path": "tests/handbook.test.ts",
