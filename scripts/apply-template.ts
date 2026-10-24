@@ -848,7 +848,7 @@ async function main() {
   console.log('\n   Then: pnpm dev    (preview)');
   console.log('         pnpm build  (verify production build)\n');
 
-  warnOnLeftoverAnswers();
+  failOnLeftoverAnswers();
 }
 
 main().catch((err) => {
