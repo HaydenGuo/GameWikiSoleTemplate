@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.0.5](https://github.com/HaydenGuo/GameWikiSoleTemplate/compare/v2.0.4...v2.0.5) - 2026-10-24
+
+- Refresh the homepage visual baseline with a calm blue accent system, paper-like surfaces, a segmented progress rail, and a responsive premium depth treatment inspired by the supplied reference video.
+
+使用更克制的蓝色强调系统、纸张感内容面板、分段进度轨和响应式层次阴影更新首页视觉基线，适配用户提供的参考视频风格。
+
 ## [2.0.4](https://github.com/HaydenGuo/GameWikiSoleTemplate/compare/v2.0.3...v2.0.4) - 2026-10-20
 
 - Prompt for the target game's Steam App ID and exact store title during initialization; remove the demo Steam ID from generated forks when omitted.
