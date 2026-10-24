@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.0.6](https://github.com/HaydenGuo/GameWikiSoleTemplate/compare/v2.0.5...v2.0.6) - 2026-10-24
+
+- Publish the existing English and Japanese demo articles so they appear in the site navigation, category listings, search, and article routes.
+
+将现有英文和日文演示文章从草稿改为发布状态，使其出现在网站导航、分类列表、搜索和文章页面中。
+
 ## [2.0.5](https://github.com/HaydenGuo/GameWikiSoleTemplate/compare/v2.0.4...v2.0.5) - 2026-10-24
 
 - Refresh the homepage visual baseline with a calm blue accent system, paper-like surfaces, a segmented progress rail, and a responsive premium depth treatment inspired by the supplied reference video.

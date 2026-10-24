@@ -1,6 +1,6 @@
 {
   "name": "gamewiki-sole-template",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "type": "module",
   "description": "Open-source game wiki site template. Astro + Vercel. Static-first, fast, beginner-friendly.",
   "license": "MIT",
