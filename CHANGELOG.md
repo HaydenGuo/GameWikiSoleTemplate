@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.0.7](https://github.com/HaydenGuo/GameWikiSoleTemplate/compare/v2.0.6...v2.0.7) - 2026-10-24
+
+- Fail non-interactive template initialization when the answers file leaves unused entries, preventing prompt-sequence drift from producing a false successful setup.
+
+非交互式模板初始化在答案文件存在未消费条目时直接失败，避免提示顺序漂移导致配置未完成却被误报为成功。
+
 ## [2.0.6](https://github.com/HaydenGuo/GameWikiSoleTemplate/compare/v2.0.5...v2.0.6) - 2026-10-24
 
 - Publish the existing English and Japanese demo articles so they appear in the site navigation, category listings, search, and article routes.
