@@ -11,7 +11,7 @@
  */
 @layer base {
   :root {
-    /* Light mode theme color — warm game-guide gold. */
+    /* Light mode theme color — calm blue for a focused guide surface. */
     --brand: 222 82% 58%;
     --brand-light: 222 90% 68%;
     /* Split H/S for derived shades (e.g. darker button backgrounds). */
@@ -87,6 +87,10 @@
   }
   html.dark {
     color-scheme: dark;
+  }
+
+  html.dark body {
+    background-image: linear-gradient(135deg, hsl(222 42% 8%), hsl(222 38% 11%) 52%, hsl(222 42% 7%));
   }
 }
 
