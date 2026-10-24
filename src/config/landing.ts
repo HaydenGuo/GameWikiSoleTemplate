@@ -11,7 +11,7 @@
  */
 
 /** Keep in sync with package.json "version" (used by the announcement bar). */
-export const PROJECT_VERSION = '2.0.5';
+export const PROJECT_VERSION = '2.0.6';
 
 export type LandingLocale = 'en' | 'zh';
 
