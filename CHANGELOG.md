@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.8](https://github.com/HaydenGuo/GameWikiSoleTemplate/compare/v2.0.7...v2.0.8) - 2026-11-08
+
+- Restore the missing scripted-answer guard and validate unused answers before any setup writes or success output.
+- Cover exact, missing, and extra answers in dry-run and real setup, both Steam prompt sequences, unchanged files on rejection, and interactive input.
+
+修复初始化答案校验函数缺失的问题；在写入前拒绝多余答案，补充预演、真实初始化、Steam 可选提示与交互输入的回归测试。
+
 ## [2.0.7](https://github.com/HaydenGuo/GameWikiSoleTemplate/compare/v2.0.6...v2.0.7) - 2026-10-24
 
 - Fail non-interactive template initialization when the answers file leaves unused entries, preventing prompt-sequence drift from producing a false successful setup.
