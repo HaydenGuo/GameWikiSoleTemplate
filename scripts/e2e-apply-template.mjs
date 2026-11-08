@@ -26,7 +26,8 @@
  * before running this locally if you want them covered.
  */
 import { execFileSync, execSync, spawnSync } from 'node:child_process';
-import { cpSync, existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { tmpdir } from 'node:os';
 import { join, dirname, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -116,6 +117,57 @@ const answers = [
   '', // Remove landing? (default yes)
   'y', // Proceed? YES
 ];
+// Snapshot every exported file (including demos that setup may delete), not
+// just site.ts: rejected inputs must leave the entire template unchanged.
+function snapshotTemplate() {
+  const files = {};
+  function walk(directory, prefix = '') {
+    for (const entry of readdirSync(directory, { withFileTypes: true })) {
+      if (!prefix && ['node_modules', '.git', 'dist', '.astro', 'e2e-answers.json'].includes(entry.name)) continue;
+      const key = prefix ? prefix + '/' + entry.name : entry.name;
+      const absolute = join(directory, entry.name);
+      if (entry.isDirectory()) walk(absolute, key);
+      else if (entry.isFile()) files[key] = createHash('sha256').update(readFileSync(absolute)).digest('hex');
+    }
+  }
+  walk(scratch);
+  return JSON.stringify(Object.entries(files).sort(([a], [b]) => a.localeCompare(b)));
+}
+
+step('Assert scripted input drift is rejected before writing');
+const originalSnapshot = snapshotTemplate();
+// Cover both prompt sequences: a Steam ID adds the exact-title prompt.
+const noSteamAnswers = [...answers];
+noSteamAnswers.splice(12, 2, '');
+for (const [sequence, exactAnswers] of [['steam', answers], ['no-steam', noSteamAnswers]]) {
+  for (const dryRun of [true, false]) {
+    const exact = dryRun ? exactAnswers.slice(0, -1) : exactAnswers;
+    for (const kind of ['missing', 'extra', ...(dryRun ? ['exact'] : [])]) {
+      const candidate = kind === 'missing' ? exact.slice(0, -1) : kind === 'extra' ? [...exact, 'unexpected'] : exact;
+      writeFileSync(join(scratch, 'e2e-answers.json'), JSON.stringify(candidate), 'utf8');
+      const result = spawnSync('pnpm', [
+        'apply-template', ...(dryRun ? ['--dry-run'] : []), '--answers', 'e2e-answers.json',
+      ], { cwd: scratch, encoding: 'utf8', shell: win, timeout: 5 * 60 * 1000 });
+      const label = sequence + '/' + (dryRun ? 'dry-run' : 'real') + '/' + kind;
+      const output = (result.stdout || '') + (result.stderr || '');
+      if (result.error) fail(label + ': ' + result.error.message);
+      if (kind === 'exact') {
+        if (result.status !== 0 || !output.includes('Base config complete')) fail(label + ': exact input did not complete');
+      } else {
+        const expected = kind === 'extra' ? 'scripted answer(s) left over' : 'Ran out of scripted answers';
+        if (result.status !== 1 || !output.includes(expected)) fail(label + ': expected a specific input-drift failure');
+        if (output.includes('Applying changes') || output.includes('Base config complete')) fail(label + ': failed input reached the apply phase');
+      }
+      if (snapshotTemplate() !== originalSnapshot) fail(label + ': changed template files');
+      if (failed) {
+        console.error(output);
+        process.exit(1);
+      }
+      console.log('  ✅ ' + label + ' (template unchanged)');
+    }
+  }
+}
+
 writeFileSync(join(scratch, 'e2e-answers.json'), JSON.stringify(answers, null, 2));
 const cli = spawnSync(
   'pnpm',

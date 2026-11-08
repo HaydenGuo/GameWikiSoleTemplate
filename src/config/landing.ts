@@ -11,7 +11,7 @@
  */
 
 /** Keep in sync with package.json "version" (used by the announcement bar). */
-export const PROJECT_VERSION = '2.0.7';
+export const PROJECT_VERSION = '2.0.8';
 
 export type LandingLocale = 'en' | 'zh';
 
@@ -254,7 +254,7 @@ const en: LandingContent = {
   description:
     'An open-source Astro starter for game wikis, with configurable content, search, localization, and an optional AI-assisted writing workflow.',
   announcement: {
-    text: `v${PROJECT_VERSION} configures the target Steam app during setup and shares cached game data across API instances.`,
+    text: `v${PROJECT_VERSION} restores template setup and rejects scripted answer drift before changing files.`,
     href: RELEASES,
   },
   hero: {
@@ -696,7 +696,7 @@ const zh: LandingContent = {
   description:
     '开源 Astro 游戏 Wiki starter，提供结构化内容、站内搜索、多语言路由和可选的 AI 辅助写作工作流。',
   announcement: {
-    text: `v${PROJECT_VERSION} 在初始化时配置目标 Steam 游戏，并通过共享缓存减少游戏数据上游请求。`,
+    text: `v${PROJECT_VERSION} 修复模板初始化，并在写入文件前拒绝数量不匹配的脚本答案。`,
     href: RELEASES,
   },
   hero: {

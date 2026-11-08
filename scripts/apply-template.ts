@@ -104,11 +104,11 @@ function takeScriptedAnswer(question: string): string {
 }
 
 // Leftover answers mean the file no longer matches the prompt sequence (a
-// prompt was added or removed upstream) — warn instead of failing, but make
-// it impossible to miss.
-function warnOnLeftoverAnswers(): void {
+// prompt was added or removed upstream). Fail before any write so callers
+// cannot mistake a partially configured site for a successful setup.
+function failOnLeftoverAnswers(): void {
   if (scripted && scripted.length > 0) {
-    console.warn(`⚠️  ${scripted.length} scripted answer(s) left over — the answers file has MORE entries than the CLI has prompts. Update the file to match the prompt order.`);
+    throw new Error(`${scripted.length} scripted answer(s) left over — the answers file has MORE entries than the CLI has prompts. Update the file to match the prompt order.`);
   }
 }
 
@@ -720,15 +720,12 @@ async function main() {
   console.log('     - public/manifest.json');
   console.log('     - .env.example (Vercel build variables reset to your domain; demo Giscus cleared)');
 
-  if (!DRY_RUN) {
-    const proceed = await askBool(rl, '\nProceed with these changes?', false);
-    rl.close();
-    if (!proceed) {
-      console.log('\n🚫 Aborted. No files were changed.');
-      process.exit(0);
-    }
-  } else {
-    rl.close();
+  const proceed = DRY_RUN || await askBool(rl, '\nProceed with these changes?', false);
+  rl.close();
+  failOnLeftoverAnswers();
+  if (!proceed) {
+    console.log('\n🚫 Aborted. No files were changed.');
+    process.exit(0);
   }
 
   // --- Apply -------------------------------------------------------------
@@ -848,7 +845,6 @@ async function main() {
   console.log('\n   Then: pnpm dev    (preview)');
   console.log('         pnpm build  (verify production build)\n');
 
-  failOnLeftoverAnswers();
 }
 
 main().catch((err) => {

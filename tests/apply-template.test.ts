@@ -11,7 +11,9 @@
  *     "Clear demo content" rm list (they have drifted before: the v2.6.0
  *     covers initially landed in neither list).
  */
-import { readFileSync, readdirSync } from 'node:fs';
+import { mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
+import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, test } from 'vitest';
@@ -422,5 +424,64 @@ describe('homepage article-card visual baseline', () => {
   test('responsive and animation micro-styles remain part of the template baseline', () => {
     expect(GLOBALS_SOURCE).toContain('transform-origin: center;');
     expect(GLOBALS_SOURCE).toContain('max-width: 100%;');
+  });
+});
+
+describe('apply-template scripted answer contract (dry-run)', () => {
+  const answers = [
+    'Test Game', '', 'testgame.example', '', '', '', '', '#3b82f6',
+    '', '', '', '', '', 'en', 'guides', 'y', '2', 'y',
+  ];
+
+  function runDryRun(input: string[] | null) {
+    const temp = mkdtempSync(join(tmpdir(), 'template-answer-test-'));
+    const answerFile = join(temp, 'answers.json');
+    if (input) writeFileSync(answerFile, JSON.stringify(input), 'utf8');
+    try {
+      return spawnSync(process.execPath, [
+        '--import', 'tsx', join(repoRoot, 'scripts/apply-template.ts'), '--dry-run',
+        ...(input ? ['--answers', answerFile] : []),
+      ], {
+        cwd: repoRoot,
+        encoding: 'utf8',
+        input: input ? undefined : answers.join('\n') + '\n',
+        timeout: 30_000,
+      });
+    } finally {
+      rmSync(temp, { recursive: true, force: true });
+    }
+  }
+
+  test('exact answers complete without a ReferenceError', () => {
+    const result = runDryRun(answers);
+    expect(result.error).toBeUndefined();
+    expect(result.status, result.stderr).toBe(0);
+    expect(result.stdout).toContain('Base config complete');
+    expect(result.stderr).not.toContain('ReferenceError');
+  });
+
+  test('extra answers fail before the apply phase or completion marker', () => {
+    const result = runDryRun([...answers, 'unexpected']);
+    expect(result.error).toBeUndefined();
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain('1 scripted answer(s) left over');
+    expect(result.stdout).not.toContain('Applying changes');
+    expect(result.stdout).not.toContain('Base config complete');
+  });
+
+  test('missing answers name the unfilled prompt and fail before applying', () => {
+    const result = runDryRun(answers.slice(0, -1));
+    expect(result.error).toBeUndefined();
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain('Ran out of scripted answers');
+    expect(result.stdout).not.toContain('Applying changes');
+    expect(result.stdout).not.toContain('Base config complete');
+  });
+
+  test('interactive input still completes when there is no answers file', () => {
+    const result = runDryRun(null);
+    expect(result.error).toBeUndefined();
+    expect(result.status, result.stderr).toBe(0);
+    expect(result.stdout).toContain('Base config complete');
   });
 });
