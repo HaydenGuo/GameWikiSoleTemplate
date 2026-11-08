@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.9](https://github.com/HaydenGuo/GameWikiSoleTemplate/compare/v2.0.8...v2.0.9) - 2026-11-08
+
+- Finish the Deals page's initial loading state when its request fails, showing unavailable data and allowing a retry.
+- Preserve previously loaded deals after a failed refresh; cover HTTP/network failures, empty results, and pending requests with client regression tests.
+
+首次优惠请求失败时结束加载并显示数据不可用，保留重试入口；刷新失败时保留已有数据，补充失败、空结果和等待状态回归测试。
+
 ## [2.0.8](https://github.com/HaydenGuo/GameWikiSoleTemplate/compare/v2.0.7...v2.0.8) - 2026-11-08
 
 - Restore the missing scripted-answer guard and validate unused answers before any setup writes or success output.
