@@ -130,6 +130,9 @@ const steamUrl = steamAppId ? `https://store.steampowered.com/app/${steamAppId}/
       render(data);
       if (updated) updated.textContent = `${copy.checkedAt} ${dateText(data.checkedAt)}. ${copy.hourlyRefresh}`;
     } catch {
+      if (!lastLoadedAt) {
+        render({ steam: null, offers: [], popularity: { games: [] } });
+      }
       if (updated) updated.textContent = copy.refreshError;
     } finally {
       loading = false;
