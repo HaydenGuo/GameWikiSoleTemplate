@@ -106,7 +106,7 @@ describe('Deals client request states', () => {
     expect(view.metrics.attributes.get('aria-busy')).toBe('false');
     expect(view.popular.attributes.get('aria-busy')).toBe('false');
     expect(view.metrics.innerHTML).not.toContain(copy.loading);
-    expect(view.popular.innerHTML).toContain(copy.noPopularOffers);
+    expect(view.popular.innerHTML).toContain(copy.noPopularOffers.replaceAll("'", '&#39;'));
     expect(view.updated.textContent).not.toBe(copy.refreshError);
   });
 
