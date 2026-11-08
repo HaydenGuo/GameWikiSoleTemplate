@@ -69,7 +69,7 @@ describe('Deals client request states', () => {
     expect(view.popular.attributes.get('aria-busy')).toBe('false');
     expect(view.metrics.innerHTML).not.toContain(copy.loading);
     expect(view.metrics.innerHTML).toContain(copy.unavailable);
-    expect(view.popular.innerHTML).toContain(copy.noPopularOffers);
+    expect(view.popular.innerHTML).toContain(copy.noPopularOffers.replaceAll("'", '&#39;'));
     expect(view.refresh.disabled).toBe(false);
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(fetch.mock.calls[0]?.[0]).toBe('/api/game-deals?appid=123');
